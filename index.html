@@ -3,176 +3,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="EndlessTech Blog - Technology insights and solutions">
-    <title>EndlessTech Blog - Welcome</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 800px;
-            background: white;
-            padding: 60px 40px;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            text-align: center;
-        }
-        
-        h1 {
-            font-size: 3em;
-            color: #667eea;
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
-        
-        .tagline {
-            font-size: 1.3em;
-            color: #666;
-            margin-bottom: 30px;
-            font-weight: 300;
-        }
-        
-        .status {
-            background: #e8f5e9;
-            border-left: 4px solid #4caf50;
-            padding: 20px;
-            margin: 30px 0;
-            border-radius: 5px;
-        }
-        
-        .status h2 {
-            color: #4caf50;
-            margin-bottom: 10px;
-        }
-        
-        .info-box {
-            background: #f5f5f5;
-            padding: 25px;
-            border-radius: 10px;
-            margin: 30px 0;
-            text-align: left;
-        }
-        
-        .info-box h3 {
-            color: #667eea;
-            margin-bottom: 15px;
-        }
-        
-        .info-box ul {
-            list-style: none;
-            padding-left: 0;
-        }
-        
-        .info-box li {
-            padding: 8px 0;
-            padding-left: 25px;
-            position: relative;
-        }
-        
-        .info-box li:before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: #4caf50;
-            font-weight: bold;
-        }
-        
-        .cta {
-            margin-top: 40px;
-        }
-        
-        .cta a {
-            display: inline-block;
-            background: #667eea;
-            color: white;
-            padding: 15px 40px;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-        }
-        
-        .cta a:hover {
-            background: #764ba2;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(118, 75, 162, 0.4);
-        }
-        
-        .footer {
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-            color: #999;
-            font-size: 0.9em;
-        }
-        
-        .repo-link {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 500;
-        }
-        
-        .repo-link:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <meta name="description" content="EndlessTech Blog - Your trusted source for Microsoft 365, Security, and Cloud Solutions. Secure. Scalable. Simple M365.">
+    <meta name="author" content="Philipp Schmidt">
+    <meta name="keywords" content="Microsoft 365, Security, Zero Trust, Cloud Solutions, M365, IT Security">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="EndlessTech Blog - Microsoft 365 & Security Insights">
+    <meta property="og:description" content="Your trusted source for Microsoft 365, Security, and Cloud Solutions">
+    <meta property="og:image" content="https://farpoint-tech.github.io/endlesstech.blog/assets/images/cloudknox-hero.png">
+    <meta property="og:url" content="https://farpoint-tech.github.io/endlesstech.blog/">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="EndlessTech Blog - Microsoft 365 & Security Insights">
+    <meta name="twitter:description" content="Your trusted source for Microsoft 365, Security, and Cloud Solutions">
+    <meta name="twitter:image" content="https://farpoint-tech.github.io/endlesstech.blog/assets/images/cloudknox-hero.png">
+    
+    <title>EndlessTech Blog - Microsoft 365 & Security Insights</title>
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <h1>🚀 EndlessTech Blog</h1>
-        <p class="tagline">Technology Insights & Solutions</p>
-        
-        <div class="status">
-            <h2>✓ GitHub Pages Successfully Deployed!</h2>
-            <p>This is a test page to verify that your GitHub Pages setup is working correctly.</p>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <img src="assets/images/logo.png" alt="Philipp Schmidt - Secure. Scalable. Simple M365.">
+            </a>
+            <nav class="nav" id="nav">
+                <a href="index.html" class="active">Home</a>
+                <a href="#blog">Blog</a>
+                <a href="about.html">About</a>
+                <a href="https://easym365.de" target="_blank" rel="noopener">Website</a>
+            </nav>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+                ☰
+            </button>
         </div>
-        
-        <div class="info-box">
-            <h3>What's Next?</h3>
-            <ul>
-                <li>Add your blog posts in Markdown format</li>
-                <li>Configure Jekyll or another static site generator</li>
-                <li>Customize the design and layout</li>
-                <li>Set up a custom domain (optional)</li>
-                <li>Enable HTTPS (automatically enabled by GitHub)</li>
-            </ul>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <img src="assets/images/cloudknox-hero.png" alt="CloudKnox - Digital Guardian" class="hero-bg">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>Welcome to EndlessTech Blog</h1>
+            <p>Your trusted source for Microsoft 365, Security, and Cloud Solutions</p>
+            <a href="#blog" class="hero-cta">Explore Latest Posts</a>
         </div>
-        
-        <div class="info-box">
-            <h3>Repository Information</h3>
-            <ul>
-                <li>Repository: farpoint-tech/endlesstech.blog</li>
-                <li>Hosting: GitHub Pages</li>
-                <li>Status: Public</li>
-                <li>Cost: Free</li>
-            </ul>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container">
+        <section id="blog">
+            <h2 class="text-center">Latest Blog Posts</h2>
+            <p class="text-center" style="color: var(--color-text-light); margin-bottom: var(--spacing-xl);">
+                Stay updated with the latest insights on Microsoft 365, Security, and Cloud Technologies
+            </p>
+            
+            <div class="posts-grid">
+                <!-- Blog Post 1 - Demo Post -->
+                <article class="post-card">
+                    <img src="assets/images/knox-hawk.png" alt="Getting Started with Zero Trust Security" class="post-card-image">
+                    <div class="post-card-content">
+                        <h3 class="post-card-title">
+                            <a href="posts/2025-10-24-getting-started-with-zero-trust.html">Getting Started with Zero Trust Security</a>
+                        </h3>
+                        <div class="post-card-meta">
+                            October 24, 2025 • By Philipp Schmidt
+                        </div>
+                        <p class="post-card-excerpt">
+                            Discover how to implement Zero Trust security principles in your Microsoft 365 environment and protect your organization from modern threats.
+                        </p>
+                        <a href="posts/2025-10-24-getting-started-with-zero-trust.html" class="post-card-link">Read More →</a>
+                    </div>
+                </article>
+
+                <!-- Placeholder for more posts -->
+                <article class="post-card">
+                    <img src="assets/images/knox-infinity.png" alt="Microsoft 365 Security Best Practices" class="post-card-image">
+                    <div class="post-card-content">
+                        <h3 class="post-card-title">
+                            <a href="#">Microsoft 365 Security Best Practices</a>
+                        </h3>
+                        <div class="post-card-meta">
+                            Coming Soon • By Philipp Schmidt
+                        </div>
+                        <p class="post-card-excerpt">
+                            Learn essential security configurations and best practices to secure your Microsoft 365 tenant against cyber threats.
+                        </p>
+                        <a href="#" class="post-card-link">Coming Soon →</a>
+                    </div>
+                </article>
+
+                <article class="post-card">
+                    <img src="assets/images/knox-hawk-hero.png" alt="Cloud Security Automation" class="post-card-image">
+                    <div class="post-card-content">
+                        <h3 class="post-card-title">
+                            <a href="#">Automating Security with PowerShell</a>
+                        </h3>
+                        <div class="post-card-meta">
+                            Coming Soon • By Philipp Schmidt
+                        </div>
+                        <p class="post-card-excerpt">
+                            Explore powerful PowerShell scripts and automation techniques to streamline your security operations.
+                        </p>
+                        <a href="#" class="post-card-link">Coming Soon →</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="mt-xxl">
+            <div class="content">
+                <h2 class="text-center">About EndlessTech Blog</h2>
+                <p class="text-center" style="max-width: 700px; margin: 0 auto var(--spacing-lg);">
+                    EndlessTech Blog is your go-to resource for practical insights on Microsoft 365, cybersecurity, 
+                    and cloud solutions. Written by Philipp Schmidt, an experienced IT consultant specializing in 
+                    secure and scalable cloud implementations.
+                </p>
+                <div class="text-center">
+                    <a href="about.html" class="hero-cta">Learn More About Me</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p><strong>EndlessTech Blog</strong> by Philipp Schmidt</p>
+            <p>Secure. Scalable. Simple M365.</p>
+            <p>
+                <a href="https://easym365.de" target="_blank" rel="noopener">Website</a> • 
+                <a href="https://linkedin.com/in/philipp-schmidt" target="_blank" rel="noopener">LinkedIn</a> • 
+                <a href="https://github.com/farpoint-tech" target="_blank" rel="noopener">GitHub</a>
+            </p>
+            <p style="margin-top: var(--spacing-md); font-size: 0.875rem; color: var(--color-text-light);">
+                © 2025 Philipp Schmidt. All rights reserved.
+            </p>
         </div>
-        
-        <div class="cta">
-            <a href="https://easym365.de" target="_blank">Visit EasyM365.de</a>
-        </div>
-        
-        <div class="footer">
-            <p>Powered by <a href="https://pages.github.com" class="repo-link" target="_blank">GitHub Pages</a></p>
-            <p>Repository: <a href="https://github.com/farpoint-tech/endlesstech.blog" class="repo-link" target="_blank">github.com/farpoint-tech/endlesstech.blog</a></p>
-        </div>
-    </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="assets/js/main.js"></script>
 </body>
 </html>
 

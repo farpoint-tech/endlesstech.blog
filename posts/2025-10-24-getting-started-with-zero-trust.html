@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Discover how to implement Zero Trust security principles in your Microsoft 365 environment and protect your organization from modern threats.">
+    <meta name="author" content="Philipp Schmidt">
+    <meta name="keywords" content="Zero Trust, Microsoft 365, Security, Cybersecurity, M365, IT Security">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Getting Started with Zero Trust Security">
+    <meta property="og:description" content="Discover how to implement Zero Trust security principles in your Microsoft 365 environment">
+    <meta property="og:image" content="https://farpoint-tech.github.io/endlesstech.blog/assets/images/knox-hawk.png">
+    <meta property="og:url" content="https://farpoint-tech.github.io/endlesstech.blog/posts/2025-10-24-getting-started-with-zero-trust.html">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Getting Started with Zero Trust Security">
+    <meta name="twitter:description" content="Discover how to implement Zero Trust security principles in your Microsoft 365 environment">
+    <meta name="twitter:image" content="https://farpoint-tech.github.io/endlesstech.blog/assets/images/knox-hawk.png">
+    
+    <title>Getting Started with Zero Trust Security - EndlessTech Blog</title>
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../assets/css/style.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/images/logo.png" alt="Philipp Schmidt - Secure. Scalable. Simple M365.">
+            </a>
+            <nav class="nav" id="nav">
+                <a href="../index.html">Home</a>
+                <a href="../index.html#blog">Blog</a>
+                <a href="../about.html">About</a>
+                <a href="https://easym365.de" target="_blank" rel="noopener">Website</a>
+            </nav>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+                ☰
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <article class="content">
+            <!-- Post Header -->
+            <header class="post-header">
+                <h1 class="post-title">Getting Started with Zero Trust Security</h1>
+                <div class="post-meta">
+                    Published on October 24, 2025 • By Philipp Schmidt
+                </div>
+            </header>
+
+            <!-- Featured Image -->
+            <img src="../assets/images/knox-hawk.png" alt="Knox and Hawk - Digital Guardians protecting your environment" class="post-image">
+
+            <!-- Post Content -->
+            <div class="post-content">
+                <p>
+                    In today's rapidly evolving threat landscape, traditional perimeter-based security models are no longer sufficient. 
+                    Organizations need a more robust approach to protect their digital assets, and that's where <strong>Zero Trust</strong> comes in.
+                </p>
+
+                <h2>What is Zero Trust?</h2>
+                <p>
+                    Zero Trust is a security framework that operates on a simple principle: <strong>"Never trust, always verify."</strong> 
+                    Unlike traditional security models that assume everything inside the corporate network is safe, Zero Trust assumes that 
+                    threats can exist both inside and outside the network.
+                </p>
+
+                <p>
+                    This approach requires strict identity verification for every person and device trying to access resources on your network, 
+                    regardless of whether they're inside or outside the network perimeter.
+                </p>
+
+                <h2>Core Principles of Zero Trust</h2>
+                <p>
+                    The Zero Trust security model is built on several fundamental principles:
+                </p>
+
+                <h3>1. Verify Explicitly</h3>
+                <p>
+                    Always authenticate and authorize based on all available data points, including user identity, location, device health, 
+                    service or workload, data classification, and anomalies.
+                </p>
+
+                <h3>2. Use Least Privilege Access</h3>
+                <p>
+                    Limit user access with Just-In-Time and Just-Enough-Access (JIT/JEA), risk-based adaptive policies, and data protection 
+                    to help secure both data and productivity.
+                </p>
+
+                <h3>3. Assume Breach</h3>
+                <p>
+                    Minimize blast radius and segment access. Verify end-to-end encryption and use analytics to get visibility, drive threat 
+                    detection, and improve defenses.
+                </p>
+
+                <h2>Implementing Zero Trust in Microsoft 365</h2>
+                <p>
+                    Microsoft 365 provides a comprehensive set of tools and features to help you implement Zero Trust security. 
+                    Here's how to get started:
+                </p>
+
+                <h3>Step 1: Enable Multi-Factor Authentication (MFA)</h3>
+                <p>
+                    MFA is the foundation of Zero Trust. It adds an extra layer of security by requiring users to provide two or more 
+                    verification factors to gain access to resources.
+                </p>
+
+                <p>
+                    <strong>Action items:</strong>
+                </p>
+                <ul>
+                    <li>Enable MFA for all users, starting with administrators</li>
+                    <li>Use Conditional Access policies to enforce MFA requirements</li>
+                    <li>Consider passwordless authentication methods like Windows Hello or FIDO2 security keys</li>
+                </ul>
+
+                <h3>Step 2: Implement Conditional Access Policies</h3>
+                <p>
+                    Conditional Access is Microsoft's Zero Trust policy engine. It analyzes signals from various sources, makes decisions, 
+                    and enforces organizational policies.
+                </p>
+
+                <p>
+                    <strong>Key policies to implement:</strong>
+                </p>
+                <ul>
+                    <li>Require MFA for all users</li>
+                    <li>Block legacy authentication protocols</li>
+                    <li>Require compliant or hybrid Azure AD joined devices</li>
+                    <li>Require approved client apps</li>
+                    <li>Block access from untrusted locations</li>
+                </ul>
+
+                <h3>Step 3: Secure Identities with Azure AD Identity Protection</h3>
+                <p>
+                    Azure AD Identity Protection helps you detect, investigate, and remediate identity-based risks. It uses machine learning 
+                    to identify suspicious activities and potential compromises.
+                </p>
+
+                <p>
+                    <strong>Configure:</strong>
+                </p>
+                <ul>
+                    <li>User risk policies to detect compromised accounts</li>
+                    <li>Sign-in risk policies to identify suspicious sign-in attempts</li>
+                    <li>Automated remediation actions</li>
+                </ul>
+
+                <h3>Step 4: Protect Data with Information Protection</h3>
+                <p>
+                    Use Microsoft Information Protection to classify, label, and protect sensitive data across your organization.
+                </p>
+
+                <p>
+                    <strong>Implementation steps:</strong>
+                </p>
+                <ul>
+                    <li>Create and publish sensitivity labels</li>
+                    <li>Configure Data Loss Prevention (DLP) policies</li>
+                    <li>Enable automatic classification and labeling</li>
+                    <li>Monitor and respond to data protection alerts</li>
+                </ul>
+
+                <h3>Step 5: Monitor and Respond with Microsoft Defender</h3>
+                <p>
+                    Microsoft Defender for Office 365 and Microsoft Defender for Endpoint provide comprehensive threat protection 
+                    and detection capabilities.
+                </p>
+
+                <p>
+                    <strong>Key features to enable:</strong>
+                </p>
+                <ul>
+                    <li>Safe Links and Safe Attachments</li>
+                    <li>Anti-phishing policies</li>
+                    <li>Automated investigation and response (AIR)</li>
+                    <li>Threat hunting with advanced hunting queries</li>
+                </ul>
+
+                <h2>Common Challenges and How to Overcome Them</h2>
+                <p>
+                    Implementing Zero Trust isn't without its challenges. Here are some common obstacles and how to address them:
+                </p>
+
+                <h3>User Resistance</h3>
+                <p>
+                    <strong>Challenge:</strong> Users may find additional security measures inconvenient.<br>
+                    <strong>Solution:</strong> Communicate the importance of security, provide training, and implement user-friendly 
+                    authentication methods like passwordless options.
+                </p>
+
+                <h3>Legacy Applications</h3>
+                <p>
+                    <strong>Challenge:</strong> Older applications may not support modern authentication protocols.<br>
+                    <strong>Solution:</strong> Use Azure AD Application Proxy or plan for application modernization. In the interim, 
+                    implement compensating controls.
+                </p>
+
+                <h3>Complexity</h3>
+                <p>
+                    <strong>Challenge:</strong> Zero Trust can seem overwhelming with many moving parts.<br>
+                    <strong>Solution:</strong> Start small with high-impact areas (like MFA for admins), then gradually expand. 
+                    Use Microsoft's Zero Trust deployment guides as a roadmap.
+                </p>
+
+                <h2>Measuring Success</h2>
+                <p>
+                    To ensure your Zero Trust implementation is effective, track these key metrics:
+                </p>
+
+                <ul>
+                    <li><strong>MFA adoption rate:</strong> Percentage of users with MFA enabled</li>
+                    <li><strong>Risky sign-ins blocked:</strong> Number of suspicious sign-in attempts prevented</li>
+                    <li><strong>Conditional Access policy coverage:</strong> Percentage of users covered by policies</li>
+                    <li><strong>Data classification coverage:</strong> Percentage of sensitive data properly labeled</li>
+                    <li><strong>Time to detect and respond:</strong> Average time to identify and remediate threats</li>
+                </ul>
+
+                <h2>Key Takeaways</h2>
+                <p>
+                    Implementing Zero Trust security in your Microsoft 365 environment is a journey, not a destination. Here are the essential points to remember:
+                </p>
+
+                <ul>
+                    <li>Zero Trust assumes no implicit trust and verifies every access request</li>
+                    <li>Start with MFA and Conditional Access as your foundation</li>
+                    <li>Implement least privilege access principles</li>
+                    <li>Continuously monitor and improve your security posture</li>
+                    <li>Take an incremental approach - you don't have to do everything at once</li>
+                </ul>
+
+                <h2>Next Steps</h2>
+                <p>
+                    Ready to enhance your Microsoft 365 security with Zero Trust? Here's what you should do next:
+                </p>
+
+                <ol>
+                    <li>Assess your current security posture using Microsoft Secure Score</li>
+                    <li>Create a phased implementation plan</li>
+                    <li>Start with quick wins like enabling MFA for administrators</li>
+                    <li>Gradually roll out Conditional Access policies</li>
+                    <li>Monitor, measure, and continuously improve</li>
+                </ol>
+
+                <p>
+                    Need help implementing Zero Trust in your organization? I specialize in secure and scalable Microsoft 365 deployments. 
+                    <a href="https://easym365.de" target="_blank" rel="noopener"><strong>Visit my website</strong></a> to learn more about 
+                    how I can help you build a robust security foundation.
+                </p>
+            </div>
+
+            <!-- Author Bio -->
+            <div class="author-bio">
+                <img src="../assets/images/cloudknox-hero.png" alt="Philipp Schmidt" class="author-avatar">
+                <div class="author-info">
+                    <h3>Philipp Schmidt</h3>
+                    <p>
+                        IT Security Consultant specializing in Microsoft 365, Zero Trust, and Cloud Solutions. 
+                        Helping organizations build secure, scalable, and simple M365 environments.
+                        <br>
+                        <a href="https://easym365.de" target="_blank" rel="noopener">easym365.de</a> • 
+                        <a href="https://linkedin.com/in/philipp-schmidt" target="_blank" rel="noopener">LinkedIn</a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Comments Section (Giscus placeholder) -->
+            <div class="mt-xxl">
+                <h2>Comments</h2>
+                <p style="color: var(--color-text-light); text-align: center; padding: var(--spacing-xl); background-color: var(--color-bg-alt); border-radius: 12px;">
+                    💬 Comments powered by Giscus will be enabled soon. Stay tuned!
+                </p>
+                <!-- Giscus will be integrated here after GitHub Discussions is enabled -->
+            </div>
+        </article>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p><strong>EndlessTech Blog</strong> by Philipp Schmidt</p>
+            <p>Secure. Scalable. Simple M365.</p>
+            <p>
+                <a href="https://easym365.de" target="_blank" rel="noopener">Website</a> • 
+                <a href="https://linkedin.com/in/philipp-schmidt" target="_blank" rel="noopener">LinkedIn</a> • 
+                <a href="https://github.com/farpoint-tech" target="_blank" rel="noopener">GitHub</a>
+            </p>
+            <p style="margin-top: var(--spacing-md); font-size: 0.875rem; color: var(--color-text-light);">
+                © 2025 Philipp Schmidt. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../assets/js/main.js"></script>
+</body>
+</html>
+
