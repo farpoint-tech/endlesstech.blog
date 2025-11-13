@@ -1,0 +1,208 @@
+/* Blog Post Specific Styles */
+
+.blog-post-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: var(--spacing-xl) var(--spacing-md);
+    line-height: 1.7;
+}
+
+.post-header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    padding-bottom: var(--spacing-lg);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.post-meta {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+}
+
+.post-meta time {
+    font-weight: 500;
+}
+
+.post-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-md);
+    line-height: 1.2;
+}
+
+.post-excerpt {
+    font-size: 1.1rem;
+    color: var(--color-text-light);
+    font-style: italic;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.post-featured-image {
+    margin: var(--spacing-xl) 0;
+    text-align: center;
+}
+
+.post-featured-image img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-lg);
+}
+
+.post-content {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--color-text);
+}
+
+.post-content h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: var(--spacing-xl) 0 var(--spacing-lg) 0;
+    padding-top: var(--spacing-lg);
+    border-top: 2px solid var(--color-primary);
+}
+
+.post-content h3 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: var(--spacing-lg) 0 var(--spacing-md) 0;
+}
+
+.post-content p {
+    margin-bottom: var(--spacing-lg);
+}
+
+.post-content ul, .post-content ol {
+    margin: var(--spacing-lg) 0;
+    padding-left: var(--spacing-xl);
+}
+
+.post-content li {
+    margin-bottom: var(--spacing-sm);
+}
+
+.post-content strong {
+    font-weight: 600;
+    color: var(--color-primary);
+}
+
+.post-image {
+    margin: var(--spacing-xl) 0;
+    text-align: center;
+}
+
+.post-image img {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+}
+
+.image-caption {
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+    font-style: italic;
+    margin-top: var(--spacing-sm);
+}
+
+.post-cta {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    color: white;
+    padding: var(--spacing-xl);
+    border-radius: var(--border-radius);
+    text-align: center;
+    margin: var(--spacing-xxl) 0;
+}
+
+.post-cta h3 {
+    color: white;
+    margin-bottom: var(--spacing-md);
+}
+
+.post-cta p {
+    margin-bottom: var(--spacing-lg);
+    opacity: 0.9;
+}
+
+.cta-button {
+    display: inline-block;
+    background: white;
+    color: var(--color-primary);
+    padding: var(--spacing-md) var(--spacing-xl);
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.post-footer {
+    margin-top: var(--spacing-xxl);
+    padding-top: var(--spacing-xl);
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-lg);
+}
+
+.post-author {
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+    line-height: 1.5;
+}
+
+.nav-link {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--color-secondary);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .blog-post-container {
+        padding: var(--spacing-lg) var(--spacing-md);
+    }
+    
+    .post-title {
+        font-size: 2rem;
+    }
+    
+    .post-meta {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+    
+    .post-footer {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .post-content {
+        font-size: 1rem;
+    }
+    
+    .post-content h2 {
+        font-size: 1.5rem;
+    }
+}
