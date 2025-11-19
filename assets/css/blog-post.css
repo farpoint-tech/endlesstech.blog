@@ -96,11 +96,11 @@
 }
 
 .post-image {
-    margin: var(--spacing-xl) 0;
+    margin: var(--spacing-xl) 0 !important;
     text-align: center;
-    clear: both;
-    display: block;
-    overflow: hidden;
+    clear: both !important;
+    display: block !important;
+    overflow: hidden !important;
 }
 
 .post-image img {
@@ -109,19 +109,21 @@
     height: auto;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-md);
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+    display: block !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    position: relative !important;
+    z-index: 1 !important;
 }
 
 .image-caption {
     font-size: 0.9rem;
     color: var(--color-text-light);
     font-style: italic;
-    margin-top: var(--spacing-sm);
-    margin-bottom: var(--spacing-md);
-    display: block;
-    clear: both;
+    margin-top: var(--spacing-sm) !important;
+    margin-bottom: var(--spacing-md) !important;
+    display: block !important;
+    clear: both !important;
 }
 
 .post-cta {
