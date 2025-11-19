@@ -101,6 +101,9 @@
     clear: both !important;
     display: block !important;
     overflow: hidden !important;
+    background-color: white !important;
+    padding: var(--spacing-md) !important;
+    border-radius: var(--border-radius);
 }
 
 .post-image img {
