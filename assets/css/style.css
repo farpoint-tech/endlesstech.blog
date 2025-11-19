@@ -4,6 +4,7 @@
 :root {
   /* Brand Colors */
   --color-primary: #3366FF;
+  --color-secondary: #FFB84D;
   --color-accent: #FFB84D;
   --color-neon-cyan: #00D9FF;
   --color-neon-pink: #FF00FF;
@@ -37,6 +38,9 @@
   --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
   --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.12);
   --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.15);
+  
+  /* Border Radius */
+  --border-radius: 8px;
   
   /* Transitions */
   --transition: all 0.3s ease;

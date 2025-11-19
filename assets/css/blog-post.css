@@ -98,6 +98,9 @@
 .post-image {
     margin: var(--spacing-xl) 0;
     text-align: center;
+    clear: both;
+    display: block;
+    overflow: hidden;
 }
 
 .post-image img {
@@ -106,6 +109,9 @@
     height: auto;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-md);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .image-caption {
@@ -113,6 +119,9 @@
     color: var(--color-text-light);
     font-style: italic;
     margin-top: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+    display: block;
+    clear: both;
 }
 
 .post-cta {
