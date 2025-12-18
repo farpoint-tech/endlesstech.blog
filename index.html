@@ -42,6 +42,7 @@
                 <a href="index.html" class="active">Home</a>
                 <a href="#blog">Blog</a>
                 <a href="about.html">About</a>
+                <a href="#contact">Kontakt</a>
                 <a href="https://easym365.de" target="_blank" rel="noopener">Website</a>
             </nav>
             <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
@@ -253,6 +254,43 @@
                 <div class="text-center">
                     <a href="about.html" class="hero-cta">Learn More About Me</a>
                 </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="mt-xxl">
+            <div class="content" style="max-width: 600px; margin: 0 auto;">
+                <h2 class="text-center">Kontakt</h2>
+                <p class="text-center" style="color: var(--color-text-light); margin-bottom: var(--spacing-xl);">
+                    Haben Sie Fragen oder möchten Sie sich austauschen? Schreiben Sie mir gerne eine Nachricht.
+                </p>
+                
+                <form action="https://formspree.io/f/ps@farpoint.tech" method="POST" style="display: flex; flex-direction: column; gap: var(--spacing-md);">
+                    <!-- Hidden subject field -->
+                    <input type="hidden" name="_subject" value="Dein Blog - Kontaktaufnahme">
+                    
+                    <div>
+                        <label for="name" style="display: block; margin-bottom: var(--spacing-xs); font-weight: 500;">Name</label>
+                        <input type="text" id="name" name="name" required 
+                               style="width: 100%; padding: var(--spacing-sm); border: 1px solid var(--color-border); border-radius: 8px; font-family: inherit; font-size: 1rem;">
+                    </div>
+                    
+                    <div>
+                        <label for="email" style="display: block; margin-bottom: var(--spacing-xs); font-weight: 500;">E-Mail</label>
+                        <input type="email" id="email" name="email" required 
+                               style="width: 100%; padding: var(--spacing-sm); border: 1px solid var(--color-border); border-radius: 8px; font-family: inherit; font-size: 1rem;">
+                    </div>
+                    
+                    <div>
+                        <label for="message" style="display: block; margin-bottom: var(--spacing-xs); font-weight: 500;">Nachricht</label>
+                        <textarea id="message" name="message" rows="6" required 
+                                  style="width: 100%; padding: var(--spacing-sm); border: 1px solid var(--color-border); border-radius: 8px; font-family: inherit; font-size: 1rem; resize: vertical;"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="hero-cta" style="align-self: flex-start; cursor: pointer;">
+                        Nachricht senden
+                    </button>
+                </form>
             </div>
         </section>
     </main>
