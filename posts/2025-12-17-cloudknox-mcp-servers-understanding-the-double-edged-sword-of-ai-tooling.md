@@ -1,5 +1,5 @@
 ---
-title: "CloudKnox-MCP Servers: Understanding the Double-Edged Sword of AI Tooling"
+title: "MCP Servers: Understanding the Double-Edged Sword of AI Tooling"
 date: 2025-12-17
 author: "Philipp Schmidt"
 categories: ["Security", "Microsoft 365", "AI"]
