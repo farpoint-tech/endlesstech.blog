@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Understand the fundamental differences between Microsoft Entra ID Tenants and Azure Subscriptions, and learn how they work together to manage identity and cloud resources.">
+    <meta name="author" content="Manus AI">
+    <meta name="keywords" content="Microsoft Entra, Azure Subscriptions, Identity Management, Cloud Resources, Azure AD, Enterprise Tenant">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Microsoft Entra Tenant vs. Azure Subscriptions – What's the Difference?">
+    <meta property="og:description" content="Understand the fundamental differences between Microsoft Entra ID Tenants and Azure Subscriptions, and learn how they work together to manage identity and cloud resources.">
+    <meta property="og:image" content="https://farpoint-tech.github.io/endlesstech.blog/assets/images/zero-trust-entra/hero-zero-trust.png">
+    <meta property="og:url" content="https://farpoint-tech.github.io/endlesstech.blog/posts/2026-01-02-microsoft-entra-tenant-vs-azure-subscriptions.html">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Microsoft Entra Tenant vs. Azure Subscriptions – What's the Difference?">
+    <meta name="twitter:description" content="Understand the fundamental differences between Microsoft Entra ID Tenants and Azure Subscriptions, and learn how they work together to manage identity and cloud resources.">
+    <meta name="twitter:image" content="https://farpoint-tech.github.io/endlesstech.blog/assets/images/zero-trust-entra/hero-zero-trust.png">
+    
+    <title>Microsoft Entra Tenant vs. Azure Subscriptions – What's the Difference? | EndlessTech Blog</title>
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../assets/css/style.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Custom styles for this blog post */
+        .post-hero-image {
+            width: 100%;
+            max-width: 800px;
+            height: auto;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin: 0 auto var(--spacing-lg);
+            display: block;
+        }
+        
+        .post-hero-container {
+            max-width: var(--max-width-content);
+            margin: 0 auto;
+            padding: var(--spacing-xl) var(--spacing-md);
+            text-align: center;
+        }
+        
+        .post-content .section-image {
+            width: 100%;
+            max-width: 700px;
+            height: auto;
+            border-radius: 8px;
+            margin: var(--spacing-md) auto var(--spacing-lg);
+            display: block;
+        }
+        
+        .post-content section {
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .post-content section p {
+            margin-top: var(--spacing-md);
+        }
+        
+        .highlight-box {
+            background-color: var(--color-bg-alt);
+            border-left: 4px solid var(--color-primary);
+            padding: var(--spacing-md);
+            border-radius: 8px;
+            margin: var(--spacing-lg) 0;
+        }
+        
+        .key-point {
+            display: flex;
+            gap: var(--spacing-md);
+            margin: var(--spacing-md) 0;
+            align-items: flex-start;
+        }
+        
+        .key-point::before {
+            content: "✓";
+            color: var(--color-primary);
+            font-weight: bold;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/images/logo.png" alt="Philipp Schmidt - Secure. Scalable. Simple M365.">
+            </a>
+            <nav class="nav" id="nav">
+                <a href="../index.html">Home</a>
+                <a href="../index.html#blog" class="active">Blog</a>
+                <a href="../about.html">About</a>
+                <a href="https://easym365.de" target="_blank" rel="noopener">Website</a>
+            </nav>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+                ☰
+            </button>
+        </div>
+    </header>
+
+    <!-- Blog Post -->
+    <main class="blog-post">
+        <article>
+            <!-- Hero Section -->
+            <div class="post-hero-container">
+                <img src="../assets/images/zero-trust-entra/hero-zero-trust.png" alt="Microsoft Entra and Azure Subscriptions" class="post-hero-image">
+                <div class="post-meta">
+                    <span class="post-date">January 2, 2026</span>
+                    <span class="post-author">By Manus AI</span>
+                    <span class="post-category">Microsoft Entra · Azure · Cloud Architecture</span>
+                </div>
+                <h1 class="post-title">Microsoft Entra Tenant vs. Azure Subscriptions – What's the Difference?</h1>
+                <p class="post-subtitle">A clear guide to understanding the relationship between Microsoft Entra ID Tenants and Azure Subscriptions, and how they work together to manage identity and cloud resources.</p>
+            </div>
+
+            <!-- Content -->
+            <div class="post-content container">
+                <section>
+                    <p>When working with Microsoft's cloud ecosystem, two concepts often come up: <strong>Microsoft Entra ID Tenants</strong> and <strong>Azure Subscriptions</strong>. While they work together, they serve fundamentally different purposes. Understanding the distinction is essential for anyone managing cloud resources and identity in an enterprise environment.</p>
+                    <p>This guide breaks down the differences, explains their relationship, and shows you how to navigate the cloud with confidence.</p>
+                </section>
+
+                <section>
+                    <h2>What Is a Microsoft Entra ID Tenant?</h2>
+                    <p>A <strong>Microsoft Entra ID Tenant</strong> (formerly known as Azure AD) is your organization's identity and access boundary. Think of it as a dedicated directory that stores and manages all the identity-related information for your organization.</p>
+                    
+                    <div class="highlight-box">
+                        <h3 style="margin-top: 0;">Key Characteristics:</h3>
+                        <div class="key-point">Stores users, groups, devices, and applications</div>
+                        <div class="key-point">Is unique to your organization (e.g., contoso.onmicrosoft.com)</div>
+                        <div class="key-point">Acts as the identity and access boundary</div>
+                        <div class="key-point">Manages authentication and authorization across all cloud services</div>
+                    </div>
+                    
+                    <p><strong>Terminology Note:</strong> The official name is now <em>Microsoft Entra ID Tenant</em>. Entra ID is the identity service within the broader Entra suite, which also includes Permissions Management and Verified ID.</p>
+                </section>
+
+                <section>
+                    <h2>What Is an Azure Subscription?</h2>
+                    <p>An <strong>Azure Subscription</strong> is fundamentally different—it's a billing and resource container. It holds your virtual machines, databases, storage, and other Azure services. Every Azure subscription must be linked to a single Entra ID tenant for identity and access management.</p>
+                    
+                    <div class="highlight-box">
+                        <h3 style="margin-top: 0;">Key Characteristics:</h3>
+                        <div class="key-point">Serves as a billing and resource container</div>
+                        <div class="key-point">Holds your virtual machines, databases, storage, and other services</div>
+                        <div class="key-point">Always linked to a single Entra ID tenant</div>
+                        <div class="key-point">Manages resource limits and cost tracking</div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>The Key Relationship: How They Work Together</h2>
+                    <p>Understanding the relationship between Entra ID Tenants and Azure Subscriptions is crucial for proper cloud governance:</p>
+                    
+                    <ul style="margin-left: var(--spacing-lg); margin-bottom: var(--spacing-md);">
+                        <li><strong>One tenant, multiple subscriptions:</strong> A single Entra ID tenant can have multiple subscriptions (Production, Development, Networking, etc.). This allows organizations to organize resources by environment or department while maintaining centralized identity management.</li>
+                        <li><strong>One subscription, one tenant:</strong> A subscription can only belong to one Entra ID tenant. This ensures clear ownership and prevents identity conflicts.</li>
+                        <li><strong>Centralized access control:</strong> Access is centrally controlled at the tenant level through Entra ID, while billing and resource limits are managed at the subscription level.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>A Simple Analogy</h2>
+                    <p>To make this clearer, think of it this way:</p>
+                    
+                    <div class="highlight-box">
+                        <p style="margin: 0;"><strong>Tenant = Your Organization's Identity Directory</strong></p>
+                        <p style="margin: var(--spacing-sm) 0 0 0; color: var(--color-text-light);">This is where all your employees, devices, and applications are registered and managed.</p>
+                    </div>
+                    
+                    <div class="highlight-box" style="margin-top: var(--spacing-md);">
+                        <p style="margin: 0;"><strong>Subscription = Your Cloud Resource Credit Card / Multiple Environments</strong></p>
+                        <p style="margin: var(--spacing-sm) 0 0 0; color: var(--color-text-light);">This is where you actually use and pay for cloud resources. You can have multiple subscriptions for different environments or departments.</p>
+                    </div>
+                    
+                    <p style="margin-top: var(--spacing-lg);">This separation enables organizations to keep identities centralized while managing costs and environments across multiple subscriptions.</p>
+                </section>
+
+                <section>
+                    <h2>How to Get Access to an Azure Subscription Over an Enterprise Tenant</h2>
+                    <p>For organizations with an <strong>Enterprise Agreement (EA)</strong> with Microsoft, accessing Azure subscriptions is streamlined. <strong>Important:</strong> EA is common for large enterprises but not mandatory—alternatives include <strong>CSP (Cloud Solution Provider)</strong> or <strong>Pay-As-You-Go</strong>.</p>
+                    
+                    <h3>Step-by-Step Process:</h3>
+                    <ol style="margin-left: var(--spacing-lg); margin-bottom: var(--spacing-md);">
+                        <li><strong>Invitation to the Enterprise Tenant:</strong> Your administrator adds your account to the organization's Microsoft Entra ID tenant.</li>
+                        <li><strong>Subscription Creation:</strong> An admin with the right permissions creates a new Azure subscription under the EA (or other contract type). It's automatically linked to the tenant.</li>
+                        <li><strong>Role-Based Access Control (RBAC):</strong> Roles like <em>Owner</em>, <em>Contributor</em>, or <em>Reader</em> define what you can do within the subscription.</li>
+                        <li><strong>Cross-Tenant Access:</strong> For access to another tenant's subscription, Azure AD B2B collaboration is used. You're invited as a guest and granted RBAC permissions—ideal for consultants or multi-tenant setups.</li>
+                    </ol>
+                </section>
+
+                <section>
+                    <h2>Why Register for Azure? The Strategic Advantage</h2>
+                    <p>Understanding and properly configuring your Entra ID Tenant and Azure Subscriptions provides several strategic benefits:</p>
+                    
+                    <ul style="margin-left: var(--spacing-lg); margin-bottom: var(--spacing-md);">
+                        <li><strong>Centralized Identity and Access Management:</strong> One source of truth for identity, simplifying user management and security.</li>
+                        <li><strong>Scalability and Flexibility:</strong> Pay-as-you-go model, scale resources up or down as needed.</li>
+                        <li><strong>Enhanced Security:</strong> Built-in tools like Network Security Groups, firewalls, and advanced threat protection.</li>
+                        <li><strong>Seamless Integration:</strong> Deep integration with Microsoft 365, Dynamics 365, and Power Platform for end-to-end solutions.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Cloud PowerShell: Your Command-Line Companion in Azure</h2>
+                    <p>Azure Cloud Shell offers a browser-based, preconfigured environment with Bash and PowerShell. It's an excellent tool for managing your Azure resources without local setup.</p>
+                    
+                    <h3>Key Features:</h3>
+                    <ul style="margin-left: var(--spacing-lg); margin-bottom: var(--spacing-md);">
+                        <li>Browser-based access—no installation required</li>
+                        <li>Pre-configured with Azure CLI and PowerShell</li>
+                        <li>Secure and authenticated by default</li>
+                    </ul>
+                    
+                    <h3>Important Limitations to Note:</h3>
+                    <ul style="margin-left: var(--spacing-lg); margin-bottom: var(--spacing-md);">
+                        <li>20-minute inactivity timeout</li>
+                        <li>Persistent storage limited to 5 GB per user via Azure Files</li>
+                        <li>Some PowerShell modules requiring .NET or Windows-specific features may not work</li>
+                    </ul>
+                    
+                    <p>Despite these limitations, Cloud Shell is a secure and convenient way to manage Azure resources.</p>
+                </section>
+
+                <section>
+                    <h2>Extending Entra and Intune with Azure's Automation Power</h2>
+                    <p>Azure enables powerful automation and integration with Entra and Intune through several tools:</p>
+                    
+                    <ul style="margin-left: var(--spacing-lg); margin-bottom: var(--spacing-md);">
+                        <li><strong>Azure Automation:</strong> Create Runbooks for PowerShell/Python scripts (often via Microsoft Graph API for Intune tasks)</li>
+                        <li><strong>Logic Apps:</strong> Build visual workflows connecting hundreds of services</li>
+                        <li><strong>Azure Functions:</strong> Write custom code for complex scenarios</li>
+                    </ul>
+                    
+                    <p>Automation transforms IT operations from manual to proactive, saving time and enabling strategic focus on business outcomes.</p>
+                </section>
+
+                <section>
+                    <h2>Final Thoughts: A Powerful Partnership for the Modern Enterprise</h2>
+                    <p>The relationship between <strong>Microsoft Entra ID Tenant</strong> and <strong>Azure Subscription</strong> is foundational to modern cloud architecture:</p>
+                    
+                    <div class="highlight-box">
+                        <p style="margin: 0;"><strong>Tenant</strong> = Identity and access control</p>
+                        <p style="margin: var(--spacing-sm) 0 0 0;"><strong>Subscription</strong> = Resource and billing container</p>
+                    </div>
+                    
+                    <p style="margin-top: var(--spacing-lg);">Understanding this separation unlocks cost optimization, security, and automation potential across the Microsoft cloud. Whether you're managing a single subscription or orchestrating multiple environments, this foundational knowledge is essential for success.</p>
+                    
+                    <p>For expert guidance on implementing identity and cloud solutions tailored to your organization, visit <a href="https://easym365.de" target="_blank" rel="noopener">easym365.de</a> to learn more about consulting and implementation services.</p>
+                </section>
+            </div>
+        </article>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2025 Philipp Schmidt. All rights reserved.</p>
+            <div class="social-links">
+                <a href="https://www.linkedin.com/in/philipp-schmidt-it-beratung/" target="_blank" rel="noopener">LinkedIn</a>
+                <a href="https://github.com/farpoint-tech" target="_blank" rel="noopener">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/main.js"></script>
+</body>
+</html>
