@@ -60,7 +60,7 @@
             </header>
             
             <figure class="post-full-image" style="max-height: 400px; overflow: hidden;">
-                <img src="../assets/images/cloudknox-hero.png" alt="CloudKnox Hero Image" style="width: 100%; height: auto; max-height: 400px; object-fit: cover;">
+                <img src="../assets/images/intune-enrollment-hero.png" alt="Intune Enrollment Restrictions Security Gateway" style="width: 100%; height: auto; max-height: 400px; object-fit: cover;">
             </figure>
 
             <section class="post-full-content">
@@ -85,7 +85,7 @@
 
                     <h2>Technical Deep Dive: Enrollment Restrictions as a Control Plane</h2>
 
-                    <p>Intune Enrollment Restrictions are not just another policy; they are the control plane for your endpoint environment. While Microsoft clarifies that these are a "best-effort barrier for non-malicious users" and not a foolproof security feature, they are an indispensable first line of defense <a href="https://learn.microsoft.com/en-us/intune/enrollment/enrollment-restrictions-set" target="_blank" rel="noopener">[2]</a>.</p>
+                    <p>Intune Enrollment Restrictions are not just another policy; they are the control plane for your endpoint environment. While Microsoft clarifies that these are a "best-effort barrier for non-malicious users" and not a foolproof security feature, they are an indispensable first line of defense <a href="https://learn.microsoft.com/en-us/mem/intune/enrollment/enrollment-restrictions-set" target="_blank" rel="noopener">[2]</a>.</p>
 
                     <p>They are divided into two main types: <strong>Device Limit Restrictions</strong> (controlling how many devices a user can enroll) and <strong>Device Type Restrictions</strong> (controlling which platforms and ownership types can enroll). The single most critical setting for mitigating the local admin risk on Windows devices is found within the Device Type Restrictions: <strong>Block "Personally owned" for Windows (MDM)</strong>.</p>
 
@@ -120,7 +120,7 @@
 
                     <h2>The Synergy with Endpoint Privilege Management (EPM)</h2>
 
-                    <p>Many organizations are rightly excited about the capabilities of Microsoft's EPM and LAPS solutions <a href="https://learn.microsoft.com/en-us/intune/protect/epm-overview" target="_blank" rel="noopener">[4]</a> <a href="https://learn.microsoft.com/en-us/intune/protect/windows-laps-overview" target="_blank" rel="noopener">[5]</a>. These tools are designed to manage and mitigate the risks of local administrator rights on your endpoints. However, their effectiveness is predicated on a critical assumption: that they are operating on trusted, corporate-owned devices.</p>
+                    <p>Many organizations are rightly excited about the capabilities of Microsoft's EPM and LAPS solutions <a href="https://learn.microsoft.com/en-us/mem/intune/protect/epm-overview" target="_blank" rel="noopener">[4]</a> <a href="https://learn.microsoft.com/en-us/mem/intune/protect/windows-laps-overview" target="_blank" rel="noopener">[5]</a>. These tools are designed to manage and mitigate the risks of local administrator rights on your endpoints. However, their effectiveness is predicated on a critical assumption: that they are operating on trusted, corporate-owned devices.</p>
 
                     <p>When you allow personal devices to enroll, you create a fundamental misalignment. EPM is then forced to manage privileges on a device you don't own and can't fully control. This is an architectural anti-pattern. You're using a sophisticated tool to apply a security patch to a problem that should have been prevented at the source.</p>
 
@@ -158,17 +158,17 @@
 
                     <ol>
                         <li><a href="https://learn.microsoft.com/en-us/security/zero-trust/zero-trust-overview" target="_blank" rel="noopener">Microsoft Learn: What is Zero Trust?</a></li>
-                        <li><a href="https://learn.microsoft.com/en-us/intune/enrollment/enrollment-restrictions-set" target="_blank" rel="noopener">Microsoft Learn: Overview of enrollment restrictions - Microsoft Intune</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/mem/intune/enrollment/enrollment-restrictions-set" target="_blank" rel="noopener">Microsoft Learn: Overview of enrollment restrictions - Microsoft Intune</a></li>
                         <li><a href="https://learn.microsoft.com/en-us/autopilot/registration-overview" target="_blank" rel="noopener">Microsoft Learn: Windows Autopilot registration overview</a></li>
-                        <li><a href="https://learn.microsoft.com/en-us/intune/protect/epm-overview" target="_blank" rel="noopener">Microsoft Learn: Use Endpoint Privilege Management with Microsoft Intune</a></li>
-                        <li><a href="https://learn.microsoft.com/en-us/intune/protect/windows-laps-overview" target="_blank" rel="noopener">Microsoft Learn: Overview of Windows LAPS with Microsoft Intune</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/mem/intune/protect/epm-overview" target="_blank" rel="noopener">Microsoft Learn: Use Endpoint Privilege Management with Microsoft Intune</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/mem/intune/protect/windows-laps-overview" target="_blank" rel="noopener">Microsoft Learn: Overview of Windows LAPS with Microsoft Intune</a></li>
                     </ol>
                 </div>
             </section>
 
             <!-- Author Bio -->
             <section class="author-bio">
-                <img src="../assets/images/logo.png" alt="Philipp Schmidt" class="author-avatar">
+                <img src="../assets/images/cloudknox-author.png" alt="CloudKnox - Philipp Schmidt" class="author-avatar">
                 <div class="author-info">
                     <h3>Philipp Schmidt</h3>
                     <p>IT consultant specializing in Microsoft 365, Security, and Zero Trust architecture. Helping SMBs build secure, scalable, and simple cloud solutions.</p>

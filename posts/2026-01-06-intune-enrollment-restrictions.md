@@ -4,11 +4,11 @@ author: "Philipp Schmidt"
 categories: ["Security", "Microsoft 365", "Zero Trust"]
 tags: ["Intune", "Security", "MDM", "BYOD", "Zero Trust"]
 excerpt: "Discover why Intune Enrollment Restrictions are the foundational control for a Zero Trust architecture. Learn how to block personal Windows devices, mitigate local admin risks, and build a secure endpoint environment from the ground up."
-image: "/assets/images/cloudknox-hero.png"
+image: "/assets/images/intune-enrollment-hero.png"
 featured: true
 ---
 
-![CloudKnox Hero Image](/assets/images/cloudknox-hero.png)
+![Intune Enrollment Restrictions Security Gateway](/assets/images/intune-enrollment-hero.png)
 
 ## The Unseen Threat in Your Intune Tenant
 
@@ -77,7 +77,7 @@ I urge you to go into your Intune tenant right now. Audit your Enrollment Restri
 ## References
 
 [1]: https://learn.microsoft.com/en-us/security/zero-trust/zero-trust-overview "Microsoft Learn: What is Zero Trust?"
-[2]: https://learn.microsoft.com/en-us/intune/enrollment/enrollment-restrictions-set "Microsoft Learn: Overview of enrollment restrictions - Microsoft Intune"
+[2]: https://learn.microsoft.com/en-us/mem/intune/enrollment/enrollment-restrictions-set "Microsoft Learn: Overview of enrollment restrictions - Microsoft Intune"
 [3]: https://learn.microsoft.com/en-us/autopilot/registration-overview "Microsoft Learn: Windows Autopilot registration overview"
-[4]: https://learn.microsoft.com/en-us/intune/protect/epm-overview "Microsoft Learn: Use Endpoint Privilege Management with Microsoft Intune"
-[5]: https://learn.microsoft.com/en-us/intune/protect/windows-laps-overview "Microsoft Learn: Overview of Windows LAPS with Microsoft Intune"
+[4]: https://learn.microsoft.com/en-us/mem/intune/protect/epm-overview "Microsoft Learn: Use Endpoint Privilege Management with Microsoft Intune"
+[5]: https://learn.microsoft.com/en-us/mem/intune/protect/windows-laps-overview "Microsoft Learn: Overview of Windows LAPS with Microsoft Intune"
