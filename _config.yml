@@ -1,0 +1,22 @@
+title: EndlessTech Blog
+description: Your trusted source for Microsoft 365, Security, and Cloud Solutions
+url: https://endlesstech.blog
+baseurl: ""
+
+# Disable Jekyll processing for HTML files
+include:
+  - "*.html"
+
+# Exclude markdown processing
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+
+# Don't process these files
+exclude:
+  - README.md
+  - BLOG_GUIDELINES.md
+  - LICENSE
+  - Gemfile
+  - Gemfile.lock
