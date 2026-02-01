@@ -29,82 +29,170 @@ permalink: /posts/2026-02-01-microsoft-dominanz-pragmatismus-alternativen.html
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        /* Local Layout Optimizations */
-        .post-full {
-            max-width: 900px; /* Slightly wider for better readability */
-            margin: 0 auto;
-            padding: 40px 20px;
+        /* Complete Layout Overhaul for Readability */
+        body {
+            font-size: 18px;
+            line-height: 1.8;
         }
+        
+        .container {
+            max-width: 100%;
+            padding: 20px;
+        }
+        
+        .post-full {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0;
+        }
+        
+        .post-full-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 0 15px;
+        }
+        
+        .post-full-title {
+            font-size: 2rem;
+            line-height: 1.3;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .post-full-meta {
+            font-size: 1rem;
+            color: #666;
+        }
+        
+        .post-full-image {
+            margin: 40px 0;
+            text-align: center;
+        }
+        
+        .post-full-image img {
+            width: 100%;
+            max-width: 800px;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .post-full-content {
+            padding: 0 15px;
+        }
+        
         .post-content {
-            font-size: 1.2rem; /* Larger font for better readability */
+            font-size: 1.1rem;
             line-height: 1.8;
             color: #333;
         }
+        
         .post-content h2 {
-            font-size: 2rem;
-            margin-top: 3rem;
-            margin-bottom: 1.5rem;
-            border-bottom: 2px solid var(--color-primary);
-            padding-bottom: 0.5rem;
+            font-size: 1.8rem;
+            margin-top: 50px;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #3366FF;
+            color: #222;
         }
+        
         .post-content h3 {
-            font-size: 1.5rem;
-            margin-top: 2rem;
-            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            margin-top: 35px;
+            margin-bottom: 20px;
+            color: #333;
         }
+        
         .post-content p {
-            margin-bottom: 1.5rem;
+            margin-bottom: 20px;
         }
-        .post-content img {
-            display: block;
-            max-width: 100%;
-            height: auto;
-            margin: 2.5rem auto;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        
+        .post-content ul, .post-content ol {
+            margin: 20px 0;
+            padding-left: 30px;
         }
+        
+        .post-content li {
+            margin-bottom: 10px;
+        }
+        
         .post-content figure {
-            margin: 3rem 0;
+            margin: 40px 0;
             text-align: center;
         }
+        
+        .post-content figure img {
+            width: 100%;
+            max-width: 700px;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
         .post-content figcaption {
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: #666;
-            margin-top: 1rem;
+            margin-top: 12px;
             font-style: italic;
         }
+        
         .post-table-container {
             overflow-x: auto;
-            margin: 2rem 0;
+            margin: 30px 0;
         }
+        
         .post-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
+        
         .post-table th, .post-table td {
-            padding: 12px 15px;
+            padding: 12px;
             border: 1px solid #ddd;
             text-align: left;
         }
+        
         .post-table th {
-            background-color: #f8f9fa;
+            background-color: #f5f5f5;
             font-weight: 700;
         }
+        
         blockquote {
-            font-size: 1.4rem;
-            border-left: 5px solid var(--color-primary);
-            padding: 20px 30px;
+            font-size: 1.2rem;
+            border-left: 4px solid #3366FF;
+            padding: 20px 25px;
             background: #f0f4ff;
-            margin: 2rem 0;
+            margin: 30px 0;
             border-radius: 0 8px 8px 0;
         }
+        
+        /* Mobile Optimization */
         @media (max-width: 768px) {
-            .post-content {
-                font-size: 1.1rem;
+            body {
+                font-size: 16px;
             }
+            
             .post-full-title {
-                font-size: 2rem;
+                font-size: 1.5rem;
+            }
+            
+            .post-content {
+                font-size: 1rem;
+            }
+            
+            .post-content h2 {
+                font-size: 1.5rem;
+                margin-top: 40px;
+            }
+            
+            .post-content h3 {
+                font-size: 1.2rem;
+            }
+            
+            blockquote {
+                font-size: 1.1rem;
+                padding: 15px 20px;
             }
         }
     </style>
@@ -152,9 +240,9 @@ permalink: /posts/2026-02-01-microsoft-dominanz-pragmatismus-alternativen.html
                     <ul>
                         <li><strong>3.7 million</strong> companies worldwide use M365</li>
                         <li><strong>345 million</strong> paid subscribers (Business + Consumer)</li>
-                        <li>Over **80%** of German SMEs rely on Microsoft Office packages</li>
-                        <li>**70%** of Fortune 500 companies use M365</li>
-                        <li>From 1 to 300,000+ employees: M365 scales for everyone.</li>
+                        <li>Over <strong>80%</strong> of German SMEs rely on Microsoft Office packages</li>
+                        <li><strong>70%</strong> of Fortune 500 companies use M365</li>
+                        <li>From 1 to 300,000+ employees: M365 scales for everyone</li>
                     </ul>
 
                     <h2>2) The underestimated lever: Platform breadth</h2>
@@ -167,12 +255,14 @@ permalink: /posts/2026-02-01-microsoft-dominanz-pragmatismus-alternativen.html
 
                     <h2>3) The M365 ecosystem: The real cheat code</h2>
                     <p>Over the last ten years, Microsoft 365 has matured into the reference platform, and the development speed of the last two or three years is simply insane. For admins, this means staying vigilant daily.</p>
+                    
                     <p>What makes the difference is the unique community – breadth, depth, pace.</p>
+                    
                     <p>From my practice:</p>
                     <ul>
-                        <li>For almost every problem, there are already documented workarounds or ready-made solutions.</li>
-                        <li>Around Intune, Entra ID, and Defender, tools are constantly emerging from the community. One example is the over 13 free Intune tools by <strong>Ugur Koc</strong> (ugurlabs.com).</li>
-                        <li>The third-party ecosystem is enormous: from Infrastructure-as-Code (M365 DSC) to specialized security integrations.</li>
+                        <li>For almost every problem, there are already documented workarounds or ready-made solutions</li>
+                        <li>Around Intune, Entra ID, and Defender, tools are constantly emerging from the community. One example is the over 13 free Intune tools by <strong>Ugur Koc</strong> (ugurlabs.com)</li>
+                        <li>The third-party ecosystem is enormous: from Infrastructure-as-Code (M365 DSC) to specialized security integrations</li>
                     </ul>
 
                     <h2>4) Alternatives: Yes – but please classify them honestly</h2>
@@ -238,7 +328,7 @@ permalink: /posts/2026-02-01-microsoft-dominanz-pragmatismus-alternativen.html
                     <hr>
                     <p><strong>Philipp Schmidt</strong><br>
                     M365 Solution Architect<br>
-                    👉 More Info: [easym365.de](https://easym365.de) | [endlesstech.blog](https://endlesstech.blog)</p>
+                    👉 More Info: <a href="https://easym365.de">easym365.de</a> | <a href="https://endlesstech.blog">endlesstech.blog</a></p>
                 </div>
             </section>
         </article>
