@@ -395,10 +395,13 @@ em, i {
 }
 
 .post-content img {
-  max-width: 100%;
+  width: 100%;
   height: auto;
+  max-height: 350px;
+  object-fit: contain;
   border-radius: 8px;
-  margin: var(--spacing-lg) 0;
+  display: block;
+  margin: 20px auto;
 }
 
 .post-content ul, .post-content ol {
@@ -474,6 +477,8 @@ em, i {
 .post-full-image img {
   width: 100%;
   height: auto;
+  max-height: 400px;
+  object-fit: cover;
   border-radius: var(--border-radius);
   box-shadow: var(--shadow-lg);
 }
