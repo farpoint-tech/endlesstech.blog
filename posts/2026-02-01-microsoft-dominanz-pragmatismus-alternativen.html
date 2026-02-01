@@ -18,12 +18,6 @@ permalink: /posts/2026-02-01-microsoft-dominanz-pragmatismus-alternativen.html
     <meta property="og:image" content="https://endlesstech.blog/assets/images/m365-dominanz-hero.png">
     <meta property="og:url" content="https://endlesstech.blog/posts/2026-02-01-microsoft-dominanz-pragmatismus-alternativen.html">
     
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Microsoft muss man nicht lieben – aber die Dominanz verstehen">
-    <meta name="twitter:description" content="Ein Realitätscheck zu Microsoft 365: Warum die Suite-Breite gewinnt und wie man mit Backups Risiken minimiert.">
-    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/m365-dominanz-hero.png">
-    
     <title>Microsoft muss man nicht lieben – aber die Dominanz verstehen | EndlessTech Blog</title>
     
     <!-- Stylesheet -->
@@ -33,6 +27,87 @@ permalink: /posts/2026-02-01-microsoft-dominanz-pragmatismus-alternativen.html
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Lokale Layout-Optimierungen */
+        .post-full {
+            max-width: 900px; /* Etwas breiter für bessere Lesbarkeit */
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .post-content {
+            font-size: 1.2rem; /* Größere Schrift für bessere Lesbarkeit */
+            line-height: 1.8;
+            color: #333;
+        }
+        .post-content h2 {
+            font-size: 2rem;
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--color-primary);
+            padding-bottom: 0.5rem;
+        }
+        .post-content h3 {
+            font-size: 1.5rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+        .post-content p {
+            margin-bottom: 1.5rem;
+        }
+        .post-content img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            margin: 2.5rem auto;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .post-content figure {
+            margin: 3rem 0;
+            text-align: center;
+        }
+        .post-content figcaption {
+            font-size: 1rem;
+            color: #666;
+            margin-top: 1rem;
+            font-style: italic;
+        }
+        .post-table-container {
+            overflow-x: auto;
+            margin: 2rem 0;
+        }
+        .post-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.1rem;
+        }
+        .post-table th, .post-table td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .post-table th {
+            background-color: #f8f9fa;
+            font-weight: 700;
+        }
+        blockquote {
+            font-size: 1.4rem;
+            border-left: 5px solid var(--color-primary);
+            padding: 20px 30px;
+            background: #f0f4ff;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        @media (max-width: 768px) {
+            .post-content {
+                font-size: 1.1rem;
+            }
+            .post-full-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Header -->
@@ -47,9 +122,6 @@ permalink: /posts/2026-02-01-microsoft-dominanz-pragmatismus-alternativen.html
                 <a href="../about.html">About</a>
                 <a href="https://easym365.de" target="_blank" rel="noopener">Website</a>
             </nav>
-            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
-                ☰
-            </button>
         </div>
     </header>
 
@@ -59,7 +131,7 @@ permalink: /posts/2026-02-01-microsoft-dominanz-pragmatismus-alternativen.html
             <header class="post-full-header">
                 <h1 class="post-full-title">Microsoft muss man nicht lieben – aber die Dominanz verstehen (Pragmatismus statt Ideologie)</h1>
                 <div class="post-full-meta">
-                    Von Philipp Schmidt
+                    Von <strong>Philipp Schmidt</strong>
                 </div>
             </header>
             
@@ -88,9 +160,9 @@ permalink: /posts/2026-02-01-microsoft-dominanz-pragmatismus-alternativen.html
                     <h2>2) Der unterschätzte Hebel: Plattformbreite</h2>
                     <p>Ein Kernargument, das ich in Diskussionen immer wieder bringen muss: Endpoint- und Gerätemanagement ist längst nicht nur Windows. Microsoft dokumentiert für Intune ausdrücklich Support für <strong>Android, iOS/iPadOS, macOS und Windows</strong> (und zusätzlich auch Linux/ChromeOS).</p>
 
-                    <figure class="post-content-image">
-                        <img src="../assets/images/intune-platform-breadth.png" alt="Intune Platform Breadth" style="max-width: 100%; height: auto; display: block; margin: 2rem auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-                        <figcaption style="text-align: center; font-style: italic; color: #666; margin-top: 0.5rem;">Ein Kontrollpunkt für alle Plattformen: Windows, macOS, iOS, Android, Linux zentral verwaltet.</figcaption>
+                    <figure>
+                        <img src="../assets/images/intune-platform-breadth.png" alt="Intune Platform Breadth">
+                        <figcaption>Ein Kontrollpunkt für alle Plattformen: Windows, macOS, iOS, Android, Linux zentral verwaltet.</figcaption>
                     </figure>
 
                     <h2>3) Das M365-Ökosystem: Der eigentliche Cheat Code</h2>
@@ -105,42 +177,44 @@ permalink: /posts/2026-02-01-microsoft-dominanz-pragmatismus-alternativen.html
                     <h2>4) Alternativen: Ja – aber bitte ehrlich einordnen</h2>
                     <p>Es gibt Alternativen – aber ein Single-Vendor-Replacement für die gesamte Suite ist in der Praxis selten. Meist ersetzt man Bausteine, nicht die gesamte Plattform.</p>
 
-                    <figure class="post-content-image">
-                        <img src="../assets/images/suite-vs-stack.png" alt="Suite vs. Stack" style="max-width: 100%; height: auto; display: block; margin: 2rem auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-                        <figcaption style="text-align: center; font-style: italic; color: #666; margin-top: 0.5rem;">M365 Suite vs. Alternativen-Stack: Integration vs. Bausteine.</figcaption>
+                    <figure>
+                        <img src="../assets/images/suite-vs-stack.png" alt="Suite vs. Stack">
+                        <figcaption>M365 Suite vs. Alternativen-Stack: Integration vs. Bausteine.</figcaption>
                     </figure>
 
-                    <table class="post-table">
-                        <thead>
-                            <tr>
-                                <th>Bereich</th>
-                                <th>Microsoft 365</th>
-                                <th>Alternativen (Bausteine)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>Office & Collaboration</strong></td>
-                                <td>Office Apps, Teams</td>
-                                <td>Google Workspace, Nextcloud</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Identity (IAM)</strong></td>
-                                <td>Entra ID</td>
-                                <td>Okta, Ping Identity, JumpCloud</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Endpoint (MDM/UEM)</strong></td>
-                                <td>Intune</td>
-                                <td>Jamf (Apple), Workspace ONE, Ivanti</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Security</strong></td>
-                                <td>Defender Suite</td>
-                                <td>CrowdStrike, SentinelOne</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="post-table-container">
+                        <table class="post-table">
+                            <thead>
+                                <tr>
+                                    <th>Bereich</th>
+                                    <th>Microsoft 365</th>
+                                    <th>Alternativen (Bausteine)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Office & Collaboration</strong></td>
+                                    <td>Office Apps, Teams</td>
+                                    <td>Google Workspace, Nextcloud</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Identity (IAM)</strong></td>
+                                    <td>Entra ID</td>
+                                    <td>Okta, Ping Identity, JumpCloud</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Endpoint (MDM/UEM)</strong></td>
+                                    <td>Intune</td>
+                                    <td>Jamf (Apple), Workspace ONE, Ivanti</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Security</strong></td>
+                                    <td>Defender Suite</td>
+                                    <td>CrowdStrike, SentinelOne</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
                     <h2>5) Datensouveränität & Backup: Pragmatische Risikominimierung</h2>
                     <p>Die Debatte um Datensouveränität wird oft emotional geführt. Mein Punkt: Wer die Cloud sinnvoll nutzen will, braucht Grundvertrauen in Zertifikate und Compliance. DSGVO-konform mit Microsoft? Ja, das ist möglich.</p>
@@ -148,9 +222,9 @@ permalink: /posts/2026-02-01-microsoft-dominanz-pragmatismus-alternativen.html
                     <h3>Backup löst nicht Souveränität – aber es reduziert Risiko</h3>
                     <p>Backup beantwortet nicht automatisch Fragen zu Jurisdiktion, aber es schafft <strong>Handlungsfähigkeit</strong>. Wenn ein Anbieter ausfällt oder Daten gelöscht werden, brauchst du Restore-Fähigkeit.</p>
 
-                    <figure class="post-content-image">
-                        <img src="../assets/images/m365-backup-strategy.png" alt="M365 Backup Strategy" style="max-width: 100%; height: auto; display: block; margin: 2rem auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-                        <figcaption style="text-align: center; font-style: italic; color: #666; margin-top: 0.5rem;">Unabhängige Backup-Strategie für M365: Risiko-Reduktion und Exit-Enabler.</figcaption>
+                    <figure>
+                        <img src="../assets/images/m365-backup-strategy.png" alt="M365 Backup Strategy">
+                        <figcaption>Unabhängige Backup-Strategie für M365: Risiko-Reduktion und Exit-Enabler.</figcaption>
                     </figure>
 
                     <h2>6) Fazit: Weniger Ideologie, mehr Betriebsfähigkeit</h2>
