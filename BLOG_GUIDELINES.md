@@ -126,6 +126,88 @@ featured: true
 
 ---
 
+## 🧱 Formatting & Layout Standards
+
+### Single Post Template (HTML)
+- **Required layout:** `article.post-full` with:
+  - `header.post-full-header` → `h1.post-full-title` and `div.post-full-meta` (`<time>` + author)
+  - `figure.post-full-image` for the hero image (max-height enforced via CSS)
+  - `section.post-full-content` containing `div.post-content` for all text and elements
+  - `section.author-bio` with avatar and info
+  - Site-wide footer using `footer.footer > .footer-container`
+
+### Consistent Spacing & Width
+- **Max content width:** Use site variable `--max-width-content` (currently 800px)
+- **Left/right spacing:** Always use `.post-full` and `.container` wrappers; never override padding/margins inline
+- **Headings:** H1 once per post, then H2/H3 hierarchy only
+
+### Images
+- **Hero image:** Place inside `figure.post-full-image`; CSS limits height and ensures cover fit
+- **Inline images:** Use `figure.post-content-image` with `<img>` and `<figcaption>`
+- **Do not** use inline styles for sizing or margins; rely on CSS classes
+- **Alt text:** Descriptive, in English
+
+### Blockquotes, Lists, Tables, Code
+- **Blockquotes:** Use plain `<blockquote>`; styling comes from CSS (border, spacing, italics)
+- **Lists:** Standard `<ul>/<ol>`; no custom inline margins
+- **Tables:** Use `.post-table` (headers, rows, hover states standardized)
+- **Code:** `<pre><code>` only; no inline style attributes
+
+### No Inline Styles
+- Avoid inline `style=""` in posts (images, figures, quotes, headings)
+- All visual adjustments must be done via shared CSS:
+  - `assets/css/style.css`
+  - `assets/css/blog-post.css` (post-specific refinements)
+
+### HTML Skeleton Example
+```html
+<article class="post-full">
+  <header class="post-full-header">
+    <h1 class="post-full-title">Post Title</h1>
+    <div class="post-full-meta">
+      <time datetime="YYYY-MM-DD">Month D, YYYY</time> • By Philipp Schmidt
+    </div>
+  </header>
+
+  <figure class="post-full-image">
+    <img src="../assets/images/hero.png" alt="Hero Alt">
+  </figure>
+
+  <section class="post-full-content">
+    <div class="post-content">
+      <h2>Section</h2>
+      <p>Paragraph text…</p>
+
+      <figure class="post-content-image">
+        <img src="../assets/images/example.png" alt="Example">
+        <figcaption>Concise caption</figcaption>
+      </figure>
+
+      <blockquote>Key callout.</blockquote>
+    </div>
+  </section>
+
+  <section class="author-bio">
+    <img src="../assets/images/cloudknox-author.png" alt="CloudKnox - Philipp Schmidt" class="author-avatar">
+    <div class="author-info">
+      <h3>Philipp Schmidt</h3>
+      <p>IT consultant specializing in Microsoft 365, Security, and Zero Trust.</p>
+    </div>
+  </section>
+</article>
+```
+
+### Validation Checklist (Formatting)
+- [ ] Uses `.post-full` and `.post-full-content` containers
+- [ ] Meta section includes `<time>` and author
+- [ ] Hero image inside `.post-full-image`
+- [ ] Inline figures use `.post-content-image` + caption
+- [ ] No inline `style=""` anywhere
+- [ ] Footer uses `.footer-container`
+- [ ] Author bio section present
+
+---
+
 ## 🎯 LinkedIn Announcement Guidelines
 
 ### When creating LinkedIn posts:
@@ -246,4 +328,3 @@ git push origin master
 
 **Last Updated:** 2025-10-24  
 **Version:** 1.1
-
