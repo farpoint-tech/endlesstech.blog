@@ -1,0 +1,112 @@
+'''
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudKnox- The Future of SharePoint Archiving: File-Level is Coming</title>
+    <meta name="description" content="A deep dive into the upcoming file-level archiving in SharePoint with Microsoft 365 Archive, its costs, roadmap, and comparison with current third-party solutions.">
+    <meta name="author" content="Philipp Schmidt">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/blog-post.css">
+</head>
+<body>
+    <article class="post-full">
+        <header class="post-full-header">
+            <h1 class="post-full-title">CloudKnox- The Future of SharePoint Archiving: File-Level is Coming</h1>
+            <div class="post-full-meta">
+                <time datetime="2026-02-25">February 25, 2026</time> &bull; By Philipp Schmidt
+            </div>
+        </header>
+
+        <figure class="post-full-image">
+            <img src="../assets/images/cloudknox-hero.png" alt="CloudKnox, the Rottweiler mascot, guarding a futuristic data archive.">
+        </figure>
+
+        <section class="post-full-content">
+            <div class="post-content">
+                <h2>The Storage Dilemma: Why SharePoint Archiving Matters</h2>
+                <p>As organizations increasingly rely on SharePoint for collaboration, data volumes are exploding. While SharePoint Online offers a generous initial storage quota, enterprises working with large files in sectors like media, healthcare, or construction often find themselves exceeding these limits, leading to significant overage costs. One client, for instance, was facing potential monthly overages of over $2 million [5]. This financial pressure makes intelligent data archiving not just a best practice, but a financial necessity.</p>
+                <p>The goal of archiving is to move inactive, yet valuable, content to a lower-cost storage tier while maintaining compliance and searchability. This is distinct from backups, which are for disaster recovery, and retention policies, which automate data deletion. Until recently, achieving granular, file-level archiving in SharePoint required turning to third-party solutions.</p>
+
+                <h2>Microsoft's Native Solution: The "All-or-Nothing" Approach of M365 Archive</h2>
+                <p>Microsoft has entered the ring with <strong>Microsoft 365 Archive</strong>, a native solution that moves inactive SharePoint sites into a cost-effective "cold storage tier" [2]. This service promises significant savings, with archive storage priced at just <strong>$0.05/GB/month</strong>, a 75% reduction from the standard rate of $0.20/GB/month [3]. Better yet, as of March 31, 2025, the previously prohibitive reactivation fees have been eliminated, making it free to bring an archived site back online [3].</p>
+                <blockquote>
+                    Microsoft 365 Archive allows you to retain this inactive data by moving it into a cold storage tier (archive) within SharePoint. Any data archived with Microsoft 365 Archive will have the same searchability, security, and compliance standards applied automatically at a much reduced cost. [2]
+                </blockquote>
+                <p>However, there's a major catch: currently, M365 Archive operates on an "all-or-nothing" basis. It only supports archiving at the **entire site level** [1]. You cannot archive an individual file, folder, or document library. This limitation significantly curtails its practical use in many real-world scenarios where only a fraction of a site's content is inactive.</p>
+
+                <h2>The Game Changer on the Horizon: File-Level Archiving is Coming</h2>
+                <p>The good news is that this is about to change. Microsoft has officially confirmed that **file-level granular archiving is in development**. According to the Microsoft 365 Roadmap, this much-anticipated feature (ID 477371) is scheduled for a public preview in **March 2026**, with a general rollout starting in **July 2026** [4].</p>
+                <p>This development will finally allow administrators to selectively archive individual files based on criteria like age or last access date, without having to archive an entire site. This promises a far more flexible and efficient way to manage storage costs, aligning Microsoft's native capabilities more closely with what third-party tools have offered for years.</p>
+
+                <h2>Native vs. Third-Party: A Comparative Look</h2>
+                <p>Even with the promise of file-level archiving, it's crucial to understand the differences between the native Microsoft solution and established third-party products. The table below summarizes the key distinctions based on the current and upcoming functionalities.</p>
+                <table class="post-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>M365 Archive (Native)</th>
+                            <th>Typical Third-Party Solutions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Granularity</strong></td>
+                            <td>Site-level only (File-level coming July 2026) [1, 4]</td>
+                            <td>File-level available now [5]</td>
+                        </tr>
+                        <tr>
+                            <td><strong>End-User Visibility</strong></td>
+                            <td>None (files are invisible when archived) [1]</td>
+                            <td>Shortcut/stub remains visible [5]</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Restore Initiation</strong></td>
+                            <td>Admin only [2]</td>
+                            <td>End-user self-service [5]</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Restore Time</strong></td>
+                            <td>Up to 24 hours for a full site [5, 6]</td>
+                            <td>Near-instant for individual files [5]</td>
+                        </tr>
+                        <tr>
+                            <td><strong>eDiscovery</strong></td>
+                            <td>Site must be reactivated to export content [5]</td>
+                            <td>Individual file restore is possible [5]</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Automating the Process with SharePoint Advanced Management (SAM)</h2>
+                <p>To help manage this process at scale, Microsoft offers **SharePoint Advanced Management (SAM)**. This add-on provides a "Site Lifecycle Management" feature that can automate the process of identifying and archiving inactive sites based on defined policies [7]. It acts as an orchestration layer on top of M365 Archive. SAM is available as a standalone license for $3/user/month or is included at no additional cost for users with a Microsoft 365 Copilot license [7].</p>
+
+                <h2>Conclusion: Prepare for the Future, but Evaluate Today's Needs</h2>
+                <p>The upcoming arrival of file-level archiving in Microsoft 365 is a significant and welcome development that will address a major gap in SharePoint's native storage management capabilities. For organizations deeply invested in the Microsoft ecosystem, it represents a future where they can manage storage costs with much greater precision.</p>
+                <p>However, the future is not here yet. For businesses struggling with massive storage overages *today*, waiting until mid-2026 may not be a viable option. In these cases, proven third-party solutions remain a practical and effective choice, offering mature file-level archiving and a superior end-user experience right now. As these are often subscription-based, organizations can adopt them to solve immediate problems and re-evaluate once Microsoft's native solution becomes generally available and proves its capabilities in the real world.</p>
+
+                <h3>References</h3>
+                <ol>
+                    <li>[1] Microsoft Learn. (2025, October 3). *Frequently asked questions about Microsoft 365 Archive*. <a href="https://learn.microsoft.com/en-us/microsoft-365/archive/archive-faq?view=o365-worldwide" target="_blank">https://learn.microsoft.com/en-us/microsoft-365/archive/archive-faq?view=o365-worldwide</a></li>
+                    <li>[2] Microsoft Learn. (2025, June 26). *Overview of Microsoft 365 Archive*. <a href="https://learn.microsoft.com/en-us/microsoft-365/archive/archive-overview?view=o365-worldwide" target="_blank">https://learn.microsoft.com/en-us/microsoft-365/archive/archive-overview?view=o365-worldwide</a></li>
+                    <li>[3] Microsoft Learn. (2025, August 1). *Pricing model for Microsoft 365 Archive*. <a href="https://learn.microsoft.com/en-us/microsoft-365/archive/archive-pricing?view=o365-worldwide" target="_blank">https://learn.microsoft.com/en-us/microsoft-365/archive/archive-pricing?view=o365-worldwide</a></li>
+                    <li>[4] Microsoft 365 Roadmap. (2025, November 5). *SharePoint: Microsoft 365 Archive file-level archiving (ID: 477371)*. <a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?id=477371" target="_blank">https://www.microsoft.com/en-us/microsoft-365/roadmap?id=477371</a></li>
+                    <li>[5] Essential.co.uk. (2025, January 7). *Does Microsoft Now Offer SharePoint Archiving?*. <a href="https://www.essential.co.uk/blog/articles/microsoft-sharepoint-archiving/" target="_blank">https://www.essential.co.uk/blog/articles/microsoft-sharepoint-archiving/</a></li>
+                    <li>[6] Arvato Systems. (2026, January 27). *Microsoft 365 Archive: benefits, limits, savings potential*. <a href="https://us.arvato-systems.com/blog/microsoft-365-archive" target="_blank">https://us.arvato-systems.com/blog/microsoft-365-archive</a></li>
+                    <li>[7] Microsoft Learn. (2026, January 26). *SharePoint Advanced Management overview*. <a href="https://learn.microsoft.com/en-us/sharepoint/advanced-management" target="_blank">https://learn.microsoft.com/en-us/sharepoint/advanced-management</a></li>
+                </ol>
+            </div>
+        </section>
+
+        <section class="author-bio">
+            <img src="../assets/images/cloudknox-author.png" alt="CloudKnox - Philipp Schmidt" class="author-avatar">
+            <div class="author-info">
+                <h3>Philipp Schmidt</h3>
+                <p>Complex IT? I make it simple – with M365, which protects, scales, and brings clarity. For SMEs that rely on smart solutions.</p>
+            </div>
+        </section>
+    </article>
+</body>
+</html>
+'''
