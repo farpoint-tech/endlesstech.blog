@@ -1,5 +1,15 @@
 /* EndlessTech Blog - Main Stylesheet */
 
+/* ==================== Self-Hosted Fonts ==================== */
+/* Inter variable font - replaces Google Fonts dependency for privacy and security */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('../fonts/InterVariable.woff2') format('woff2');
+}
+
 /* ==================== CSS Variables ==================== */
 :root {
   /* Brand Colors */
