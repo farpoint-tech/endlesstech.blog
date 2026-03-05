@@ -26,9 +26,6 @@
     <link rel="stylesheet" href="../assets/css/style.css">
     
     <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Header -->
@@ -41,7 +38,7 @@
                 <a href="../index.html">Home</a>
                 <a href="../index.html#blog" class="active">Blog</a>
                 <a href="../about.html">About</a>
-                <a href="https://easym365.de" target="_blank" rel="noopener">Website</a>
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
             </nav>
             <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
                 ☰
@@ -73,7 +70,7 @@
 
                     <h2>The Zero Trust Imperative: Why "Known and Trusted" Matters</h2>
 
-                    <p>The core principle of a Zero Trust architecture is "Never trust, always verify" <a href="https://learn.microsoft.com/en-us/security/zero-trust/zero-trust-overview" target="_blank" rel="noopener">[1]</a>. This doesn't just apply to user identities; it is equally critical for the devices they use. A device must be both <strong>Known and Trusted</strong> before it is granted any level of access.</p>
+                    <p>The core principle of a Zero Trust architecture is "Never trust, always verify" <a href="https://learn.microsoft.com/en-us/security/zero-trust/zero-trust-overview" target="_blank" rel="noopener noreferrer">[1]</a>. This doesn't just apply to user identities; it is equally critical for the devices they use. A device must be both <strong>Known and Trusted</strong> before it is granted any level of access.</p>
 
                     <p>When you allow a personal device (BYOD) to enroll into Intune, you create an immediate and dangerous contradiction. The user's identity is corporate and verified, but the device's security posture is a complete unknown. It could be riddled with malware, have outdated security patches, or be shared with non-corporate users. By allowing it to enroll, you implicitly extend trust to an untrusted asset.</p>
 
@@ -85,7 +82,7 @@
 
                     <h2>Technical Deep Dive: Enrollment Restrictions as a Control Plane</h2>
 
-                    <p>Intune Enrollment Restrictions are not just another policy; they are the control plane for your endpoint environment. While Microsoft clarifies that these are a "best-effort barrier for non-malicious users" and not a foolproof security feature, they are an indispensable first line of defense <a href="https://learn.microsoft.com/en-us/mem/intune/enrollment/enrollment-restrictions-set" target="_blank" rel="noopener">[2]</a>.</p>
+                    <p>Intune Enrollment Restrictions are not just another policy; they are the control plane for your endpoint environment. While Microsoft clarifies that these are a "best-effort barrier for non-malicious users" and not a foolproof security feature, they are an indispensable first line of defense <a href="https://learn.microsoft.com/en-us/mem/intune/enrollment/enrollment-restrictions-set" target="_blank" rel="noopener noreferrer">[2]</a>.</p>
 
                     <p>They are divided into two main types: <strong>Device Limit Restrictions</strong> (controlling how many devices a user can enroll) and <strong>Device Type Restrictions</strong> (controlling which platforms and ownership types can enroll). The single most critical setting for mitigating the local admin risk on Windows devices is found within the Device Type Restrictions: <strong>Block "Personally owned" for Windows (MDM)</strong>.</p>
 
@@ -116,11 +113,11 @@
                         </tbody>
                     </table>
 
-                    <p>When this is set to "Block," Intune will only permit devices registered as corporate-owned to complete the MDM enrollment process. This forces every managed Windows device to first be identified as a corporate asset, typically through methods like Windows Autopilot or by being added to the Corporate Device Identifiers list <a href="https://learn.microsoft.com/en-us/autopilot/registration-overview" target="_blank" rel="noopener">[3]</a>. This simple switch effectively slams the door on true BYOD for Windows.</p>
+                    <p>When this is set to "Block," Intune will only permit devices registered as corporate-owned to complete the MDM enrollment process. This forces every managed Windows device to first be identified as a corporate asset, typically through methods like Windows Autopilot or by being added to the Corporate Device Identifiers list <a href="https://learn.microsoft.com/en-us/autopilot/registration-overview" target="_blank" rel="noopener noreferrer">[3]</a>. This simple switch effectively slams the door on true BYOD for Windows.</p>
 
                     <h2>The Synergy with Endpoint Privilege Management (EPM)</h2>
 
-                    <p>Many organizations are rightly excited about the capabilities of Microsoft's EPM and LAPS solutions <a href="https://learn.microsoft.com/en-us/mem/intune/protect/epm-overview" target="_blank" rel="noopener">[4]</a> <a href="https://learn.microsoft.com/en-us/mem/intune/protect/windows-laps-overview" target="_blank" rel="noopener">[5]</a>. These tools are designed to manage and mitigate the risks of local administrator rights on your endpoints. However, their effectiveness is predicated on a critical assumption: that they are operating on trusted, corporate-owned devices.</p>
+                    <p>Many organizations are rightly excited about the capabilities of Microsoft's EPM and LAPS solutions <a href="https://learn.microsoft.com/en-us/mem/intune/protect/epm-overview" target="_blank" rel="noopener noreferrer">[4]</a> <a href="https://learn.microsoft.com/en-us/mem/intune/protect/windows-laps-overview" target="_blank" rel="noopener noreferrer">[5]</a>. These tools are designed to manage and mitigate the risks of local administrator rights on your endpoints. However, their effectiveness is predicated on a critical assumption: that they are operating on trusted, corporate-owned devices.</p>
 
                     <p>When you allow personal devices to enroll, you create a fundamental misalignment. EPM is then forced to manage privileges on a device you don't own and can't fully control. This is an architectural anti-pattern. You're using a sophisticated tool to apply a security patch to a problem that should have been prevented at the source.</p>
 
@@ -139,7 +136,7 @@
 
                     <ul>
                         <li><strong>Step 1: The Gatekeeper (Strict Enrollment Restrictions):</strong> This is the wide mouth of the funnel. Block all personally owned devices by default. This is your first and most important line of defense.</li>
-                        <li><strong>Step 2: The Onboarder (Windows Autopilot):</strong> For devices that pass the gatekeeper, use a zero-touch provisioning method like Autopilot. This ensures a consistent, secure, and corporate-configured state from the moment the device is unboxed <a href="https://learn.microsoft.com/en-us/autopilot/registration-overview" target="_blank" rel="noopener">[3]</a>.</li>
+                        <li><strong>Step 2: The Onboarder (Windows Autopilot):</strong> For devices that pass the gatekeeper, use a zero-touch provisioning method like Autopilot. This ensures a consistent, secure, and corporate-configured state from the moment the device is unboxed <a href="https://learn.microsoft.com/en-us/autopilot/registration-overview" target="_blank" rel="noopener noreferrer">[3]</a>.</li>
                         <li><strong>Step 3: The Enforcer (Conditional Access):</strong> Once enrolled and configured, Conditional Access policies act as the ongoing checkpoint, ensuring that the device remains compliant and healthy before granting access to corporate resources.</li>
                         <li><strong>Step 4: The Mitigator (EPM/LAPS):</strong> At the narrowest part of the funnel, for your fully trusted and compliant devices, use EPM and LAPS to remove standing local admin rights and manage privilege elevation on a just-in-time, as-needed basis.</li>
                     </ul>
@@ -157,11 +154,11 @@
                     <h2>References</h2>
 
                     <ol>
-                        <li><a href="https://learn.microsoft.com/en-us/security/zero-trust/zero-trust-overview" target="_blank" rel="noopener">Microsoft Learn: What is Zero Trust?</a></li>
-                        <li><a href="https://learn.microsoft.com/en-us/mem/intune/enrollment/enrollment-restrictions-set" target="_blank" rel="noopener">Microsoft Learn: Overview of enrollment restrictions - Microsoft Intune</a></li>
-                        <li><a href="https://learn.microsoft.com/en-us/autopilot/registration-overview" target="_blank" rel="noopener">Microsoft Learn: Windows Autopilot registration overview</a></li>
-                        <li><a href="https://learn.microsoft.com/en-us/mem/intune/protect/epm-overview" target="_blank" rel="noopener">Microsoft Learn: Use Endpoint Privilege Management with Microsoft Intune</a></li>
-                        <li><a href="https://learn.microsoft.com/en-us/mem/intune/protect/windows-laps-overview" target="_blank" rel="noopener">Microsoft Learn: Overview of Windows LAPS with Microsoft Intune</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/security/zero-trust/zero-trust-overview" target="_blank" rel="noopener noreferrer">Microsoft Learn: What is Zero Trust?</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/mem/intune/enrollment/enrollment-restrictions-set" target="_blank" rel="noopener noreferrer">Microsoft Learn: Overview of enrollment restrictions - Microsoft Intune</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/autopilot/registration-overview" target="_blank" rel="noopener noreferrer">Microsoft Learn: Windows Autopilot registration overview</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/mem/intune/protect/epm-overview" target="_blank" rel="noopener noreferrer">Microsoft Learn: Use Endpoint Privilege Management with Microsoft Intune</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/mem/intune/protect/windows-laps-overview" target="_blank" rel="noopener noreferrer">Microsoft Learn: Overview of Windows LAPS with Microsoft Intune</a></li>
                     </ol>
                 </div>
             </section>
@@ -173,7 +170,7 @@
                     <h3>Philipp Schmidt</h3>
                     <p>IT consultant specializing in Microsoft 365, Security, and Zero Trust architecture. Helping SMBs build secure, scalable, and simple cloud solutions.</p>
                     <p><strong>Complex IT? I make it simple</strong> – with M365 that protects, scales, and brings clarity.</p>
-                    <p><a href="https://easym365.de" target="_blank" rel="noopener">Learn more: https://easym365.de</a></p>
+                    <p><a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Learn more: https://easym365.de</a></p>
                 </div>
             </section>
         </article>
@@ -185,9 +182,9 @@
             <p>&copy; 2025 Philipp Schmidt. All rights reserved.</p>
             <p>Secure. Scalable. Simple M365.</p>
             <div class="footer-links">
-                <a href="https://easym365.de" target="_blank" rel="noopener">Website</a>
-                <a href="https://www.linkedin.com/in/philipp-schmidt-cloudknox" target="_blank" rel="noopener">LinkedIn</a>
-                <a href="https://github.com/farpoint-tech" target="_blank" rel="noopener">GitHub</a>
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+                <a href="https://www.linkedin.com/in/philipp-schmidt-cloudknox" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://github.com/farpoint-tech" target="_blank" rel="noopener noreferrer">GitHub</a>
             </div>
         </div>
     </footer>
