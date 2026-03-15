@@ -5,11 +5,11 @@ author: "Philipp Schmidt"
 categories: ["Strategy", "IT Operations", "Microsoft 365"]
 tags: ["Career", "M365", "Zero Trust", "Cloud", "Consulting", "IT Strategy"]
 excerpt: "A personal reflection on 15+ years in IT consulting – from Windows NT and Active Directory to M365 and Zero Trust – and the moments that shaped the journey."
-image: "/assets/images/cloudknox-hero.png"
+image: "/assets/images/nt-to-m365-journey-hero.png"
 featured: true
 ---
 
-![From NT to M365 – A Personal Journey](/assets/images/cloudknox-hero.png)
+![From NT to M365 – A Personal Journey](/assets/images/nt-to-m365-journey-hero.png)
 
 ## From NT to M365 – A Journey Through Tech, Decisions, and the People Behind Them
 
