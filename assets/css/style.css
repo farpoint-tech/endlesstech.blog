@@ -154,8 +154,9 @@ em, i {
 }
 
 .logo img {
-  height: 50px;
+  height: 80px;
   width: auto;
+  border-radius: 8px;
 }
 
 .nav {
