@@ -62,13 +62,27 @@
     <main class="container">
         <section id="blog">
             <h2 class="text-center">Latest Blog Posts</h2>
-            <p class="text-center" style="color: var(--color-text-light); margin-bottom: var(--spacing-xl);">
+            <p class="text-center" style="color: var(--color-text-light); margin-bottom: var(--spacing-lg);">
                 Stay updated with the latest insights on Microsoft 365, Security, and Cloud Technologies
             </p>
+
+            <!-- Category Filter -->
+            <div class="category-filter" id="category-filter">
+                <button class="category-btn active" data-category="all">All</button>
+                <button class="category-btn" data-category="zero-trust">Zero Trust</button>
+                <button class="category-btn" data-category="m365">M365</button>
+                <button class="category-btn" data-category="iam-entraid">IAM - EntraID</button>
+                <button class="category-btn" data-category="device-management-intune">Device Management - Intune</button>
+                <button class="category-btn" data-category="security-defender">Security - Defender</button>
+                <button class="category-btn" data-category="ai-copilot">AI Copilot</button>
+                <button class="category-btn" data-category="best-practices">Best Practices</button>
+                <button class="category-btn" data-category="offtopic">Offtopic</button>
+                <button class="category-btn" data-category="others">Others</button>
+            </div>
             
             <div class="posts-grid">
                 <!-- From NT to M365 – A Personal Journey -->
-                <article class="post-card">
+                <article class="post-card" data-category="m365 offtopic">
                     <img src="assets/images/nt-to-m365-journey-hero.png" alt="From NT to M365 – A Journey Through Tech, Decisions, and the People Behind Them" class="post-card-image">
                     <div class="post-card-content">
                         <h3 class="post-card-title">
@@ -85,7 +99,7 @@
                 </article>
 
                 <!-- The Golden Tenant Is Dead -->
-                <article class="post-card">
+                <article class="post-card" data-category="device-management-intune">
                     <img src="assets/images/golden-tenant-hero.png" alt="Golden tenant blueprint stamped outdated versus a live automated Intune compliance dashboard" class="post-card-image">
                     <div class="post-card-content">
                         <h3 class="post-card-title">
@@ -102,7 +116,7 @@
                 </article>
 
                 <!-- Microsoft M365 Dominanz Blog -->
-                <article class="post-card">
+                <article class="post-card" data-category="m365">
                     <img src="assets/images/m365-dominanz-hero.png" alt="Microsoft muss man nicht lieben – aber die Dominanz verstehen" class="post-card-image">
                     <div class="post-card-content">
                         <h3 class="post-card-title">
@@ -119,7 +133,7 @@
                 </article>
 
                 <!-- iOS/iPadOS ABM Enrollment Troubleshooting -->
-                <article class="post-card">
+                <article class="post-card" data-category="device-management-intune">
                     <img src="assets/images/ios-abm-enrollment-hero.png" alt="iOS/iPadOS ABM Enrollment Troubleshooting: The 'Not Contacted' Nightmare" class="post-card-image">
                     <div class="post-card-content">
                         <h3 class="post-card-title">
@@ -136,7 +150,7 @@
                 </article>
 
                 <!-- CloudKnox Copilot Mandate -->
-                <article class="post-card">
+                <article class="post-card" data-category="ai-copilot">
                     <img src="assets/images/copilot-mandate-hero.jpg" alt="The Copilot Mandate - A Fact-Check on Digital Sovereignty and Cloud Governance" class="post-card-image">
                     <div class="post-card-content">
                         <h3 class="post-card-title">
@@ -153,7 +167,7 @@
                 </article>
 
                 <!-- Intune Enrollment Restrictions -->
-                <article class="post-card">
+                <article class="post-card" data-category="device-management-intune best-practices zero-trust">
                     <img src="assets/images/intune-enrollment-hero.png" alt="Intune Enrollment Restrictions: Your Foundational Control Against Local Admin Risk" class="post-card-image">
                     <div class="post-card-content">
                         <h3 class="post-card-title">
@@ -170,7 +184,7 @@
                 </article>
 
                 <!-- Microsoft Entra Tenant vs Azure Subscriptions -->
-                <article class="post-card">
+                <article class="post-card" data-category="iam-entraid">
                     <img src="assets/images/zero-trust-entra/hero-zero-trust.png" alt="Microsoft Entra Tenant vs. Azure Subscriptions – What's the Difference?" class="post-card-image">
                     <div class="post-card-content">
                         <h3 class="post-card-title">
@@ -187,7 +201,7 @@
                 </article>
 
                 <!-- Windows 11 Hardware Lifecycle Blog Post -->
-                <article class="post-card">
+                <article class="post-card" data-category="device-management-intune">
                     <img src="assets/images/hardware-lifecycle-hero.png" alt="Windows 11 and Hardware Lifecycles: Why the Debate is Bigger Than Microsoft" class="post-card-image">
                     <div class="post-card-content">
                         <h3 class="post-card-title">
@@ -204,7 +218,7 @@
                 </article>
 
                 <!-- M365 Add-Ons Blog Post -->
-                <article class="post-card">
+                <article class="post-card" data-category="m365">
                     <img src="assets/images/m365-addons-hero.png" alt="Beyond the Basics: Why Smart M365 Add-Ons Are Your Best Investment" class="post-card-image">
                     <div class="post-card-content">
                         <h3 class="post-card-title">
@@ -221,7 +235,7 @@
                 </article>
 
                 <!-- New Blog Post - Zero Trust -->
-                <article class="post-card">
+                <article class="post-card" data-category="zero-trust iam-entraid best-practices">
                     <img src="assets/images/zero-trust-entra/hero-zero-trust.png" alt="Unlocking Zero Trust: Mastering Identity and Network Security with Microsoft Entra Suite" class="post-card-image">
                     <div class="post-card-content">
                         <h3 class="post-card-title">
@@ -238,7 +252,7 @@
                 </article>
 
                 <!-- MCP Servers Blog Post -->
-                <article class="post-card">
+                <article class="post-card" data-category="ai-copilot">
                     <img src="assets/images/cloudknox-mcp-servers-hero.png" alt="MCP Servers: Understanding the Double-Edged Sword of AI Tooling" class="post-card-image">
                     <div class="post-card-content">
                         <h3 class="post-card-title">
@@ -255,7 +269,7 @@
                 </article>
 
                 <!-- Microsoft Secure Score Blog Post -->
-                <article class="post-card">
+                <article class="post-card" data-category="security-defender best-practices m365">
                     <img src="assets/images/hero_dashboard.png" alt="Boost Your Cyber Defense: Microsoft Secure Score for SMBs" class="post-card-image">
                     <div class="post-card-content">
                         <h3 class="post-card-title">
@@ -272,7 +286,7 @@
                 </article>
 
                 <!-- Windows 365 Cloud Apps Blog Post -->
-                <article class="post-card">
+                <article class="post-card" data-category="m365">
                     <img src="assets/images/windows365_cloud_apps_title_en.png" alt="Windows 365 Cloud Apps: When Less is More" class="post-card-image">
                     <div class="post-card-content">
                         <h3 class="post-card-title">
@@ -289,7 +303,7 @@
                 </article>
 
                 <!-- Blog Post 1 - Demo Post -->
-                <article class="post-card">
+                <article class="post-card" data-category="zero-trust best-practices">
                     <img src="assets/images/knox-hawk.png" alt="Getting Started with Zero Trust Security" class="post-card-image">
                     <div class="post-card-content">
                         <h3 class="post-card-title">
@@ -306,7 +320,7 @@
                 </article>
 
                 <!-- Mobile Application Management Blog Post -->
-                <article class="post-card">
+                <article class="post-card" data-category="device-management-intune">
                     <img src="assets/images/mobile_app_management_main.png" alt="Mobile Application Management: Your Quarterback for Mobile Security" class="post-card-image">
                     <div class="post-card-content">
                         <h3 class="post-card-title">
@@ -323,7 +337,7 @@
                 </article>
 
                 <!-- Placeholder for more posts -->
-                <article class="post-card">
+                <article class="post-card" data-category="best-practices security-defender zero-trust m365">
                     <img src="assets/images/knox-infinity.png" alt="Microsoft 365 Security Best Practices" class="post-card-image">
                     <div class="post-card-content">
                         <h3 class="post-card-title">
@@ -339,7 +353,7 @@
                     </div>
                 </article>
 
-                <article class="post-card">
+                <article class="post-card" data-category="others security-defender">
                     <img src="assets/images/knox-hawk-hero.png" alt="Cloud Security Automation" class="post-card-image">
                     <div class="post-card-content">
                         <h3 class="post-card-title">
@@ -397,5 +411,36 @@
 
     <!-- JavaScript -->
     <script src="assets/js/main.js"></script>
+
+    <!-- Category Filter Script -->
+    <script>
+        (function () {
+            const buttons = document.querySelectorAll('.category-btn');
+            const posts = document.querySelectorAll('.posts-grid .post-card');
+
+            buttons.forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    // Update active button
+                    buttons.forEach(function (b) { b.classList.remove('active'); });
+                    btn.classList.add('active');
+
+                    const selected = btn.getAttribute('data-category');
+
+                    posts.forEach(function (post) {
+                        if (selected === 'all') {
+                            post.classList.remove('hidden');
+                        } else {
+                            const cats = (post.getAttribute('data-category') || '').split(' ');
+                            if (cats.indexOf(selected) !== -1) {
+                                post.classList.remove('hidden');
+                            } else {
+                                post.classList.add('hidden');
+                            }
+                        }
+                    });
+                });
+            });
+        })();
+    </script>
 </body>
 </html>
