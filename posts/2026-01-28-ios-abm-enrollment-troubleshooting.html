@@ -6,6 +6,7 @@ permalink: /posts/2026-01-28-ios-abm-enrollment-troubleshooting.html
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="robots" content="index,follow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A deep dive into why iOS devices fail to enroll via Apple Business Manager (ABM) and show a 'Not Contacted' status in Intune. Learn the root cause and the mandatory factory reset fix.">
     <meta name="author" content="Philipp Schmidt">
@@ -28,8 +29,10 @@ permalink: /posts/2026-01-28-ios-abm-enrollment-troubleshooting.html
     
     <!-- Stylesheet -->
     <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/blog-post.css">
     
     <!-- Google Fonts -->
+    <link rel="canonical" href="https://farpoint-tech.github.io/endlesstech.blog/posts/2026-01-28-ios-abm-enrollment-troubleshooting.html" />
 </head>
 <body>
     <!-- Header -->
@@ -61,7 +64,7 @@ permalink: /posts/2026-01-28-ios-abm-enrollment-troubleshooting.html
             </header>
             
             <figure class="post-full-image" style="max-height: 400px; overflow: hidden;">
-                <img src="../assets/images/ios-abm-enrollment-hero.png" alt="iOS/iPadOS ABM Enrollment Troubleshooting" style="width: 100%; height: auto; max-height: 400px; object-fit: cover;">
+                <img src="../assets/images/ios-abm-enrollment-hero.png" alt="iPad displaying Apple Business Manager enrollment error with Not Contacted status in Microsoft Intune console" style="width: 100%; height: auto; max-height: 400px; object-fit: cover;">
             </figure>
 
             <section class="post-full-content">
@@ -265,6 +268,7 @@ permalink: /posts/2026-01-28-ios-abm-enrollment-troubleshooting.html
                 <a href="../index.html#blog" class="nav-link">← Back to Blog</a>
     </footer>
         </article>
+        <div id="post-navigation"></div>
     </main>
 
     <!-- Footer -->
@@ -288,6 +292,33 @@ permalink: /posts/2026-01-28-ios-abm-enrollment-troubleshooting.html
         document.getElementById('menu-toggle').addEventListener('click', function() {
             document.getElementById('nav').classList.toggle('active');
         });
+    </script>
+    <script src="../assets/js/post-navigation.js"></script>
+    <script type="application/ld+json">
+    {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "iOS/iPadOS ABM Enrollment Troubleshooting: The Not Contacted Nightmare",
+  "datePublished": "2026-01-28",
+  "author": {
+    "@type": "Person",
+    "name": "Philipp Schmidt",
+    "url": "https://easym365.de"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Philipp Schmidt",
+    "url": "https://easym365.de"
+  },
+  "image": "https://farpoint-tech.github.io/endlesstech.blog/assets/images/ios-abm-enrollment-hero.png",
+  "url": "https://farpoint-tech.github.io/endlesstech.blog/posts/2026-01-28-ios-abm-enrollment-troubleshooting.html",
+  "description": "A deep dive into why iOS devices fail to enroll via Apple Business Manager and show a Not Contacted status in Intune.",
+  "inLanguage": "en",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://farpoint-tech.github.io/endlesstech.blog/posts/2026-01-28-ios-abm-enrollment-troubleshooting.html"
+  }
+}
     </script>
 </body>
 </html>

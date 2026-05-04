@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="robots" content="index,follow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Static golden tenants can't keep up with Microsoft's update pace. Learn why IT teams and MSPs are moving to automated, drift-aware Intune management.">
+    <meta name="description" content="Static golden tenants can't keep up with Microsoft's update pace. Learn why IT teams and MSPs are moving to automated, drift-aware <a href="2026-01-06-intune-enrollment-restrictions.html">Intune</a> management.">
     <meta name="author" content="Philipp Schmidt">
     <meta name="keywords" content="Intune, Golden Tenant, Automation, MSP, Configuration Management, Microsoft 365, Devicie, Configuration Drift">
 
@@ -24,8 +25,10 @@
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/blog-post.css">
 
     <!-- Google Fonts -->
+    <link rel="canonical" href="https://farpoint-tech.github.io/endlesstech.blog/posts/2026-02-25-the-golden-tenant-is-dead.html" />
 </head>
 <body>
     <!-- Header -->
@@ -57,7 +60,7 @@
             </header>
 
             <figure class="post-full-image">
-                <img src="../assets/images/golden-tenant-hero.png" alt="Golden tenant blueprint stamped outdated versus a live automated Intune compliance dashboard">
+                <img src="../assets/images/golden-tenant-hero.png" alt="Split view comparing a static golden tenant configuration blueprint stamped outdated against a live automated Intune compliance dashboard">
             </figure>
 
             <section class="post-full-content">
@@ -172,7 +175,7 @@
 
             <!-- Author Bio -->
             <section class="author-bio">
-                <img src="../assets/images/cloudknox-author.png" alt="CloudKnox - Philipp Schmidt" class="author-avatar">
+                <img src="../assets/images/cloudknox-author.png" alt="Philipp Schmidt, Microsoft 365 security consultant and CloudKnox blog author" class="author-avatar">
                 <div class="author-info">
                     <h3>Philipp Schmidt</h3>
                     <p>IT consultant specializing in Microsoft 365, Security, and Zero Trust architecture. Helping SMBs build secure, scalable, and simple cloud solutions.</p>
@@ -181,6 +184,7 @@
                 </div>
             </section>
         </article>
+        <div id="post-navigation"></div>
     </main>
 
     <!-- Footer -->
@@ -205,6 +209,33 @@
         menuToggle.addEventListener('click', () => {
             nav.classList.toggle('active');
         });
+    </script>
+    <script src="../assets/js/post-navigation.js"></script>
+    <script type="application/ld+json">
+    {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "The Golden Tenant Is Dead. Here is What Replaces It.",
+  "datePublished": "2026-02-25",
+  "author": {
+    "@type": "Person",
+    "name": "Philipp Schmidt",
+    "url": "https://easym365.de"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Philipp Schmidt",
+    "url": "https://easym365.de"
+  },
+  "image": "https://farpoint-tech.github.io/endlesstech.blog/assets/images/golden-tenant-hero.png",
+  "url": "https://farpoint-tech.github.io/endlesstech.blog/posts/2026-02-25-the-golden-tenant-is-dead.html",
+  "description": "Static golden tenants cannot keep up with Microsoft update pace. Learn why IT teams are moving to automated Intune management.",
+  "inLanguage": "en",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://farpoint-tech.github.io/endlesstech.blog/posts/2026-02-25-the-golden-tenant-is-dead.html"
+  }
+}
     </script>
 </body>
 </html>
