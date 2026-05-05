@@ -1,0 +1,178 @@
+---
+layout: null
+permalink: /posts/2026-03-26-aadsts650052-windowsdefenderatp-service-principal-missing.html
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Fix the AADSTS650052 error: WindowsDefenderATP Service Principal missing. Learn the cause, pitfalls with E5 Dev Tenants, and the PowerShell solution.">
+    <meta name="author" content="Philipp Schmidt">
+    <meta name="keywords" content="AADSTS650052, WindowsDefenderATP, Service Principal, Entra ID, Microsoft Defender for Endpoint, Troubleshooting, PowerShell">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="AADSTS650052: WindowsDefenderATP Service Principal Missing – Cause & Fix">
+    <meta property="og:description" content="Fix the AADSTS650052 error: WindowsDefenderATP Service Principal missing. Learn the cause, pitfalls with E5 Dev Tenants, and the PowerShell solution.">
+    <meta property="og:image" content="https://endlesstech.blog/assets/images/cloudknox-hero.png">
+    <meta property="og:url" content="https://endlesstech.blog/posts/2026-03-26-aadsts650052-windowsdefenderatp-service-principal-missing.html">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="AADSTS650052: WindowsDefenderATP Service Principal Missing – Cause & Fix">
+    <meta name="twitter:description" content="Fix the AADSTS650052 error: WindowsDefenderATP Service Principal missing. Learn the cause, pitfalls with E5 Dev Tenants, and the PowerShell solution.">
+    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/cloudknox-hero.png">
+    
+    <title>AADSTS650052: WindowsDefenderATP Service Principal Missing – Cause & Fix | EndlessTech Blog</title>
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../assets/css/style.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/images/knox-logo.png" alt="Knox - Zero Trust, Zero Drama, Zero Bullshit">
+            </a>
+            <nav class="nav" id="nav">
+                <a href="../index.html">Home</a>
+                <a href="../index.html#blog" class="active">Blog</a>
+                <a href="../about.html">About</a>
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+            </nav>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+                ☰
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <article class="post-full">
+            <header class="post-full-header">
+                <h1 class="post-full-title">AADSTS650052: WindowsDefenderATP Service Principal Missing – Cause & Fix</h1>
+                <div class="post-full-meta">
+                    <time datetime="2026-03-26">March 26, 2026</time> • By Philipp Schmidt
+                </div>
+            </header>
+
+            <figure class="post-full-image" style="max-height: 400px; overflow: hidden;">
+                <img src="../assets/images/cloudknox-hero.png" alt="CloudKnox - Zero Trust Security Guardian" style="width: 100%; height: auto; max-height: 400px; object-fit: cover;">
+            </figure>
+
+            <section class="post-full-content">
+                <div class="post-content">
+                    <p><strong>Categories:</strong> Microsoft Defender for Endpoint | Entra ID | Troubleshooting</p>
+
+                    <h2>The Problem</h2>
+                    <p>When setting up a third-party integration or granting admin consent, you might suddenly encounter this error:</p>
+                    <blockquote>
+                        <code>AADSTS650052: The app is trying to access a service 'fc780465-2017-40d4-a0c5-307022471b92' (WindowsDefenderATP) that your organization lacks a service principal for.</code>
+                    </blockquote>
+                    <p>This is highly confusing—your tenant has an E5 license, Defender is active, and everything should technically be correct.</p>
+
+                    <h2>The Cause</h2>
+                    <p>Microsoft does not automatically provision the Service Principal for Windows Defender ATP (<code>fc780465-2017-40d4-a0c5-307022471b92</code>) when you assign the license. Normally, the Service Principal is created upon the first visit to <code>security.microsoft.com</code>—but this trigger doesn't always work reliably.</p>
+                    <p><strong>Important note for E5 Developer Tenants:</strong> The Security Portal might already be loading fine, yet the Service Principal is still missing. The automatic provisioning trigger frequently fails for Dev Tenants, even if Defender for Endpoint appears active and the portal loads normally. In this scenario, the Service Principal must be created manually.</p>
+
+                    <h3>Commonly Affected Scenarios:</h3>
+                    <ul>
+                        <li><strong>E5 Developer Tenants:</strong> Portal-based auto-provisioning often fails completely.</li>
+                        <li><strong>New Production Tenants:</strong> Environments where <code>security.microsoft.com</code> has never been opened.</li>
+                        <li><strong>Accidental Deletion:</strong> Tenants that recently underwent a Service Principal cleanup.</li>
+                    </ul>
+
+                    <hr>
+
+                    <h2>Fix 1 – The Portal Method (For Production Tenants)</h2>
+                    <p>Open <code>security.microsoft.com</code> using a Global Admin account. For regular production tenants, the portal automatically provisions the Service Principal upon the first visit. Once the portal loads, try the consent flow again.</p>
+                    <p>⚠️ <strong>Note:</strong> If you are using an E5 Dev Tenant, this often doesn't work. Skip directly to Fix 2.</p>
+
+                    <h2>Fix 2 – PowerShell via Microsoft Graph (Most Reliable Method)</h2>
+                    <p>The most robust way to resolve this issue is by manually creating the missing Service Principal using Microsoft Graph PowerShell.</p>
+
+<pre><code># Install the Microsoft Graph module if not already present
+Install-Module Microsoft.Graph -Scope CurrentUser -Force
+
+# Connect to the affected tenant
+Connect-MgGraph -Scopes "Application.ReadWrite.All" -TenantId "&lt;TenantId&gt;"
+
+# Create the Service Principal for WindowsDefenderATP
+New-MgServicePrincipal -AppId "fc780465-2017-40d4-a0c5-307022471b92"</code></pre>
+
+                    <p>A successful output will look like this:</p>
+<pre><code>DisplayName        Id                                   AppId
+-----------        --                                   -----
+WindowsDefenderATP 6cbf883d-...                         fc780465-2017-40d4-a0c5-307022471b92</code></pre>
+                    <p>After running this, repeat your consent flow—you are done.</p>
+
+                    <h2>Verification</h2>
+                    <p>To double-check if the Service Principal exists, run the following command:</p>
+<pre><code>Get-MgServicePrincipal -Filter "appId eq 'fc780465-2017-40d4-a0c5-307022471b92'"</code></pre>
+                    <p>If the command returns an entry, the Service Principal is present. If the output is empty, the Service Principal is still missing.</p>
+
+                    <hr>
+
+                    <h2>Time-Consuming Pitfalls to Avoid</h2>
+                    <ul>
+                        <li><strong>Graph Explorer is unreliable for this fix:</strong> The token session frequently drops when attempting this, even with a correct login. Stick to the PowerShell module.</li>
+                        <li><strong>Adminconsent URLs don't create the SP:</strong> The admin consent URL only works <em>after</em> the Service Principal already exists. It cannot be used as a workaround to provision it.</li>
+                        <li><strong>E5 Developer Tenants behave differently:</strong> As mentioned, portal provisioning does not reliably trigger for Dev Tenants compared to production E5 tenants.</li>
+                        <li><strong>Conditional Access blockers:</strong> Conditional Access policies can block the Device Code Flow. Using an interactive browser login via <code>Connect-MgGraph</code> is much more stable.</li>
+                    </ul>
+
+                    <hr>
+                    <p><em>Complex IT? I make it simple – with M365, which protects, scales, and brings clarity. For SMEs that rely on smart solutions.</em></p>
+
+                    <h3>Call to Action</h3>
+                    <p>Need help streamlining your Microsoft 365 security, configuring Defender, or troubleshooting complex Entra ID issues? Visit <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">https://easym365.de</a> for expert consulting and hands-on support. Let's build a secure foundation together.</p>
+                </div>
+            </section>
+
+            <section class="author-bio">
+                <img src="../assets/images/cloudknox-author.png" alt="Philipp Schmidt" class="author-avatar">
+                <div class="author-info">
+                    <h3>Philipp Schmidt</h3>
+                    <p>Microsoft 365 Solution Architect specializing in Security, Entra ID, and Zero Trust architecture.</p>
+                    <p><strong>Zero Trust, Zero Drama, Zero Bullshit.</strong></p>
+                    <p><a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Learn more: https://easym365.de</a></p>
+                </div>
+            </section>
+
+            <footer class="post-full-footer">
+                <a href="../index.html#blog" class="nav-link">← Back to Blog</a>
+            </footer>
+        </article>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <p>&copy; 2026 Philipp Schmidt. All rights reserved.</p>
+                <p>Zero Trust, Zero Drama, Zero Bullshit. Ask someone who Knows.</p>
+            </div>
+            <div class="footer-links">
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+                <a href="https://www.linkedin.com/in/intunephilipp/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://github.com/intunephilipp" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </div>
+        </div>
+        <p style="margin-top: var(--spacing-sm); font-size: 0.875rem; text-align: center;"><a href="https://farpoint.tech/impressum" target="_blank" rel="noopener noreferrer" style="color: #666; text-decoration: none;">Impressum</a></p>
+    </footer>
+
+    <!-- Mobile Menu Script -->
+    <script>
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            document.getElementById('nav').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

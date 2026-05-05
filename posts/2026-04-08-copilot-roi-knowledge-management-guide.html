@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Microsoft 365 Copilot ROI breakdown for 60 users: real cost analysis, 5.4:1 return, NIST AI RMF mapping, glossary, and a 10-point readiness checklist.">
+    <meta name="author" content="Philipp Schmidt">
+    <meta name="keywords" content="Microsoft 365 Copilot, Copilot ROI, Knowledge Management, RAG, Graph Connector, Sensitivity Labels, DLP, NIST AI RMF, SharePoint, Zero Trust, Purview, Power Automate">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Copilot ROI: Why Knowledge Management Is the Difference Between 1.4:1 and 5.4:1">
+    <meta property="og:description" content="Microsoft 365 Copilot ROI breakdown for 60 users: real cost analysis, 5.4:1 return, NIST AI RMF mapping, glossary, and a 10-point readiness checklist.">
+    <meta property="og:image" content="https://endlesstech.blog/assets/images/copilot-mandate-hero.jpg">
+    <meta property="og:url" content="https://endlesstech.blog/posts/2026-04-08-copilot-roi-knowledge-management-guide.html">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Copilot ROI: Why Knowledge Management Is the Difference Between 1.4:1 and 5.4:1">
+    <meta name="twitter:description" content="Microsoft 365 Copilot ROI breakdown for 60 users: real cost analysis, 5.4:1 return, NIST AI RMF mapping, glossary, and a 10-point readiness checklist.">
+    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/copilot-mandate-hero.jpg">
+
+    <title>Copilot ROI: Why Knowledge Management Is the Difference Between 1.4:1 and 5.4:1 | EndlessTech Blog</title>
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../assets/css/style.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/images/logo.png" alt="Philipp Schmidt - Secure. Scalable. Simple M365.">
+            </a>
+            <nav class="nav" id="nav">
+                <a href="../index.html">Home</a>
+                <a href="../index.html#blog" class="active">Blog</a>
+                <a href="../about.html">About</a>
+                <a href="https://easym365.de" target="_blank" rel="noopener">Website</a>
+            </nav>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+                ☰
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <article class="post-full">
+            <header class="post-full-header">
+                <div class="post-title-row">
+                    <h1 class="post-full-title">Copilot ROI: Why Knowledge Management Is the Difference Between 1.4:1 and 5.4:1</h1>
+                </div>
+                <div class="post-full-meta">
+                    By Philipp Schmidt
+                </div>
+            </header>
+
+            <figure class="post-full-image">
+                <img src="../assets/images/copilot-mandate-hero.jpg" alt="Microsoft 365 Copilot interface with knowledge graph and ROI dashboard in background">
+            </figure>
+
+            <section class="post-full-content">
+                <div class="post-content">
+
+                    <p>Everyone wants the ROI slide. The one that shows a 5:1 return, a break-even in six weeks, and a CFO who stops asking uncomfortable questions. The problem is that most Copilot deployments never get there — not because the technology is bad, but because the knowledge infrastructure underneath it is a disaster. Orphaned SharePoint sites, documents nobody labelled, data that Copilot cannot legally touch, and users who were handed a license and told "good luck." The result is a very expensive search engine that occasionally hallucinates.</p>
+
+                    <p>This post is the complete technical and financial picture. It covers a real cost model for 60 users, the seven terms you need to understand before you touch a Copilot setting, the NIST AI Risk Management Framework mapped to actual Microsoft tooling, the data flow architecture that makes retrieval work, and a ten-point checklist that tells you whether your organisation is actually ready — or just thinks it is.</p>
+
+                    <blockquote>The difference between a 1.4:1 ROI and a 5.4:1 ROI is not the Copilot license. It is the $195,000 worth of knowledge management work that most organisations skip because it does not show up on the vendor's demo slide.</blockquote>
+
+                    <h2>Part 1: The Real Cost — 60 Users, One Year, No Surprises</h2>
+
+                    <p>The scenario: a manufacturing company with 500 employees rolls out Copilot to 60 users across management, sales, and engineering. Here is what that actually costs in Year 1, including the infrastructure work that vendors rarely mention in their pitch decks.</p>
+
+                    <h3>Investment Breakdown</h3>
+
+                    <table class="post-table">
+                        <thead>
+                            <tr>
+                                <th>Cost Item</th>
+                                <th>One-Time</th>
+                                <th>Monthly</th>
+                                <th>Annual</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Copilot Licenses (60 users × $30)</td>
+                                <td>–</td>
+                                <td>$1,800</td>
+                                <td>$21,600</td>
+                            </tr>
+                            <tr>
+                                <td>M365 E5 Compliance (if not already licensed)</td>
+                                <td>–</td>
+                                <td>+$1,200</td>
+                                <td>$14,400</td>
+                            </tr>
+                            <tr>
+                                <td>Initial Knowledge Structuring (80h × $160/h)</td>
+                                <td>$12,800</td>
+                                <td>–</td>
+                                <td>–</td>
+                            </tr>
+                            <tr>
+                                <td>SharePoint Architecture Consulting (2 days)</td>
+                                <td>$3,200</td>
+                                <td>–</td>
+                                <td>–</td>
+                            </tr>
+                            <tr>
+                                <td>Power Automate Premium (logbook automation, 5 flows)</td>
+                                <td>–</td>
+                                <td>$150</td>
+                                <td>$1,800</td>
+                            </tr>
+                            <tr>
+                                <td>Change Management (workshops, training)</td>
+                                <td>$10,000</td>
+                                <td>–</td>
+                                <td>–</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Total (Year 1)</strong></td>
+                                <td><strong>$26,000</strong></td>
+                                <td><strong>$3,150</strong></td>
+                                <td><strong>$63,800</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>Cost vs. Savings</h3>
+
+                    <table class="post-table">
+                        <thead>
+                            <tr>
+                                <th>Metric</th>
+                                <th>Monthly</th>
+                                <th>Annual (Year 1)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Total Investment</td>
+                                <td>$3,150</td>
+                                <td>$63,800</td>
+                            </tr>
+                            <tr>
+                                <td>Time Savings Value</td>
+                                <td>$28,800</td>
+                                <td>$345,600</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Net Benefit</strong></td>
+                                <td><strong>+$25,650</strong></td>
+                                <td><strong>+$281,800</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>ROI</strong></td>
+                                <td><strong>813%</strong></td>
+                                <td><strong>441% (5.4:1)</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p>The time savings calculation assumes 60 users saving 2 hours per week at a $60/h knowledge worker rate — 480 hours per month, $28,800 in monthly value. That is the conservative scenario. It assumes the knowledge structure is in place.</p>
+
+                    <h3>Break-Even Analysis</h3>
+
+                    <table class="post-table">
+                        <thead>
+                            <tr>
+                                <th>Timeframe</th>
+                                <th>Cumulative Cost</th>
+                                <th>Cumulative Savings</th>
+                                <th>Net Position</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Month 1</td>
+                                <td>$29,150</td>
+                                <td>$28,800</td>
+                                <td>-$350</td>
+                            </tr>
+                            <tr>
+                                <td>Month 2</td>
+                                <td>$32,300</td>
+                                <td>$57,600</td>
+                                <td><strong>+$25,300 ✓</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Month 3</td>
+                                <td>$35,450</td>
+                                <td>$86,400</td>
+                                <td>+$50,950</td>
+                            </tr>
+                            <tr>
+                                <td>Month 6</td>
+                                <td>$44,900</td>
+                                <td>$172,800</td>
+                                <td>+$127,900</td>
+                            </tr>
+                            <tr>
+                                <td>Month 12</td>
+                                <td>$63,800</td>
+                                <td>$345,600</td>
+                                <td><strong>+$281,800</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p>Break-even at approximately 1.1 months. That is the number that gets the CFO's attention. But it only holds in the conservative scenario — and only if the prerequisites are met.</p>
+
+                    <h3>ROI Scenarios: The Honest Version</h3>
+
+                    <table class="post-table">
+                        <thead>
+                            <tr>
+                                <th>Scenario</th>
+                                <th>Time Saved/Week</th>
+                                <th>Monthly Savings</th>
+                                <th>Annual ROI</th>
+                                <th>Break-Even</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Pessimistic (no knowledge structure)</td>
+                                <td>0.5h</td>
+                                <td>$7,200</td>
+                                <td>1.4:1</td>
+                                <td>~9 months</td>
+                            </tr>
+                            <tr>
+                                <td>Conservative (with knowledge structure)</td>
+                                <td>2h</td>
+                                <td>$28,800</td>
+                                <td>5.4:1</td>
+                                <td>~1.1 months</td>
+                            </tr>
+                            <tr>
+                                <td>Optimistic (mature implementation)</td>
+                                <td>4h</td>
+                                <td>$57,600</td>
+                                <td>10.8:1</td>
+                                <td>~2 weeks</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p>The pessimistic scenario is not a failure of Copilot. It is what happens when an organisation hands out licenses without doing the groundwork. The 5.4:1 scenario requires three things: a functioning knowledge structure, trained users who actually use the tool, and content that is kept current. Remove any one of those and you slide toward 1.4:1. The $195,000 gap between those two outcomes is the cost of skipping the boring parts.</p>
+
+                    <h2>Part 2: The Glossary — Seven Terms That Actually Matter</h2>
+
+                    <p>Before configuring anything, these seven concepts need to be understood. Not because the exam requires it, but because every misconfiguration in a Copilot deployment traces back to someone not understanding one of them.</p>
+
+                    <h3>RAG (Retrieval-Augmented Generation)</h3>
+                    <p>An AI technique where the language model retrieves relevant documents from your enterprise database before answering and uses them as context — referred to as "grounding." Without RAG, the AI invents answers. With RAG, you get fact-based responses with source citations. The practical difference: without RAG, ask Copilot for your return rate and it guesses. With RAG, it reads the current SharePoint dashboard and returns "Return rate Q1 2026: 3.2% (Source: Sales Report March 2026)."</p>
+
+                    <h3>Graph Connector</h3>
+                    <p>A translator that connects external systems — SAP, Salesforce, Confluence, ServiceNow — to Microsoft Graph, making them searchable by Copilot. Your knowledge does not only live in SharePoint. Graph Connectors extend Copilot's reach to all data sources. Ask Copilot for open support tickets for a specific customer and the Graph Connector retrieves them from ServiceNow, even though it is not a Microsoft system.</p>
+
+                    <h3>Sensitivity Label</h3>
+                    <p>A digital classification stamp on documents — Public, Internal, Confidential, Highly Confidential — that determines who can access a document and whether Copilot is permitted to process it. This is the mechanism that prevents Copilot from accidentally including salary lists or M&A plans in a response to a general query. A document labelled Highly Confidential is shown only to those with the appropriate permissions — not to every licensed user who asks a broad question.</p>
+
+                    <h3>DLP (Data Loss Prevention)</h3>
+                    <p>Automatic security rules that prevent sensitive data — credit card numbers, social security numbers, trade secrets — from being accidentally shared or processed by Copilot. This is where GDPR and NIS2 compliance becomes concrete. If Copilot accidentally includes personal data in a response, the regulatory exposure is significant. DLP blocks the retrieval before it happens. An employee asks Copilot to show customer data from a project containing GDPR-protected health data — DLP blocks the response before it is generated.</p>
+
+                    <h3>Grounding</h3>
+                    <p>The process where Copilot combines retrieved enterprise documents (via RAG) with the user's prompt before the AI generates a response. Grounding is the operational difference between "AI guesses" and "AI cites your data." Without grounding, a query about 2025 revenue produces an invented figure. With grounding, Copilot reads the annual report PDF and returns the exact figure with a page reference.</p>
+
+                    <h3>Profile Page (Knowledge Profile)</h3>
+                    <p>A structured SharePoint page that collects everything important about a topic — project, product, customer, process — in one place. Copilot can only provide useful answers if knowledge is findable. Profile pages function as a table of contents for the AI. A product profile page aggregates the technical datasheet, customer feedback spreadsheet, marketing presentation, and FAQ document. When a user asks what customers say about that product, Copilot searches all of those sources in a single query.</p>
+
+                    <h3>Logbook Method</h3>
+                    <p>An automated system that extracts important insights from meetings, emails, or chats and stores them in a searchable database. Without a logbook, the organisation forgets what was discussed in meetings. With a logbook, Copilot has long-term memory. A weekly sales meeting triggers a Power Automate flow that extracts customer objections, feature requests, and competitor mentions. Three months later, a new sales representative can ask Copilot for every objection raised about a specific product and receive a complete history.</p>
+
+                    <h2>Part 3: NIST AI Risk Management Framework — Mapped to Real Microsoft Tooling</h2>
+
+                    <p>The NIST AI RMF is not an abstract framework for academics. It is a practical governance structure that maps directly to Microsoft 365 tooling. Here is how each function translates into concrete configuration work.</p>
+
+                    <table class="post-table">
+                        <thead>
+                            <tr>
+                                <th>NIST Function</th>
+                                <th>Goal</th>
+                                <th>Microsoft 365 Copilot Implementation</th>
+                                <th>Technical Tool</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>GOVERN</strong></td>
+                                <td>Establish AI governance</td>
+                                <td>Copilot Studio: Agent Lifecycle Management; Entra ID: Role-based access control (RBAC); Purview Compliance Manager: Policy enforcement</td>
+                                <td><code>New-MgPolicyAuthorizationPolicy</code>; Copilot Studio Admin Center</td>
+                            </tr>
+                            <tr>
+                                <td><strong>MAP</strong></td>
+                                <td>Identify risks</td>
+                                <td>Microsoft Graph: Data flow visualisation; Purview Data Map: Which data does Copilot use?; Sensitivity Labels: Classify sensitive content</td>
+                                <td>Graph Explorer; <code>Get-MgInformationProtectionPolicy</code></td>
+                            </tr>
+                            <tr>
+                                <td><strong>MEASURE</strong></td>
+                                <td>Measure performance and risks</td>
+                                <td>Purview Analytics: Copilot usage metrics; Viva Insights: Productivity impact; DLP Reports: Block rate of sensitive prompts</td>
+                                <td>Purview Compliance Portal; <code>Get-DlpDetailReport</code></td>
+                            </tr>
+                            <tr>
+                                <td><strong>MANAGE</strong></td>
+                                <td>Mitigate risks</td>
+                                <td>DLP Policies: Real-time blocking; Conditional Access: MFA + Device Compliance; Retention Policies: 7-year audit trail</td>
+                                <td><code>New-DlpCompliancePolicy</code>; <code>New-ConditionalAccessPolicy</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>GOVERN in Practice: Restricting Copilot to a Pilot Group</h3>
+
+                    <p>The GOVERN function starts with access control. Before any user touches Copilot in a production environment, the scope needs to be defined. The following PowerShell snippet restricts Copilot usage to a specific Entra ID group — the standard starting point for any controlled rollout.</p>
+
+<pre><code class="language-powershell"># Restrict Copilot usage to specific Entra ID group
+New-MgPolicyAuthorizationPolicy -Id "CopilotAccess" `
+    -AllowedMemberTypes @("User") `
+    -AllowedResourceActions @("microsoft.graph/copilot/query") `
+    -PrincipalGroupIds @("12345-abcd-6789-efgh")  # Group "Copilot-Pilots"</code></pre>
+
+                    <p>Purview Compliance Manager automatically generates NIST AI RMF Assessment Reports, providing documented evidence of compliance posture — a requirement for any organisation operating under NIS2 or ISO 27001.</p>
+
+                    <h2>Part 4: The Architecture — How Retrieval Actually Works</h2>
+
+                    <p>Understanding the data flow is not optional for anyone responsible for a Copilot deployment. Two architectural patterns define how Copilot retrieves and processes information: the RAG pipeline and the Graph Connector integration.</p>
+
+                    <h3>The RAG Pipeline</h3>
+
+                    <p>When a user submits a prompt, Copilot does not simply pass it to the language model. The orchestration layer intercepts the prompt and sends it to a Retrieval API that queries three parallel sources: the SharePoint and OneDrive index, any configured Graph Connectors, and Microsoft Teams. All three sources produce vector embeddings — mathematical representations of document content — from which the system selects the most relevant chunks. Those chunks are combined with the original prompt in a grounding step before the Azure OpenAI language model generates a response. The final output includes citations pointing back to the source documents.</p>
+
+                    <p>The critical implication: if the SharePoint index contains unstructured, unlabelled, or outdated content, the vector embeddings will reflect that chaos. Garbage in, hallucination out — even with a $30/month license.</p>
+
+                    <h3>Graph Connector Integration and Security Controls</h3>
+
+                    <p>External systems connect to Microsoft Graph through Graph Connectors, which feed into a hybrid index alongside SharePoint and OneDrive data. The Copilot Retrieval API queries this unified index. Two security controls operate at different points in this pipeline.</p>
+
+                    <p>Purview DLP validates retrieval results in real time — if a retrieved chunk contains content that matches a DLP policy (credit card numbers, health data, classified project information), the response is blocked before it reaches the user. Sensitivity Labels operate earlier in the pipeline, filtering during the indexing stage. Documents labelled Highly Confidential are not indexed for general retrieval; they are only accessible to users with the appropriate permissions. This is the Zero Trust Bullshit Wall in practice: the principle of least privilege applied to AI retrieval, not just file access.</p>
+
+                    <h2>Part 5: The 10-Point Readiness Checklist</h2>
+
+                    <p>Before any Copilot rollout, this checklist determines whether the organisation is actually ready or whether it is about to spend $63,800 to achieve a 1.4:1 ROI. The traffic light system is unambiguous.</p>
+
+                    <table class="post-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Checkpoint</th>
+                                <th>Responsible</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td><strong>Licensing secured:</strong> Microsoft 365 E3/E5 + Copilot licenses ordered</td>
+                                <td>IT Procurement</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td><strong>Sensitivity Labels defined:</strong> Minimum 3 labels (Public, Internal, Confidential) created and applied to 80% of documents</td>
+                                <td>Compliance Team</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td><strong>DLP Policies active:</strong> Minimum 1 policy for Copilot protection (blocking sensitive data) configured</td>
+                                <td>Security Admin</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td><strong>SharePoint architecture reviewed:</strong> No orphaned sites, clear permission structure (no "Everyone" access)</td>
+                                <td>SharePoint Admin</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td><strong>Profile pages created:</strong> Minimum 10 pilot pages for the most important topics (products, projects) available</td>
+                                <td>Knowledge Manager</td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td><strong>Graph Connectors configured:</strong> Minimum 1 external data source (e.g., CRM, ticket system) connected</td>
+                                <td>IT Architecture</td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                                <td><strong>Logbook automation tested:</strong> Minimum 1 Power Automate flow for meeting summaries in production</td>
+                                <td>Automation Team</td>
+                            </tr>
+                            <tr>
+                                <td>8</td>
+                                <td><strong>Pilot group defined:</strong> 10–50 power users identified (early adopters, diverse roles)</td>
+                                <td>Change Management</td>
+                            </tr>
+                            <tr>
+                                <td>9</td>
+                                <td><strong>Training scheduled:</strong> Minimum 2-hour workshop "Using Copilot Effectively" for pilot group scheduled</td>
+                                <td>HR / Training</td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                                <td><strong>Success metrics defined:</strong> KPIs established (e.g., time saved, usage rate, satisfaction)</td>
+                                <td>Project Lead</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p><strong>8–10 checked:</strong> Copilot rollout can begin. <strong>5–7 checked:</strong> Close the critical gaps first — items 2, 3, and 4 are non-negotiable. <strong>0–4 checked:</strong> The infrastructure is not ready. Build the knowledge management foundation before touching a Copilot license.</p>
+
+                    <h3>The Three Blockers That Actually Appear in Practice</h3>
+
+                    <p>Three objections come up in almost every pre-rollout assessment. They are solvable, but only if they are addressed before the licenses are activated.</p>
+
+                    <p><strong>"We do not have Sensitivity Labels."</strong> Start with three standard labels using Microsoft's built-in template. A basic labelling structure can be deployed in two weeks. It is not perfect, but it is the minimum viable Zero Trust Bullshit Wall between Copilot and your confidential data.</p>
+
+                    <p><strong>"SharePoint is chaotic — we have 500+ orphaned sites."</strong> Run a SharePoint hygiene project in parallel with a Copilot pilot on ten clean, well-structured sites. The pilot demonstrates value while the cleanup happens. Do not wait for perfection before starting; wait for a minimum viable structure.</p>
+
+                    <p><strong>"Nobody knows who should maintain the profile pages."</strong> Define a Knowledge Owner role explicitly. Product managers own product profile pages. Project leads own project pages. Without named ownership, the knowledge structure decays within six months and the ROI slides back toward 1.4:1.</p>
+
+                    <hr>
+                    <h3>References</h3>
+                    <ol class="post-references">
+                        <li>Microsoft Learn — Microsoft 365 Copilot overview and licensing: <a href="https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-overview" target="_blank" rel="noopener noreferrer">learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-overview</a></li>
+                        <li>Microsoft Learn — Microsoft Purview Data Loss Prevention: <a href="https://learn.microsoft.com/en-us/purview/dlp-learn-about-dlp" target="_blank" rel="noopener noreferrer">learn.microsoft.com/en-us/purview/dlp-learn-about-dlp</a></li>
+                        <li>Microsoft Learn — Sensitivity labels overview: <a href="https://learn.microsoft.com/en-us/purview/sensitivity-labels" target="_blank" rel="noopener noreferrer">learn.microsoft.com/en-us/purview/sensitivity-labels</a></li>
+                        <li>Microsoft Learn — Microsoft Graph connectors overview: <a href="https://learn.microsoft.com/en-us/microsoftsearch/connectors-overview" target="_blank" rel="noopener noreferrer">learn.microsoft.com/en-us/microsoftsearch/connectors-overview</a></li>
+                        <li>NIST AI Risk Management Framework: <a href="https://www.nist.gov/system/files/documents/2023/01/26/AI%20RMF%201.0.pdf" target="_blank" rel="noopener noreferrer">nist.gov — AI RMF 1.0</a></li>
+                        <li>Microsoft Learn — Purview Compliance Manager: <a href="https://learn.microsoft.com/en-us/purview/compliance-manager" target="_blank" rel="noopener noreferrer">learn.microsoft.com/en-us/purview/compliance-manager</a></li>
+                    </ol>
+
+                </div>
+            </section>
+
+            <section class="author-bio">
+                <img src="../assets/images/cloudknox-author.png" alt="CloudKnox - Philipp Schmidt" class="author-avatar">
+                <div class="author-info">
+                    <h3>Philipp Schmidt</h3>
+                    <p>M365 Solution Architect specializing in Microsoft 365, Security, and Zero Trust architecture.</p>
+                    <p><strong>Complex IT? I make it simple</strong> – with M365 that protects, scales, and brings clarity.</p>
+                    <p><a href="https://easym365.de" target="_blank" rel="noopener">Learn more: https://easym365.de</a></p>
+                </div>
+            </section>
+        </article>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2026 Philipp Schmidt. All rights reserved.</p>
+            <p>Secure. Scalable. Simple M365.</p>
+            <div class="footer-links">
+                <a href="https://easym365.de" target="_blank" rel="noopener">Website</a>
+                <a href="https://www.linkedin.com/in/pschmidt3010" target="_blank" rel="noopener">LinkedIn</a>
+                <a href="https://github.com/farpoint-tech" target="_blank" rel="noopener">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu Script -->
+    <script>
+        const menuToggle = document.getElementById("menu-toggle");
+        const nav = document.getElementById("nav");
+
+        menuToggle.addEventListener("click", () => {
+            nav.classList.toggle("active");
+        });
+    </script>
+</body>
+</html>

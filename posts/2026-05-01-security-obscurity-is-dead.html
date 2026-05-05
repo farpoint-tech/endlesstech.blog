@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Security by Obscurity is a dangerous illusion. Learn how Defense in Depth, Least Privilege, and Zero Trust build real enterprise security with Microsoft 365.">
+    <meta name="author" content="Philipp Schmidt">
+    <meta name="keywords" content="Security by Obscurity, Defense in Depth, Zero Trust, Microsoft 365, Entra ID, Least Privilege, Kerckhoffs Principle, Enterprise Security">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Security by Obscurity is Dead — Build Real Defense in Depth">
+    <meta property="og:description" content="Security by Obscurity is a dangerous illusion. Learn how Defense in Depth, Least Privilege, and Zero Trust build real enterprise security with Microsoft 365.">
+    <meta property="og:image" content="https://endlesstech.blog/assets/images/security-obscurity-hero.png">
+    <meta property="og:url" content="https://endlesstech.blog/posts/2026-05-01-security-obscurity-is-dead.html">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Security by Obscurity is Dead — Build Real Defense in Depth">
+    <meta name="twitter:description" content="Security by Obscurity is a dangerous illusion. Learn how Defense in Depth, Least Privilege, and Zero Trust build real enterprise security with Microsoft 365.">
+    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/security-obscurity-hero.png">
+
+    <title>Security by Obscurity is Dead — Build Real Defense in Depth | EndlessTech Blog</title>
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../assets/css/style.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/images/logo.png" alt="Philipp Schmidt - Secure. Scalable. Simple M365.">
+            </a>
+            <nav class="nav" id="nav">
+                <a href="../index.html">Home</a>
+                <a href="../index.html#blog" class="active">Blog</a>
+                <a href="../about.html">About</a>
+                <a href="https://easym365.de" target="_blank" rel="noopener">Website</a>
+            </nav>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+                ☰
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <article class="post-full">
+            <header class="post-full-header">
+                <div class="post-title-row">
+                    <h1 class="post-full-title">Security by Obscurity is Dead — Build Real Defense in Depth</h1>
+                </div>
+                <div class="post-full-meta">
+                    <time datetime="2026-05-01">May 1, 2026</time> • By Philipp Schmidt
+                </div>
+            </header>
+
+            <figure class="post-full-image">
+                <img src="../assets/images/security-obscurity-hero.png" alt="A sysadmin proudly pointing to a cardboard box server while a hacker logs in behind them — the absurdity of Security by Obscurity">
+            </figure>
+
+            <section class="post-full-content">
+                <div class="post-content">
+
+                    <p>Have you ever thought your IT environment was safe simply because nobody knew how it was built? Renamed the admin account to something clever? Changed the default port? Hidden the server in a back room and hoped for the best? If so, you have been relying on one of the oldest and most dangerous illusions in cybersecurity: <strong>Security by Obscurity</strong>.</p>
+
+                    <p>The uncomfortable truth is that obscurity is not a security strategy. It is a delay tactic — and a short one at that. This post breaks down why hiding your infrastructure is a losing game, and what real, layered security looks like in a modern Microsoft 365 environment.</p>
+
+                    <h2>The Myth of the Hidden Fortress</h2>
+
+                    <p>The concept of Security by Obscurity rests on the assumption that if an attacker does not know how your system works, they cannot break it. This sounds reasonable until you consider that attackers are patient, methodical, and increasingly automated. They do not need to know your architecture upfront — they will probe, enumerate, and discover it.</p>
+
+                    <blockquote>Kerckhoffs's Principle, formulated in 1883, states that a cryptographic system should be secure even if everything about the system, except the key, is public knowledge.</blockquote>
+
+                    <p>This principle has stood the test of time for a reason. The algorithms powering modern encryption — AES, RSA — are fully public. Their specifications are openly documented. Yet they remain secure because the security relies on the <em>key</em>, not on the secrecy of the algorithm. The moment you flip this logic and rely on secrecy as your primary defence, you have already lost.</p>
+
+                    <p>Renaming your admin account to "SuperUser" is not hardening. Changing SSH from port 22 to port 2222 is not security. These are the IT equivalent of hiding a spare key under the doormat and calling it a vault.</p>
+
+                    <h2>The Zero Trust Bullshit Wall</h2>
+
+                    <p>Here is where it gets ironic. Many organisations, having recognised that obscurity does not work, swing to the opposite extreme. They implement Zero Trust — or at least what they call Zero Trust — by piling on so many Conditional Access policies, MFA prompts, and password complexity requirements that the system becomes unusable for legitimate users.</p>
+
+                    <p>The result? Users write their 20-character, special-character-laden passwords on sticky notes and paste them to their monitors. Helpdesk tickets flood in. Workarounds proliferate. The Zero Trust Bullshit Wall has been built, and it is keeping out exactly the wrong people.</p>
+
+                    <p>This is the KISS Principle failure in action: security rules so complex that they force users into behaviours that undermine the very security you were trying to enforce. A password policy that results in passwords on sticky notes is not a security policy — it is a liability.</p>
+
+                    <p>Microsoft 365 provides the tools to avoid this trap. Passwordless authentication via Windows Hello for Business, FIDO2 security keys, and Microsoft Authenticator eliminates the password problem entirely. Conditional Access policies, when designed thoughtfully, enforce strong security without creating friction for legitimate users. The goal is not to build a wall — it is to build a gate that opens for the right people and stays shut for everyone else.</p>
+
+                    <h2>Building Real Defense in Depth</h2>
+
+                    <p>Defense in Depth is the antidote to both Security by Obscurity and the Zero Trust Bullshit Wall. The concept is straightforward: no single security control is sufficient on its own. Instead, you layer multiple overlapping controls so that if one fails, others remain in place.</p>
+
+                    <p>In a Microsoft 365 environment, this layered approach maps naturally to the following stack:</p>
+
+                    <table class="post-table">
+                        <thead>
+                            <tr>
+                                <th>Layer</th>
+                                <th>Control</th>
+                                <th>Microsoft 365 Tool</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Identity</td>
+                                <td>Multi-Factor Authentication, Passwordless</td>
+                                <td>Entra ID, Conditional Access</td>
+                            </tr>
+                            <tr>
+                                <td>Device</td>
+                                <td>Device compliance, patch management, EDR</td>
+                                <td>Intune, Microsoft Defender for Endpoint</td>
+                            </tr>
+                            <tr>
+                                <td>Network</td>
+                                <td>Traffic filtering, segmentation</td>
+                                <td>Defender for Cloud Apps, Azure Firewall</td>
+                            </tr>
+                            <tr>
+                                <td>Application</td>
+                                <td>Vulnerability testing, secure configuration</td>
+                                <td>Defender for Cloud, Secure Score</td>
+                            </tr>
+                            <tr>
+                                <td>Data</td>
+                                <td>Encryption, access controls, DLP</td>
+                                <td>Microsoft Purview, Sensitivity Labels</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p>The critical insight is that this stack eliminates single points of failure. If an attacker bypasses MFA through a phishing attack, a non-compliant device policy prevents them from accessing corporate resources. If they somehow get onto a compliant device, network controls and DLP policies limit what they can exfiltrate. Each layer buys time and reduces the blast radius of a breach.</p>
+
+                    <h2>The Antidote to Privilege Creep</h2>
+
+                    <p>One of the most insidious threats in any organisation is not the external attacker — it is the internal user with too much access. This is the problem of <strong>Privilege Creep</strong>: over time, employees accumulate permissions from role changes, project assignments, and the ever-popular "just in case" access grants. Nobody ever removes the old access. Eventually, a single compromised account can do catastrophic damage.</p>
+
+                    <p>The solution is a combination of two principles. <strong>Least Privilege</strong> means every user, service account, and application gets exactly the access required for their current role — nothing more. <strong>Separation of Duties</strong> means critical actions require a request from one person and approval from a separate, distinct person. The requester and the approver cannot be the same individual.</p>
+
+                    <p>In Microsoft 365, Entra ID Privileged Identity Management (PIM) operationalises both of these principles. Administrators do not hold permanent privileged roles — they request elevation for a specific time window, with justification, and the access expires automatically. Access Reviews provide the recertification mechanism: on a regular cadence, managers and resource owners review who has access to what, and revoke anything that lacks a current business justification.</p>
+
+                    <blockquote>Running an annual access recertification campaign is not bureaucracy. It is the difference between a contained incident and a full-scale breach.</blockquote>
+
+                    <h2>Secure by Design: Stop Treating Security as an Afterthought</h2>
+
+                    <p>The final principle worth addressing is one that applies not just to enterprise IT, but to every software project, every new deployment, and every configuration change: <strong>Secure by Design</strong>. Security cannot be bolted on at the end of a project. By the time a system reaches production, the cost of fixing a fundamental security flaw is an order of magnitude higher than addressing it at the design stage.</p>
+
+                    <p>This means integrating security requirements from the very beginning of the development or deployment lifecycle. It means hardening default configurations before a system goes live — disabling unused services, renaming default accounts, applying the principle of least privilege to service accounts. It means treating every new workload as a potential attack surface from day one.</p>
+
+                    <p>Microsoft provides the tooling to make this practical. Microsoft Secure Score gives you a measurable baseline and actionable recommendations. Defender for Cloud flags misconfigurations before they become vulnerabilities. The work is not glamorous, but it is the foundation on which everything else rests.</p>
+
+                    <h2>Key Takeaways</h2>
+
+                    <ul>
+                        <li>Security by Obscurity is not a strategy. Kerckhoffs's Principle has been telling us this for over a century.</li>
+                        <li>Overly complex security controls create workarounds that undermine security. Apply the KISS Principle.</li>
+                        <li>Defense in Depth eliminates single points of failure by layering Identity, Device, Network, Application, and Data controls.</li>
+                        <li>Privilege Creep is a silent threat. Entra ID PIM and regular Access Reviews are your countermeasures.</li>
+                        <li>Security must be built in from the start, not added at the end.</li>
+                    </ul>
+
+                    <p>Security is not about hiding your infrastructure and hoping nobody looks. It is about building transparent, robust, and layered defences that hold even when — not if — someone comes looking. Microsoft 365 provides the tools. The question is whether you are using them.</p>
+
+                    <hr>
+                    <h3>References</h3>
+                    <ol class="post-references">
+                        <li>Auguste Kerckhoffs, <em>La cryptographie militaire</em>, Journal des sciences militaires, 1883.</li>
+                        <li>Microsoft, <em>Zero Trust security model and framework</em>, <a href="https://learn.microsoft.com/en-us/security/zero-trust/zero-trust-overview" target="_blank" rel="noopener">learn.microsoft.com</a>.</li>
+                        <li>Microsoft, <em>What is Privileged Identity Management?</em>, <a href="https://learn.microsoft.com/en-us/entra/id-governance/privileged-identity-management/pim-configure" target="_blank" rel="noopener">learn.microsoft.com</a>.</li>
+                        <li>NIST, <em>Defense in Depth</em>, NIST Special Publication 800-53.</li>
+                    </ol>
+
+                </div>
+            </section>
+
+            <section class="author-bio">
+                <img src="../assets/images/cloudknox-author.png" alt="CloudKnox - Philipp Schmidt" class="author-avatar">
+                <div class="author-info">
+                    <h3>Philipp Schmidt</h3>
+                    <p>M365 Solution Architect specializing in Microsoft 365, Security, and Zero Trust architecture. With over 21 years of IT experience, Philipp helps SMEs build modern, secure cloud infrastructures.</p>
+                    <p><strong>Complex IT? I make it simple</strong> – with M365 that protects, scales, and brings clarity. For SMEs that rely on smart solutions.</p>
+                    <p><a href="https://easym365.de" target="_blank" rel="noopener">Learn more: https://easym365.de</a></p>
+                </div>
+            </section>
+        </article>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2026 Philipp Schmidt. All rights reserved.</p>
+            <p>Secure. Scalable. Simple M365.</p>
+            <div class="footer-links">
+                <a href="https://easym365.de" target="_blank" rel="noopener">Website</a>
+                <a href="https://www.linkedin.com/in/pschmidt3010" target="_blank" rel="noopener">LinkedIn</a>
+                <a href="https://github.com/farpoint-tech" target="_blank" rel="noopener">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu Script -->
+    <script>
+        const menuToggle = document.getElementById("menu-toggle");
+        const nav = document.getElementById("nav");
+
+        menuToggle.addEventListener("click", () => {
+            nav.classList.toggle("active");
+        });
+    </script>
+</body>
+</html>
