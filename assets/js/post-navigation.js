@@ -95,6 +95,42 @@
       title: "From NT to M365 – A Journey Through Tech, Decisions, and the People Behind Them",
       themes: ["career", "strategy", "m365"],
       related: [12, 0, 5]
+    },
+    {
+      slug: "2026-03-26-aadsts650052-windowsdefenderatp-service-principal-missing",
+      title: "AADSTS650052: WindowsDefenderATP Service Principal Missing – Cause & Fix",
+      themes: ["entra", "security", "troubleshooting"],
+      related: [9, 7, 10]
+    },
+    {
+      slug: "2026-03-27-windows-autopilot-end-the-setup-chaos",
+      title: "Stop the Setup Chaos: How Windows Autopilot Deploys Hundreds of Devices",
+      themes: ["intune", "autopilot", "deployment"],
+      related: [10, 14, 6]
+    },
+    {
+      slug: "2026-03-30-exchange-soa-switch-reality",
+      title: "The Final Exchange Server: Why the Cloud Switch Isn't a Magic Wand",
+      themes: ["exchange", "cloud", "strategy"],
+      related: [12, 15, 5]
+    },
+    {
+      slug: "2026-04-08-copilot-roi-knowledge-management-guide",
+      title: "Copilot ROI: Why Knowledge Management Is the Difference Between 1.4:1 and 5.4:1",
+      themes: ["copilot", "ai", "strategy"],
+      related: [8, 21, 4]
+    },
+    {
+      slug: "2026-04-08-microsoft-365-vs-baramundi-the-real-story",
+      title: "Microsoft 365 vs. Baramundi: The Real Story",
+      themes: ["intune", "m365", "strategy"],
+      related: [10, 17, 14]
+    },
+    {
+      slug: "2026-04-17-sharepoint-permission-auditing-copilot",
+      title: "Taming the SharePoint Permission Nightmare: The New Copilot Readiness Tool",
+      themes: ["sharepoint", "copilot", "security"],
+      related: [13, 19, 3]
     }
   ];
 
