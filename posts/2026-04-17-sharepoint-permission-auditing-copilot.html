@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index,follow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Discover the new SharePoint Data Access Governance report. Audit user permissions easily, prevent oversharing, and prepare your M365 tenant for Copilot securely.">
     <meta name="author" content="Philipp Schmidt">
@@ -24,6 +27,10 @@
     
     <!-- Stylesheet -->
     <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/blog-post.css">
+    
+    <!-- Google Fonts -->
+    <link rel="canonical" href="https://farpoint-tech.github.io/endlesstech.blog/posts/2026-04-17-sharepoint-permission-auditing-copilot.html" />
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,6 +42,7 @@
     <header class="header">
         <div class="header-container">
             <a href="../index.html" class="logo">
+                <img src="../assets/images/logo.webp" alt="Philipp Schmidt - Secure. Scalable. Simple M365.">
                 <img src="../assets/images/logo.png" alt="Philipp Schmidt - Secure. Scalable. Simple M365.">
             </a>
             <nav class="nav" id="nav">
@@ -62,6 +70,7 @@
             </header>
 
             <figure class="post-full-image">
+                <img src="../assets/images/cloudknox-hero.webp" alt="CloudKnox the Rottweiler guarding a glowing data vault with holographic permission shields.">
                 <img src="../assets/images/cloudknox-hero.png" alt="CloudKnox the Rottweiler guarding a glowing data vault with holographic permission shields.">
             </figure>
 
@@ -114,6 +123,7 @@
             </section>
 
             <section class="author-bio">
+                <img src="../assets/images/cloudknox-author.webp" alt="CloudKnox - Philipp Schmidt" class="author-avatar">
                 <img src="../assets/images/cloudknox-author.png" alt="CloudKnox - Philipp Schmidt" class="author-avatar">
                 <div class="author-info">
                     <h3>Philipp Schmidt</h3>
@@ -123,6 +133,7 @@
                 </div>
             </section>
         </article>
+        <div id="post-navigation"></div>
     </main>
 
     <!-- Footer -->
@@ -146,6 +157,33 @@
         menuToggle.addEventListener("click", () => {
             nav.classList.toggle("active");
         });
+    </script>
+    <script src="../assets/js/post-navigation.js"></script>
+    <script type="application/ld+json">
+    {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Taming the SharePoint Permission Nightmare: The New Copilot Readiness Tool",
+  "datePublished": "2026-04-17",
+  "author": {
+    "@type": "Person",
+    "name": "Philipp Schmidt",
+    "url": "https://easym365.de"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Philipp Schmidt",
+    "url": "https://easym365.de"
+  },
+  "image": "https://endlesstech.blog/assets/images/cloudknox-hero.png",
+  "url": "https://farpoint-tech.github.io/endlesstech.blog/posts/2026-04-17-sharepoint-permission-auditing-copilot.html",
+  "description": "Discover the new SharePoint Data Access Governance report. Audit user permissions easily, prevent oversharing, and prepare your M365 tenant for Copilot securely.",
+  "inLanguage": "en",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://farpoint-tech.github.io/endlesstech.blog/posts/2026-04-17-sharepoint-permission-auditing-copilot.html"
+  }
+}
     </script>
 </body>
 </html>

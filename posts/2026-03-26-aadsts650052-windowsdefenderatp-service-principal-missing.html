@@ -6,6 +6,9 @@ permalink: /posts/2026-03-26-aadsts650052-windowsdefenderatp-service-principal-m
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index,follow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Fix the AADSTS650052 error: WindowsDefenderATP Service Principal missing. Learn the cause, pitfalls with E5 Dev Tenants, and the PowerShell solution.">
     <meta name="author" content="Philipp Schmidt">
@@ -28,6 +31,10 @@ permalink: /posts/2026-03-26-aadsts650052-windowsdefenderatp-service-principal-m
     
     <!-- Stylesheet -->
     <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/blog-post.css">
+    
+    <!-- Google Fonts -->
+    <link rel="canonical" href="https://farpoint-tech.github.io/endlesstech.blog/posts/2026-03-26-aadsts650052-windowsdefenderatp-service-principal-missing.html" />
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,6 +46,7 @@ permalink: /posts/2026-03-26-aadsts650052-windowsdefenderatp-service-principal-m
     <header class="header">
         <div class="header-container">
             <a href="../index.html" class="logo">
+                <img src="../assets/images/knox-logo.webp" alt="Knox - Zero Trust, Zero Drama, Zero Bullshit">
                 <img src="../assets/images/knox-logo.png" alt="Knox - Zero Trust, Zero Drama, Zero Bullshit">
             </a>
             <nav class="nav" id="nav">
@@ -64,6 +72,7 @@ permalink: /posts/2026-03-26-aadsts650052-windowsdefenderatp-service-principal-m
             </header>
 
             <figure class="post-full-image" style="max-height: 400px; overflow: hidden;">
+                <img src="../assets/images/cloudknox-hero.webp" alt="CloudKnox - Zero Trust Security Guardian" style="width: 100%; height: auto; max-height: 400px; object-fit: cover;">
                 <img src="../assets/images/cloudknox-hero.png" alt="CloudKnox - Zero Trust Security Guardian" style="width: 100%; height: auto; max-height: 400px; object-fit: cover;">
             </figure>
 
@@ -137,6 +146,7 @@ WindowsDefenderATP 6cbf883d-...                         fc780465-2017-40d4-a0c5-
             </section>
 
             <section class="author-bio">
+                <img src="../assets/images/cloudknox-author.webp" alt="Philipp Schmidt" class="author-avatar">
                 <img src="../assets/images/cloudknox-author.png" alt="Philipp Schmidt" class="author-avatar">
                 <div class="author-info">
                     <h3>Philipp Schmidt</h3>
@@ -150,6 +160,7 @@ WindowsDefenderATP 6cbf883d-...                         fc780465-2017-40d4-a0c5-
                 <a href="../index.html#blog" class="nav-link">← Back to Blog</a>
             </footer>
         </article>
+        <div id="post-navigation"></div>
     </main>
 
     <!-- Footer -->
@@ -173,6 +184,33 @@ WindowsDefenderATP 6cbf883d-...                         fc780465-2017-40d4-a0c5-
         document.getElementById('menu-toggle').addEventListener('click', function() {
             document.getElementById('nav').classList.toggle('active');
         });
+    </script>
+    <script src="../assets/js/post-navigation.js"></script>
+    <script type="application/ld+json">
+    {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "AADSTS650052: WindowsDefenderATP Service Principal Missing – Cause & Fix",
+  "datePublished": "2026-03-26",
+  "author": {
+    "@type": "Person",
+    "name": "Philipp Schmidt",
+    "url": "https://easym365.de"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Philipp Schmidt",
+    "url": "https://easym365.de"
+  },
+  "image": "https://endlesstech.blog/assets/images/cloudknox-hero.png",
+  "url": "https://farpoint-tech.github.io/endlesstech.blog/posts/2026-03-26-aadsts650052-windowsdefenderatp-service-principal-missing.html",
+  "description": "Fix the AADSTS650052 error: WindowsDefenderATP Service Principal missing. Learn the cause, pitfalls with E5 Dev Tenants, and the PowerShell solution.",
+  "inLanguage": "en",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://farpoint-tech.github.io/endlesstech.blog/posts/2026-03-26-aadsts650052-windowsdefenderatp-service-principal-missing.html"
+  }
+}
     </script>
 </body>
 </html>

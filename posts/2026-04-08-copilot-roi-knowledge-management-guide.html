@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index,follow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Microsoft 365 Copilot ROI breakdown for 60 users: real cost analysis, 5.4:1 return, NIST AI RMF mapping, glossary, and a 10-point readiness checklist.">
     <meta name="author" content="Philipp Schmidt">
@@ -24,6 +27,10 @@
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/blog-post.css">
+
+    <!-- Google Fonts -->
+    <link rel="canonical" href="https://farpoint-tech.github.io/endlesstech.blog/posts/2026-04-08-copilot-roi-knowledge-management-guide.html" />
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,6 +42,7 @@
     <header class="header">
         <div class="header-container">
             <a href="../index.html" class="logo">
+                <img src="../assets/images/logo.webp" alt="Philipp Schmidt - Secure. Scalable. Simple M365.">
                 <img src="../assets/images/logo.png" alt="Philipp Schmidt - Secure. Scalable. Simple M365.">
             </a>
             <nav class="nav" id="nav">
@@ -62,6 +70,7 @@
             </header>
 
             <figure class="post-full-image">
+                <img src="../assets/images/copilot-mandate-hero.webp" alt="Microsoft 365 Copilot interface with knowledge graph and ROI dashboard in background">
                 <img src="../assets/images/copilot-mandate-hero.jpg" alt="Microsoft 365 Copilot interface with knowledge graph and ROI dashboard in background">
             </figure>
 
@@ -444,6 +453,7 @@ New-MgPolicyAuthorizationPolicy -Id "CopilotAccess" `
             </section>
 
             <section class="author-bio">
+                <img src="../assets/images/cloudknox-author.webp" alt="CloudKnox - Philipp Schmidt" class="author-avatar">
                 <img src="../assets/images/cloudknox-author.png" alt="CloudKnox - Philipp Schmidt" class="author-avatar">
                 <div class="author-info">
                     <h3>Philipp Schmidt</h3>
@@ -453,6 +463,7 @@ New-MgPolicyAuthorizationPolicy -Id "CopilotAccess" `
                 </div>
             </section>
         </article>
+        <div id="post-navigation"></div>
     </main>
 
     <!-- Footer -->
@@ -476,6 +487,33 @@ New-MgPolicyAuthorizationPolicy -Id "CopilotAccess" `
         menuToggle.addEventListener("click", () => {
             nav.classList.toggle("active");
         });
+    </script>
+    <script src="../assets/js/post-navigation.js"></script>
+    <script type="application/ld+json">
+    {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Copilot ROI: Why Knowledge Management Is the Difference Between 1.4:1 and 5.4:1",
+  "datePublished": "2026-04-08",
+  "author": {
+    "@type": "Person",
+    "name": "Philipp Schmidt",
+    "url": "https://easym365.de"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Philipp Schmidt",
+    "url": "https://easym365.de"
+  },
+  "image": "https://endlesstech.blog/assets/images/copilot-mandate-hero.jpg",
+  "url": "https://farpoint-tech.github.io/endlesstech.blog/posts/2026-04-08-copilot-roi-knowledge-management-guide.html",
+  "description": "Microsoft 365 Copilot ROI breakdown for 60 users: real cost analysis, 5.4:1 return, NIST AI RMF mapping, glossary, and a 10-point readiness checklist.",
+  "inLanguage": "en",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://farpoint-tech.github.io/endlesstech.blog/posts/2026-04-08-copilot-roi-knowledge-management-guide.html"
+  }
+}
     </script>
 </body>
 </html>
