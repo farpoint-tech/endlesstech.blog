@@ -7,6 +7,7 @@
     <meta name="robots" content="index,follow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Practical Microsoft 365 security guides, Zero Trust strategies, and Intune tips for SMBs. By Philipp Schmidt, M365 consultant.">
+    <meta name="description" content="EndlessTech Blog - Zero Trust, Zero Drama, Zero Bullshit. Ask someone who Knows.">
     <meta name="author" content="Philipp Schmidt">
     <meta name="keywords" content="Microsoft 365, Security, Zero Trust, Cloud Solutions, M365, IT Security">
     
@@ -37,12 +38,12 @@
         <div class="header-container">
             <a href="index.html" class="logo">
                 <img src="assets/images/logo.webp" alt="Philipp Schmidt - Secure. Scalable. Simple M365.">
+                <img src="assets/images/knox-logo.png" alt="Knox - Zero Trust, Zero Drama, Zero Bullshit">
             </a>
             <nav class="nav" id="nav">
                 <a href="index.html" class="active">Home</a>
                 <a href="#blog">Blog</a>
                 <a href="about.html">About</a>
-                <a href="#contact">Kontakt</a>
                 <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
             </nav>
             <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
@@ -66,11 +67,111 @@
     <main class="container">
         <section id="blog">
             <h2 class="text-center">Latest Blog Posts</h2>
-            <p class="text-center" style="color: var(--color-text-light); margin-bottom: var(--spacing-xl);">
+            <p class="text-center" style="color: var(--color-text-light); margin-bottom: var(--spacing-lg);">
                 Stay updated with the latest insights on Microsoft 365, Security, and Cloud Technologies
             </p>
+
+            <!-- Category Filter -->
+            <div class="category-filter" id="category-filter">
+                <button class="category-btn active" data-category="all">All</button>
+                <button class="category-btn" data-category="zero-trust">Zero Trust</button>
+                <button class="category-btn" data-category="m365">M365</button>
+                <button class="category-btn" data-category="iam-entraid">IAM - EntraID</button>
+                <button class="category-btn" data-category="device-management-intune">Device Management - Intune</button>
+                <button class="category-btn" data-category="security-defender">Security - Defender</button>
+                <button class="category-btn" data-category="ai-copilot">AI Copilot</button>
+                <button class="category-btn" data-category="best-practices">Best Practices</button>
+                <button class="category-btn" data-category="offtopic">Offtopic</button>
+                <button class="category-btn" data-category="others">Others</button>
+            </div>
             
             <div class="posts-grid">
+                <!-- Taming the SharePoint Permission Nightmare: The New Copilot Readiness Tool -->
+                <article class="post-card" data-category="m365 zero-trust ai-copilot">
+                    <img src="assets/images/cloudknox-hero.png" alt="CloudKnox guarding SharePoint data vault with holographic permission shields" class="post-card-image">
+                    <div class="post-card-content">
+                        <h3 class="post-card-title">
+                            <a href="posts/2026-04-17-sharepoint-permission-auditing-copilot.html">Taming the SharePoint Permission Nightmare: The New Copilot Readiness Tool</a>
+                        </h3>
+                        <div class="post-card-meta">
+                            By Philipp Schmidt
+                        </div>
+                        <p class="post-card-excerpt">
+                            Auditing SharePoint permissions used to mean fragile PowerShell scripts and blind spots. Microsoft's new native Data Access Governance report changes everything &mdash; and one Copilot license unlocks it all.
+                        </p>
+                        <a href="posts/2026-04-17-sharepoint-permission-auditing-copilot.html" class="post-card-link">Read More &rarr;</a>
+                    </div>
+                </article>
+
+                <!-- Copilot ROI: Why Knowledge Management Is the Difference Between 1.4:1 and 5.4:1 -->
+                <article class="post-card" data-category="m365 best-practices">
+                    <img src="assets/images/copilot-mandate-hero.jpg" alt="Microsoft 365 Copilot ROI dashboard showing knowledge management impact" class="post-card-image">
+                    <div class="post-card-content">
+                        <h3 class="post-card-title">
+                            <a href="posts/2026-04-08-copilot-roi-knowledge-management-guide.html">Copilot ROI: Why Knowledge Management Is the Difference Between 1.4:1 and 5.4:1</a>
+                        </h3>
+                        <div class="post-card-meta">
+                            By Philipp Schmidt
+                        </div>
+                        <p class="post-card-excerpt">
+                            Real cost model for 60 users, a 7-term glossary, NIST AI RMF mapping, and a 10-point readiness checklist. The $195,000 gap between a poor and a proper Copilot rollout starts with knowledge management.
+                        </p>
+                        <a href="posts/2026-04-08-copilot-roi-knowledge-management-guide.html" class="post-card-link">Read More &rarr;</a>
+                    </div>
+                </article>
+
+                <!-- Exchange SOA Switch: Why the Cloud Switch Isn't a Magic Wand -->
+                <article class="post-card" data-category="m365 best-practices">
+                    <img src="assets/images/exchange-soa-switch-hero.png" alt="An old dusty server rack connected to a glowing modern cloud via a giant rusty switch" class="post-card-image">
+                    <div class="post-card-content">
+                        <h3 class="post-card-title">
+                            <a href="posts/2026-03-30-exchange-soa-switch-reality.html">The Final Exchange Server: Why the Cloud Switch Isn't a Magic Wand</a>
+                        </h3>
+                        <div class="post-card-meta">
+                            By Philipp Schmidt
+                        </div>
+                        <p class="post-card-excerpt">
+                            Microsoft's new Exchange SOA switch promises to let you shut down your last on-premises server. But configuration drift, split management, and a nasty offboarding trap say otherwise.
+                        </p>
+                        <a href="posts/2026-03-30-exchange-soa-switch-reality.html" class="post-card-link">Read More &rarr;</a>
+                    </div>
+                </article>
+
+                <!-- Microsoft 365 vs. Baramundi: The Real Story -->
+                <article class="post-card" data-category="m365 device-management-intune">
+                    <img src="assets/images/m365-vs-baramundi-hero.png" alt="Microsoft 365 cloud productivity platform connected to Baramundi on-premises endpoint management" class="post-card-image">
+                    <div class="post-card-content">
+                        <h3 class="post-card-title">
+                            <a href="posts/2026-04-08-microsoft-365-vs-baramundi-the-real-story.html">Microsoft 365 vs. Baramundi: The Real Story</a>
+                        </h3>
+                        <div class="post-card-meta">
+                            By Philipp Schmidt
+                        </div>
+                        <p class="post-card-excerpt">
+                            They're not competitors &mdash; they don't even play in the same league. A factual breakdown of why comparing M365 and Baramundi is like comparing apples to oranges, and when you actually need both.
+                        </p>
+                        <a href="posts/2026-04-08-microsoft-365-vs-baramundi-the-real-story.html" class="post-card-link">Read More &rarr;</a>
+                    </div>
+                </article>
+
+                <!-- Windows Autopilot: Stop the Setup Chaos -->
+                <article class="post-card" data-category="device-management-intune best-practices">
+                    <img src="assets/images/autopilot-hero.png" alt="IT admin overwhelmed by laptop boxes vs. relaxed employee with self-configured laptop" class="post-card-image">
+                    <div class="post-card-content">
+                        <h3 class="post-card-title">
+                            <a href="posts/2026-03-27-windows-autopilot-end-the-setup-chaos.html">Stop the Setup Chaos: How Windows Autopilot Deploys Hundreds of Devices Without Breaking a Sweat</a>
+                        </h3>
+                        <div class="post-card-meta">
+                            By Philipp Schmidt
+                        </div>
+                        <p class="post-card-excerpt">
+                            Forget imaging. Windows Autopilot ships devices straight from the manufacturer to the employee — self-configuring, zero IT touch. Here's how to pick the right strategy: v1 vs. v2.
+                        </p>
+                        <a href="posts/2026-03-27-windows-autopilot-end-the-setup-chaos.html" class="post-card-link">Read More →</a>
+                    </div>
+                </article>
+
+                <!-- From NT to M365 – A Personal Journey -->
                 <article class="post-card">
                     <img src="assets/images/nt-to-m365-journey-hero.webp" alt="Calm workspace with laptop and notebook in natural daylight representing a reflective IT career journey from Windows NT to Microsoft 365" class="post-card-image">
                     <div class="post-card-content">
@@ -359,43 +460,11 @@
                 <div class="text-center">
                     <a href="about.html" class="hero-cta">Learn More About Me</a>
                 </div>
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contact" class="mt-xxl">
-            <div class="content" style="max-width: 600px; margin: 0 auto;">
-                <h2 class="text-center">Kontakt</h2>
-                <p class="text-center" style="color: var(--color-text-light); margin-bottom: var(--spacing-xl);">
-                    Haben Sie Fragen oder möchten Sie sich austauschen? Schreiben Sie mir gerne eine Nachricht.
-                </p>
                 
-                <form action="https://formspree.io/f/ps@farpoint.tech" method="POST" style="display: flex; flex-direction: column; gap: var(--spacing-md);">
-                    <!-- Hidden subject field -->
-                    <input type="hidden" name="_subject" value="Dein Blog - Kontaktaufnahme">
-                    
-                    <div>
-                        <label for="name" style="display: block; margin-bottom: var(--spacing-xs); font-weight: 500;">Name</label>
-                        <input type="text" id="name" name="name" required 
-                               style="width: 100%; padding: var(--spacing-sm); border: 1px solid var(--color-border); border-radius: 8px; font-family: inherit; font-size: 1rem;">
-                    </div>
-                    
-                    <div>
-                        <label for="email" style="display: block; margin-bottom: var(--spacing-xs); font-weight: 500;">E-Mail</label>
-                        <input type="email" id="email" name="email" required 
-                               style="width: 100%; padding: var(--spacing-sm); border: 1px solid var(--color-border); border-radius: 8px; font-family: inherit; font-size: 1rem;">
-                    </div>
-                    
-                    <div>
-                        <label for="message" style="display: block; margin-bottom: var(--spacing-xs); font-weight: 500;">Nachricht</label>
-                        <textarea id="message" name="message" rows="6" required 
-                                  style="width: 100%; padding: var(--spacing-sm); border: 1px solid var(--color-border); border-radius: 8px; font-family: inherit; font-size: 1rem; resize: vertical;"></textarea>
-                    </div>
-                    
-                    <button type="submit" class="hero-cta" style="align-self: flex-start; cursor: pointer;">
-                        Nachricht senden
-                    </button>
-                </form>
+                <!-- Zero Trust Pillars -->
+                <div class="text-center" style="margin-top: var(--spacing-xl);">
+                    <img src="assets/images/zero-trust-pillars.png" alt="Zero Trust Pillars - Verify Explicitly, Use Least Privilege Access, Assume Breach" style="max-width: 500px; width: 100%; border-radius: var(--border-radius); box-shadow: var(--shadow-md);">
+                </div>
             </div>
         </section>
     </main>
@@ -404,16 +473,17 @@
     <footer class_="footer">
         <div class="footer-container">
             <p><strong>EndlessTech Blog</strong> by Philipp Schmidt</p>
-            <p>Secure. Scalable. Simple M365.</p>
+            <p>Zero Trust, Zero Drama, Zero Bullshit. Ask someone who Knows.</p>
             <p>
                 <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a> • 
                 <a href="https://www.linkedin.com/in/pschmidt3010" target="_blank" rel="noopener noreferrer">LinkedIn</a> • 
                 <a href="https://github.com/farpoint-tech" target="_blank" rel="noopener noreferrer">GitHub</a>
             </p>
             <p style="margin-top: var(--spacing-md); font-size: 0.875rem; color: var(--color-text-light);">
-                © 2025 Philipp Schmidt. All rights reserved.
+                © 2026 Philipp Schmidt. All rights reserved.
             </p>
         </div>
+        <p style="margin-top: var(--spacing-sm); font-size: 0.875rem;"><a href="https://farpoint.tech/impressum" target="_blank" rel="noopener noreferrer">Impressum</a></p>
     </footer>
 
     <!-- Schema.org JSON-LD -->
@@ -572,5 +642,36 @@
 
     <!-- JavaScript -->
     <script src="assets/js/main.js"></script>
+
+    <!-- Category Filter Script -->
+    <script>
+        (function () {
+            const buttons = document.querySelectorAll('.category-btn');
+            const posts = document.querySelectorAll('.posts-grid .post-card');
+
+            buttons.forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    // Update active button
+                    buttons.forEach(function (b) { b.classList.remove('active'); });
+                    btn.classList.add('active');
+
+                    const selected = btn.getAttribute('data-category');
+
+                    posts.forEach(function (post) {
+                        if (selected === 'all') {
+                            post.classList.remove('hidden');
+                        } else {
+                            const cats = (post.getAttribute('data-category') || '').split(' ');
+                            if (cats.indexOf(selected) !== -1) {
+                                post.classList.remove('hidden');
+                            } else {
+                                post.classList.add('hidden');
+                            }
+                        }
+                    });
+                });
+            });
+        })();
+    </script>
 </body>
 </html>
