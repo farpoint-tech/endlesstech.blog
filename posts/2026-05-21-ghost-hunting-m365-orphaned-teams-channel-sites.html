@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+    <meta name="robots" content="index,follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A field report on cleaning up 10 orphaned Teams Private Channel SharePoint sites with PowerShell after a SharePoint archiving project went sideways.">
+    <meta name="author" content="Philipp Schmidt">
+    <meta name="keywords" content="Microsoft 365, SharePoint, Teams, Private Channels, PowerShell, Orphaned Sites, M365 Cleanup, SPO Admin, Tenant Hygiene, TEAMCHANNEL">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Ghost Hunting in the M365 Tenant: Cleaning Up Orphaned Teams Private Channel Sites">
+    <meta property="og:description" content="A field report on cleaning up 10 orphaned Teams Private Channel SharePoint sites with PowerShell after a SharePoint archiving project went sideways.">
+    <meta property="og:image" content="https://endlesstech.blog/assets/images/ghost-hunting-site-archived.png">
+    <meta property="og:url" content="https://endlesstech.blog/posts/2026-05-21-ghost-hunting-m365-orphaned-teams-channel-sites.html">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Ghost Hunting in the M365 Tenant: Cleaning Up Orphaned Teams Private Channel Sites">
+    <meta name="twitter:description" content="A field report on cleaning up 10 orphaned Teams Private Channel SharePoint sites with PowerShell after a SharePoint archiving project went sideways.">
+    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/ghost-hunting-site-archived.png">
+
+    <title>Ghost Hunting in the M365 Tenant: Cleaning Up Orphaned Teams Private Channel Sites | EndlessTech Blog</title>
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/blog-post.css">
+
+    <link rel="canonical" href="https://farpoint-tech.github.io/endlesstech.blog/posts/2026-05-21-ghost-hunting-m365-orphaned-teams-channel-sites.html" />
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/images/logo.webp" alt="Philipp Schmidt - Secure. Scalable. Simple M365.">
+            </a>
+            <nav class="nav" id="nav">
+                <a href="../index.html">Home</a>
+                <a href="../index.html#blog" class="active">Blog</a>
+                <a href="../about.html">About</a>
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+            </nav>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+                &#9776;
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <article class="post-full">
+            <header class="post-full-header">
+                <h1 class="post-full-title">Ghost Hunting in the M365 Tenant: Cleaning Up Orphaned Teams Private Channel Sites with PowerShell</h1>
+                <div class="post-full-meta">
+                    <time datetime="2026-05-21">May 21, 2026</time> &bull; By Philipp Schmidt
+                </div>
+            </header>
+
+            <section class="post-full-content">
+                <div class="post-content">
+
+                    <p><em>A field report from a real-world cleanup operation in the 365Solution AG tenant (name pseudonymized).</em></p>
+
+                    <h2>How a SharePoint Archiving Project Went to Hell and Back</h2>
+
+                    <p>It started as a routine engagement: archive a SharePoint site that had been retired after an organizational restructuring. The site was tied to a Microsoft Teams team with <strong>10 Private Channels</strong>, each with its own independent SharePoint site underneath. Simple enough on paper.</p>
+
+                    <p>The team was deleted. The M365 Group was removed. The archive confirmation appeared in the SharePoint Admin Center. Job done &mdash; or so I thought.</p>
+
+                    <p>Weeks later, during a tenant health audit, I noticed ten SharePoint sites still sitting there. Alive. Consuming storage. Owned by nobody. The parent Group? <code>404 Not Found</code> in Microsoft Graph. The Teams Admin Center? Blank. These Private Channel sites had become <strong>ghost towns</strong> &mdash; orphaned when the parent Group disappeared, but never cleaned up because Microsoft deliberately prevents GUI deletion of channel sites.</p>
+
+                    <p>What followed was a journey through every tooling trap in the M365 PowerShell universe: macOS auth bugs, PnP assembly conflicts, deprecated cmdlets, and a Modern Auth popup that vanished into the Z-order. This post honestly documents every dead end, because the path to the solution is just as instructive as the solution itself.</p>
+
+                    <hr>
+
+                    <h2>TL;DR</h2>
+
+                    <p>A Microsoft 365 Group and its associated Team had vanished from the directory, but ten Private Channel SharePoint sites remained as ghost towns. Microsoft Graph: 404. Entra Portal: nothing. Teams Admin Center: blank. SharePoint Admin Center GUI: visible, but impossible to delete. The solution? Firing up the SharePoint Online Management Shell, filtering specifically via <code>Get-SPOSite -Template "TEAMCHANNEL#1"</code>, deleting them, and sweeping the Recycle Bin.</p>
+
+                    <h2>1. The Starting Point</h2>
+
+                    <p>During a tenant cleanup, I encountered an orphaned Microsoft 365 Group:</p>
+
+<pre><code>GroupId: d9e8b533-ef91-44df-8d85-46ff1730404f</code></pre>
+
+                    <p>(The GUID was already gone from the tenant &mdash; I'm only listing it here because it references nothing and is useless to anyone.)</p>
+
+                    <p>Initial diagnosis via Microsoft Graph:</p>
+
+<pre><code>GET https://graph.microsoft.com/v1.0/groups/d9e8b533-ef91-44df-8d85-46ff1730404f
+&rarr; 404 Not Found
+
+GET https://graph.microsoft.com/v1.0/teams/d9e8b533-ef91-44df-8d85-46ff1730404f
+&rarr; 404 Not Found</code></pre>
+
+                    <p>However, in the SharePoint Admin Center, there were ten sites with the URL pattern <code>/sites/LEE-&lt;Department&gt;</code> and the telltale template <code>TEAMCHANNEL#1</code>. These are Private Channel sites &mdash; independent SPO sites, but logically bound to the parent Group. When the Group disappears, they remain as ghost sites.</p>
+
+                    <p>GUI attempts in the SharePoint Admin Center? Sites cannot be selected, because Microsoft intentionally blocks the individual deletion of channel sites. Teams Admin Center? Doesn't show the team at all anymore. A classic dead end.</p>
+
+                    <h2>2. First Attempt: macOS + PnP.PowerShell</h2>
+
+                    <p>My daily driver is a Mac, so the obvious attempt:</p>
+
+<pre><code>Install-Module PnP.PowerShell -Scope CurrentUser
+Connect-PnPOnline -Url https://365solution-admin.sharepoint.com -Interactive</code></pre>
+
+                    <p>Result: <strong>Null Reference Exception</strong> in the auth layer. A known issue with PnP on macOS in combination with certain Conditional Access policies (a Zero Trust configuration with a device filter reliably triggers a bug in the auth handler).</p>
+
+                    <p>Workaround attempt with <code>-DeviceLogin</code>: same NRE. Interim result: macOS path blocked.</p>
+
+                    <p>&rarr; Decision: switch over to a Windows VM.</p>
+
+                    <h2>3. Second Attempt: Windows + Classic SPO Module</h2>
+
+                    <p>On Windows PowerShell 5.1:</p>
+
+<pre><code>Install-Module Microsoft.Online.SharePoint.PowerShell -Scope CurrentUser -Force -AllowClobber
+Import-Module Microsoft.Online.SharePoint.PowerShell
+Connect-SPOService -Url https://365solution-admin.sharepoint.com</code></pre>
+
+                    <p>Result:</p>
+
+<pre><code>Connect-SPOService: No valid OAuth 2.0 authentication session exists</code></pre>
+
+                    <p>No browser popup, no Modern Auth prompt. Classic case: the popup was swallowed somewhere in the Z-order, or the Modern Auth negotiation didn't trigger at all.</p>
+
+                    <p>Workaround attempt:</p>
+
+<pre><code>Connect-SPOService -Url https://365solution-admin.sharepoint.com `
+                   -ModernAuth $true `
+                   -AuthenticationUrl https://login.microsoftonline.com/organizations</code></pre>
+
+                    <p>Didn't help reliably. So: next try with PnP.PowerShell on Windows.</p>
+
+                    <h2>4. Third Attempt: Windows + PnP.PowerShell &mdash; The Assembly Inferno</h2>
+
+<pre><code>Install-Module PnP.PowerShell -Scope CurrentUser -Force -AllowClobber</code></pre>
+
+                    <p>Error:</p>
+
+<pre><code>Install-Package: A Microsoft-signed module named 'PnP.PowerShell' with version
+'3.1.0' that was previously installed conflicts with the new module
+'PnP.PowerShell' from publisher '...' with version '3.2.0'.</code></pre>
+
+                    <p>OK, set <code>-SkipPublisherCheck</code>, reinstall. Then:</p>
+
+<pre><code>Import-Module PnP.PowerShell
+
+Import-Module: Could not load file or assembly
+'Microsoft.Online.SharePoint.Client.Tenant, Version=16.1.0.0, ...'.
+The located assembly's manifest definition does not match the assembly reference.
+(0x80131040)</code></pre>
+
+                    <p><strong>Cause:</strong> Two PnP versions sitting in the same user profile in parallel (3.1.0 and 3.2.0). The DLLs from one module folder reference CSOM assemblies in a version that the other module folder has already loaded in a different version. The .NET AppDomain pins the first loaded version &mdash; switching within the same session is not possible.</p>
+
+                    <p>Cleanup:</p>
+
+<pre><code>Get-Module PnP.PowerShell | Remove-Module -Force
+Get-InstalledModule PnP.PowerShell -AllVersions | Uninstall-Module -Force
+Remove-Item "$HOME\Documents\PowerShell\Modules\PnP.PowerShell" `
+    -Recurse -Force -ErrorAction SilentlyContinue
+Remove-Item "$HOME\Documents\WindowsPowerShell\Modules\PnP.PowerShell" `
+    -Recurse -Force -ErrorAction SilentlyContinue</code></pre>
+
+                    <p>Reinstallation in a <strong>new PS7 session</strong> (important &mdash; otherwise the old assembly still lives on in the AppDomain):</p>
+
+<pre><code>Install-Module PnP.PowerShell -Scope CurrentUser -Force -SkipPublisherCheck
+Import-Module PnP.PowerShell
+(Get-Module PnP.PowerShell).Version
+# 3.2.0</code></pre>
+
+                    <p>Login attempt:</p>
+
+<pre><code>Register-PnPManagementShellAccess
+
+The term 'Register-PnPManagementShellAccess' is not recognized as a name of a cmdlet...</code></pre>
+
+                    <p>Oh right &mdash; the cmdlet was removed in PnP.PowerShell 2.x. Microsoft withdrew the central "PnP Management Shell" multi-tenant app for security reasons (overly broad, pre-granted permissions for every tenant worldwide). Since then, every tenant needs its own app registration for PnP.</p>
+
+                    <p>The correct way in PnP 3.x:</p>
+
+<pre><code>Register-PnPEntraIDAppForInteractiveLogin `
+    -ApplicationName "PnP Mgmt 365Solution" `
+    -Tenant 365solution.onmicrosoft.com `
+    -Interactive</code></pre>
+
+                    <p>Works &mdash; but is overkill for a one-time cleanup job. So: back to basics.</p>
+
+                    <h2>5. Back to Basics: SPO Module, Done Right</h2>
+
+                    <p>New Windows PowerShell 5.1 window (<strong>not</strong> pwsh 7 &mdash; the old SPO module explicitly wants .NET Framework). Important: the module must be in the 5.1 module path (<code>Documents\WindowsPowerShell\Modules</code>), not in the 7 path (<code>Documents\PowerShell\Modules</code>):</p>
+
+<pre><code>Install-Module Microsoft.Online.SharePoint.PowerShell -Scope CurrentUser -Force -AllowClobber
+Import-Module Microsoft.Online.SharePoint.PowerShell
+Connect-SPOService -Url https://365solution-admin.sharepoint.com</code></pre>
+
+                    <p>This time the Modern Auth popup appeared (maybe it was stuck under another window before). Login with the Admin account (SharePoint Administrator role activated via PIM), MFA confirmation, done.</p>
+
+                    <h2>6. Discovery: Which Sites Are Really Orphaned?</h2>
+
+                    <p>The trick lies in the Template filter and the GroupId:</p>
+
+<pre><code>Get-SPOSite -Limit All -Template "TEAMCHANNEL#1" |
+    Where-Object { $_.Url -match '/sites/LEE' } |
+    Select-Object Url, Template, GroupId |
+    Format-Table -AutoSize</code></pre>
+
+                    <p>Output:</p>
+
+                    <table class="post-table">
+                        <thead>
+                            <tr>
+                                <th>Url</th>
+                                <th>Template</th>
+                                <th>GroupId</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>https://365solution.sharepoint.com/sites/LEE-Hauswirtschaft</td><td>TEAMCHANNEL#1</td><td>00000000-0000-...</td></tr>
+                            <tr><td>https://365solution.sharepoint.com/sites/LEE-Praxisanleitung</td><td>TEAMCHANNEL#1</td><td>00000000-0000-...</td></tr>
+                            <tr><td>https://365solution.sharepoint.com/sites/LEE-Pflege</td><td>TEAMCHANNEL#1</td><td>00000000-0000-...</td></tr>
+                            <tr><td>https://365solution.sharepoint.com/sites/LEE-Pflegedienstleitung</td><td>TEAMCHANNEL#1</td><td>00000000-0000-...</td></tr>
+                            <tr><td>https://365solution.sharepoint.com/sites/LEE-Kueche</td><td>TEAMCHANNEL#1</td><td>00000000-0000-...</td></tr>
+                            <tr><td>https://365solution.sharepoint.com/sites/LEE-Haustechnik</td><td>TEAMCHANNEL#1</td><td>00000000-0000-...</td></tr>
+                            <tr><td>https://365solution.sharepoint.com/sites/LEE-SozialerDienst</td><td>TEAMCHANNEL#1</td><td>00000000-0000-...</td></tr>
+                            <tr><td>https://365solution.sharepoint.com/sites/LEE-Einrichtungsleitung</td><td>TEAMCHANNEL#1</td><td>00000000-0000-...</td></tr>
+                            <tr><td>https://365solution.sharepoint.com/sites/LEE-Verwaltung</td><td>TEAMCHANNEL#1</td><td>00000000-0000-...</td></tr>
+                            <tr><td>https://365solution.sharepoint.com/sites/LEE-Personal</td><td>TEAMCHANNEL#1</td><td>00000000-0000-...</td></tr>
+                        </tbody>
+                    </table>
+
+                    <p>The <strong>empty GroupId</strong> (<code>00000000-...</code>) is the smoking gun: a Channel site with a living parent Group would show the parent's GUID here. Null = orphaned. Exactly the ten expected sites.</p>
+
+                    <h2>7. The Actual Cleanup</h2>
+
+<pre><code># 1. Collect
+$lee = Get-SPOSite -Limit All -Template "TEAMCHANNEL#1" |
+       Where-Object { $_.Url -match '/sites/LEE' }
+
+# 2. Sanity check
+$lee | Select-Object Url | Format-Table -AutoSize
+Read-Host "ENTER to delete, Ctrl+C to abort"
+
+# 3. Delete (moves to the Tenant Recycle Bin)
+foreach ($s in $lee) {
+    try {
+        Remove-SPOSite -Identity $s.Url -Confirm:$false -NoWait
+        Write-Host "DEL queued: $($s.Url)" -ForegroundColor Green
+    } catch {
+        Write-Host "FAIL: $($s.Url) -&gt; $($_.Exception.Message)" -ForegroundColor Red
+    }
+}</code></pre>
+
+                    <p><code>-NoWait</code> is important &mdash; without it, each site waits up to several minutes while SPO flips the flag in the backend. With <code>-NoWait</code>, the call queues the operation and returns immediately.</p>
+
+                    <h2>8. Recycle Bin: The Second, Often Forgotten Step</h2>
+
+                    <p>If the Group is really supposed to disappear from the tenant permanently, the Tenant Recycle Bin must also be emptied:</p>
+
+<pre><code># Which sites are in the Tenant Recycle Bin?
+Get-SPODeletedSite -Limit All |
+    Where-Object { $_.Url -match '/sites/LEE' } |
+    Select-Object Url |
+    Format-Table -AutoSize
+
+# Remove permanently
+Get-SPODeletedSite -Limit All |
+    Where-Object { $_.Url -match '/sites/LEE' } |
+    ForEach-Object { Remove-SPODeletedSite -Identity $_.Url -Confirm:$false }</code></pre>
+
+                    <p>Default retention in the Tenant Recycle Bin: <strong>93 days</strong>. If you don't actively empty it, the "corpses" are no longer active but remain part of the storage quota and potentially block URL reuse.</p>
+
+                    <h2>9. Verify</h2>
+
+<pre><code># Active sites - must be empty
+Get-SPOSite -Limit All -Template "TEAMCHANNEL#1" |
+    Where-Object { $_.Url -match '/sites/LEE' }
+
+# Recycle Bin - must be empty
+Get-SPODeletedSite -Limit All |
+    Where-Object { $_.Url -match '/sites/LEE' }</code></pre>
+
+                    <p>Both calls came back empty. Final Graph check on the original Group ID:</p>
+
+<pre><code>GET https://graph.microsoft.com/v1.0/directory/deletedItems/microsoft.graph.group/d9e8b533-...
+&rarr; 404 Not Found</code></pre>
+
+                    <p>No soft-delete entry, no remnants. <strong>Tenant clean.</strong></p>
+
+                    <h2>10. Lessons Learned</h2>
+
+                    <h3>Tooling Reality in M365 PowerShell</h3>
+
+                    <table class="post-table">
+                        <thead>
+                            <tr><th>#</th><th>Lesson</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1</td><td>Three competing modules for SPO Admin (<code>Microsoft.Online.SharePoint.PowerShell</code>, <code>PnP.PowerShell</code>, <code>Microsoft.Graph</code>), each with its own quirks, auth patterns, and platform restrictions.</td></tr>
+                            <tr><td>2</td><td>Module version drift is the most common source of errors. Mixing versions in the same session = guaranteed Assembly Load Failure. Golden rule: <strong>one version, one session</strong>. If unsure &rarr; new session.</td></tr>
+                            <tr><td>3</td><td>PowerShell 5.1 vs. 7 is a real trap. Different module paths: <code>Documents\WindowsPowerShell\Modules</code> for 5.1, <code>Documents\PowerShell\Modules</code> for 7. Install in one, import from the other &rarr; <code>CommandNotFoundException</code>.</td></tr>
+                            <tr><td>4</td><td>macOS support for M365 Admin PowerShell is still second league. For productive tenant operations, Windows remains the more reliable platform &mdash; even in 2026.</td></tr>
+                        </tbody>
+                    </table>
+
+                    <h3>M365 Groups &amp; Teams Lifecycle</h3>
+
+                    <table class="post-table">
+                        <thead>
+                            <tr><th>#</th><th>Lesson</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>5</td><td>Private Channels are independent SharePoint sites. Hard-delete a Group without dissolving channels first = guaranteed ghost sites.</td></tr>
+                            <tr><td>6</td><td>GUI paths protect against inconsistency &mdash; at the price of freedom of movement. Microsoft deliberately blocks individual deletion of channel sites in the Admin Center. In a cleanup scenario, PowerShell is the only way out.</td></tr>
+                            <tr><td>7</td><td>Graph 404 does not mean "gone" &mdash; it means "no longer referenced in the directory." The associated SPO sites can happily live on regardless.</td></tr>
+                        </tbody>
+                    </table>
+
+                    <h3>Detection: Finding Orphaned Channel Sites</h3>
+
+                    <p>A simple, repeatable detection check for any tenant:</p>
+
+<pre><code># All Channel sites with empty GroupId = orphaned
+Get-SPOSite -Limit All -Template "TEAMCHANNEL#1" |
+    Where-Object { $_.GroupId -eq [Guid]::Empty } |
+    Select-Object Url, StorageUsageCurrent, LastContentModifiedDate |
+    Sort-Object LastContentModifiedDate |
+    Format-Table -AutoSize</code></pre>
+
+                    <p>Run this once a month as a Scheduled Task or Azure Automation Runbook &rarr; you catch orphaned sites before they pile up.</p>
+
+                    <h2>11. Complete Script to Take Away</h2>
+
+<pre><code>&lt;#
+.SYNOPSIS
+    Cleanup orphaned Teams Private-Channel SharePoint sites.
+.DESCRIPTION
+    Identifies Channel sites whose parent M365 Group no longer exists,
+    deletes them, and clears them from the SPO Tenant Recycle Bin.
+.NOTES
+    Requires: Windows PowerShell 5.1
+              Microsoft.Online.SharePoint.PowerShell module
+              SharePoint Administrator role (recommended via PIM)
+#&gt;
+param(
+    [Parameter(Mandatory=$true)]
+    [string]$AdminUrl,
+    [Parameter(Mandatory=$true)]
+    [string]$UrlFilterRegex,
+    [switch]$WhatIfMode
+)
+
+Import-Module Microsoft.Online.SharePoint.PowerShell -ErrorAction Stop
+Connect-SPOService -Url $AdminUrl
+
+# Discovery
+$orphans = Get-SPOSite -Limit All -Template "TEAMCHANNEL#1" |
+           Where-Object {
+               $_.Url -match $UrlFilterRegex -and
+               $_.GroupId -eq [Guid]::Empty
+           }
+
+if (-not $orphans) {
+    Write-Host "No orphaned channel sites matched filter '$UrlFilterRegex'." `
+        -ForegroundColor Yellow
+    return
+}
+
+Write-Host "`nFound $($orphans.Count) orphaned channel site(s):" -ForegroundColor Cyan
+$orphans | Select-Object Url, StorageUsageCurrent, LastContentModifiedDate |
+    Format-Table -AutoSize
+
+if ($WhatIfMode) {
+    Write-Host "`n[WhatIf] No changes performed." -ForegroundColor Yellow
+    return
+}
+
+$answer = Read-Host "`nProceed with deletion + recycle-bin purge? (yes/NO)"
+if ($answer -ne 'yes') { Write-Host "Aborted."; return }
+
+# Delete (moves to recycle bin)
+foreach ($s in $orphans) {
+    try {
+        Remove-SPOSite -Identity $s.Url -Confirm:$false -NoWait
+        Write-Host "DEL queued: $($s.Url)" -ForegroundColor Green
+    } catch {
+        Write-Host "FAIL: $($s.Url) -&gt; $($_.Exception.Message)" -ForegroundColor Red
+    }
+}
+
+Start-Sleep -Seconds 30
+
+# Purge from recycle bin
+Get-SPODeletedSite -Limit All |
+    Where-Object { $_.Url -match $UrlFilterRegex } |
+    ForEach-Object {
+        try {
+            Remove-SPODeletedSite -Identity $_.Url -Confirm:$false
+            Write-Host "PURGED: $($_.Url)" -ForegroundColor Green
+        } catch {
+            Write-Host "PURGE FAIL: $($_.Url) -&gt; $($_.Exception.Message)" `
+                -ForegroundColor Red
+        }
+    }
+
+# Verify
+Write-Host "`n--- Verify ---" -ForegroundColor Cyan
+Get-SPOSite -Limit All -Template "TEAMCHANNEL#1" |
+    Where-Object { $_.Url -match $UrlFilterRegex } |
+    Select-Object Url
+Get-SPODeletedSite -Limit All |
+    Where-Object { $_.Url -match $UrlFilterRegex } |
+    Select-Object Url</code></pre>
+
+                    <p><strong>Usage:</strong></p>
+
+<pre><code># Dry run first
+.\Cleanup-OrphanedChannelSites.ps1 `
+    -AdminUrl https://365solution-admin.sharepoint.com `
+    -UrlFilterRegex '/sites/LEE' `
+    -WhatIfMode
+
+# If the list looks correct, run for real
+.\Cleanup-OrphanedChannelSites.ps1 `
+    -AdminUrl https://365solution-admin.sharepoint.com `
+    -UrlFilterRegex '/sites/LEE'</code></pre>
+
+                    <h2>12. Conclusion</h2>
+
+                    <p>What should have been a trivial cleanup turned into a scavenger hunt thanks to three tooling friction points: a macOS auth bug, a PnP version conflict, and a deprecated cmdlet. The actual solution in the end? Five cmdlets. Five minutes.</p>
+
+                    <p>Anyone who regularly deals with lifecycle inconsistencies in an M365 tenant should set up exactly this detection filter (<code>Template=TEAMCHANNEL#1</code> + <code>GroupId=Empty</code>) as a recurring monitor &mdash; orphaned channel sites are far more common than you'd expect.</p>
+
+                    <p><strong>Happy hunting.</strong></p>
+
+                    <hr>
+
+                    <p><em>Pseudonymization: Tenant name, domain, and all GUIDs are anonymized or belong to no longer existing objects. The procedure and cmdlet sequence correspond 1:1 to the real deployment.</em></p>
+
+                    <figure class="post-full-image">
+                        <img src="../assets/images/ghost-hunting-site-archived.webp" alt="SharePoint Admin Center showing Site archived confirmation message after successfully archiving the orphaned Teams Private Channel site">
+                        <figcaption>The satisfying end result: Site archived. Ten ghost sites, gone.</figcaption>
+                    </figure>
+
+                </div>
+            </section>
+
+            <!-- Author Bio -->
+            <section class="author-bio">
+                <img src="../assets/images/cloudknox-author.webp" alt="Philipp Schmidt - Microsoft 365 Security Consultant - easyM365.de" class="author-avatar">
+                <div class="author-info">
+                    <h3>Philipp Schmidt</h3>
+                    <p>IT consultant specializing in Microsoft 365, Security, and Zero Trust architecture. Helping SMBs build secure, scalable, and simple cloud solutions.</p>
+                    <p><strong>Complex IT? I make it simple</strong> &mdash; with M365 that protects, scales, and brings clarity.</p>
+                    <p><a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Learn more: https://easyM365.de</a></p>
+                </div>
+            </section>
+        </article>
+        <div id="post-navigation"></div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2026 Philipp Schmidt. All rights reserved.</p>
+            <p>Secure. Scalable. Simple M365.</p>
+            <div class="footer-links">
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+                <a href="https://www.linkedin.com/in/pschmidt3010" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://github.com/farpoint-tech" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu Script -->
+    <script>
+        const menuToggle = document.getElementById('menu-toggle');
+        const nav = document.getElementById('nav');
+        menuToggle.addEventListener('click', () => {
+            nav.classList.toggle('active');
+        });
+    </script>
+    <script src="../assets/js/post-navigation.js"></script>
+    <script type="application/ld+json">
+    {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Ghost Hunting in the M365 Tenant: Cleaning Up Orphaned Teams Private Channel Sites with PowerShell",
+  "datePublished": "2026-05-21",
+  "author": {
+    "@type": "Person",
+    "name": "Philipp Schmidt",
+    "url": "https://easym365.de"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Philipp Schmidt",
+    "url": "https://easym365.de"
+  },
+  "image": "https://endlesstech.blog/assets/images/ghost-hunting-site-archived.png",
+  "url": "https://farpoint-tech.github.io/endlesstech.blog/posts/2026-05-21-ghost-hunting-m365-orphaned-teams-channel-sites.html",
+  "description": "A field report on cleaning up 10 orphaned Teams Private Channel SharePoint sites with PowerShell after a SharePoint archiving project went sideways.",
+  "inLanguage": "en",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://farpoint-tech.github.io/endlesstech.blog/posts/2026-05-21-ghost-hunting-m365-orphaned-teams-channel-sites.html"
+  }
+}
+    </script>
+</body>
+</html>

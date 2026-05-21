@@ -131,6 +131,12 @@
       title: "Taming the SharePoint Permission Nightmare: The New Copilot Readiness Tool",
       themes: ["sharepoint", "copilot", "security"],
       related: [13, 19, 3]
+    },
+    {
+      slug: "2026-05-21-ghost-hunting-m365-orphaned-teams-channel-sites",
+      title: "Ghost Hunting in the M365 Tenant: Cleaning Up Orphaned Teams Private Channel Sites",
+      themes: ["sharepoint", "m365", "powershell"],
+      related: [13, 21, 14]
     }
   ];
 
