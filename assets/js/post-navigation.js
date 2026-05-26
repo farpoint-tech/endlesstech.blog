@@ -137,6 +137,12 @@
       title: "Ghost Hunting in the M365 Tenant: Cleaning Up Orphaned Teams Private Channel Sites",
       themes: ["sharepoint", "m365", "powershell"],
       related: [13, 21, 14]
+    },
+    {
+      slug: "2026-05-26-your-it-security-is-an-airport",
+      title: "Your IT Security Is an Airport – And Everyone Is Sneaking Through the Emergency Exit",
+      themes: ["zero-trust", "security", "strategy"],
+      related: [0, 7, 3]
     }
   ];
 
