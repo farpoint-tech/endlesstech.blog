@@ -156,41 +156,56 @@
   var container = document.getElementById("post-navigation");
   if (!container) return;
 
-  var html = "";
+  function el(tag, cls, text) {
+    var node = document.createElement(tag);
+    if (cls) node.className = cls;
+    if (text) node.textContent = text;
+    return node;
+  }
 
   // Prev / Next navigation
   var prev = currentIndex > 0 ? posts[currentIndex - 1] : null;
   var next = currentIndex < posts.length - 1 ? posts[currentIndex + 1] : null;
 
-  html += '<nav class="post-nav" aria-label="Post navigation">';
+  var nav = el("nav", "post-nav");
+  nav.setAttribute("aria-label", "Post navigation");
+
   if (prev) {
-    html += '<a href="' + prev.slug + '.html" class="post-nav-link post-nav-prev">';
-    html += '<span class="post-nav-label">Previous Post</span>';
-    html += '<span class="post-nav-title">' + prev.title + "</span></a>";
+    var prevLink = el("a", "post-nav-link post-nav-prev");
+    prevLink.href = prev.slug + ".html";
+    prevLink.appendChild(el("span", "post-nav-label", "Previous Post"));
+    prevLink.appendChild(el("span", "post-nav-title", prev.title));
+    nav.appendChild(prevLink);
   } else {
-    html += '<span class="post-nav-link post-nav-prev post-nav-empty"></span>';
+    nav.appendChild(el("span", "post-nav-link post-nav-prev post-nav-empty"));
   }
+
   if (next) {
-    html += '<a href="' + next.slug + '.html" class="post-nav-link post-nav-next">';
-    html += '<span class="post-nav-label">Next Post</span>';
-    html += '<span class="post-nav-title">' + next.title + "</span></a>";
+    var nextLink = el("a", "post-nav-link post-nav-next");
+    nextLink.href = next.slug + ".html";
+    nextLink.appendChild(el("span", "post-nav-label", "Next Post"));
+    nextLink.appendChild(el("span", "post-nav-title", next.title));
+    nav.appendChild(nextLink);
   } else {
-    html += '<span class="post-nav-link post-nav-next post-nav-empty"></span>';
+    nav.appendChild(el("span", "post-nav-link post-nav-next post-nav-empty"));
   }
-  html += "</nav>";
+
+  container.appendChild(nav);
 
   // Related posts
   var relatedIndices = posts[currentIndex].related;
-  html += '<section class="related-posts">';
-  html += "<h2>You Might Also Like</h2>";
-  html += '<div class="related-posts-grid">';
+  var section = el("section", "related-posts");
+  section.appendChild(el("h2", null, "You Might Also Like"));
+  var grid = el("div", "related-posts-grid");
+
   for (var r = 0; r < relatedIndices.length; r++) {
     var rp = posts[relatedIndices[r]];
-    html += '<a href="' + rp.slug + '.html" class="related-post-card">';
-    html += '<span class="related-post-title">' + rp.title + "</span>";
-    html += "</a>";
+    var card = el("a", "related-post-card");
+    card.href = rp.slug + ".html";
+    card.appendChild(el("span", "related-post-title", rp.title));
+    grid.appendChild(card);
   }
-  html += "</div></section>";
 
-  container.innerHTML = html;
+  section.appendChild(grid);
+  container.appendChild(section);
 })();
