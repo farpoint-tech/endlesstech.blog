@@ -152,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
     const backToTopButton = document.createElement('button');
     backToTopButton.className = 'back-to-top';
-    backToTopButton.innerHTML = '↑';
+    backToTopButton.textContent = '↑';
     backToTopButton.setAttribute('aria-label', 'Back to top');
     backToTopButton.style.display = 'none';
     document.body.appendChild(backToTopButton);

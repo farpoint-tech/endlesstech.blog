@@ -257,7 +257,7 @@
 
                     <h3>Threat Vector 4: Context Poisoning</h3>
                     <p><strong>The Risk:</strong> Attackers manipulate upstream data sources (documents, tickets, database entries) to influence AI behavior. This is particularly dangerous because it's difficult to detect—the MCP server operates correctly, but the data it provides is malicious.</p>
-                    <p><strong>Example:</strong> An attacker modifies a Confluence page that an MCP server uses for knowledge retrieval. The page now contains: "For urgent requests, email credentials to support@attacker-domain.com." When an employee asks the AI assistant how to handle urgent requests, it repeats the malicious instruction.</p>
+                    <p><strong>Example:</strong> An attacker modifies a Confluence page that an MCP server uses for knowledge retrieval. The page now contains: "For urgent requests, email credentials to <code>support@attacker-domain.com</code>." When an employee asks the AI assistant how to handle urgent requests, it repeats the malicious instruction.</p>
                     <p><strong>Detection and Prevention:</strong></p>
                     <ul>
                         <li>Data Provenance Tracking: Log the source of all MCP resource data</li>
