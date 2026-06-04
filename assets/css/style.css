@@ -1,34 +1,64 @@
 /* EndlessTech Blog - Main Stylesheet */
 
 /* ==================== Self-Hosted Fonts ==================== */
-/* Inter variable font - replaces Google Fonts dependency for privacy and security */
+/* Raleway — Headlines (OFL, self-hosted for GDPR compliance) */
 @font-face {
-  font-family: 'Inter';
+  font-family: 'Raleway';
   font-style: normal;
-  font-weight: 100 900;
+  font-weight: 700;
   font-display: swap;
-  src: url('../fonts/InterVariable.woff2') format('woff2');
+  src: url('../fonts/Raleway-Bold.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url('../fonts/Raleway-ExtraBold.woff2') format('woff2');
+}
+
+/* IBM Plex Sans — Body/UI (OFL, self-hosted for GDPR compliance) */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/IBMPlexSans-Regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../fonts/IBMPlexSans-Medium.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../fonts/IBMPlexSans-SemiBold.woff2') format('woff2');
 }
 
 /* ==================== CSS Variables ==================== */
 :root {
-  /* Brand Colors */
-  --color-primary: #3366FF;
-  --color-secondary: #FFB84D;
-  --color-accent: #FFB84D;
-  --color-neon-cyan: #00D9FF;
-  --color-neon-pink: #FF00FF;
-  
+  /* Brand Colors — easyM365 Identity */
+  --color-primary: #00CED1;
+  --color-navy: #002863;
+  --color-secondary: #002863;
+  --color-accent: #ECC23B;
+  --color-accent-orange: #E2681D;
+
   /* Neutral Colors */
   --color-bg: #FFFFFF;
   --color-bg-alt: #F5F5F5;
   --color-text: #333333;
   --color-text-light: #666666;
   --color-border: #E0E0E0;
-  
+
   /* Typography */
-  --font-heading: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-heading: 'Raleway', 'IBM Plex Sans', sans-serif;
+  --font-body: 'IBM Plex Sans', system-ui, sans-serif;
   --font-code: 'Fira Code', 'Courier New', monospace;
   
   /* Spacing */
@@ -245,7 +275,7 @@ em, i {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, rgba(51, 102, 255, 0.8), rgba(255, 184, 77, 0.6));
+  background: linear-gradient(135deg, rgba(0, 40, 99, 0.85), rgba(0, 206, 209, 0.5));
   z-index: -1;
 }
 
@@ -271,7 +301,7 @@ em, i {
   display: inline-block;
   padding: var(--spacing-sm) var(--spacing-lg);
   background-color: var(--color-primary);
-  color: white;
+  color: var(--color-navy);
   font-weight: 700;
   border-radius: 8px;
   transition: var(--transition);
@@ -279,9 +309,10 @@ em, i {
 }
 
 .hero-cta:hover {
-  background-color: #1a4fd6;
+  background-color: #00b5b8;
   transform: translateY(-2px);
   box-shadow: var(--shadow-lg);
+  color: var(--color-navy);
 }
 
 @media (max-width: 768px) {
@@ -684,7 +715,7 @@ em, i {
 
 /* ==================== Footer ==================== */
 .footer {
-  background-color: var(--color-text);
+  background-color: var(--color-navy);
   color: white;
   padding: var(--spacing-xl) var(--spacing-md);
   margin-top: var(--spacing-xxl);
@@ -705,7 +736,7 @@ em, i {
 }
 
 .footer a:hover {
-  color: var(--color-neon-cyan);
+  color: var(--color-primary);
 }
 
 /* ==================== Utility Classes ==================== */
@@ -797,7 +828,7 @@ em, i {
 .category-btn:hover {
   border-color: var(--color-primary);
   color: var(--color-primary);
-  background: rgba(51, 102, 255, 0.05);
+  background: rgba(0, 206, 209, 0.08);
 }
 
 .category-btn.active {
