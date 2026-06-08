@@ -143,6 +143,12 @@
       title: "Your IT Security Is an Airport – And Everyone Is Sneaking Through the Emergency Exit",
       themes: ["zero-trust", "security", "strategy"],
       related: [0, 7, 3]
+    },
+    {
+      slug: "2026-06-08-microsoft-scout-autopilot-for-it",
+      title: "Microsoft Scout: Why the Autopilot for Your IT Is Brilliant—But Not Ready for You Yet",
+      themes: ["ai", "security", "zero-trust", "intune"],
+      related: [19, 4, 23]
     }
   ];
 
