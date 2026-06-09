@@ -754,6 +754,49 @@ em, i {
 .mb-lg { margin-bottom: var(--spacing-lg); }
 .mb-xl { margin-bottom: var(--spacing-xl); }
 
+/* ==================== Cornerstone Posts ==================== */
+.cornerstone-section {
+  margin-top: var(--spacing-xxl);
+}
+
+.cornerstone-subtitle {
+  color: var(--color-text-light);
+  margin-bottom: var(--spacing-lg);
+}
+
+.cornerstone-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-md);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.cornerstone-card {
+  display: block;
+  padding: var(--spacing-md);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.cornerstone-card:hover {
+  background: rgba(0, 206, 209, 0.08);
+  transform: translateY(-2px);
+}
+
+.cornerstone-card strong {
+  color: var(--color-primary);
+  font-size: 1.1rem;
+}
+
+.cornerstone-card p {
+  color: var(--color-text-light);
+  margin: var(--spacing-xs) 0 0;
+  font-size: 0.9rem;
+}
+
 /* ==================== Responsive Design ==================== */
 @media (max-width: 1024px) {
   :root {
