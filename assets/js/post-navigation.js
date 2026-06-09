@@ -149,6 +149,12 @@
       title: "Microsoft Scout: Why the Autopilot for Your IT Is Brilliant—But Not Ready for You Yet",
       themes: ["ai", "security", "zero-trust", "intune"],
       related: [19, 4, 23]
+    },
+    {
+      slug: "2026-06-09-is-microsoft-entra-id-free-pricing-guide",
+      title: "Is Microsoft Entra ID Free? Pricing Guide for Small Businesses",
+      themes: ["entra", "identity", "m365"],
+      related: [9, 7, 0]
     }
   ];
 
