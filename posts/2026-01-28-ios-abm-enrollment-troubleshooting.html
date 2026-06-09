@@ -41,7 +41,6 @@ permalink: /posts/2026-01-28-ios-abm-enrollment-troubleshooting.html
         <div class="header-container">
             <a href="../index.html" class="logo">
                 <img src="../assets/images/logo.webp" alt="Philipp Schmidt - Secure. Scalable. Simple M365.">
-                <img src="../assets/images/knox-logo.png" alt="Knox - Zero Trust, Zero Drama, Zero Bullshit">
             </a>
             <nav class="nav" id="nav">
                 <a href="../index.html">Home</a>
@@ -66,7 +65,7 @@ permalink: /posts/2026-01-28-ios-abm-enrollment-troubleshooting.html
             </header>
             
             <figure class="post-full-image" style="max-height: 400px; overflow: hidden;">
-                <img src="../assets/images/ios-abm-enrollment-hero.webp" alt="iPad displaying Apple Business Manager enrollment error with Not Contacted status in Microsoft Intune console" style="width: 100%; height: auto; max-height: 400px; object-fit: cover;">
+                <img src="../assets/images/ios-abm-enrollment-hero.webp" alt="iPad displaying Apple Business Manager enrollment error with Not Contacted status in Microsoft Intune console" style="width: 100%; height: auto; max-height: 400px; object-fit: cover;" srcset="../assets/images/responsive/ios-abm-enrollment-hero-400w.webp 400w, ../assets/images/responsive/ios-abm-enrollment-hero-800w.webp 800w, ../assets/images/ios-abm-enrollment-hero.webp 1344w" sizes="(max-width: 800px) 100vw, 800px">
             </figure>
 
             <section class="post-full-content">
@@ -156,7 +155,7 @@ permalink: /posts/2026-01-28-ios-abm-enrollment-troubleshooting.html
                     <p>The issue stems from a fundamental misunderstanding of how Apple's Automated Device Enrollment (formerly DEP) works. The problem is not with Intune or ABM, but with the sequence of events during the device's initial activation.</p>
 
                     <figure class="post-content-image">
-                        <img src="../assets/images/ios-abm-enrollment/enrollment-flow-diagram.webp" alt="Comparison diagram of correct vs broken ABM enrollment flows" style="max-width: 100%; height: auto; display: block; margin: 2rem auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);" loading="lazy">
+                        <img src="../assets/images/ios-abm-enrollment/enrollment-flow-diagram.webp" alt="Comparison diagram of correct vs broken ABM enrollment flows" style="max-width: 100%; height: auto; display: block; margin: 2rem auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);" loading="lazy" srcset="../assets/images/ios-abm-enrollment/responsive/enrollment-flow-diagram-400w.webp 400w, ../assets/images/ios-abm-enrollment/responsive/enrollment-flow-diagram-800w.webp 800w, ../assets/images/ios-abm-enrollment/enrollment-flow-diagram.webp 1344w" sizes="(max-width: 800px) 100vw, 800px">
                         <figcaption style="text-align: center; font-style: italic; color: #666; margin-top: 0.5rem;">Correct enrollment flow vs. broken flow when device is added to ABM after activation</figcaption>
                     </figure>
 
@@ -191,7 +190,7 @@ permalink: /posts/2026-01-28-ios-abm-enrollment-troubleshooting.html
                     <p>To fix this, you must guide the device back to its initial, out-of-the-box state, allowing it to correctly perform the ABM check.</p>
 
                     <figure class="post-content-image">
-                        <img src="../assets/images/ios-abm-enrollment/factory-reset-guide.webp" alt="Step-by-step guide for iOS device factory reset and ABM re-enrollment" style="max-width: 100%; height: auto; display: block; margin: 2rem auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);" loading="lazy">
+                        <img src="../assets/images/ios-abm-enrollment/factory-reset-guide.webp" alt="Step-by-step guide for iOS device factory reset and ABM re-enrollment" style="max-width: 100%; height: auto; display: block; margin: 2rem auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);" loading="lazy" srcset="../assets/images/ios-abm-enrollment/responsive/factory-reset-guide-400w.webp 400w, ../assets/images/ios-abm-enrollment/responsive/factory-reset-guide-800w.webp 800w, ../assets/images/ios-abm-enrollment/factory-reset-guide.webp 1344w" sizes="(max-width: 800px) 100vw, 800px">
                         <figcaption style="text-align: center; font-style: italic; color: #666; margin-top: 0.5rem;">Factory reset workflow to enable proper ABM enrollment</figcaption>
                     </figure>
 
@@ -216,7 +215,7 @@ permalink: /posts/2026-01-28-ios-abm-enrollment-troubleshooting.html
                     </ol>
 
                     <figure class="post-content-image">
-                        <img src="../assets/images/ios-abm-enrollment/success-failure-comparison.webp" alt="Visual comparison of failed versus successful ABM enrollment" style="max-width: 100%; height: auto; display: block; margin: 2rem auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);" loading="lazy">
+                        <img src="../assets/images/ios-abm-enrollment/success-failure-comparison.webp" alt="Visual comparison of failed versus successful ABM enrollment" style="max-width: 100%; height: auto; display: block; margin: 2rem auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);" loading="lazy" srcset="../assets/images/ios-abm-enrollment/responsive/success-failure-comparison-400w.webp 400w, ../assets/images/ios-abm-enrollment/responsive/success-failure-comparison-800w.webp 800w, ../assets/images/ios-abm-enrollment/success-failure-comparison.webp 1344w" sizes="(max-width: 800px) 100vw, 800px">
                         <figcaption style="text-align: center; font-style: italic; color: #666; margin-top: 0.5rem;">Failed enrollment (left) vs. successful supervised enrollment (right)</figcaption>
                     </figure>
 
@@ -227,7 +226,7 @@ permalink: /posts/2026-01-28-ios-abm-enrollment-troubleshooting.html
                     <p>Fixing the problem is good, but preventing it is better. Implement these best practices to ensure a smooth, zero-touch enrollment experience from day one.</p>
 
                     <figure class="post-content-image">
-                        <img src="../assets/images/ios-abm-enrollment/procurement-workflow.webp" alt="Best practice workflow for corporate iOS device procurement and ABM enrollment" style="max-width: 100%; height: auto; display: block; margin: 2rem auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);" loading="lazy">
+                        <img src="../assets/images/ios-abm-enrollment/procurement-workflow.webp" alt="Best practice workflow for corporate iOS device procurement and ABM enrollment" style="max-width: 100%; height: auto; display: block; margin: 2rem auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);" loading="lazy" srcset="../assets/images/ios-abm-enrollment/responsive/procurement-workflow-400w.webp 400w, ../assets/images/ios-abm-enrollment/responsive/procurement-workflow-800w.webp 800w, ../assets/images/ios-abm-enrollment/procurement-workflow.webp 1344w" sizes="(max-width: 800px) 100vw, 800px">
                         <figcaption style="text-align: center; font-style: italic; color: #666; margin-top: 0.5rem;">Recommended procurement workflow for zero-touch ABM enrollment</figcaption>
                     </figure>
 
