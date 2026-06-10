@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>EndlessTech Blog</title>
+    <link>https://endlesstech.blog/</link>
+    <description>Practical Microsoft 365 security guides, Zero Trust strategies, and Intune tips for SMBs. By Philipp Schmidt.</description>
+    <language>en</language>
+    <managingEditor>philippschmidt3010@gmail.com (Philipp Schmidt)</managingEditor>
+    <lastBuildDate>Tue, 10 Jun 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://endlesstech.blog/feed.xml" rel="self" type="application/rss+xml"/>
+    <image>
+      <url>https://endlesstech.blog/assets/images/logo.webp</url>
+      <title>EndlessTech Blog</title>
+      <link>https://endlesstech.blog/</link>
+    </image>
+
+    <item>
+      <title>Is Microsoft Entra ID Free? Pricing Guide for Small Businesses</title>
+      <link>https://endlesstech.blog/posts/2026-06-09-is-microsoft-entra-id-free-pricing-guide.html</link>
+      <guid>https://endlesstech.blog/posts/2026-06-09-is-microsoft-entra-id-free-pricing-guide.html</guid>
+      <pubDate>Mon, 09 Jun 2026 00:00:00 +0000</pubDate>
+      <description>Is Microsoft Entra ID free? Yes — and here's exactly what the free tier includes, what paid plans cost, and when small businesses actually need to upgrade.</description>
+    </item>
+
+    <item>
+      <title>Microsoft Scout: Why the Autopilot for Your IT Is Brilliant—But Not Ready for You Yet</title>
+      <link>https://endlesstech.blog/posts/2026-06-08-microsoft-scout-autopilot-for-it.html</link>
+      <guid>https://endlesstech.blog/posts/2026-06-08-microsoft-scout-autopilot-for-it.html</guid>
+      <pubDate>Mon, 08 Jun 2026 00:00:00 +0000</pubDate>
+      <description>Microsoft Scout is an autonomous AI agent that runs shell commands on your devices. The Entra ID architecture is brilliant, but Purview DLP, audit trails, and EU Data Boundary compliance are missing. Here is the reality check.</description>
+    </item>
+
+    <item>
+      <title>Your IT Security Is an Airport – And Everyone Is Sneaking Through the Emergency Exit</title>
+      <link>https://endlesstech.blog/posts/2026-05-26-your-it-security-is-an-airport.html</link>
+      <guid>https://endlesstech.blog/posts/2026-05-26-your-it-security-is-an-airport.html</guid>
+      <pubDate>Tue, 26 May 2026 00:00:00 +0000</pubDate>
+      <description>Your company's IT security works exactly like an airport. Some departments have TSA Pre-Check, others are sneaking through the emergency exit. A sarcastic but dead-accurate guide to Zero Trust.</description>
+    </item>
+
+    <item>
+      <title>Ghost Hunting in the M365 Tenant: Cleaning Up Orphaned Teams Private Channel Sites</title>
+      <link>https://endlesstech.blog/posts/2026-05-21-ghost-hunting-m365-orphaned-teams-channel-sites.html</link>
+      <guid>https://endlesstech.blog/posts/2026-05-21-ghost-hunting-m365-orphaned-teams-channel-sites.html</guid>
+      <pubDate>Thu, 21 May 2026 00:00:00 +0000</pubDate>
+      <description>A field report on cleaning up 10 orphaned Teams Private Channel SharePoint sites with PowerShell after a SharePoint archiving project went sideways.</description>
+    </item>
+
+    <item>
+      <title>Security by Obscurity Is Dead</title>
+      <link>https://endlesstech.blog/posts/2026-05-01-security-obscurity-is-dead.html</link>
+      <guid>https://endlesstech.blog/posts/2026-05-01-security-obscurity-is-dead.html</guid>
+      <pubDate>Fri, 01 May 2026 00:00:00 +0000</pubDate>
+      <description>Security by Obscurity is a dangerous illusion. Learn how Defense in Depth, Least Privilege, and Zero Trust build real enterprise security with Microsoft 365.</description>
+    </item>
+
+    <item>
+      <title>Taming the SharePoint Permission Nightmare: The New Copilot Readiness Tool</title>
+      <link>https://endlesstech.blog/posts/2026-04-17-sharepoint-permission-auditing-copilot.html</link>
+      <guid>https://endlesstech.blog/posts/2026-04-17-sharepoint-permission-auditing-copilot.html</guid>
+      <pubDate>Thu, 17 Apr 2026 00:00:00 +0000</pubDate>
+      <description>Discover the new SharePoint Data Access Governance report. Audit user permissions easily, prevent oversharing, and prepare your M365 tenant for Copilot securely.</description>
+    </item>
+
+    <item>
+      <title>Microsoft 365 vs. Baramundi: The Real Story</title>
+      <link>https://endlesstech.blog/posts/2026-04-08-microsoft-365-vs-baramundi-the-real-story.html</link>
+      <guid>https://endlesstech.blog/posts/2026-04-08-microsoft-365-vs-baramundi-the-real-story.html</guid>
+      <pubDate>Wed, 08 Apr 2026 00:00:00 +0000</pubDate>
+      <description>Why Microsoft 365 and Baramundi are not direct competitors, but complementary solutions. A factual analysis of their differences and how they work together.</description>
+    </item>
+
+    <item>
+      <title>Copilot ROI: Why Knowledge Management Is the Difference Between 1.4:1 and 5.4:1</title>
+      <link>https://endlesstech.blog/posts/2026-04-08-copilot-roi-knowledge-management-guide.html</link>
+      <guid>https://endlesstech.blog/posts/2026-04-08-copilot-roi-knowledge-management-guide.html</guid>
+      <pubDate>Wed, 08 Apr 2026 00:00:00 +0000</pubDate>
+      <description>Microsoft 365 Copilot ROI breakdown for 60 users: real cost analysis, 5.4:1 return, NIST AI RMF mapping, glossary, and a 10-point readiness checklist.</description>
+    </item>
+
+    <item>
+      <title>The Final Exchange Server: Why the Cloud Switch Isn't a Magic Wand</title>
+      <link>https://endlesstech.blog/posts/2026-03-30-exchange-soa-switch-reality.html</link>
+      <guid>https://endlesstech.blog/posts/2026-03-30-exchange-soa-switch-reality.html</guid>
+      <pubDate>Mon, 30 Mar 2026 00:00:00 +0000</pubDate>
+      <description>Microsoft's new Exchange SOA switch promises to let you shut down your last on-premises server. But edge cases like configuration drift can cause chaos.</description>
+    </item>
+
+    <item>
+      <title>Stop the Setup Chaos: How Windows Autopilot Deploys Hundreds of Devices</title>
+      <link>https://endlesstech.blog/posts/2026-03-27-windows-autopilot-end-the-setup-chaos.html</link>
+      <guid>https://endlesstech.blog/posts/2026-03-27-windows-autopilot-end-the-setup-chaos.html</guid>
+      <pubDate>Fri, 27 Mar 2026 00:00:00 +0000</pubDate>
+      <description>Stop wasting hours setting up laptops manually. Learn how Windows Autopilot v1 and v2 transform device deployment for SMEs — zero IT touch required.</description>
+    </item>
+
+    <item>
+      <title>AADSTS650052: WindowsDefenderATP Service Principal Missing – Cause &amp; Fix</title>
+      <link>https://endlesstech.blog/posts/2026-03-26-aadsts650052-windowsdefenderatp-service-principal-missing.html</link>
+      <guid>https://endlesstech.blog/posts/2026-03-26-aadsts650052-windowsdefenderatp-service-principal-missing.html</guid>
+      <pubDate>Thu, 26 Mar 2026 00:00:00 +0000</pubDate>
+      <description>Fix the AADSTS650052 error: WindowsDefenderATP Service Principal missing. Learn the cause, pitfalls with E5 Dev Tenants, and the PowerShell solution.</description>
+    </item>
+
+    <item>
+      <title>From NT to M365 – A Journey Through Tech, Decisions, and the People Behind Them</title>
+      <link>https://endlesstech.blog/posts/2026-03-16-from-nt-to-m365-a-journey-through-tech-decisions-and-people.html</link>
+      <guid>https://endlesstech.blog/posts/2026-03-16-from-nt-to-m365-a-journey-through-tech-decisions-and-people.html</guid>
+      <pubDate>Mon, 16 Mar 2026 00:00:00 +0000</pubDate>
+      <description>A personal reflection on 15+ years in IT consulting – from Windows NT and Active Directory to M365 and Zero Trust – and the moments that shaped the journey.</description>
+    </item>
+
+    <item>
+      <title>The Golden Tenant Is Dead. Here's What Replaces It.</title>
+      <link>https://endlesstech.blog/posts/2026-02-25-the-golden-tenant-is-dead.html</link>
+      <guid>https://endlesstech.blog/posts/2026-02-25-the-golden-tenant-is-dead.html</guid>
+      <pubDate>Wed, 25 Feb 2026 00:00:00 +0000</pubDate>
+      <description>Static golden tenants can't keep up with Microsoft's update pace. Learn why IT teams and MSPs are moving to automated, drift-aware Intune management.</description>
+    </item>
+
+    <item>
+      <title>The Future of SharePoint Archiving: File-Level is Coming</title>
+      <link>https://endlesstech.blog/posts/2026-02-25-cloudknox-sharepoint-file-level-archiving.html</link>
+      <guid>https://endlesstech.blog/posts/2026-02-25-cloudknox-sharepoint-file-level-archiving.html</guid>
+      <pubDate>Wed, 25 Feb 2026 00:00:00 +0000</pubDate>
+      <description>A deep dive into the upcoming file-level archiving in SharePoint with Microsoft 365 Archive, its costs, roadmap, and comparison with current third-party solutions.</description>
+    </item>
+
+    <item>
+      <title>You Don't Have to Love Microsoft – But You Should Understand Its Dominance</title>
+      <link>https://endlesstech.blog/posts/2026-02-01-microsoft-dominanz-pragmatismus-alternativen.html</link>
+      <guid>https://endlesstech.blog/posts/2026-02-01-microsoft-dominanz-pragmatismus-alternativen.html</guid>
+      <pubDate>Sun, 01 Feb 2026 00:00:00 +0000</pubDate>
+      <description>Microsoft 365 isn't perfect, but it's unrivaled. Why its market position is earned, alternatives are mostly building blocks, and independent backups are key to resilience.</description>
+    </item>
+
+    <item>
+      <title>iOS/iPadOS ABM Enrollment Troubleshooting: The 'Not Contacted' Nightmare</title>
+      <link>https://endlesstech.blog/posts/2026-01-28-ios-abm-enrollment-troubleshooting.html</link>
+      <guid>https://endlesstech.blog/posts/2026-01-28-ios-abm-enrollment-troubleshooting.html</guid>
+      <pubDate>Wed, 28 Jan 2026 00:00:00 +0000</pubDate>
+      <description>A deep dive into why iOS devices fail to enroll via Apple Business Manager (ABM) and show a 'Not Contacted' status in Intune. Learn the root cause and the mandatory factory reset fix.</description>
+    </item>
+
+    <item>
+      <title>Intune Enrollment Restrictions: Your Foundational Control Against Local Admin Risk</title>
+      <link>https://endlesstech.blog/posts/2026-01-06-intune-enrollment-restrictions.html</link>
+      <guid>https://endlesstech.blog/posts/2026-01-06-intune-enrollment-restrictions.html</guid>
+      <pubDate>Tue, 06 Jan 2026 00:00:00 +0000</pubDate>
+      <description>Discover why Intune Enrollment Restrictions are the foundational control for a Zero Trust architecture. Learn how to block personal Windows devices, mitigate local admin risks, and build a secure endpoint environment from the ground up.</description>
+    </item>
+
+    <item>
+      <title>Microsoft Entra Tenant vs. Azure Subscriptions – What's the Difference?</title>
+      <link>https://endlesstech.blog/posts/2026-01-02-microsoft-entra-tenant-vs-azure-subscriptions.html</link>
+      <guid>https://endlesstech.blog/posts/2026-01-02-microsoft-entra-tenant-vs-azure-subscriptions.html</guid>
+      <pubDate>Fri, 02 Jan 2026 00:00:00 +0000</pubDate>
+      <description>Understand the fundamental differences between Microsoft Entra ID Tenants and Azure Subscriptions, and learn how they work together to manage identity and cloud resources.</description>
+    </item>
+
+    <item>
+      <title>Unlocking Zero Trust: Mastering Identity and Network Security with Microsoft Entra Suite</title>
+      <link>https://endlesstech.blog/posts/2025-12-18-zero-trust-microsoft-entra-suite.html</link>
+      <guid>https://endlesstech.blog/posts/2025-12-18-zero-trust-microsoft-entra-suite.html</guid>
+      <pubDate>Thu, 18 Dec 2025 00:00:00 +0000</pubDate>
+      <description>A deep dive into Microsoft Entra Suite and how it enables a Zero Trust security model for modern organizations.</description>
+    </item>
+
+    <item>
+      <title>Windows 11 and Hardware Lifecycles: Why the Debate is Bigger Than Microsoft</title>
+      <link>https://endlesstech.blog/posts/2025-12-18-windows-11-hardware-lifecycle.html</link>
+      <guid>https://endlesstech.blog/posts/2025-12-18-windows-11-hardware-lifecycle.html</guid>
+      <pubDate>Thu, 18 Dec 2025 00:00:00 +0000</pubDate>
+      <description>The debate over Windows 11's hardware requirements isn't about an update; it's about the future of IT infrastructure and why a structured hardware lifecycle is a business necessity.</description>
+    </item>
+
+    <item>
+      <title>Beyond the Basics: Why Smart M365 Add-Ons Are Your Best Investment</title>
+      <link>https://endlesstech.blog/posts/2025-12-18-beyond-the-basics-why-smart-m365-add-ons-are-your-best-investment.html</link>
+      <guid>https://endlesstech.blog/posts/2025-12-18-beyond-the-basics-why-smart-m365-add-ons-are-your-best-investment.html</guid>
+      <pubDate>Thu, 18 Dec 2025 00:00:00 +0000</pubDate>
+      <description>Learn why Business Premium is essential for SMBs and how E5 Security and Compliance add-ons deliver enterprise-grade protection at a fraction of the cost.</description>
+    </item>
+
+    <item>
+      <title>MCP Servers: Understanding the Double-Edged Sword of AI Tooling</title>
+      <link>https://endlesstech.blog/posts/2025-12-17-cloudknox-mcp-servers-understanding-the-double-edged-sword-of-ai-tooling.html</link>
+      <guid>https://endlesstech.blog/posts/2025-12-17-cloudknox-mcp-servers-understanding-the-double-edged-sword-of-ai-tooling.html</guid>
+      <pubDate>Wed, 17 Dec 2025 00:00:00 +0000</pubDate>
+      <description>Discover how the Model Context Protocol (MCP) transforms AI integration while introducing critical security risks, and learn the four-layer defense strategy.</description>
+    </item>
+
+    <item>
+      <title>Boost Your Cyber Defense: Microsoft Secure Score for SMBs</title>
+      <link>https://endlesstech.blog/posts/2025-11-15-boost-your-cyber-defense-microsoft-secure-score-for-smbs.html</link>
+      <guid>https://endlesstech.blog/posts/2025-11-15-boost-your-cyber-defense-microsoft-secure-score-for-smbs.html</guid>
+      <pubDate>Sat, 15 Nov 2025 00:00:00 +0000</pubDate>
+      <description>Discover how Microsoft Secure Score helps SMBs benchmark and improve cybersecurity. Learn practical steps, benchmarks, and expert tips for Microsoft 365 security.</description>
+    </item>
+
+    <item>
+      <title>Windows 365 Cloud Apps: When Less is More</title>
+      <link>https://endlesstech.blog/posts/2025-11-13-windows-365-cloud-apps-when-less-is-more.html</link>
+      <guid>https://endlesstech.blog/posts/2025-11-13-windows-365-cloud-apps-when-less-is-more.html</guid>
+      <pubDate>Thu, 13 Nov 2025 00:00:00 +0000</pubDate>
+      <description>Windows 365 Cloud Apps revolutionize application delivery. Discover how targeted app streaming reduces costs and increases efficiency for SMEs.</description>
+    </item>
+
+    <item>
+      <title>Mobile Application Management: Your Quarterback for Mobile Security</title>
+      <link>https://endlesstech.blog/posts/2025-11-10-mobile-application-management-your-quarterback-for-mobile-security.html</link>
+      <guid>https://endlesstech.blog/posts/2025-11-10-mobile-application-management-your-quarterback-for-mobile-security.html</guid>
+      <pubDate>Mon, 10 Nov 2025 00:00:00 +0000</pubDate>
+      <description>Discover how Mobile Application Management (MAM) can help you secure corporate data on personal devices without compromising on flexibility.</description>
+    </item>
+
+    <item>
+      <title>Getting Started with Zero Trust Security</title>
+      <link>https://endlesstech.blog/posts/2025-10-24-getting-started-with-zero-trust.html</link>
+      <guid>https://endlesstech.blog/posts/2025-10-24-getting-started-with-zero-trust.html</guid>
+      <pubDate>Fri, 24 Oct 2025 00:00:00 +0000</pubDate>
+      <description>Discover how to implement Zero Trust security principles in your Microsoft 365 environment and protect your organization from modern threats.</description>
+    </item>
+
+    <item>
+      <title>The Copilot "Mandate" – A Fact-Check on Digital Sovereignty and Cloud Governance</title>
+      <link>https://endlesstech.blog/posts/cloudknox-the-copilot-mandate.html</link>
+      <guid>https://endlesstech.blog/posts/cloudknox-the-copilot-mandate.html</guid>
+      <description>A fact-check on the Swiss Parliament's Microsoft Copilot incident, exploring digital sovereignty, cloud governance, and the shared responsibility model in the AI era.</description>
+    </item>
+
+  </channel>
+</rss>

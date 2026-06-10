@@ -134,4 +134,9 @@
     <loc>https://endlesstech.blog/posts/cloudknox-the-copilot-mandate.html</loc>
     <priority>0.7</priority>
   </url>
+  <url>
+    <loc>https://endlesstech.blog/feed.xml</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
 </urlset>
