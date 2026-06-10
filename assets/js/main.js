@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Console message
-console.log('%c👋 Welcome to EndlessTech Blog!', 'font-size: 20px; font-weight: bold; color: #00CED1;');
+console.log('%c👋 Welcome to EndlessTech Blog!', 'font-size: 20px; font-weight: bold; color: #1D4ED8;');
 console.log('%cBuilt with ❤️ by Philipp Schmidt', 'font-size: 14px; color: #ECC23B;');
 console.log('%cSecure. Scalable. Simple M365.', 'font-size: 12px; color: #666;');
 
