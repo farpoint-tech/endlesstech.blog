@@ -6,7 +6,7 @@
     <description>Practical Microsoft 365 security guides, Zero Trust strategies, and Intune tips for SMBs. By Philipp Schmidt.</description>
     <language>en</language>
     <managingEditor>philippschmidt3010@gmail.com (Philipp Schmidt)</managingEditor>
-    <lastBuildDate>Tue, 10 Jun 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 10 Jun 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://endlesstech.blog/feed.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://endlesstech.blog/assets/images/logo.webp</url>
@@ -15,10 +15,18 @@
     </image>
 
     <item>
+      <title>Digital Sovereignty: Why Europe Lost the Cloud Race — And Why That's Okay</title>
+      <link>https://endlesstech.blog/posts/2026-06-10-digital-sovereignty-why-europe-lost-the-cloud-race.html</link>
+      <guid>https://endlesstech.blog/posts/2026-06-10-digital-sovereignty-why-europe-lost-the-cloud-race.html</guid>
+      <pubDate>Wed, 10 Jun 2026 00:00:00 +0000</pubDate>
+      <description>Europe lost the cloud race to the US — and that's okay. Why fear-driven calls for digital sovereignty fail, and what an asymmetric strategy looks like.</description>
+    </item>
+
+    <item>
       <title>Is Microsoft Entra ID Free? Pricing Guide for Small Businesses</title>
       <link>https://endlesstech.blog/posts/2026-06-09-is-microsoft-entra-id-free-pricing-guide.html</link>
       <guid>https://endlesstech.blog/posts/2026-06-09-is-microsoft-entra-id-free-pricing-guide.html</guid>
-      <pubDate>Mon, 09 Jun 2026 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 09 Jun 2026 00:00:00 +0000</pubDate>
       <description>Is Microsoft Entra ID free? Yes — and here's exactly what the free tier includes, what paid plans cost, and when small businesses actually need to upgrade.</description>
     </item>
 
@@ -58,7 +66,7 @@
       <title>Taming the SharePoint Permission Nightmare: The New Copilot Readiness Tool</title>
       <link>https://endlesstech.blog/posts/2026-04-17-sharepoint-permission-auditing-copilot.html</link>
       <guid>https://endlesstech.blog/posts/2026-04-17-sharepoint-permission-auditing-copilot.html</guid>
-      <pubDate>Thu, 17 Apr 2026 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 17 Apr 2026 00:00:00 +0000</pubDate>
       <description>Discover the new SharePoint Data Access Governance report. Audit user permissions easily, prevent oversharing, and prepare your M365 tenant for Copilot securely.</description>
     </item>
 
