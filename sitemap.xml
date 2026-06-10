@@ -6,6 +6,16 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://endlesstech.blog/posts/2026-06-10-digital-sovereignty-why-europe-lost-the-cloud-race.html</loc>
+    <lastmod>2026-06-10</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://endlesstech.blog/posts/2026-06-09-is-microsoft-entra-id-free-pricing-guide.html</loc>
+    <lastmod>2026-06-09</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://endlesstech.blog/posts/2026-06-08-microsoft-scout-autopilot-for-it.html</loc>
     <lastmod>2026-06-08</lastmod>
     <priority>0.9</priority>
@@ -128,5 +138,10 @@
   <url>
     <loc>https://endlesstech.blog/posts/cloudknox-the-copilot-mandate.html</loc>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://endlesstech.blog/feed.xml</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
   </url>
 </urlset>

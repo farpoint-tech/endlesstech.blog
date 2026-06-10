@@ -173,6 +173,31 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// Category filter for blog post grid
+document.addEventListener('DOMContentLoaded', function() {
+    const filterButtons = document.querySelectorAll('.category-btn');
+    const postCards = document.querySelectorAll('.posts-grid .post-card');
+
+    if (!filterButtons.length || !postCards.length) return;
+
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+
+            const category = this.dataset.category;
+            postCards.forEach(card => {
+                const cardCategories = (card.dataset.category || '').split(/\s+/);
+                if (category === 'all' || cardCategories.indexOf(category) !== -1) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+});
+
 // Console message
 console.log('%c👋 Welcome to EndlessTech Blog!', 'font-size: 20px; font-weight: bold; color: #00CED1;');
 console.log('%cBuilt with ❤️ by Philipp Schmidt', 'font-size: 14px; color: #ECC23B;');
