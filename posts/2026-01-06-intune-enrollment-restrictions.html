@@ -5,32 +5,31 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
     <meta name="robots" content="index,follow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Discover why Intune Enrollment Restrictions are the foundational control for a Zero Trust architecture. Learn how to block personal Windows devices, mitigate local admin risks, and build a secure endpoint environment from the ground up.">
+    <meta name="description" content="Intune enrollment restrictions block personal Windows devices and eliminate standing local admin rights. Step-by-step setup with EPM and LAPS.">
     <meta name="author" content="Philipp Schmidt">
-    <meta name="keywords" content="Intune, Security, MDM, BYOD, Zero Trust, Enrollment Restrictions, EPM, LAPS">
-    
+    <meta name="keywords" content="Intune enrollment restrictions local admin, block personal device enrollment Intune, Intune EPM LAPS, Zero Trust device enrollment, Intune BYOD Windows block">
+
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="article">
-    <meta property="og:title" content="Intune Enrollment Restrictions: Your Foundational Control Against Local Admin Risk">
-    <meta property="og:description" content="Discover why Intune Enrollment Restrictions are the foundational control for a Zero Trust architecture. Learn how to block personal Windows devices, mitigate local admin risks, and build a secure endpoint environment from the ground up.">
-    <meta property="og:image" content="https://endlesstech.blog/assets/images/cloudknox-hero.png">
+    <meta property="og:title" content="Intune Enrollment Restrictions vs Local Admin Risk">
+    <meta property="og:description" content="Intune enrollment restrictions block personal Windows devices and eliminate standing local admin rights. Step-by-step setup with EPM and LAPS.">
+    <meta property="og:image" content="https://endlesstech.blog/assets/images/intune-enrollment-hero.webp">
     <meta property="og:url" content="https://endlesstech.blog/posts/2026-01-06-intune-enrollment-restrictions.html">
-    
+
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Intune Enrollment Restrictions: Your Foundational Control Against Local Admin Risk">
-    <meta name="twitter:description" content="Discover why Intune Enrollment Restrictions are the foundational control for a Zero Trust architecture. Learn how to block personal Windows devices, mitigate local admin risks, and build a secure endpoint environment from the ground up.">
-    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/cloudknox-hero.png">
-    
-    <title>Intune Enrollment Restrictions: Your Foundational Control Against Local Admin Risk | EndlessTech Blog</title>
+    <meta name="twitter:title" content="Intune Enrollment Restrictions vs Local Admin Risk">
+    <meta name="twitter:description" content="Intune enrollment restrictions block personal Windows devices and eliminate standing local admin rights. Step-by-step setup with EPM and LAPS.">
+    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/intune-enrollment-hero.webp">
+
+    <title>Intune Enrollment Restrictions vs Local Admin Risk</title>
     
     <!-- Stylesheet -->
     <link rel="alternate" type="application/rss+xml" title="EndlessTech Blog RSS Feed" href="https://endlesstech.blog/feed.xml">
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/blog-post.css">
     
-    <!-- Google Fonts -->
-    <link rel="canonical" href="https://farpoint-tech.github.io/endlesstech.blog/posts/2026-01-06-intune-enrollment-restrictions.html" />
+    <link rel="canonical" href="https://endlesstech.blog/posts/2026-01-06-intune-enrollment-restrictions.html" />
 </head>
 <body>
     <!-- Header -->
@@ -69,7 +68,7 @@
                 <div class="post-content">
                     <h2>The Unseen Threat in Your Intune Tenant</h2>
                     
-                    <p>There's a silent, architectural flaw in many Microsoft 365 tenants that can undermine their entire Zero Trust posture. Organizations invest heavily in sophisticated tools like Conditional Access and Endpoint Privilege Management (EPM), yet often neglect the most fundamental control: the very front door to the management plane. Uncontrolled device enrollment is that open door, and it represents a far greater threat than most realize.</p>
+                    <p>Intune enrollment restrictions are the most overlooked control in the average Microsoft 365 tenant — and the one most likely to eliminate local admin risk before it starts. Organizations invest heavily in sophisticated tools like Conditional Access and Endpoint Privilege Management (EPM), yet leave the very front door to the management plane wide open. When any user can enroll a personal Windows device and gain local admin rights, every downstream control is built on sand.</p>
 
                     <p>The problem is a matter of focus. We concentrate on what happens <em>after</em> a device is enrolled, not <em>if</em> it should be enrolled in the first place. As highlighted in discussions by industry experts, Enrollment Restrictions are the essential control lever to prevent a cascade of security failures. Without them, you are not building on a foundation of rock; you are building on sand.</p>
 
@@ -154,7 +153,18 @@
 
                     <hr>
 
-                    <p><em>Komplexe IT? Ich mach's einfach – mit M365, das schützt, skaliert und Prozesse vereinfacht. Für KMUs, die digital vorausdenken.</em></p>
+                    <p>Enrollment restrictions are the first layer, but they work best alongside <a href="2026-03-27-windows-autopilot-end-the-setup-chaos.html">Windows Autopilot</a> for zero-touch provisioning and <a href="2025-10-24-getting-started-with-zero-trust.html">Conditional Access policies</a> that verify device compliance on every sign-in. For mobile devices in BYOD scenarios, <a href="2025-11-10-mobile-application-management-your-quarterback-for-mobile-security.html">Intune MAM</a> provides app-level protection without full enrollment.</p>
+
+                    <h2>Frequently Asked Questions</h2>
+
+                    <h3>Should I block all personal device enrollment in Intune?</h3>
+                    <p>For Windows, yes. Blocking personally owned Windows devices is the single most effective control against unmanaged local admin accounts. For iOS and Android, the decision depends on your BYOD strategy — MAM-without-enrollment can protect corporate data on personal mobile devices without requiring full MDM enrollment.</p>
+
+                    <h3>What happens to users who already enrolled personal devices?</h3>
+                    <p>Existing enrollments are not automatically removed when you tighten enrollment restrictions. You need to identify and retire those device records manually or through a compliance policy that marks them non-compliant. Conditional Access then blocks their access until they switch to a corporate-managed device.</p>
+
+                    <h3>Do enrollment restrictions require premium licenses?</h3>
+                    <p>No. Enrollment restrictions are available in every Intune-enabled plan, including Microsoft 365 Business Premium. EPM and LAPS, which handle privilege elevation after enrollment, require Intune Plan 2 or the Intune Suite add-on.</p>
 
                     <h2>References</h2>
 
@@ -208,29 +218,63 @@
     <script src="../assets/js/post-navigation.js"></script>
     <script type="application/ld+json">
     {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Intune Enrollment Restrictions: Your Foundational Control Against Local Admin Risk",
-  "datePublished": "2026-01-06",
-  "author": {
-    "@type": "Person",
-    "name": "Philipp Schmidt",
-    "url": "https://easym365.de"
-  },
-  "publisher": {
-    "@type": "Person",
-    "name": "Philipp Schmidt",
-    "url": "https://easym365.de"
-  },
-  "image": "https://farpoint-tech.github.io/endlesstech.blog/assets/images/intune-enrollment-hero.png",
-  "url": "https://farpoint-tech.github.io/endlesstech.blog/posts/2026-01-06-intune-enrollment-restrictions.html",
-  "description": "Discover why Intune Enrollment Restrictions are the foundational control for a Zero Trust architecture.",
-  "inLanguage": "en",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://farpoint-tech.github.io/endlesstech.blog/posts/2026-01-06-intune-enrollment-restrictions.html"
-  }
-}
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Intune Enrollment Restrictions vs Local Admin Risk",
+      "datePublished": "2026-01-06",
+      "dateModified": "2026-06-20",
+      "author": {
+        "@type": "Person",
+        "name": "Philipp Schmidt",
+        "url": "https://easym365.de"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "Philipp Schmidt",
+        "url": "https://easym365.de"
+      },
+      "image": "https://endlesstech.blog/assets/images/intune-enrollment-hero.webp",
+      "url": "https://endlesstech.blog/posts/2026-01-06-intune-enrollment-restrictions.html",
+      "description": "Intune enrollment restrictions block personal Windows devices and eliminate standing local admin rights. Step-by-step setup with EPM and LAPS.",
+      "keywords": "Intune enrollment restrictions local admin, block personal device enrollment, EPM, LAPS, Zero Trust device enrollment",
+      "inLanguage": "en",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://endlesstech.blog/posts/2026-01-06-intune-enrollment-restrictions.html"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Should I block all personal device enrollment in Intune?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For Windows, yes. Blocking personally owned Windows devices is the single most effective control against unmanaged local admin accounts. For iOS and Android, MAM-without-enrollment can protect corporate data without requiring full MDM enrollment."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What happens to users who already enrolled personal devices?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Existing enrollments are not automatically removed when you tighten restrictions. You need to identify and retire those device records manually or through a compliance policy that marks them non-compliant."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do enrollment restrictions require premium licenses?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Enrollment restrictions are available in every Intune-enabled plan, including Microsoft 365 Business Premium. EPM and LAPS require Intune Plan 2 or the Intune Suite add-on."
+          }
+        }
+      ]
+    }
     </script>
 </body>
 </html>
