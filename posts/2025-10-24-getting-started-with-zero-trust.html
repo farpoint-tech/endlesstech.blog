@@ -5,32 +5,31 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
     <meta name="robots" content="index,follow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Discover how to implement Zero Trust security principles in your Microsoft 365 environment and protect your organization from modern threats.">
+    <meta name="description" content="What is Zero Trust in Microsoft 365? A step-by-step guide to MFA, Conditional Access, and identity protection for SMBs moving to a verify-first model.">
     <meta name="author" content="Philipp Schmidt">
-    <meta name="keywords" content="Zero Trust, Microsoft 365, Security, Cybersecurity, M365, IT Security">
-    
+    <meta name="keywords" content="what is zero trust in Microsoft 365, Zero Trust Microsoft 365, Conditional Access MFA, identity protection SMB, Zero Trust implementation guide">
+
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="article">
-    <meta property="og:title" content="Getting Started with Zero Trust Security">
-    <meta property="og:description" content="Discover how to implement Zero Trust security principles in your Microsoft 365 environment">
-    <meta property="og:image" content="https://farpoint-tech.github.io/endlesstech.blog/assets/images/knox-hawk.png">
-    <meta property="og:url" content="https://farpoint-tech.github.io/endlesstech.blog/posts/2025-10-24-getting-started-with-zero-trust.html">
-    
+    <meta property="og:title" content="Zero Trust in Microsoft 365: Getting Started">
+    <meta property="og:description" content="What is Zero Trust in Microsoft 365? A step-by-step guide to MFA, Conditional Access, and identity protection for SMBs.">
+    <meta property="og:image" content="https://endlesstech.blog/assets/images/knox-hawk.webp">
+    <meta property="og:url" content="https://endlesstech.blog/posts/2025-10-24-getting-started-with-zero-trust.html">
+
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Getting Started with Zero Trust Security">
-    <meta name="twitter:description" content="Discover how to implement Zero Trust security principles in your Microsoft 365 environment">
-    <meta name="twitter:image" content="https://farpoint-tech.github.io/endlesstech.blog/assets/images/knox-hawk.png">
-    
-    <title>Getting Started with Zero Trust Security - EndlessTech Blog</title>
+    <meta name="twitter:title" content="Zero Trust in Microsoft 365: Getting Started">
+    <meta name="twitter:description" content="What is Zero Trust in Microsoft 365? A step-by-step guide to MFA, Conditional Access, and identity protection for SMBs.">
+    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/knox-hawk.webp">
+
+    <title>Zero Trust in Microsoft 365: Getting Started</title>
     
     <!-- Stylesheet -->
     <link rel="alternate" type="application/rss+xml" title="EndlessTech Blog RSS Feed" href="https://endlesstech.blog/feed.xml">
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/blog-post.css">
     
-    <!-- Google Fonts -->
-    <link rel="canonical" href="https://farpoint-tech.github.io/endlesstech.blog/posts/2025-10-24-getting-started-with-zero-trust.html" />
+    <link rel="canonical" href="https://endlesstech.blog/posts/2025-10-24-getting-started-with-zero-trust.html" />
 </head>
 <body>
     <!-- Header -->
@@ -68,15 +67,14 @@
             <!-- Post Content -->
             <div class="post-content">
                 <p>
-                    In today's rapidly evolving threat landscape, traditional perimeter-based security models are no longer sufficient. 
-                    Organizations need a more robust approach to protect their digital assets, and that's where <strong>Zero Trust</strong> comes in.
+                    So what is Zero Trust in Microsoft 365, and why should every SMB care? Traditional perimeter-based security models assume that anything inside the corporate network is safe. That assumption breaks down the moment an employee works from a coffee shop, a contractor logs in from an unmanaged device, or an attacker compromises a single set of credentials. Zero Trust replaces that outdated model with a verify-first approach built directly into the Microsoft 365 stack.
                 </p>
 
-                <h2>What is Zero Trust?</h2>
+                <h2>What Is Zero Trust in Microsoft 365?</h2>
                 <p>
-                    Zero Trust is a security framework that operates on a simple principle: <strong>"Never trust, always verify."</strong> 
-                    Unlike traditional security models that assume everything inside the corporate network is safe, Zero Trust assumes that 
-                    threats can exist both inside and outside the network.
+                    Zero Trust is a security framework that operates on a simple principle: <strong>"Never trust, always verify."</strong>
+                    Unlike traditional models that draw a hard line at the network perimeter, Zero Trust assumes that
+                    threats can exist both inside and outside the network. Microsoft 365 implements this through Conditional Access, identity protection, and device compliance — tools that enforce verification at every access request.
                 </p>
 
                 <p>
@@ -249,17 +247,34 @@
                 </p>
 
                 <ol>
-                    <li>Assess your current security posture using Microsoft Secure Score</li>
+                    <li>Assess your current security posture using <a href="2025-11-15-boost-your-cyber-defense-microsoft-secure-score-for-smbs.html">Microsoft Secure Score</a></li>
                     <li>Create a phased implementation plan</li>
                     <li>Start with quick wins like enabling MFA for administrators</li>
-                    <li>Gradually roll out Conditional Access policies</li>
-                    <li>Monitor, measure, and continuously improve</li>
+                    <li>Lock down mobile access with <a href="2025-11-10-mobile-application-management-your-quarterback-for-mobile-security.html">Intune Mobile Application Management</a></li>
+                    <li>Scale your identity strategy with the <a href="2025-12-18-zero-trust-microsoft-entra-suite.html">Microsoft Entra Suite</a></li>
                 </ol>
 
                 <p>
-                    Need help implementing Zero Trust in your organization? I specialize in secure and scalable Microsoft 365 deployments. 
-                    <a href="https://easym365.de" target="_blank" rel="noopener noreferrer"><strong>Visit my website</strong></a> to learn more about 
+                    Need help implementing Zero Trust in your organization? I specialize in secure and scalable Microsoft 365 deployments.
+                    <a href="https://easym365.de" target="_blank" rel="noopener noreferrer"><strong>Visit my website</strong></a> to learn more about
                     how I can help you build a robust security foundation.
+                </p>
+
+                <h2>Frequently Asked Questions</h2>
+
+                <h3>How long does a Zero Trust rollout take in Microsoft 365?</h3>
+                <p>
+                    Most SMBs can deploy the foundational controls — MFA, Conditional Access, and device compliance — within two to four weeks. The broader rollout, including data classification, endpoint protection, and continuous monitoring, typically stretches across three to six months. Starting with high-impact, low-effort wins like enforcing MFA for administrators keeps the project moving without overwhelming end users.
+                </p>
+
+                <h3>Do I need premium licenses for Zero Trust in Microsoft 365?</h3>
+                <p>
+                    Basic MFA is available in every Microsoft 365 plan, but Conditional Access, Identity Protection, and Intune device compliance require at least Entra ID P1 (included in Microsoft 365 Business Premium). Organizations that need risk-based policies and automated remediation should consider Entra ID P2. The licensing cost is almost always lower than the cost of a single breach.
+                </p>
+
+                <h3>Can Zero Trust work with legacy on-premises applications?</h3>
+                <p>
+                    Yes. Microsoft Entra Application Proxy lets you publish on-premises web apps behind Conditional Access without opening inbound firewall ports. For applications that cannot support modern authentication at all, compensating controls such as network segmentation and session monitoring reduce the risk while you plan a migration path.
                 </p>
             </div>
 
@@ -312,29 +327,63 @@
     <script src="../assets/js/post-navigation.js"></script>
     <script type="application/ld+json">
     {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Getting Started with Zero Trust Security",
-  "datePublished": "2025-10-24",
-  "author": {
-    "@type": "Person",
-    "name": "Philipp Schmidt",
-    "url": "https://easym365.de"
-  },
-  "publisher": {
-    "@type": "Person",
-    "name": "Philipp Schmidt",
-    "url": "https://easym365.de"
-  },
-  "image": "https://farpoint-tech.github.io/endlesstech.blog/assets/images/knox-hawk.png",
-  "url": "https://farpoint-tech.github.io/endlesstech.blog/posts/2025-10-24-getting-started-with-zero-trust.html",
-  "description": "Discover how to implement Zero Trust security principles in your Microsoft 365 environment and protect your organization from modern threats.",
-  "inLanguage": "en",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://farpoint-tech.github.io/endlesstech.blog/posts/2025-10-24-getting-started-with-zero-trust.html"
-  }
-}
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Zero Trust in Microsoft 365: Getting Started",
+      "datePublished": "2025-10-24",
+      "dateModified": "2026-06-20",
+      "author": {
+        "@type": "Person",
+        "name": "Philipp Schmidt",
+        "url": "https://easym365.de"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "Philipp Schmidt",
+        "url": "https://easym365.de"
+      },
+      "image": "https://endlesstech.blog/assets/images/knox-hawk.webp",
+      "url": "https://endlesstech.blog/posts/2025-10-24-getting-started-with-zero-trust.html",
+      "description": "What is Zero Trust in Microsoft 365? A step-by-step guide to MFA, Conditional Access, and identity protection for SMBs moving to a verify-first model.",
+      "keywords": "what is zero trust in Microsoft 365, Conditional Access, MFA, identity protection, SMB security",
+      "inLanguage": "en",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://endlesstech.blog/posts/2025-10-24-getting-started-with-zero-trust.html"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How long does a Zero Trust rollout take in Microsoft 365?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Most SMBs can deploy the foundational controls — MFA, Conditional Access, and device compliance — within two to four weeks. The broader rollout, including data classification, endpoint protection, and continuous monitoring, typically stretches across three to six months."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need premium licenses for Zero Trust in Microsoft 365?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Basic MFA is available in every Microsoft 365 plan, but Conditional Access, Identity Protection, and Intune device compliance require at least Entra ID P1 (included in Microsoft 365 Business Premium). Organizations that need risk-based policies and automated remediation should consider Entra ID P2."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can Zero Trust work with legacy on-premises applications?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Microsoft Entra Application Proxy lets you publish on-premises web apps behind Conditional Access without opening inbound firewall ports. For applications that cannot support modern authentication, compensating controls such as network segmentation reduce the risk."
+          }
+        }
+      ]
+    }
     </script>
 </body>
 </html>
