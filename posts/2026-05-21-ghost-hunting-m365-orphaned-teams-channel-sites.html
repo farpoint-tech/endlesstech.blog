@@ -5,31 +5,31 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
     <meta name="robots" content="index,follow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A field report on cleaning up 10 orphaned Teams Private Channel SharePoint sites with PowerShell after a SharePoint archiving project went sideways.">
+    <meta name="description" content="Orphaned Teams channel sites waste storage and break audits. PowerShell cleanup script using TEAMCHANNEL#1 filter and Graph API group validation.">
     <meta name="author" content="Philipp Schmidt">
-    <meta name="keywords" content="Microsoft 365, SharePoint, Teams, Private Channels, PowerShell, Orphaned Sites, M365 Cleanup, SPO Admin, Tenant Hygiene, TEAMCHANNEL">
+    <meta name="keywords" content="orphaned Teams channel sites cleanup, TEAMCHANNEL#1 SharePoint orphaned, Teams private channel site PowerShell, M365 tenant hygiene, SharePoint orphaned site removal">
 
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="article">
-    <meta property="og:title" content="Ghost Hunting in the M365 Tenant: Cleaning Up Orphaned Teams Private Channel Sites">
-    <meta property="og:description" content="A field report on cleaning up 10 orphaned Teams Private Channel SharePoint sites with PowerShell after a SharePoint archiving project went sideways.">
-    <meta property="og:image" content="https://endlesstech.blog/assets/images/ghost-hunting-hero.png">
+    <meta property="og:title" content="Orphaned Teams Channel Sites: PowerShell Cleanup">
+    <meta property="og:description" content="Orphaned Teams channel sites waste storage and break audits. PowerShell cleanup using TEAMCHANNEL#1 filter and Graph API validation.">
+    <meta property="og:image" content="https://endlesstech.blog/assets/images/ghost-hunting-hero.webp">
     <meta property="og:url" content="https://endlesstech.blog/posts/2026-05-21-ghost-hunting-m365-orphaned-teams-channel-sites.html">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Ghost Hunting in the M365 Tenant: Cleaning Up Orphaned Teams Private Channel Sites">
-    <meta name="twitter:description" content="A field report on cleaning up 10 orphaned Teams Private Channel SharePoint sites with PowerShell after a SharePoint archiving project went sideways.">
-    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/ghost-hunting-hero.png">
+    <meta name="twitter:title" content="Orphaned Teams Channel Sites: PowerShell Cleanup">
+    <meta name="twitter:description" content="Orphaned Teams channel sites waste storage and break audits. PowerShell cleanup using TEAMCHANNEL#1 filter and Graph API validation.">
+    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/ghost-hunting-hero.webp">
 
-    <title>Ghost Hunting in the M365 Tenant: Cleaning Up Orphaned Teams Private Channel Sites | EndlessTech Blog</title>
+    <title>Orphaned Teams Channel Sites: PowerShell Cleanup</title>
 
     <!-- Stylesheet -->
     <link rel="alternate" type="application/rss+xml" title="EndlessTech Blog RSS Feed" href="https://endlesstech.blog/feed.xml">
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/blog-post.css">
 
-    <link rel="canonical" href="https://farpoint-tech.github.io/endlesstech.blog/posts/2026-05-21-ghost-hunting-m365-orphaned-teams-channel-sites.html" />
+    <link rel="canonical" href="https://endlesstech.blog/posts/2026-05-21-ghost-hunting-m365-orphaned-teams-channel-sites.html" />
 </head>
 <body>
     <!-- Header -->
@@ -67,11 +67,11 @@
             <section class="post-full-content">
                 <div class="post-content">
 
-                    <p><em>A field report from a real-world cleanup operation in the 365Solution AG tenant (name pseudonymized).</em></p>
+                    <p><em>A field report from a real-world cleanup of orphaned Teams channel sites in a production M365 tenant (name pseudonymized).</em></p>
 
-                    <h2>How a SharePoint Archiving Project Went to Hell and Back</h2>
+                    <h2>How a SharePoint Archiving Project Created Ghost Sites</h2>
 
-                    <p>It started as a routine engagement: archive a SharePoint site that had been retired after an organizational restructuring. The site was tied to a Microsoft Teams team with <strong>10 Private Channels</strong>, each with its own independent SharePoint site underneath. Simple enough on paper.</p>
+                    <p>Orphaned Teams channel sites are the debris left behind when a Microsoft Teams team gets deleted but its Private Channel SharePoint sites survive. This cleanup operation started as a routine engagement: archive a SharePoint site tied to a team with <strong>10 Private Channels</strong>, each with its own independent SharePoint site underneath. Simple enough on paper.</p>
 
                     <p>The team was deleted. The M365 Group was removed. The archive confirmation appeared in the SharePoint Admin Center. Job done &mdash; or so I thought.</p>
 
@@ -439,7 +439,20 @@ Get-SPODeletedSite -Limit All |
 
                     <p>Anyone who regularly deals with lifecycle inconsistencies in an M365 tenant should set up exactly this detection filter (<code>Template=TEAMCHANNEL#1</code> + <code>GroupId=Empty</code>) as a recurring monitor &mdash; orphaned channel sites are far more common than you'd expect.</p>
 
+                    <p>Orphaned channel sites are one symptom of a larger governance gap. For a systematic approach to tenant hygiene, start with a <a href="2026-04-17-sharepoint-permission-auditing-copilot.html">SharePoint permission audit</a> to surface overshared and orphaned content in one pass. And if you are setting up new teams, pair them with proper <a href="2025-10-24-getting-started-with-zero-trust.html">Zero Trust controls</a> from day one so the lifecycle is managed from creation through decommissioning.</p>
+
                     <p><strong>Happy hunting.</strong></p>
+
+                    <h2>Frequently Asked Questions</h2>
+
+                    <h3>Why can't I delete Teams Private Channel sites from the SharePoint admin center?</h3>
+                    <p>Microsoft blocks GUI deletion of TEAMCHANNEL#1 sites by design. The SharePoint admin center shows a "This site can't be deleted" message because channel sites are lifecycle-linked to their parent Teams channel. When the parent group no longer exists, the GUI has no deletion path. The only way to remove them is through PowerShell using <code>Remove-SPOSite</code> with the <code>-NoWait</code> flag.</p>
+
+                    <h3>How do I find all orphaned channel sites in my tenant?</h3>
+                    <p>Run <code>Get-SPOSite -Template TEAMCHANNEL#1 -Limit All</code> to list every Private Channel site. Then check each site's <code>RelatedGroupId</code> against Microsoft Graph: if <code>GET /groups/{id}</code> returns 404, the site is orphaned. The article above includes the full detection and cleanup script.</p>
+
+                    <h3>Is it safe to delete orphaned channel sites?</h3>
+                    <p>Yes, if the parent M365 Group no longer exists (confirmed via Graph API 404). Before deletion, verify that no business-critical data remains on the site. Deleted sites go to the SharePoint recycle bin for 93 days, giving you a recovery window if something was missed.</p>
 
                     <hr>
 
@@ -491,29 +504,63 @@ Get-SPODeletedSite -Limit All |
     <script src="../assets/js/post-navigation.js"></script>
     <script type="application/ld+json">
     {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Ghost Hunting in the M365 Tenant: Cleaning Up Orphaned Teams Private Channel Sites with PowerShell",
-  "datePublished": "2026-05-21",
-  "author": {
-    "@type": "Person",
-    "name": "Philipp Schmidt",
-    "url": "https://easym365.de"
-  },
-  "publisher": {
-    "@type": "Person",
-    "name": "Philipp Schmidt",
-    "url": "https://easym365.de"
-  },
-  "image": "https://endlesstech.blog/assets/images/ghost-hunting-site-archived.png",
-  "url": "https://farpoint-tech.github.io/endlesstech.blog/posts/2026-05-21-ghost-hunting-m365-orphaned-teams-channel-sites.html",
-  "description": "A field report on cleaning up 10 orphaned Teams Private Channel SharePoint sites with PowerShell after a SharePoint archiving project went sideways.",
-  "inLanguage": "en",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://farpoint-tech.github.io/endlesstech.blog/posts/2026-05-21-ghost-hunting-m365-orphaned-teams-channel-sites.html"
-  }
-}
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Orphaned Teams Channel Sites: PowerShell Cleanup",
+      "datePublished": "2026-05-21",
+      "dateModified": "2026-06-20",
+      "author": {
+        "@type": "Person",
+        "name": "Philipp Schmidt",
+        "url": "https://easym365.de"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "Philipp Schmidt",
+        "url": "https://easym365.de"
+      },
+      "image": "https://endlesstech.blog/assets/images/ghost-hunting-hero.webp",
+      "url": "https://endlesstech.blog/posts/2026-05-21-ghost-hunting-m365-orphaned-teams-channel-sites.html",
+      "description": "Orphaned Teams channel sites waste storage and break audits. PowerShell cleanup script using TEAMCHANNEL#1 filter and Graph API group validation.",
+      "keywords": "orphaned Teams channel sites cleanup, TEAMCHANNEL#1, Teams private channel PowerShell, M365 tenant hygiene",
+      "inLanguage": "en",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://endlesstech.blog/posts/2026-05-21-ghost-hunting-m365-orphaned-teams-channel-sites.html"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why can't I delete Teams Private Channel sites from the SharePoint admin center?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Microsoft blocks GUI deletion of TEAMCHANNEL#1 sites by design. When the parent group no longer exists, the GUI has no deletion path. The only way to remove them is through PowerShell using Remove-SPOSite with the -NoWait flag."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I find all orphaned channel sites in my tenant?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run Get-SPOSite -Template TEAMCHANNEL#1 -Limit All to list every Private Channel site. Then check each site's RelatedGroupId against Microsoft Graph: if GET /groups/{id} returns 404, the site is orphaned."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is it safe to delete orphaned channel sites?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, if the parent M365 Group no longer exists (confirmed via Graph API 404). Deleted sites go to the SharePoint recycle bin for 93 days, giving you a recovery window."
+          }
+        }
+      ]
+    }
     </script>
 </body>
 </html>
