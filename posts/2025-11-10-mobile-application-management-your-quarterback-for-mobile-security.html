@@ -5,32 +5,31 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
     <meta name="robots" content="index,follow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Discover how Mobile Application Management (MAM) can help you secure corporate data on personal devices without compromising on flexibility.">
+    <meta name="description" content="Intune Mobile Application Management protects corporate data on personal BYOD devices without full MDM enrollment. Setup guide for SMBs.">
     <meta name="author" content="Philipp Schmidt">
-    <meta name="keywords" content="MAM, Mobile Security, BYOD, Microsoft 365, Intune">
-    
+    <meta name="keywords" content="Intune mobile application management, MAM without enrollment, BYOD app protection policy, Intune MAM vs MDM, mobile security Microsoft 365">
+
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="article">
-    <meta property="og:title" content="Mobile Application Management: Your Quarterback for Mobile Security">
-    <meta property="og:description" content="Discover how Mobile Application Management (MAM) can help you secure corporate data on personal devices without compromising on flexibility.">
-    <meta property="og:image" content="https://farpoint-tech.github.io/endlesstech.blog/assets/images/mobile_app_management_main.png">
-    <meta property="og:url" content="https://farpoint-tech.github.io/endlesstech.blog/posts/2025-11-10-mobile-application-management-your-quarterback-for-mobile-security.html">
-    
+    <meta property="og:title" content="Intune MAM: Your Quarterback for Mobile Security">
+    <meta property="og:description" content="Intune Mobile Application Management protects corporate data on BYOD devices without full MDM enrollment. Setup guide for SMBs.">
+    <meta property="og:image" content="https://endlesstech.blog/assets/images/mobile_app_management_main.webp">
+    <meta property="og:url" content="https://endlesstech.blog/posts/2025-11-10-mobile-application-management-your-quarterback-for-mobile-security.html">
+
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Mobile Application Management: Your Quarterback for Mobile Security">
-    <meta name="twitter:description" content="Discover how Mobile Application Management (MAM) can help you secure corporate data on personal devices without compromising on flexibility.">
-    <meta name="twitter:image" content="https://farpoint-tech.github.io/endlesstech.blog/assets/images/mobile_app_management_main.png">
-    
-    <title>Mobile Application Management: Your Quarterback for Mobile Security | EndlessTech Blog</title>
+    <meta name="twitter:title" content="Intune MAM: Your Quarterback for Mobile Security">
+    <meta name="twitter:description" content="Intune Mobile Application Management protects corporate data on BYOD devices without full MDM enrollment. Setup guide for SMBs.">
+    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/mobile_app_management_main.webp">
+
+    <title>Intune MAM: Your Quarterback for Mobile Security</title>
     
     <!-- Stylesheet -->
     <link rel="alternate" type="application/rss+xml" title="EndlessTech Blog RSS Feed" href="https://endlesstech.blog/feed.xml">
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/blog-post.css">
     
-    <!-- Google Fonts -->
-    <link rel="canonical" href="https://farpoint-tech.github.io/endlesstech.blog/posts/2025-11-10-mobile-application-management-your-quarterback-for-mobile-security.html" />
+    <link rel="canonical" href="https://endlesstech.blog/posts/2025-11-10-mobile-application-management-your-quarterback-for-mobile-security.html" />
 </head>
 <body>
     <!-- Header -->
@@ -67,10 +66,10 @@
 
             <section class="post-full-content">
                 <div class="post-content">
-                    <h3>Hook: The BYOD Security Dilemma</h3>
-                    <p>It’s a scenario that keeps IT departments up at night: an employee, rushing to catch a train, leaves their personal phone in a coffee shop. A phone that contains not just personal photos and messages, but also sensitive company data. Is that data protected? Or is a major security breach just a password guess away?</p>
+                    <h2>The BYOD Security Dilemma</h2>
+                    <p>Intune Mobile Application Management solves a problem that keeps IT departments up at night: an employee, rushing to catch a train, leaves their personal phone in a coffee shop. That phone contains not just personal photos and messages, but also sensitive company data accessible through Outlook, Teams, and OneDrive. Without app-level protection, a major security breach is just a password guess away.</p>
 
-                    <h3>Story: The SME Balancing Act</h3>
+                    <h3>The SME Balancing Act</h3>
                     <p>This is a common challenge in the age of Bring Your Own Device (BYOD), where employees use their personal devices for work. For SMEs, the flexibility and cost savings of BYOD are attractive, but the security risks are significant. A 2024 report by Verizon found that 58% of data breaches involve small businesses. This is where <strong>Mobile Application Management (MAM)</strong> comes in. MAM is a security strategy that focuses on protecting company data within applications, without needing to manage the entire device. This allows organizations to embrace the benefits of BYOD while maintaining control over their sensitive information.</p>
 
                     <h3>Substance: The Core Pillars of MAM</h3>
@@ -105,9 +104,24 @@
 
                     <p>Microsoft Intune provides a comprehensive framework for implementing MAM, with three levels of app protection to choose from. This allows organizations to tailor their MAM strategy to their specific security and compliance requirements.</p>
 
-                    <h3>CTA: Secure Your Mobile Workforce</h3>
-                    <p>In our next post, we’ll walk you through the step-by-step process of implementing MAM for iOS devices. Subscribe to our blog to get notified!</p>
-                    <p>Ready to secure your mobile workforce without compromising on flexibility? Let’s talk about how we can implement a MAM strategy that fits your business.</p>
+                    <!-- TODO: Add a hands-on walkthrough paragraph once the MAM lab environment is rebuilt -->
+
+                    <h3>Where MAM Fits in a Broader Security Strategy</h3>
+                    <p>MAM does not exist in isolation. It works best when paired with <a href="2025-10-24-getting-started-with-zero-trust.html">Zero Trust principles</a> that verify every access request, and with <a href="2026-01-06-intune-enrollment-restrictions.html">Intune enrollment restrictions</a> that control which devices are allowed to enroll in the first place. For organizations running iOS in BYOD mode, the <a href="2026-01-28-ios-abm-enrollment-troubleshooting.html">ABM enrollment troubleshooting guide</a> covers the common pitfalls that surface during rollout.</p>
+
+                    <h2>Frequently Asked Questions</h2>
+
+                    <h3>What is the difference between MAM and MDM in Intune?</h3>
+                    <p>MAM protects corporate data at the application level without managing the entire device. MDM takes full control of the device, including the ability to enforce encryption, restrict hardware features, and remotely wipe the entire phone. For BYOD scenarios where employees refuse full device management, MAM-without-enrollment is the recommended path because it keeps personal data private while still protecting corporate content inside managed apps.</p>
+
+                    <h3>Can MAM work without device enrollment?</h3>
+                    <p>Yes. Intune supports MAM-without-enrollment (MAM-WE), which applies app protection policies to managed apps on any iOS or Android device — even if that device is not enrolled in Intune or any other MDM. The user signs in to a managed app with their Entra ID credentials, and the policy kicks in automatically. This is the most common deployment model for organizations with a large BYOD population.</p>
+
+                    <h3>Which apps support Intune app protection policies?</h3>
+                    <p>All core Microsoft 365 apps — Outlook, Teams, OneDrive, SharePoint, Word, Excel, PowerPoint, Edge — support Intune app protection policies natively. Third-party apps can also integrate the Intune App SDK to participate. Microsoft maintains a public list of partner apps that support MAM, and the list grows with every quarterly update.</p>
+
+                    <h3>Secure Your Mobile Workforce</h3>
+                    <p>Ready to secure your mobile workforce without compromising on flexibility? Start by deploying a basic MAM policy for Outlook and Teams, then expand to the rest of the Microsoft 365 suite once your users are comfortable with the workflow.</p>
 
                     <hr>
 
@@ -144,29 +158,63 @@
     <script src="../assets/js/post-navigation.js"></script>
     <script type="application/ld+json">
     {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Mobile Application Management: Your Quarterback for Mobile Security",
-  "datePublished": "2025-11-10",
-  "author": {
-    "@type": "Person",
-    "name": "Philipp Schmidt",
-    "url": "https://easym365.de"
-  },
-  "publisher": {
-    "@type": "Person",
-    "name": "Philipp Schmidt",
-    "url": "https://easym365.de"
-  },
-  "image": "https://farpoint-tech.github.io/endlesstech.blog/assets/images/mobile_app_management_main.png",
-  "url": "https://farpoint-tech.github.io/endlesstech.blog/posts/2025-11-10-mobile-application-management-your-quarterback-for-mobile-security.html",
-  "description": "Discover how Mobile Application Management can help you secure corporate data on personal devices without compromising on flexibility.",
-  "inLanguage": "en",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://farpoint-tech.github.io/endlesstech.blog/posts/2025-11-10-mobile-application-management-your-quarterback-for-mobile-security.html"
-  }
-}
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Intune MAM: Your Quarterback for Mobile Security",
+      "datePublished": "2025-11-10",
+      "dateModified": "2026-06-20",
+      "author": {
+        "@type": "Person",
+        "name": "Philipp Schmidt",
+        "url": "https://easym365.de"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "Philipp Schmidt",
+        "url": "https://easym365.de"
+      },
+      "image": "https://endlesstech.blog/assets/images/mobile_app_management_main.webp",
+      "url": "https://endlesstech.blog/posts/2025-11-10-mobile-application-management-your-quarterback-for-mobile-security.html",
+      "description": "Intune Mobile Application Management protects corporate data on personal BYOD devices without full MDM enrollment. Setup guide for SMBs.",
+      "keywords": "Intune mobile application management, MAM without enrollment, BYOD app protection, Intune MAM vs MDM",
+      "inLanguage": "en",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://endlesstech.blog/posts/2025-11-10-mobile-application-management-your-quarterback-for-mobile-security.html"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the difference between MAM and MDM in Intune?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "MAM protects corporate data at the application level without managing the entire device. MDM takes full control of the device, including the ability to enforce encryption, restrict hardware features, and remotely wipe the entire phone. For BYOD scenarios where employees refuse full device management, MAM-without-enrollment is the recommended path."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can MAM work without device enrollment?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Intune supports MAM-without-enrollment (MAM-WE), which applies app protection policies to managed apps on any iOS or Android device — even if that device is not enrolled in Intune or any other MDM."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which apps support Intune app protection policies?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "All core Microsoft 365 apps — Outlook, Teams, OneDrive, SharePoint, Word, Excel, PowerPoint, Edge — support Intune app protection policies natively. Third-party apps can also integrate the Intune App SDK to participate."
+          }
+        }
+      ]
+    }
     </script>
 </body>
 </html>
