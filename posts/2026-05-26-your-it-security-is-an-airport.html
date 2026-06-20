@@ -5,24 +5,24 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
     <meta name="robots" content="index,follow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Your company's IT security works exactly like an airport. Some departments have TSA Pre-Check, others are sneaking through the emergency exit. A sarcastic but dead-accurate guide to Zero Trust.">
+    <meta name="description" content="Zero Trust vs perimeter security, explained through an airport analogy — why &quot;never trust, always verify&quot; beats the old castle-and-moat model.">
     <meta name="author" content="Philipp Schmidt">
-    <meta name="keywords" content="Zero Trust, IT Security, Airport Analogy, Conditional Access, MFA, Identity Security, Microsoft 365, CISO, Shared Responsibility, Endpoint Security">
+    <meta name="keywords" content="zero trust vs perimeter security, castle and moat security model, ZTNA vs VPN, why perimeter security is obsolete, never trust always verify, Conditional Access, MFA, Microsoft 365">
 
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="article">
-    <meta property="og:title" content="Your IT Security Is an Airport &ndash; And Everyone Is Sneaking Through the Emergency Exit">
-    <meta property="og:description" content="Your company's IT security works exactly like an airport. Some departments have TSA Pre-Check, others are sneaking through the emergency exit. A sarcastic but dead-accurate guide to Zero Trust.">
-    <meta property="og:image" content="https://endlesstech.blog/assets/images/airport-security-hero.png">
+    <meta property="og:title" content="Zero Trust vs Perimeter Security: The Airport Analogy">
+    <meta property="og:description" content="Zero Trust vs perimeter security, explained through an airport analogy — why &quot;never trust, always verify&quot; beats the old castle-and-moat model.">
+    <meta property="og:image" content="https://endlesstech.blog/assets/images/airport-security-hero.webp">
     <meta property="og:url" content="https://endlesstech.blog/posts/2026-05-26-your-it-security-is-an-airport.html">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Your IT Security Is an Airport &ndash; And Everyone Is Sneaking Through the Emergency Exit">
-    <meta name="twitter:description" content="Your company's IT security works exactly like an airport. Some departments have TSA Pre-Check, others are sneaking through the emergency exit.">
-    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/airport-security-hero.png">
+    <meta name="twitter:title" content="Zero Trust vs Perimeter Security: The Airport Analogy">
+    <meta name="twitter:description" content="Zero Trust vs perimeter security, explained through an airport analogy — why &quot;never trust, always verify&quot; beats the old castle-and-moat model.">
+    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/airport-security-hero.webp">
 
-    <title>Your IT Security Is an Airport &ndash; And Everyone Is Sneaking Through the Emergency Exit | EndlessTech Blog</title>
+    <title>Zero Trust vs Perimeter Security: The Airport Analogy</title>
 
     <!-- Stylesheet -->
     <link rel="alternate" type="application/rss+xml" title="EndlessTech Blog RSS Feed" href="https://endlesstech.blog/feed.xml">
@@ -78,6 +78,8 @@
                     <p>Now imagine that airport has no security checkpoint. No boarding passes. No passport control. Just a big glass door that says <strong>"Welcome, please don't crash anything."</strong></p>
 
                     <p>That's your IT environment without Zero Trust.</p>
+
+                    <p>This is the heart of zero trust vs perimeter security: the old approach trusts everyone once they're inside the building, while <a href="2025-10-24-getting-started-with-zero-trust.html">Zero Trust in Microsoft 365</a> checks every traveler at every gate, every time.</p>
 
                     <p>And before you say "well, we have a firewall" &mdash; congratulations, you've built a fence around the airport parking lot. The planes are still unguarded.</p>
 
@@ -145,7 +147,7 @@
 
                     <h3>The Body Scanner = Device Compliance</h3>
 
-                    <p>Even if you pass the metal detector, you still go through the scanner. In IT terms, that's device compliance via Intune. Is your device managed? Is the OS patched? Is disk encryption enabled? Is Defender running?</p>
+                    <p>Even if you pass the metal detector, you still go through the scanner. In IT terms, that's device compliance via Intune. Is your device managed? Is the OS patched? Is disk encryption enabled? Is Defender running? It starts even earlier, with <a href="2026-01-06-intune-enrollment-restrictions.html">Intune enrollment restrictions</a> deciding which devices are allowed onto the management plane at all.</p>
 
                     <p>No? Then you're not boarding. You can stand at the gate all you want. The door stays closed.</p>
 
@@ -200,9 +202,9 @@
 
                     <p>Once you're past security, you enter the duty-free zone. You relax. You buy overpriced chocolate. You connect to the airport Wi-Fi without thinking twice.</p>
 
-                    <p>In corporate IT, the duty-free zone is the internal network. The classic perimeter-security thinking says: "Once you're inside the firewall, you're trusted." And that's exactly how lateral movement works. An attacker gets one foothold &mdash; a phished credential, a compromised endpoint &mdash; and then moves freely because everything inside the perimeter trusts everything else.</p>
+                    <p>In corporate IT, the duty-free zone is the internal network. The classic <strong>castle and moat security model</strong> says: "Once you're inside the firewall, you're trusted." And that's exactly how lateral movement works. An attacker gets one foothold &mdash; a phished credential, a compromised endpoint &mdash; and then moves freely because everything inside the perimeter trusts everything else. That is why perimeter security is obsolete the moment a single credential is phished.</p>
 
-                    <p>Zero Trust eliminates the duty-free zone. There is no "inside." Every request is verified. Every session is evaluated. You don't get a free pass just because you cleared security once.</p>
+                    <p>Zero Trust eliminates the duty-free zone. There is no "inside." Every request is verified. Every session is evaluated. You don't get a free pass just because you cleared security once. This is the core of ZTNA vs VPN: a VPN hands you broad access to the whole network, while <a href="2025-12-18-zero-trust-microsoft-entra-suite.html">ZTNA with Microsoft Entra Suite</a> verifies identity and device on every single connection and grants access to one app at a time.</p>
 
                     <h2>Turbulence: Shared Responsibility</h2>
 
@@ -242,7 +244,7 @@
 
                     <p>Every airport has a departure board. One place where you see the status of every flight. Green means on time. Yellow means boarding. Red means delayed or cancelled.</p>
 
-                    <p>Your departure board is <strong>Microsoft Secure Score</strong>. It tells you, at a glance:</p>
+                    <p>Your departure board is <strong><a href="2025-11-15-boost-your-cyber-defense-microsoft-secure-score-for-smbs.html">Microsoft Secure Score</a></strong>. It tells you, at a glance:</p>
 
                     <ul>
                         <li>Which security controls are active (on time)</li>
@@ -292,6 +294,16 @@
 
                     <p>Fly safe.</p>
 
+                    <section class="faq">
+                        <h2>Frequently Asked Questions</h2>
+                        <h3>What's the difference between Zero Trust and perimeter security?</h3>
+                        <p>Perimeter security trusts anything inside the network — the old "castle and moat" model — so one breached credential lets an attacker move laterally. Zero Trust assumes breach and verifies every request: identity, device, location, and risk, every time. There is no trusted "inside." That's why perimeter security is increasingly obsolete for cloud and hybrid work.</p>
+                        <h3>Is Zero Trust the same as ZTNA?</h3>
+                        <p>Not quite. Zero Trust is the overall security model ("never trust, always verify"). ZTNA (Zero Trust Network Access) is one component — it replaces broad VPN access with per-application access based on identity and device posture. ZTNA is how you apply Zero Trust principles to network access specifically.</p>
+                        <h3>What's the minimum Zero Trust setup for an SMB?</h3>
+                        <p>Start with MFA everywhere, Conditional Access on every request, no permanent admins (PIM with just-in-time access), device compliance via Intune, and block legacy authentication. Add DLP, third-party backup, and monitor sign-in and Secure Score alerts weekly. You don't need a large SOC to cover the basics.</p>
+                    </section>
+
                 </div>
             </section>
 
@@ -333,29 +345,28 @@
     <script src="../assets/js/post-navigation.js"></script>
     <script type="application/ld+json">
     {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Your IT Security Is an Airport - And Everyone Is Sneaking Through the Emergency Exit",
-  "datePublished": "2026-05-26",
-  "author": {
-    "@type": "Person",
-    "name": "Philipp Schmidt",
-    "url": "https://easym365.de"
-  },
-  "publisher": {
-    "@type": "Person",
-    "name": "Philipp Schmidt",
-    "url": "https://easym365.de"
-  },
-  "image": "https://endlesstech.blog/assets/images/airport-security-hero.png",
-  "url": "https://endlesstech.blog/posts/2026-05-26-your-it-security-is-an-airport.html",
-  "description": "Your company's IT security works exactly like an airport. Some departments have TSA Pre-Check, others are sneaking through the emergency exit. A sarcastic but dead-accurate guide to Zero Trust.",
-  "inLanguage": "en",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://endlesstech.blog/posts/2026-05-26-your-it-security-is-an-airport.html"
-  }
-}
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Zero Trust vs Perimeter Security: The Airport Analogy",
+      "description": "Zero Trust vs perimeter security, explained through an airport analogy — why never trust, always verify beats the old castle-and-moat model.",
+      "image": "https://endlesstech.blog/assets/images/airport-security-hero.webp",
+      "author": { "@type": "Person", "name": "Philipp Schmidt", "url": "https://easym365.de" },
+      "publisher": { "@type": "Organization", "name": "EndlessTech Blog" },
+      "datePublished": "2026-05-26",
+      "dateModified": "2026-06-20",
+      "mainEntityOfPage": "https://endlesstech.blog/posts/2026-05-26-your-it-security-is-an-airport.html"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "What's the difference between Zero Trust and perimeter security?", "acceptedAnswer": { "@type": "Answer", "text": "Perimeter security trusts anything inside the network (the castle-and-moat model), so one breached credential enables lateral movement. Zero Trust assumes breach and verifies every request — identity, device, location, risk — every time. There is no trusted inside." } },
+        { "@type": "Question", "name": "Is Zero Trust the same as ZTNA?", "acceptedAnswer": { "@type": "Answer", "text": "No. Zero Trust is the overall model (never trust, always verify). ZTNA (Zero Trust Network Access) is one component that replaces broad VPN access with per-application access based on identity and device posture." } },
+        { "@type": "Question", "name": "What's the minimum Zero Trust setup for an SMB?", "acceptedAnswer": { "@type": "Answer", "text": "MFA everywhere, Conditional Access on every request, no permanent admins (PIM/just-in-time), device compliance via Intune, and block legacy authentication. Add DLP, third-party backup, and monitor sign-in and Secure Score alerts weekly." } }
+      ]
+    }
     </script>
 </body>
 </html>
