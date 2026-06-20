@@ -9,32 +9,31 @@ permalink: /posts/2026-01-28-ios-abm-enrollment-troubleshooting.html
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
     <meta name="robots" content="index,follow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A deep dive into why iOS devices fail to enroll via Apple Business Manager (ABM) and show a 'Not Contacted' status in Intune. Learn the root cause and the mandatory factory reset fix.">
+    <meta name="description" content="iOS ABM enrollment shows Not Contacted in Intune? Root cause is a missing factory reset. Step-by-step fix and procurement best practices.">
     <meta name="author" content="Philipp Schmidt">
-    <meta name="keywords" content="iOS, iPadOS, ABM, Apple Business Manager, Intune, DEP, Zero-Touch, Enrollment, Troubleshooting">
-    
+    <meta name="keywords" content="iOS ABM enrollment not contacted, Apple Business Manager Intune troubleshooting, ABM DEP enrollment fix, iOS zero-touch enrollment factory reset, Intune ABM not contacted status">
+
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="article">
-    <meta property="og:title" content="iOS/iPadOS ABM Enrollment Troubleshooting: The 'Not Contacted' Nightmare">
-    <meta property="og:description" content="A deep dive into why iOS devices fail to enroll via Apple Business Manager (ABM) and show a 'Not Contacted' status in Intune. Learn the root cause and the mandatory factory reset fix.">
-    <meta property="og:image" content="https://endlesstech.blog/assets/images/ios-abm-enrollment-hero.png">
+    <meta property="og:title" content="iOS ABM Enrollment: Fix the Not Contacted Status">
+    <meta property="og:description" content="iOS ABM enrollment shows Not Contacted in Intune? Root cause is a missing factory reset. Step-by-step fix and procurement best practices.">
+    <meta property="og:image" content="https://endlesstech.blog/assets/images/ios-abm-enrollment-hero.webp">
     <meta property="og:url" content="https://endlesstech.blog/posts/2026-01-28-ios-abm-enrollment-troubleshooting.html">
-    
+
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="iOS/iPadOS ABM Enrollment Troubleshooting: The 'Not Contacted' Nightmare">
-    <meta name="twitter:description" content="A deep dive into why iOS devices fail to enroll via Apple Business Manager (ABM) and show a 'Not Contacted' status in Intune. Learn the root cause and the mandatory factory reset fix.">
-    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/ios-abm-enrollment-hero.png">
-    
-    <title>iOS/iPadOS ABM Enrollment Troubleshooting: The 'Not Contacted' Nightmare | EndlessTech Blog</title>
+    <meta name="twitter:title" content="iOS ABM Enrollment: Fix the Not Contacted Status">
+    <meta name="twitter:description" content="iOS ABM enrollment shows Not Contacted in Intune? Root cause is a missing factory reset. Step-by-step fix and procurement best practices.">
+    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/ios-abm-enrollment-hero.webp">
+
+    <title>iOS ABM Enrollment: Fix the Not Contacted Status</title>
     
     <!-- Stylesheet -->
     <link rel="alternate" type="application/rss+xml" title="EndlessTech Blog RSS Feed" href="https://endlesstech.blog/feed.xml">
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/blog-post.css">
     
-    <!-- Google Fonts -->
-    <link rel="canonical" href="https://farpoint-tech.github.io/endlesstech.blog/posts/2026-01-28-ios-abm-enrollment-troubleshooting.html" />
+    <link rel="canonical" href="https://endlesstech.blog/posts/2026-01-28-ios-abm-enrollment-troubleshooting.html" />
 </head>
 <body>
     <!-- Header -->
@@ -72,8 +71,8 @@ permalink: /posts/2026-01-28-ios-abm-enrollment-troubleshooting.html
             <section class="post-full-content">
                 <div class="post-content">
                     <h2>CxO Summary: Why This Matters for Your Organization</h2>
-                    
-                    <p>When corporate iOS/iPadOS devices fail to enroll properly via Apple Business Manager (ABM) and Microsoft Intune, your organization faces significant risks and operational costs. This summary outlines the business impact and the value of resolving these issues.</p>
+
+                    <p>An iOS ABM enrollment that shows "Not Contacted" in Intune means the device never completed its check-in with Apple's Device Enrollment Program servers — and every security policy you configured is sitting idle. When corporate iOS or iPadOS devices fail to enroll properly via Apple Business Manager and Microsoft Intune, the organization faces compliance gaps, data exposure, and hours of wasted IT effort. This article explains the root cause and the fix.</p>
 
                     <h3>Business Impact</h3>
 
@@ -254,9 +253,22 @@ permalink: /posts/2026-01-28-ios-abm-enrollment-troubleshooting.html
 
                     <p><em>Complex IT? I make it simple – with M365, which protects, scales, and brings clarity. For SMEs that rely on smart solutions.</em></p>
 
-                    <h3>Call to Action</h3>
+                    <p>Once your iOS fleet enrolls cleanly, pair it with <a href="2026-01-06-intune-enrollment-restrictions.html">Intune enrollment restrictions</a> to block personal devices from the management plane, and protect corporate data on BYOD phones with <a href="2025-11-10-mobile-application-management-your-quarterback-for-mobile-security.html">Intune MAM policies</a>.</p>
 
-                    <p>Need help streamlining your iOS device management, setting up ABM, or troubleshooting complex Intune issues? Visit <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">https://easym365.de</a> for expert consulting and hands-on support. For more technical deep dives, check out the <a href="https://endlesstech.blog">EndlessTech Blog</a>.</p>
+                    <h2>Frequently Asked Questions</h2>
+
+                    <h3>Why does my iOS device show "Not Contacted" in Intune?</h3>
+                    <p>The device was added to Apple Business Manager after its initial activation. iOS only checks for a DEP enrollment profile during the first Setup Assistant run. If the device was already set up before ABM assignment, it will never contact Intune until you perform a full factory reset and let it go through Setup Assistant again.</p>
+
+                    <h3>Can I fix the Not Contacted status without a factory reset?</h3>
+                    <p>No. A factory reset (Erase All Content and Settings) is the only reliable way to trigger the DEP check-in. Apple Configurator can re-enroll a device in supervised mode, but it also requires a wipe. There is no over-the-air workaround that preserves user data.</p>
+
+                    <h3>How do I prevent this issue in future device purchases?</h3>
+                    <p>Purchase all iOS devices through an Apple Authorized Reseller linked to your Apple Business Manager account. Provide your Apple Customer Number at the point of sale so the devices are automatically assigned to your ABM organization before they ship. Never allow employees to purchase corporate devices from retail stores.</p>
+
+                    <h3>Get Expert Help</h3>
+
+                    <p>Need help streamlining your iOS device management, setting up ABM, or troubleshooting complex Intune issues? Visit <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">easym365.de</a> for expert consulting and hands-on support.</p>
 
                 </div>
             </section>
@@ -298,29 +310,63 @@ permalink: /posts/2026-01-28-ios-abm-enrollment-troubleshooting.html
     <script src="../assets/js/post-navigation.js"></script>
     <script type="application/ld+json">
     {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "iOS/iPadOS ABM Enrollment Troubleshooting: The Not Contacted Nightmare",
-  "datePublished": "2026-01-28",
-  "author": {
-    "@type": "Person",
-    "name": "Philipp Schmidt",
-    "url": "https://easym365.de"
-  },
-  "publisher": {
-    "@type": "Person",
-    "name": "Philipp Schmidt",
-    "url": "https://easym365.de"
-  },
-  "image": "https://farpoint-tech.github.io/endlesstech.blog/assets/images/ios-abm-enrollment-hero.png",
-  "url": "https://farpoint-tech.github.io/endlesstech.blog/posts/2026-01-28-ios-abm-enrollment-troubleshooting.html",
-  "description": "A deep dive into why iOS devices fail to enroll via Apple Business Manager and show a Not Contacted status in Intune.",
-  "inLanguage": "en",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://farpoint-tech.github.io/endlesstech.blog/posts/2026-01-28-ios-abm-enrollment-troubleshooting.html"
-  }
-}
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "iOS ABM Enrollment: Fix the Not Contacted Status",
+      "datePublished": "2026-01-28",
+      "dateModified": "2026-06-20",
+      "author": {
+        "@type": "Person",
+        "name": "Philipp Schmidt",
+        "url": "https://easym365.de"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "Philipp Schmidt",
+        "url": "https://easym365.de"
+      },
+      "image": "https://endlesstech.blog/assets/images/ios-abm-enrollment-hero.webp",
+      "url": "https://endlesstech.blog/posts/2026-01-28-ios-abm-enrollment-troubleshooting.html",
+      "description": "iOS ABM enrollment shows Not Contacted in Intune? Root cause is a missing factory reset. Step-by-step fix and procurement best practices.",
+      "keywords": "iOS ABM enrollment not contacted, Apple Business Manager Intune, DEP enrollment fix, iOS zero-touch enrollment",
+      "inLanguage": "en",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://endlesstech.blog/posts/2026-01-28-ios-abm-enrollment-troubleshooting.html"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why does my iOS device show Not Contacted in Intune?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The device was added to Apple Business Manager after its initial activation. iOS only checks for a DEP enrollment profile during the first Setup Assistant run. A factory reset is required to trigger the check-in."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I fix the Not Contacted status without a factory reset?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. A factory reset (Erase All Content and Settings) is the only reliable way to trigger the DEP check-in. There is no over-the-air workaround that preserves user data."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I prevent this issue in future device purchases?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Purchase all iOS devices through an Apple Authorized Reseller linked to your Apple Business Manager account. Provide your Apple Customer Number at the point of sale so devices are automatically assigned before shipping."
+          }
+        }
+      ]
+    }
     </script>
 </body>
 </html>
