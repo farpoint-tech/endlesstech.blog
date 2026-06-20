@@ -5,24 +5,24 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
     <meta name="robots" content="index,follow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A deep dive into Microsoft Entra Suite and how it enables a Zero Trust security model for modern organizations.">
+    <meta name="description" content="Microsoft Entra Suite Zero Trust deployment: Conditional Access, PIM, Private Access, and a six-phase workshop playbook for identity-first security.">
     <meta name="author" content="Philipp Schmidt">
-    <meta name="keywords" content="Zero Trust, Microsoft Entra, Identity Security, Network Security, Cybersecurity">
-    
+    <meta name="keywords" content="Microsoft Entra Suite zero trust, Entra Conditional Access PIM, Zero Trust identity security, Entra Private Access, Microsoft Entra deployment guide">
+
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="article">
-    <meta property="og:title" content="Unlocking Zero Trust: Mastering Identity and Network Security with Microsoft Entra Suite">
-    <meta property="og:description" content="A deep dive into the Microsoft Entra Suite and how it enables a Zero Trust security model for modern organizations.">
-    <meta property="og:image" content="https://farpoint-tech.github.io/endlesstech.blog/assets/images/zero-trust-entra/hero-zero-trust.png">
-    <meta property="og:url" content="https://farpoint-tech.github.io/endlesstech.blog/posts/2025-12-18-zero-trust-microsoft-entra-suite.html">
-    
+    <meta property="og:title" content="Microsoft Entra Suite Zero Trust Deployment">
+    <meta property="og:description" content="Microsoft Entra Suite Zero Trust deployment: Conditional Access, PIM, Private Access, and a six-phase workshop playbook.">
+    <meta property="og:image" content="https://endlesstech.blog/assets/images/zero-trust-entra/hero-zero-trust.webp">
+    <meta property="og:url" content="https://endlesstech.blog/posts/2025-12-18-zero-trust-microsoft-entra-suite.html">
+
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Unlocking Zero Trust: Mastering Identity and Network Security with Microsoft Entra Suite">
-    <meta name="twitter:description" content="A deep dive into the Microsoft Entra Suite and how it enables a Zero Trust security model for modern organizations.">
-    <meta name="twitter:image" content="https://farpoint-tech.github.io/endlesstech.blog/assets/images/zero-trust-entra/hero-zero-trust.png">
-    
-    <title>Unlocking Zero Trust: Mastering Identity and Network Security with Microsoft Entra Suite | EndlessTech Blog</title>
+    <meta name="twitter:title" content="Microsoft Entra Suite Zero Trust Deployment">
+    <meta name="twitter:description" content="Microsoft Entra Suite Zero Trust deployment: Conditional Access, PIM, Private Access, and a six-phase workshop playbook.">
+    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/zero-trust-entra/hero-zero-trust.webp">
+
+    <title>Microsoft Entra Suite Zero Trust Deployment</title>
     
     <!-- Stylesheet -->
     <link rel="alternate" type="application/rss+xml" title="EndlessTech Blog RSS Feed" href="https://endlesstech.blog/feed.xml">
@@ -68,7 +68,7 @@
             margin-top: var(--spacing-md);
         }
     </style>
-    <link rel="canonical" href="https://farpoint-tech.github.io/endlesstech.blog/posts/2025-12-18-zero-trust-microsoft-entra-suite.html" />
+    <link rel="canonical" href="https://endlesstech.blog/posts/2025-12-18-zero-trust-microsoft-entra-suite.html" />
 </head>
 <body>
     <!-- Header -->
@@ -107,7 +107,7 @@
             <!-- Content -->
             <div class="post-content container">
                 <section>
-                    <p>In today's evolving cybersecurity landscape, traditional perimeter defenses simply can't keep up with the increasing sophistication of threats. Organizations must pivot to a <strong>Zero Trust</strong> security model—one that assumes breach and demands strict verification for every user and device. But achieving this vision effectively requires more than just ideas; it demands a <strong>unified, practical approach</strong> to identity and network security.</p>
+                    <p>The Microsoft Entra Suite brings Zero Trust from whiteboard concept to operational reality. Traditional perimeter defenses cannot keep up with modern threats because they treat the network boundary as the trust boundary — and that boundary no longer exists. Entra Suite replaces it with identity-centric verification: every user, every device, every session gets evaluated against real-time risk signals before access is granted. This article walks through the components, the deployment phases, and the practical decisions that determine whether a Zero Trust rollout succeeds or stalls.</p>
                 </section>
 
                 <section>
@@ -134,8 +134,22 @@
 
                 <section>
                     <h2>Final Thoughts: Take the Next Step Toward Zero Trust Mastery</h2>
-                    <p>The Microsoft Entra Suite Zero Trust Deployment Workshop is more than a deep dive—it's a <strong>blueprint for success</strong>. By following this carefully crafted playbook, organizations can systematically transform fragmented security strategies into a cohesive, resilient Zero Trust program.</p>
+                    <p>The Microsoft Entra Suite Zero Trust Deployment Workshop is more than a deep dive — it is a blueprint for success. By following this carefully crafted playbook, organizations can systematically transform fragmented security strategies into a cohesive, resilient Zero Trust program.</p>
+                    <p>Before starting the deployment, establish a baseline with <a href="2025-11-15-boost-your-cyber-defense-microsoft-secure-score-for-smbs.html">Microsoft Secure Score</a>. For the device compliance policies that Conditional Access evaluates, see the <a href="2025-10-24-getting-started-with-zero-trust.html">Zero Trust getting started guide</a> and the <a href="2025-11-10-mobile-application-management-your-quarterback-for-mobile-security.html">Intune MAM walkthrough</a>.</p>
                     <p>For expert guidance on implementing identity and network security solutions tailored to your organization, visit <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">easym365.de</a> to learn more about our consulting and implementation services.</p>
+                </section>
+
+                <section>
+                    <h2>Frequently Asked Questions</h2>
+
+                    <h3>What licenses are needed for Microsoft Entra Suite?</h3>
+                    <p>Microsoft Entra Suite is an add-on to Entra ID P1, bundling Entra Private Access, Entra Internet Access, Entra ID Governance, and Entra Verified ID into a single SKU. Organizations already on Microsoft 365 E5 get Entra ID P2, which covers Conditional Access and PIM, but the network-access components require the separate Entra Suite license.</p>
+
+                    <h3>Can Entra Suite replace a traditional VPN?</h3>
+                    <p>Yes. Entra Private Access provides identity-aware, per-app access to on-premises resources without the broad network exposure of a site-to-site VPN. Users connect through the Global Secure Access client, and each session is evaluated against Conditional Access policies — including device compliance and user risk — before traffic is routed to the private application.</p>
+
+                    <h3>How does Entra Suite differ from standalone Entra ID P2?</h3>
+                    <p>Entra ID P2 covers identity protection and privileged identity management. Entra Suite adds network-level controls — Private Access for on-premises apps, Internet Access for SaaS and web filtering — plus identity governance and verified credentials. The suite is designed for organizations that want a single platform for both identity and network Zero Trust rather than bolting on separate ZTNA or SWG products.</p>
                 </section>
             </div>
         </article>
@@ -158,29 +172,63 @@
     <script src="../assets/js/post-navigation.js"></script>
     <script type="application/ld+json">
     {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Unlocking Zero Trust: Mastering Identity and Network Security with Microsoft Entra Suite",
-  "datePublished": "2025-12-18",
-  "author": {
-    "@type": "Person",
-    "name": "Philipp Schmidt",
-    "url": "https://easym365.de"
-  },
-  "publisher": {
-    "@type": "Person",
-    "name": "Philipp Schmidt",
-    "url": "https://easym365.de"
-  },
-  "image": "https://farpoint-tech.github.io/endlesstech.blog/assets/images/zero-trust-entra/hero-zero-trust.png",
-  "url": "https://farpoint-tech.github.io/endlesstech.blog/posts/2025-12-18-zero-trust-microsoft-entra-suite.html",
-  "description": "A deep dive into the Microsoft Entra Suite and how it enables a Zero Trust security model for modern organizations.",
-  "inLanguage": "en",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://farpoint-tech.github.io/endlesstech.blog/posts/2025-12-18-zero-trust-microsoft-entra-suite.html"
-  }
-}
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Microsoft Entra Suite Zero Trust Deployment",
+      "datePublished": "2025-12-18",
+      "dateModified": "2026-06-20",
+      "author": {
+        "@type": "Person",
+        "name": "Philipp Schmidt",
+        "url": "https://easym365.de"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "Philipp Schmidt",
+        "url": "https://easym365.de"
+      },
+      "image": "https://endlesstech.blog/assets/images/zero-trust-entra/hero-zero-trust.webp",
+      "url": "https://endlesstech.blog/posts/2025-12-18-zero-trust-microsoft-entra-suite.html",
+      "description": "Microsoft Entra Suite Zero Trust deployment: Conditional Access, PIM, Private Access, and a six-phase workshop playbook for identity-first security.",
+      "keywords": "Microsoft Entra Suite zero trust, Conditional Access, PIM, Entra Private Access, identity security",
+      "inLanguage": "en",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://endlesstech.blog/posts/2025-12-18-zero-trust-microsoft-entra-suite.html"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What licenses are needed for Microsoft Entra Suite?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Microsoft Entra Suite is an add-on to Entra ID P1, bundling Entra Private Access, Entra Internet Access, Entra ID Governance, and Entra Verified ID into a single SKU. Organizations on Microsoft 365 E5 get Entra ID P2 but need the separate Entra Suite license for network-access components."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can Entra Suite replace a traditional VPN?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Entra Private Access provides identity-aware, per-app access to on-premises resources without the broad network exposure of a site-to-site VPN. Each session is evaluated against Conditional Access policies before traffic is routed to the private application."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does Entra Suite differ from standalone Entra ID P2?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Entra ID P2 covers identity protection and privileged identity management. Entra Suite adds network-level controls — Private Access for on-premises apps, Internet Access for SaaS and web filtering — plus identity governance and verified credentials."
+          }
+        }
+      ]
+    }
     </script>
 </body>
 </html>
