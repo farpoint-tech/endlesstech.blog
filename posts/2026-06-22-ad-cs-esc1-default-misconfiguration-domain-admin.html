@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+    <meta name="robots" content="index,follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AD CS ESC1 is a default certificate template misconfiguration that lets attackers escalate to Domain Admin in under three hours. Learn how to audit and remediate ESC1 in your environment.">
+    <meta name="author" content="Philipp Schmidt">
+    <meta name="keywords" content="AD CS ESC1, Active Directory Certificate Services, certificate template misconfiguration, domain admin escalation, PSPKI audit, NDES Intune connector, SupplyInRequest, Certified Pre-Owned, ESC6, certificate security">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="AD CS ESC1: The Default Misconfiguration That Hands Attackers Domain Admin in Under Three Hours">
+    <meta property="og:description" content="AD CS ESC1 is a default certificate template misconfiguration that lets attackers escalate to Domain Admin in under three hours. Learn how to audit and remediate ESC1 in your environment.">
+    <meta property="og:image" content="https://endlesstech.blog/assets/images/ad-cs-esc1-hero.webp">
+    <meta property="og:url" content="https://endlesstech.blog/posts/2026-06-22-ad-cs-esc1-default-misconfiguration-domain-admin.html">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="AD CS ESC1: The Default Misconfiguration That Hands Attackers Domain Admin in Under Three Hours">
+    <meta name="twitter:description" content="AD CS ESC1 is a default certificate template misconfiguration that lets attackers escalate to Domain Admin in under three hours. Learn how to audit and remediate ESC1 in your environment.">
+    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/ad-cs-esc1-hero.webp">
+
+    <title>AD CS ESC1: The Default Misconfiguration That Hands Attackers Domain Admin in Under Three Hours</title>
+
+    <!-- Stylesheet -->
+    <link rel="alternate" type="application/rss+xml" title="EndlessTech Blog RSS Feed" href="https://endlesstech.blog/feed.xml">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/blog-post.css">
+
+    <link rel="canonical" href="https://endlesstech.blog/posts/2026-06-22-ad-cs-esc1-default-misconfiguration-domain-admin.html" />
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/images/logo.webp" alt="Philipp Schmidt - Secure. Scalable. Simple M365.">
+            </a>
+            <nav class="nav" id="nav">
+                <a href="../index.html">Home</a>
+                <a href="../index.html#blog" class="active">Blog</a>
+                <a href="../about.html">About</a>
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+            </nav>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+                &#9776;
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <article class="post-full">
+            <header class="post-full-header">
+                <h1 class="post-full-title">AD CS ESC1: The Default Misconfiguration That Hands Attackers Domain Admin in Under Three Hours</h1>
+                <div class="post-full-meta">
+                    <time datetime="2026-06-22">June 22, 2026</time> &bull; By Philipp Schmidt
+                </div>
+            </header>
+
+            <figure class="post-full-image">
+                <img src="../assets/images/ad-cs-esc1-hero.webp" alt="Infographic showing a ransomware attack chain: email bombing then Teams social engineering then DLL side-loading then ESC1 certificate abuse then Domain Admin in 180 minutes then interrupted NTDS.dit exfiltration">
+            </figure>
+
+            <section class="post-full-content">
+                <div class="post-content">
+
+                    <p>Active Directory Certificate Services is one of those roles that gets deployed once and then never touched again. That's the problem. A misconfigured certificate template&mdash;specifically the ESC1 flaw&mdash;gives any user with local admin rights the ability to request a certificate in the name of any identity in the domain, including Domain Admins. No exotic tooling required. No zero-day. Just a default setting nobody bothered to audit.</p>
+
+                    <p>This post is for MSP technicians and IT administrators running hybrid environments with AD CS deployed. If you have an NDES connector for <a href="2026-01-06-intune-enrollment-restrictions.html">Intune</a>, pay close attention&mdash;the template associated with it is a common source of exactly this misconfiguration.</p>
+
+                    <figure class="post-full-image">
+                        <img src="../assets/images/ad-cs-esc1-attack-path.webp" alt="Diagram showing the ESC1 attack chain: compromised endpoint to certificate request with SupplyInRequest to Domain Admin TGT via PKINIT" loading="lazy">
+                        <figcaption>The ESC1 attack chain: from a compromised endpoint to Domain Admin in three steps.</figcaption>
+                    </figure>
+
+                    <h2>What ESC1 Actually Means</h2>
+
+                    <p>Certificate templates in AD CS can be configured to allow the subject name to be supplied in the request rather than built from Active Directory. This is legitimate for certain use cases&mdash;web server certificates, for example, where the CN needs to match a specific FQDN. The problem is when this flag is combined with overly permissive enrollment rights.</p>
+
+                    <p>If "Domain Users" or "Domain Computers" appears in the enrollment rights of a template that allows subject name supply in the request, any user in the domain can request a certificate claiming to be anyone else. Including a Domain Admin. That certificate can then be used for Kerberos authentication via PKINIT, which returns a Ticket Granting Ticket&mdash;effectively a complete credential for the target account.</p>
+
+                    <p>The attacker doesn't need to crack a password. They just need to know a username.</p>
+
+                    <figure class="post-full-image">
+                        <img src="../assets/images/ad-cs-esc1-template-config.webp" alt="Screenshot of a vulnerable AD CS certificate template showing SupplyInRequest enabled with Domain Users in enrollment rights" loading="lazy">
+                        <figcaption>A vulnerable template: SupplyInRequest enabled with Domain Users granted enrollment rights.</figcaption>
+                    </figure>
+
+                    <h2>How to Find Vulnerable Templates in Your Environment</h2>
+
+                    <p>Install the PSPKI PowerShell module if you don't have it:</p>
+
+<pre><code>Install-Module -Name PSPKI -Force</code></pre>
+
+                    <p>Then run:</p>
+
+<pre><code>Get-CertificationAuthority | Get-CATemplate | Get-CertificateTemplate |
+  Where-Object { $_.Settings.SubjectName -match "SupplyInRequest" } |
+  Select-Object Name, @{N="EnrollmentRights";E={ $_.Settings.Permission.Permissions }}</code></pre>
+
+                    <p>Any template where <code>SupplyInRequest</code> is set and the enrollment rights include <code>Domain Users</code>, <code>Domain Computers</code>, or <code>Authenticated Users</code> is a candidate for ESC1. Cross-reference against which of those templates are actually published to a CA&mdash;unpublished templates are lower risk, but should still be cleaned up.</p>
+
+                    <p>For the NDES/Intune connector template specifically: enrollment rights should be scoped to the computer account of the NDES connector server only. Nothing else. If you see Domain Users or Domain Computers in there, that's your first fix.</p>
+
+                    <figure class="post-full-image">
+                        <img src="../assets/images/ad-cs-esc1-pspki-output.webp" alt="PowerShell terminal showing PSPKI module output listing vulnerable certificate templates with SupplyInRequest flag and broad enrollment rights" loading="lazy">
+                        <figcaption>PSPKI audit output highlighting templates with SupplyInRequest and overly broad enrollment rights.</figcaption>
+                    </figure>
+
+                    <h2>What to Fix</h2>
+
+                    <p>Three things, in order of impact:</p>
+
+                    <p><strong>1. Remove Domain Users and Domain Computers from enrollment rights on any template with SupplyInRequest enabled.</strong> This is the critical remediation. If a template genuinely needs to allow subject name supply (e.g., a web server template), restrict who can enroll. The set of accounts that legitimately need that capability is always small.</p>
+
+                    <p><strong>2. Review which templates are published to your CAs.</strong> Open the Certification Authority console, navigate to Certificate Templates, and remove any template that has no active, justified use case. Unpublish first, delete after you've confirmed nothing breaks.</p>
+
+                    <p><strong>3. Enable the EDITF_ATTRIBUTESUBJECTALTNAME2 flag check.</strong> If this flag is set on the CA itself, it overrides template settings and allows SAN attributes to be supplied in any request. Check with:</p>
+
+<pre><code>certutil -getreg policy\EditFlags</code></pre>
+
+                    <p>If <code>EDITF_ATTRIBUTESUBJECTALTNAME2</code> appears in the output, that's a separate, CA-level ESC6 issue and needs immediate attention.</p>
+
+                    <h2>The Broader Context</h2>
+
+                    <p>ESC1 is documented in the <em>Certified Pre-Owned</em> research by SpecterOps. The tooling to exploit it&mdash;Certipy, among others&mdash;is publicly available and not complicated to use. Any attacker who has compromised a single endpoint with local admin rights will run this check as a standard step. If the template is there, they will use it.</p>
+
+                    <p>The AD CS role is frequently treated as infrastructure that "just works." It does&mdash;until it doesn't. Adding a quarterly AD CS audit to your client review process takes about 20 minutes per tenant and surfaces misconfigurations before attackers do. Combine this with a broader <a href="2025-10-24-getting-started-with-zero-trust.html">Zero Trust</a> posture to minimize the blast radius of any single compromised identity.</p>
+
+                    <h2>Key Takeaway</h2>
+
+                    <p>A misconfigured AD CS template is not a theoretical risk. In a documented incident we analyzed recently, it was the direct path from a compromised standard user to full Domain Admin in 180 minutes. The fix is not complicated&mdash;but it requires someone to actually look.</p>
+
+                    <h2>Action Items</h2>
+
+                    <ul>
+                        <li>Run the PSPKI audit on every client tenant with AD CS deployed</li>
+                        <li>Remove Domain Users/Domain Computers from enrollment rights on SupplyInRequest templates</li>
+                        <li>Restrict the NDES/Intune template to the NDES connector computer account only</li>
+                        <li>Publish only templates with active, documented use cases</li>
+                        <li>Check for <code>EDITF_ATTRIBUTESUBJECTALTNAME2</code> at the CA level</li>
+                    </ul>
+
+                </div>
+            </section>
+
+            <!-- Author Bio -->
+            <section class="author-bio">
+                <img src="../assets/images/cloudknox-author.webp" alt="Philipp Schmidt - Microsoft 365 Security Consultant - easyM365.de" class="author-avatar" loading="lazy">
+                <div class="author-info">
+                    <h3>Philipp Schmidt</h3>
+                    <p>IT consultant specializing in Microsoft 365, Security, and Zero Trust architecture. Helping SMBs build secure, scalable, and simple cloud solutions.</p>
+                    <p><strong>Complex IT? I make it simple</strong> &mdash; with M365 that protects, scales, and brings clarity.</p>
+                    <p><a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Learn more: https://easyM365.de</a></p>
+                </div>
+            </section>
+        </article>
+        <div id="post-navigation"></div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2026 Philipp Schmidt. All rights reserved.</p>
+            <p>Secure. Scalable. Simple M365.</p>
+            <div class="footer-links">
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+                <a href="https://www.linkedin.com/in/pschmidt3010" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://github.com/farpoint-tech" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu Script -->
+    <script>
+        const menuToggle = document.getElementById('menu-toggle');
+        const nav = document.getElementById('nav');
+        menuToggle.addEventListener('click', () => {
+            nav.classList.toggle('active');
+        });
+    </script>
+    <script src="../assets/js/post-navigation.js"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "AD CS ESC1: The Default Misconfiguration That Hands Attackers Domain Admin in Under Three Hours",
+      "description": "AD CS ESC1 is a default certificate template misconfiguration that lets attackers escalate to Domain Admin in under three hours. Learn how to audit and remediate ESC1 in your environment.",
+      "image": "https://endlesstech.blog/assets/images/ad-cs-esc1-hero.webp",
+      "author": { "@type": "Person", "name": "Philipp Schmidt", "url": "https://easym365.de" },
+      "publisher": { "@type": "Organization", "name": "EndlessTech Blog" },
+      "datePublished": "2026-06-22",
+      "dateModified": "2026-06-22",
+      "mainEntityOfPage": "https://endlesstech.blog/posts/2026-06-22-ad-cs-esc1-default-misconfiguration-domain-admin.html"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "What is the AD CS ESC1 vulnerability?", "acceptedAnswer": { "@type": "Answer", "text": "ESC1 is a misconfiguration in Active Directory Certificate Services where a certificate template has SupplyInRequest enabled and overly broad enrollment rights (e.g., Domain Users). This allows any domain user to request a certificate impersonating any other identity, including Domain Admins, and authenticate via PKINIT." } },
+        { "@type": "Question", "name": "How do I check if my environment is vulnerable to ESC1?", "acceptedAnswer": { "@type": "Answer", "text": "Install the PSPKI PowerShell module and run Get-CertificationAuthority | Get-CATemplate | Get-CertificateTemplate, filtering for templates with SupplyInRequest enabled. Check whether Domain Users, Domain Computers, or Authenticated Users appear in enrollment rights on those templates." } },
+        { "@type": "Question", "name": "Does the NDES connector for Intune create ESC1-vulnerable templates?", "acceptedAnswer": { "@type": "Answer", "text": "The NDES connector itself does not create vulnerable templates, but the template associated with it is frequently misconfigured with overly broad enrollment rights. The enrollment rights should be scoped exclusively to the NDES connector server's computer account." } }
+      ]
+    }
+    </script>
+</body>
+</html>
