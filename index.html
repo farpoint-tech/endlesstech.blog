@@ -80,6 +80,8 @@
                 <button class="category-btn" data-category="device-management-intune">Device Management - Intune</button>
                 <button class="category-btn" data-category="security-defender">Security - Defender</button>
                 <button class="category-btn" data-category="ai-copilot">AI Copilot</button>
+                <button class="category-btn" data-category="powershell">PowerShell</button>
+                <button class="category-btn" data-category="active-directory-legacy">Active Directory Legacy</button>
                 <button class="category-btn" data-category="best-practices">Best Practices</button>
                 <button class="category-btn" data-category="offtopic">Offtopic</button>
                 <button class="category-btn" data-category="others">Others</button>
@@ -150,7 +152,7 @@
                     </div>
                 </article>
 
-                <article class="post-card" data-category="m365 best-practices others">
+                <article class="post-card" data-category="m365 best-practices powershell others">
                     <img src="assets/images/ghost-hunting-hero.webp" alt="PowerShell terminal cleaning up orphaned Teams Private Channel sites in an M365 tenant" class="post-card-image" loading="lazy" srcset="assets/images/responsive/ghost-hunting-hero-400w.webp 400w, assets/images/responsive/ghost-hunting-hero-800w.webp 800w, assets/images/ghost-hunting-hero.webp 1344w" sizes="(max-width: 800px) 100vw, 800px">
                     <div class="post-card-content">
                         <h3 class="post-card-title">
@@ -252,7 +254,7 @@
                 </article>
 
                 <!-- From NT to M365 – A Personal Journey -->
-                <article class="post-card" data-category="offtopic">
+                <article class="post-card" data-category="offtopic active-directory-legacy">
                     <img src="assets/images/nt-to-m365-journey-hero.webp" alt="Calm workspace with laptop and notebook in natural daylight representing a reflective IT career journey from Windows NT to Microsoft 365" class="post-card-image" loading="lazy" srcset="assets/images/responsive/nt-to-m365-journey-hero-400w.webp 400w, assets/images/responsive/nt-to-m365-journey-hero-800w.webp 800w, assets/images/nt-to-m365-journey-hero.webp 1024w" sizes="(max-width: 800px) 100vw, 800px">
                     <div class="post-card-content">
                         <h3 class="post-card-title">
@@ -508,39 +510,18 @@
                     </div>
                 </article>
 
-                <article class="post-card" data-category="m365 best-practices security-defender">
-                    <img src="assets/images/knox-infinity.webp" alt="Knox mascot reviewing Microsoft 365 security best practices checklist on a holographic display" class="post-card-image" loading="lazy" srcset="assets/images/responsive/knox-infinity-400w.webp 400w, assets/images/responsive/knox-infinity-800w.webp 800w, assets/images/knox-infinity.webp 1344w" sizes="(max-width: 800px) 100vw, 800px">
-                    <div class="post-card-content">
-                        <h3 class="post-card-title">
-                            <a href="#">Microsoft 365 Security Best Practices</a>
-                        </h3>
-                        <div class="post-card-meta">
-                            Coming Soon • By Philipp Schmidt
-                        </div>
-                        <p class="post-card-excerpt">
-                            Learn essential security configurations and best practices to secure your Microsoft 365 tenant against cyber threats.
-                        </p>
-                        <a href="#" class="post-card-link">Coming Soon →</a>
-                    </div>
-                </article>
+            </div>
+        </section>
 
-                <article class="post-card" data-category="m365 best-practices others">
-                    <img src="assets/images/graph-api-hero.webp" alt="Microsoft Graph API architecture overview showing JSON response structure and request flow from Graph Explorer through app registration to M365 services" class="post-card-image" loading="lazy">
-                    <div class="post-card-content">
-                        <h3 class="post-card-title">
-                            <a href="#">Demystifying the Microsoft Graph API: A Practical Guide</a>
-                        </h3>
-                        <div class="post-card-meta">
-                            Coming Soon &bull; By Philipp Schmidt
-                        </div>
-                        <p class="post-card-excerpt">
-                            Every click in Intune, Entra, or SharePoint is an API call. This guide covers the tools, auth concepts, and query patterns IT practitioners actually need to automate M365 at scale.
-                        </p>
-                        <a href="#" class="post-card-link">Coming Soon &rarr;</a>
-                    </div>
-                </article>
+        <!-- Coming Soon Section -->
+        <section id="coming-soon" class="mt-xxl">
+            <h2 class="text-center">Coming Soon</h2>
+            <p class="text-center" style="color: var(--color-text-light); margin-bottom: var(--spacing-lg);">
+                A preview of posts currently in the works
+            </p>
 
-                <article class="post-card" data-category="security best-practices">
+            <div class="coming-soon-grid">
+                <article class="post-card" data-category="security active-directory-legacy best-practices">
                     <img src="assets/images/ad-cs-esc1-hero.webp" alt="Infographic showing a ransomware attack chain: email bombing then Teams social engineering then DLL side-loading then ESC1 certificate abuse then Domain Admin in 180 minutes then interrupted NTDS.dit exfiltration" class="post-card-image" loading="lazy">
                     <div class="post-card-content">
                         <h3 class="post-card-title">
@@ -556,21 +537,38 @@
                     </div>
                 </article>
 
-                <article class="post-card" data-category="best-practices others">
-                    <img src="assets/images/knox-hawk-hero.webp" alt="Knox and Hawk mascots in a futuristic cyber command center representing PowerShell security automation" class="post-card-image" loading="lazy" srcset="assets/images/responsive/knox-hawk-hero-400w.webp 400w, assets/images/responsive/knox-hawk-hero-800w.webp 800w, assets/images/knox-hawk-hero.webp 1280w" sizes="(max-width: 800px) 100vw, 800px">
+                <article class="post-card" data-category="m365 powershell best-practices others">
+                    <img src="assets/images/graph-api-hero.webp" alt="Microsoft Graph API architecture overview showing JSON response structure and request flow from Graph Explorer through app registration to M365 services" class="post-card-image" loading="lazy">
                     <div class="post-card-content">
                         <h3 class="post-card-title">
-                            <a href="#">Automating Security with PowerShell</a>
+                            <a href="#">Demystifying the Microsoft Graph API: A Practical Guide</a>
                         </h3>
                         <div class="post-card-meta">
                             Coming Soon &bull; By Philipp Schmidt
                         </div>
                         <p class="post-card-excerpt">
-                            Explore powerful PowerShell scripts and automation techniques to streamline your security operations.
+                            Every click in Intune, Entra, or SharePoint is an API call. This guide covers the tools, auth concepts, and query patterns IT practitioners actually need to automate M365 at scale.
                         </p>
                         <a href="#" class="post-card-link">Coming Soon &rarr;</a>
                     </div>
                 </article>
+
+                <article class="post-card" data-category="m365 best-practices security-defender">
+                    <img src="assets/images/knox-infinity.webp" alt="Knox mascot reviewing Microsoft 365 security best practices checklist on a holographic display" class="post-card-image" loading="lazy" srcset="assets/images/responsive/knox-infinity-400w.webp 400w, assets/images/responsive/knox-infinity-800w.webp 800w, assets/images/knox-infinity.webp 1344w" sizes="(max-width: 800px) 100vw, 800px">
+                    <div class="post-card-content">
+                        <h3 class="post-card-title">
+                            <a href="#">Microsoft 365 Security Best Practices</a>
+                        </h3>
+                        <div class="post-card-meta">
+                            Coming Soon &bull; By Philipp Schmidt
+                        </div>
+                        <p class="post-card-excerpt">
+                            Learn essential security configurations and best practices to secure your Microsoft 365 tenant against cyber threats.
+                        </p>
+                        <a href="#" class="post-card-link">Coming Soon &rarr;</a>
+                    </div>
+                </article>
+
             </div>
         </section>
 
