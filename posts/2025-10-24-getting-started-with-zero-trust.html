@@ -5,32 +5,31 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
     <meta name="robots" content="index,follow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Discover how to implement Zero Trust security principles in your Microsoft 365 environment and protect your organization from modern threats.">
+    <meta name="description" content="Zero Trust in Microsoft 365 means &quot;never trust, always verify.&quot; A practical guide to implementing MFA, Conditional Access, and Identity Protection step by step.">
     <meta name="author" content="Philipp Schmidt">
-    <meta name="keywords" content="Zero Trust, Microsoft 365, Security, Cybersecurity, M365, IT Security">
-    
+    <meta name="keywords" content="Zero Trust, what is zero trust in Microsoft 365, zero trust conditional access, never trust always verify, M365 zero trust implementation, Microsoft 365, IT Security">
+
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="article">
-    <meta property="og:title" content="Getting Started with Zero Trust Security">
-    <meta property="og:description" content="Discover how to implement Zero Trust security principles in your Microsoft 365 environment">
-    <meta property="og:image" content="https://farpoint-tech.github.io/endlesstech.blog/assets/images/knox-hawk.png">
-    <meta property="og:url" content="https://farpoint-tech.github.io/endlesstech.blog/posts/2025-10-24-getting-started-with-zero-trust.html">
-    
+    <meta property="og:title" content="What Is Zero Trust in Microsoft 365? Getting Started">
+    <meta property="og:description" content="Zero Trust in Microsoft 365 means &quot;never trust, always verify.&quot; A practical guide to implementing MFA, Conditional Access, and Identity Protection step by step.">
+    <meta property="og:image" content="https://endlesstech.blog/assets/images/knox-hawk.webp">
+    <meta property="og:url" content="https://endlesstech.blog/posts/2025-10-24-getting-started-with-zero-trust.html">
+
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Getting Started with Zero Trust Security">
-    <meta name="twitter:description" content="Discover how to implement Zero Trust security principles in your Microsoft 365 environment">
-    <meta name="twitter:image" content="https://farpoint-tech.github.io/endlesstech.blog/assets/images/knox-hawk.png">
-    
-    <title>Getting Started with Zero Trust Security - EndlessTech Blog</title>
+    <meta name="twitter:title" content="What Is Zero Trust in Microsoft 365? Getting Started">
+    <meta name="twitter:description" content="Zero Trust in Microsoft 365 means &quot;never trust, always verify.&quot; A practical guide to implementing MFA, Conditional Access, and Identity Protection step by step.">
+    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/knox-hawk.webp">
+
+    <title>What Is Zero Trust in Microsoft 365? Getting Started</title>
     
     <!-- Stylesheet -->
     <link rel="alternate" type="application/rss+xml" title="EndlessTech Blog RSS Feed" href="https://endlesstech.blog/feed.xml">
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/blog-post.css">
     
-    <!-- Google Fonts -->
-    <link rel="canonical" href="https://farpoint-tech.github.io/endlesstech.blog/posts/2025-10-24-getting-started-with-zero-trust.html" />
+    <link rel="canonical" href="https://endlesstech.blog/posts/2025-10-24-getting-started-with-zero-trust.html" />
 </head>
 <body>
     <!-- Header -->
@@ -68,15 +67,13 @@
             <!-- Post Content -->
             <div class="post-content">
                 <p>
-                    In today's rapidly evolving threat landscape, traditional perimeter-based security models are no longer sufficient. 
-                    Organizations need a more robust approach to protect their digital assets, and that's where <strong>Zero Trust</strong> comes in.
+                    So what is Zero Trust in Microsoft 365, and why should every SMB care? Traditional perimeter-based security models assume that anything inside the corporate network is safe. That assumption breaks down the moment an employee works from a coffee shop, a contractor logs in from an unmanaged device, or an attacker compromises a single set of credentials. Zero Trust replaces that outdated model with a verify-first approach built directly into the Microsoft 365 stack — think <a href="2026-05-26-your-it-security-is-an-airport.html">Zero Trust vs. perimeter security</a>.
                 </p>
 
-                <h2>What is Zero Trust?</h2>
+                <h2>What Is Zero Trust in Microsoft 365?</h2>
                 <p>
-                    Zero Trust is a security framework that operates on a simple principle: <strong>"Never trust, always verify."</strong> 
-                    Unlike traditional security models that assume everything inside the corporate network is safe, Zero Trust assumes that 
-                    threats can exist both inside and outside the network.
+                    Zero Trust in Microsoft 365 is a security framework that operates on a simple principle: <strong>never trust, always verify.</strong>
+                    Unlike traditional models that assume everything inside the corporate network is safe, Zero Trust assumes threats exist both inside and outside the network.
                 </p>
 
                 <p>
@@ -130,7 +127,7 @@
 
                 <h3>Step 2: Implement Conditional Access Policies</h3>
                 <p>
-                    Conditional Access is Microsoft's Zero Trust policy engine. It analyzes signals from various sources, makes decisions, 
+                    Conditional Access is the policy engine that makes zero trust conditional access enforcement possible. It analyzes signals from various sources, makes decisions,
                     and enforces organizational policies.
                 </p>
 
@@ -147,8 +144,8 @@
 
                 <h3>Step 3: Secure Identities with Azure AD Identity Protection</h3>
                 <p>
-                    Azure AD Identity Protection helps you detect, investigate, and remediate identity-based risks. It uses machine learning 
-                    to identify suspicious activities and potential compromises.
+                    Azure AD Identity Protection helps you detect, investigate, and remediate identity-based risks. It uses machine learning
+                    to identify suspicious activities and potential compromises. For the full identity stack, see <a href="2025-12-18-zero-trust-microsoft-entra-suite.html">Microsoft Entra Suite for Zero Trust</a>.
                 </p>
 
                 <p>
@@ -249,18 +246,41 @@
                 </p>
 
                 <ol>
-                    <li>Assess your current security posture using Microsoft Secure Score</li>
+                    <li>Assess your current security posture using <a href="2025-11-15-boost-your-cyber-defense-microsoft-secure-score-for-smbs.html">Microsoft Secure Score</a></li>
                     <li>Create a phased implementation plan</li>
                     <li>Start with quick wins like enabling MFA for administrators</li>
-                    <li>Gradually roll out Conditional Access policies</li>
-                    <li>Monitor, measure, and continuously improve</li>
+                    <li>Gradually expand to device compliance and data protection</li>
                 </ol>
 
                 <p>
-                    Need help implementing Zero Trust in your organization? I specialize in secure and scalable Microsoft 365 deployments. 
-                    <a href="https://easym365.de" target="_blank" rel="noopener noreferrer"><strong>Visit my website</strong></a> to learn more about 
+                    Need help implementing Zero Trust in your organization? I specialize in secure and scalable Microsoft 365 deployments.
+                    <a href="https://easym365.de" target="_blank" rel="noopener noreferrer"><strong>Visit my website</strong></a> to learn more about
                     how I can help you build a robust security foundation.
                 </p>
+
+                <section class="faq">
+                <h2>Frequently Asked Questions</h2>
+
+                <h3>What is Zero Trust in Microsoft 365?</h3>
+                <p>
+                    Zero Trust in Microsoft 365 is a security model that trusts no user or device by default — every access request is verified explicitly. In practice it combines multi-factor authentication, Conditional Access policies, device compliance through Intune, and Identity Protection. Instead of trusting anything inside the network, Microsoft 365 checks identity, device health, and sign-in risk on every request.
+                </p>
+
+                <h3>How do I start with Zero Trust in Microsoft 365?</h3>
+                <p>
+                    Start with the highest-impact, lowest-effort control: enable multi-factor authentication for administrators, then all users. Next, turn on Conditional Access to require MFA and block legacy authentication. Add device compliance via Intune and switch on Identity Protection risk policies as you mature. You don't need to do everything at once — Zero Trust is incremental.
+                </p>
+
+                <h3>Does Zero Trust require Microsoft 365 E5?</h3>
+                <p>
+                    No. You can implement core Zero Trust with Microsoft 365 Business Premium, which includes Entra ID Premium P1 (Conditional Access) and Intune. E5 adds advanced features like risk-based Identity Protection (P2) and Defender, but the foundation — MFA, Conditional Access, and device compliance — is available well below E5.
+                </p>
+
+                <h3>Is MFA enough for Zero Trust?</h3>
+                <p>
+                    No. MFA is the foundation, but Zero Trust means verifying every request continuously — device health, location, sign-in risk, and least-privilege access. MFA stops most password-based attacks, yet without Conditional Access, device compliance, and monitoring, gaps remain. Treat MFA as step one, not the finish line.
+                </p>
+                </section>
             </div>
 
             <!-- Author Bio -->
@@ -312,29 +332,29 @@
     <script src="../assets/js/post-navigation.js"></script>
     <script type="application/ld+json">
     {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Getting Started with Zero Trust Security",
-  "datePublished": "2025-10-24",
-  "author": {
-    "@type": "Person",
-    "name": "Philipp Schmidt",
-    "url": "https://easym365.de"
-  },
-  "publisher": {
-    "@type": "Person",
-    "name": "Philipp Schmidt",
-    "url": "https://easym365.de"
-  },
-  "image": "https://farpoint-tech.github.io/endlesstech.blog/assets/images/knox-hawk.png",
-  "url": "https://farpoint-tech.github.io/endlesstech.blog/posts/2025-10-24-getting-started-with-zero-trust.html",
-  "description": "Discover how to implement Zero Trust security principles in your Microsoft 365 environment and protect your organization from modern threats.",
-  "inLanguage": "en",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://farpoint-tech.github.io/endlesstech.blog/posts/2025-10-24-getting-started-with-zero-trust.html"
-  }
-}
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "What Is Zero Trust in Microsoft 365? Getting Started",
+      "description": "Zero Trust in Microsoft 365 means never trust, always verify. A practical guide to implementing MFA, Conditional Access, and Identity Protection.",
+      "image": "https://endlesstech.blog/assets/images/knox-hawk.webp",
+      "author": { "@type": "Person", "name": "Philipp Schmidt", "url": "https://easym365.de" },
+      "publisher": { "@type": "Organization", "name": "EndlessTech Blog" },
+      "datePublished": "2025-10-24",
+      "dateModified": "2026-06-20",
+      "mainEntityOfPage": "https://endlesstech.blog/posts/2025-10-24-getting-started-with-zero-trust.html"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "What is Zero Trust in Microsoft 365?", "acceptedAnswer": { "@type": "Answer", "text": "Zero Trust in Microsoft 365 is a security model that trusts no user or device by default. It combines multi-factor authentication, Conditional Access, device compliance through Intune, and Identity Protection, checking identity, device health, and sign-in risk on every request." } },
+        { "@type": "Question", "name": "How do I start with Zero Trust in Microsoft 365?", "acceptedAnswer": { "@type": "Answer", "text": "Start by enabling multi-factor authentication for administrators, then all users. Turn on Conditional Access to require MFA and block legacy authentication, add device compliance via Intune, and enable Identity Protection risk policies as you mature." } },
+        { "@type": "Question", "name": "Does Zero Trust require Microsoft 365 E5?", "acceptedAnswer": { "@type": "Answer", "text": "No. Core Zero Trust works with Microsoft 365 Business Premium, which includes Entra ID Premium P1 (Conditional Access) and Intune. E5 adds risk-based Identity Protection (P2) and Defender, but the foundation is available well below E5." } },
+        { "@type": "Question", "name": "Is MFA enough for Zero Trust?", "acceptedAnswer": { "@type": "Answer", "text": "No. MFA is the foundation, but Zero Trust verifies every request continuously — device health, location, sign-in risk, and least-privilege access. Without Conditional Access, device compliance, and monitoring, gaps remain." } }
+      ]
+    }
     </script>
 </body>
 </html>

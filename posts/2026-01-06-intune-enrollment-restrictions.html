@@ -5,32 +5,31 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
     <meta name="robots" content="index,follow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Discover why Intune Enrollment Restrictions are the foundational control for a Zero Trust architecture. Learn how to block personal Windows devices, mitigate local admin risks, and build a secure endpoint environment from the ground up.">
+    <meta name="description" content="Intune enrollment restrictions are your foundational Zero Trust control. How to block personal Windows devices and mitigate local admin risk.">
     <meta name="author" content="Philipp Schmidt">
-    <meta name="keywords" content="Intune, Security, MDM, BYOD, Zero Trust, Enrollment Restrictions, EPM, LAPS">
-    
+    <meta name="keywords" content="Intune enrollment restrictions, block personal Windows devices Intune, Intune BYOD policy, block unmanaged devices conditional access, Intune compliance policy zero trust, Zero Trust, EPM, LAPS">
+
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="article">
-    <meta property="og:title" content="Intune Enrollment Restrictions: Your Foundational Control Against Local Admin Risk">
-    <meta property="og:description" content="Discover why Intune Enrollment Restrictions are the foundational control for a Zero Trust architecture. Learn how to block personal Windows devices, mitigate local admin risks, and build a secure endpoint environment from the ground up.">
-    <meta property="og:image" content="https://endlesstech.blog/assets/images/cloudknox-hero.png">
+    <meta property="og:title" content="Intune Enrollment Restrictions: Block Personal Devices">
+    <meta property="og:description" content="Intune enrollment restrictions are your foundational Zero Trust control. How to block personal Windows devices and mitigate local admin risk.">
+    <meta property="og:image" content="https://endlesstech.blog/assets/images/intune-enrollment-hero.webp">
     <meta property="og:url" content="https://endlesstech.blog/posts/2026-01-06-intune-enrollment-restrictions.html">
-    
+
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Intune Enrollment Restrictions: Your Foundational Control Against Local Admin Risk">
-    <meta name="twitter:description" content="Discover why Intune Enrollment Restrictions are the foundational control for a Zero Trust architecture. Learn how to block personal Windows devices, mitigate local admin risks, and build a secure endpoint environment from the ground up.">
-    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/cloudknox-hero.png">
-    
-    <title>Intune Enrollment Restrictions: Your Foundational Control Against Local Admin Risk | EndlessTech Blog</title>
+    <meta name="twitter:title" content="Intune Enrollment Restrictions: Block Personal Devices">
+    <meta name="twitter:description" content="Intune enrollment restrictions are your foundational Zero Trust control. How to block personal Windows devices and mitigate local admin risk.">
+    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/intune-enrollment-hero.webp">
+
+    <title>Intune Enrollment Restrictions: Block Personal Devices</title>
     
     <!-- Stylesheet -->
     <link rel="alternate" type="application/rss+xml" title="EndlessTech Blog RSS Feed" href="https://endlesstech.blog/feed.xml">
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/blog-post.css">
     
-    <!-- Google Fonts -->
-    <link rel="canonical" href="https://farpoint-tech.github.io/endlesstech.blog/posts/2026-01-06-intune-enrollment-restrictions.html" />
+    <link rel="canonical" href="https://endlesstech.blog/posts/2026-01-06-intune-enrollment-restrictions.html" />
 </head>
 <body>
     <!-- Header -->
@@ -69,15 +68,15 @@
                 <div class="post-content">
                     <h2>The Unseen Threat in Your Intune Tenant</h2>
                     
-                    <p>There's a silent, architectural flaw in many Microsoft 365 tenants that can undermine their entire Zero Trust posture. Organizations invest heavily in sophisticated tools like Conditional Access and Endpoint Privilege Management (EPM), yet often neglect the most fundamental control: the very front door to the management plane. Uncontrolled device enrollment is that open door, and it represents a far greater threat than most realize.</p>
+                    <p>Intune enrollment restrictions are the most overlooked control in the average Microsoft 365 tenant — and the one most likely to eliminate local admin risk before it starts. Organizations invest heavily in sophisticated tools like Conditional Access and Endpoint Privilege Management (EPM), yet leave the very front door to the management plane wide open. When any user can enroll a personal Windows device and gain local admin rights, every downstream control is built on sand.</p>
 
                     <p>The problem is a matter of focus. We concentrate on what happens <em>after</em> a device is enrolled, not <em>if</em> it should be enrolled in the first place. As highlighted in discussions by industry experts, Enrollment Restrictions are the essential control lever to prevent a cascade of security failures. Without them, you are not building on a foundation of rock; you are building on sand.</p>
 
                     <h2>The Zero Trust Imperative: Why "Known and Trusted" Matters</h2>
 
-                    <p>The core principle of a Zero Trust architecture is "Never trust, always verify" <a href="https://learn.microsoft.com/en-us/security/zero-trust/zero-trust-overview" target="_blank" rel="noopener noreferrer">[1]</a>. This doesn't just apply to user identities; it is equally critical for the devices they use. A device must be both <strong>Known and Trusted</strong> before it is granted any level of access.</p>
+                    <p>The core principle of a <a href="2025-10-24-getting-started-with-zero-trust.html">Zero Trust in Microsoft 365</a> architecture is "Never trust, always verify" <a href="https://learn.microsoft.com/en-us/security/zero-trust/zero-trust-overview" target="_blank" rel="noopener noreferrer">[1]</a>. This doesn't just apply to user identities; it is equally critical for the devices they use. A device must be both <strong>Known and Trusted</strong> before it is granted any level of access.</p>
 
-                    <p>When you allow a personal device (BYOD) to enroll into Intune, you create an immediate and dangerous contradiction. The user's identity is corporate and verified, but the device's security posture is a complete unknown. It could be riddled with malware, have outdated security patches, or be shared with non-corporate users. By allowing it to enroll, you implicitly extend trust to an untrusted asset.</p>
+                    <p>When your Intune BYOD policy allows a personal device to enroll, you create an immediate and dangerous contradiction. The user's identity is corporate and verified, but the device's security posture is a complete unknown. It could be riddled with malware, have outdated security patches, or be shared with non-corporate users. By allowing it to enroll, you implicitly extend trust to an untrusted asset.</p>
 
                     <p>This creates a direct path for attackers:</p>
 
@@ -141,8 +140,8 @@
 
                     <ul>
                         <li><strong>Step 1: The Gatekeeper (Strict Enrollment Restrictions):</strong> This is the wide mouth of the funnel. Block all personally owned devices by default. This is your first and most important line of defense.</li>
-                        <li><strong>Step 2: The Onboarder (Windows Autopilot):</strong> For devices that pass the gatekeeper, use a zero-touch provisioning method like Autopilot. This ensures a consistent, secure, and corporate-configured state from the moment the device is unboxed <a href="https://learn.microsoft.com/en-us/autopilot/registration-overview" target="_blank" rel="noopener noreferrer">[3]</a>.</li>
-                        <li><strong>Step 3: The Enforcer (Conditional Access):</strong> Once enrolled and configured, Conditional Access policies act as the ongoing checkpoint, ensuring that the device remains compliant and healthy before granting access to corporate resources.</li>
+                        <li><strong>Step 2: The Onboarder (<a href="2026-03-27-windows-autopilot-end-the-setup-chaos.html">Windows Autopilot</a>):</strong> For devices that pass the gatekeeper, use a zero-touch provisioning method like Autopilot. This ensures a consistent, secure, and corporate-configured state from the moment the device is unboxed <a href="https://learn.microsoft.com/en-us/autopilot/registration-overview" target="_blank" rel="noopener noreferrer">[3]</a>.</li>
+                        <li><strong>Step 3: The Enforcer (Conditional Access):</strong> Once enrolled and configured, Conditional Access policies block unmanaged devices from accessing corporate resources and act as the ongoing checkpoint, ensuring that the device remains compliant and healthy.</li>
                         <li><strong>Step 4: The Mitigator (EPM/LAPS):</strong> At the narrowest part of the funnel, for your fully trusted and compliant devices, use EPM and LAPS to remove standing local admin rights and manage privilege elevation on a just-in-time, as-needed basis.</li>
                     </ul>
 
@@ -154,7 +153,17 @@
 
                     <hr>
 
-                    <p><em>Komplexe IT? Ich mach's einfach – mit M365, das schützt, skaliert und Prozesse vereinfacht. Für KMUs, die digital vorausdenken.</em></p>
+                    <p>Enrollment restrictions are the first layer, but they work best alongside Autopilot for zero-touch provisioning and Conditional Access that verifies device compliance on every sign-in. For mobile devices in BYOD scenarios, <a href="2025-11-10-mobile-application-management-your-quarterback-for-mobile-security.html">Intune app protection policies (MAM)</a> provide app-level protection without full enrollment.</p>
+
+                    <section class="faq">
+                    <h2>Frequently Asked Questions</h2>
+                    <h3>How do I block personal devices in Intune?</h3>
+                    <p>In the Intune admin center, go to Devices &gt; Enrollment &gt; Enrollment restrictions &gt; Device type restrictions, and set "Personally owned" to Block for Windows (MDM). Only devices registered as corporate-owned — via Windows Autopilot or the Corporate Device Identifiers list — can then enroll. This is the foundational control for keeping unmanaged devices off your management plane.</p>
+                    <h3>Are Intune enrollment restrictions a security feature?</h3>
+                    <p>Microsoft describes enrollment restrictions as a "best-effort barrier for non-malicious users," not a foolproof security control. They are an essential first line of defense, but should be paired with Conditional Access to block unmanaged devices at access time, and EPM/LAPS for local admin management. Layer them — don't rely on one.</p>
+                    <h3>What's the difference between blocking enrollment and Conditional Access?</h3>
+                    <p>Enrollment restrictions decide whether a device can be managed by Intune in the first place. Conditional Access decides whether an already-known device can access corporate resources right now, based on compliance and risk. Together they form the enrollment funnel: restrict at the gate, enforce at access.</p>
+                    </section>
 
                     <h2>References</h2>
 
@@ -208,29 +217,28 @@
     <script src="../assets/js/post-navigation.js"></script>
     <script type="application/ld+json">
     {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Intune Enrollment Restrictions: Your Foundational Control Against Local Admin Risk",
-  "datePublished": "2026-01-06",
-  "author": {
-    "@type": "Person",
-    "name": "Philipp Schmidt",
-    "url": "https://easym365.de"
-  },
-  "publisher": {
-    "@type": "Person",
-    "name": "Philipp Schmidt",
-    "url": "https://easym365.de"
-  },
-  "image": "https://farpoint-tech.github.io/endlesstech.blog/assets/images/intune-enrollment-hero.png",
-  "url": "https://farpoint-tech.github.io/endlesstech.blog/posts/2026-01-06-intune-enrollment-restrictions.html",
-  "description": "Discover why Intune Enrollment Restrictions are the foundational control for a Zero Trust architecture.",
-  "inLanguage": "en",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://farpoint-tech.github.io/endlesstech.blog/posts/2026-01-06-intune-enrollment-restrictions.html"
-  }
-}
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Intune Enrollment Restrictions: Block Personal Devices",
+      "description": "Intune enrollment restrictions are your foundational Zero Trust control. How to block personal Windows devices and mitigate local admin risk.",
+      "image": "https://endlesstech.blog/assets/images/intune-enrollment-hero.webp",
+      "author": { "@type": "Person", "name": "Philipp Schmidt", "url": "https://easym365.de" },
+      "publisher": { "@type": "Organization", "name": "EndlessTech Blog" },
+      "datePublished": "2026-01-06",
+      "dateModified": "2026-06-20",
+      "mainEntityOfPage": "https://endlesstech.blog/posts/2026-01-06-intune-enrollment-restrictions.html"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "How do I block personal devices in Intune?", "acceptedAnswer": { "@type": "Answer", "text": "In the Intune admin center, go to Devices > Enrollment > Enrollment restrictions > Device type restrictions and set Personally owned to Block for Windows (MDM). Only corporate-owned devices (via Autopilot or Corporate Device Identifiers) can then enroll." } },
+        { "@type": "Question", "name": "Are Intune enrollment restrictions a security feature?", "acceptedAnswer": { "@type": "Answer", "text": "Microsoft describes them as a best-effort barrier for non-malicious users, not a foolproof control. They are an essential first line of defense and should be paired with Conditional Access and EPM/LAPS." } },
+        { "@type": "Question", "name": "What's the difference between blocking enrollment and Conditional Access?", "acceptedAnswer": { "@type": "Answer", "text": "Enrollment restrictions decide whether a device can be managed by Intune at all. Conditional Access decides whether a known device can access resources now, based on compliance and risk. Together they form the enrollment funnel." } }
+      ]
+    }
     </script>
 </body>
 </html>
