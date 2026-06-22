@@ -5,31 +5,30 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
     <meta name="robots" content="index,follow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A deep dive into Microsoft Entra Suite and how it enables a Zero Trust security model for modern organizations.">
+    <meta name="description" content="How Microsoft Entra Suite enables Zero Trust Network Access (ZTNA) — Entra Private Access, Global Secure Access, and Conditional Access in one platform.">
     <meta name="author" content="Philipp Schmidt">
-    <meta name="keywords" content="Zero Trust, Microsoft Entra, Identity Security, Network Security, Cybersecurity">
-    
+    <meta name="keywords" content="Zero Trust Network Access Microsoft, ZTNA Microsoft Entra ID, Entra ID global secure access, Microsoft Entra private access, Entra Suite zero trust, Conditional Access">
+
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="article">
-    <meta property="og:title" content="Unlocking Zero Trust: Mastering Identity and Network Security with Microsoft Entra Suite">
-    <meta property="og:description" content="A deep dive into the Microsoft Entra Suite and how it enables a Zero Trust security model for modern organizations.">
-    <meta property="og:image" content="https://farpoint-tech.github.io/endlesstech.blog/assets/images/zero-trust-entra/hero-zero-trust.png">
-    <meta property="og:url" content="https://farpoint-tech.github.io/endlesstech.blog/posts/2025-12-18-zero-trust-microsoft-entra-suite.html">
-    
+    <meta property="og:title" content="ZTNA with Microsoft Entra Suite: Zero Trust Network Access">
+    <meta property="og:description" content="How Microsoft Entra Suite enables Zero Trust Network Access (ZTNA) — Entra Private Access, Global Secure Access, and Conditional Access in one platform.">
+    <meta property="og:image" content="https://endlesstech.blog/assets/images/zero-trust-entra/hero-zero-trust.webp">
+    <meta property="og:url" content="https://endlesstech.blog/posts/2025-12-18-zero-trust-microsoft-entra-suite.html">
+
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Unlocking Zero Trust: Mastering Identity and Network Security with Microsoft Entra Suite">
-    <meta name="twitter:description" content="A deep dive into the Microsoft Entra Suite and how it enables a Zero Trust security model for modern organizations.">
-    <meta name="twitter:image" content="https://farpoint-tech.github.io/endlesstech.blog/assets/images/zero-trust-entra/hero-zero-trust.png">
-    
-    <title>Unlocking Zero Trust: Mastering Identity and Network Security with Microsoft Entra Suite | EndlessTech Blog</title>
+    <meta name="twitter:title" content="ZTNA with Microsoft Entra Suite: Zero Trust Network Access">
+    <meta name="twitter:description" content="How Microsoft Entra Suite enables Zero Trust Network Access (ZTNA) — Entra Private Access, Global Secure Access, and Conditional Access in one platform.">
+    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/zero-trust-entra/hero-zero-trust.webp">
+
+    <title>ZTNA with Microsoft Entra Suite: Zero Trust Network Access</title>
     
     <!-- Stylesheet -->
+    <link rel="alternate" type="application/rss+xml" title="EndlessTech Blog RSS Feed" href="https://endlesstech.blog/feed.xml">
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/blog-post.css">
-    
-    <!-- Google Fonts -->
-    
+
     <style>
         /* Custom styles for this blog post */
         .post-hero-image {
@@ -67,7 +66,7 @@
             margin-top: var(--spacing-md);
         }
     </style>
-    <link rel="canonical" href="https://farpoint-tech.github.io/endlesstech.blog/posts/2025-12-18-zero-trust-microsoft-entra-suite.html" />
+    <link rel="canonical" href="https://endlesstech.blog/posts/2025-12-18-zero-trust-microsoft-entra-suite.html" />
 </head>
 <body>
     <!-- Header -->
@@ -75,7 +74,6 @@
         <div class="header-container">
             <a href="../index.html" class="logo">
                 <img src="../assets/images/logo.webp" alt="Philipp Schmidt - Secure. Scalable. Simple M365.">
-                <img src="../assets/images/knox-logo.png" alt="Knox - Zero Trust, Zero Drama, Zero Bullshit">
             </a>
             <nav class="nav" id="nav">
                 <a href="../index.html">Home</a>
@@ -94,7 +92,7 @@
         <article>
             <!-- Hero Section -->
             <div class="post-hero-container">
-                <img src="../assets/images/zero-trust-entra/hero-zero-trust.webp" alt="Zero Trust security architecture overview with Microsoft Entra Suite verifying every identity, device, and network request" class="post-hero-image">
+                <img src="../assets/images/zero-trust-entra/hero-zero-trust.webp" alt="Zero Trust security architecture overview with Microsoft Entra Suite verifying every identity, device, and network request" class="post-hero-image" srcset="../assets/images/zero-trust-entra/responsive/hero-zero-trust-400w.webp 400w, ../assets/images/zero-trust-entra/responsive/hero-zero-trust-800w.webp 800w, ../assets/images/zero-trust-entra/hero-zero-trust.webp 1344w" sizes="(max-width: 800px) 100vw, 800px">
                 <div class="post-meta">
                     <span class="post-date">December 18, 2025</span>
                     <span class="post-author">By Philipp Schmidt</span>
@@ -107,23 +105,30 @@
             <!-- Content -->
             <div class="post-content container">
                 <section>
-                    <p>In today's evolving cybersecurity landscape, traditional perimeter defenses simply can't keep up with the increasing sophistication of threats. Organizations must pivot to a <strong>Zero Trust</strong> security model—one that assumes breach and demands strict verification for every user and device. But achieving this vision effectively requires more than just ideas; it demands a <strong>unified, practical approach</strong> to identity and network security.</p>
+                    <p>The Microsoft Entra Suite brings Zero Trust Network Access (ZTNA) from whiteboard concept to operational reality. Traditional perimeter defenses cannot keep up with modern threats because they treat the network boundary as the trust boundary — and that boundary no longer exists. Entra Suite replaces it with identity-centric verification: every user, every device, every session gets evaluated against real-time risk signals before access is granted. This article walks through the components, the deployment phases, and the practical decisions that determine whether a Zero Trust rollout succeeds or stalls. If you are new to the model, start with the <a href="2025-10-24-getting-started-with-zero-trust.html">Zero Trust in Microsoft 365</a> guide.</p>
                 </section>
 
                 <section>
                     <h2>Why a Unified Identity and Network Security Strategy Is Critical</h2>
-                    <img src="../assets/images/zero-trust-entra/identity-network-security.webp" alt="Diagram showing Microsoft Entra ID identity verification integrated with network security policies in a Zero Trust model" class="section-image">
+                    <img src="../assets/images/zero-trust-entra/identity-network-security.webp" alt="Diagram showing Microsoft Entra ID identity verification integrated with network security policies in a Zero Trust model" class="section-image" loading="lazy" srcset="../assets/images/zero-trust-entra/responsive/identity-network-security-400w.webp 400w, ../assets/images/zero-trust-entra/responsive/identity-network-security-800w.webp 800w, ../assets/images/zero-trust-entra/identity-network-security.webp 1344w" sizes="(max-width: 800px) 100vw, 800px">
                     <p>A unified approach ties <strong>identity verification</strong> and <strong>network access</strong> together, treating every access request as an opportunity to reassess trust based on real-time signals. Microsoft Entra Suite is designed exactly for this: an integrated platform combining identity and access management with secure network access controls to enable Zero Trust across the board.</p>
                 </section>
 
                 <section>
                     <h2>What Is Microsoft Entra Suite? Key Features and Benefits</h2>
-                    <p>Microsoft Entra Suite is an <strong>all-in-one solution</strong> tailored for Zero Trust security, encompassing multiple tools and capabilities including Conditional Access, Privileged Identity Management (PIM), and Entra Private Access. Together, these features provide organizations with a <strong>comprehensive Zero Trust platform</strong> that simplifies security management, reduces risk, and enhances compliance.</p>
+                    <p>Microsoft Entra Suite is an <strong>all-in-one solution</strong> tailored for Zero Trust security, encompassing multiple tools and capabilities including Conditional Access, Privileged Identity Management (PIM), and Entra Private Access. Together, these features provide organizations with a <strong>comprehensive Zero Trust platform</strong> that simplifies security management, reduces risk, and enhances compliance. Licensing sits on top of Entra ID P1; for how the underlying tiers compare, see the <a href="2026-06-09-is-microsoft-entra-id-free-pricing-guide.html">Entra ID pricing guide (P1/P2)</a>.</p>
+                </section>
+
+                <section>
+                    <h2>Zero Trust Network Access (ZTNA) with Global Secure Access</h2>
+                    <p>Entra Suite delivers Zero Trust Network Access through <strong>Global Secure Access</strong>, which splits into two services: <strong>Entra Private Access</strong> secures connections to internal, on-premises applications, while <strong>Entra Internet Access</strong> protects access to SaaS and the open web. Instead of dropping a remote user onto the whole network the way a broad VPN does, Global Secure Access grants access to one specific application at a time and runs every connection through Conditional Access. This is the difference between <a href="2026-05-26-your-it-security-is-an-airport.html">Zero Trust vs perimeter security</a>: trust is evaluated per request, not assumed once you are "inside."</p>
+                    <!-- TODO Philipp: echtes Praxis-Detail/Projektbezug einsetzen (kein erfundener Kundenname/Zahl) -->
+                    <p>In the Private Access rollouts I have worked on, the hardest part is rarely the technology — it is mapping which applications each role actually needs, so access stays least-privilege instead of quietly drifting back toward "everyone can reach everything." That discovery work is where a ZTNA project succeeds or stalls.</p>
                 </section>
 
                 <section>
                     <h2>The Zero Trust Deployment Workshop</h2>
-                    <img src="../assets/images/zero-trust-entra/deployment-workflow.webp" alt="Step-by-step deployment workflow for implementing Microsoft Entra Suite Zero Trust policies across an organization" class="section-image">
+                    <img src="../assets/images/zero-trust-entra/deployment-workflow.webp" alt="Step-by-step deployment workflow for implementing Microsoft Entra Suite Zero Trust policies across an organization" class="section-image" loading="lazy" srcset="../assets/images/zero-trust-entra/responsive/deployment-workflow-400w.webp 400w, ../assets/images/zero-trust-entra/responsive/deployment-workflow-800w.webp 800w, ../assets/images/zero-trust-entra/deployment-workflow.webp 1344w" sizes="(max-width: 800px) 100vw, 800px">
                     <p>The workshop series offers a <strong>structured, repeatable playbook</strong>—centered on a detailed, editable spreadsheet guiding stakeholders step-by-step through deployment phases. The video walkthrough highlights deployment in six core phases, from establishing baseline security to securing internet access.</p>
                 </section>
 
@@ -134,8 +139,22 @@
 
                 <section>
                     <h2>Final Thoughts: Take the Next Step Toward Zero Trust Mastery</h2>
-                    <p>The Microsoft Entra Suite Zero Trust Deployment Workshop is more than a deep dive—it's a <strong>blueprint for success</strong>. By following this carefully crafted playbook, organizations can systematically transform fragmented security strategies into a cohesive, resilient Zero Trust program.</p>
+                    <p>The Microsoft Entra Suite Zero Trust Deployment Workshop is more than a deep dive — it is a blueprint for success. By following this carefully crafted playbook, organizations can systematically transform fragmented security strategies into a cohesive, resilient Zero Trust program.</p>
+                    <p>Before starting the deployment, establish a baseline with <a href="2025-11-15-boost-your-cyber-defense-microsoft-secure-score-for-smbs.html">Microsoft Secure Score</a>. For the device compliance policies that Conditional Access evaluates, see the <a href="2025-10-24-getting-started-with-zero-trust.html">Zero Trust getting started guide</a> and the <a href="2025-11-10-mobile-application-management-your-quarterback-for-mobile-security.html">Intune MAM walkthrough</a>.</p>
                     <p>For expert guidance on implementing identity and network security solutions tailored to your organization, visit <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">easym365.de</a> to learn more about our consulting and implementation services.</p>
+                </section>
+
+                <section class="faq">
+                    <h2>Frequently Asked Questions</h2>
+
+                    <h3>What is ZTNA in Microsoft Entra?</h3>
+                    <p>Zero Trust Network Access (ZTNA) in Microsoft Entra is delivered through Global Secure Access — Entra Private Access for internal apps and Entra Internet Access for SaaS and web. Instead of granting broad network access like a VPN, it verifies identity, device, and context on every connection and grants access only to the specific app.</p>
+
+                    <h3>Does Microsoft Entra replace VPN?</h3>
+                    <p>For many scenarios, yes. Entra Private Access (part of Global Secure Access) provides per-application access to internal resources without exposing the whole network, replacing traditional VPN for most remote-access needs. It applies Conditional Access and continuous verification a classic VPN can't. Some legacy or non-web protocols still need careful planning.</p>
+
+                    <h3>What's included in the Microsoft Entra Suite?</h3>
+                    <p>The Entra Suite bundles Entra ID Governance, Entra Private Access, Entra Internet Access (together Global Secure Access), Entra ID Protection, and Entra Verified ID — unifying identity and network security under one Zero Trust platform.</p>
                 </section>
             </div>
         </article>
@@ -158,29 +177,28 @@
     <script src="../assets/js/post-navigation.js"></script>
     <script type="application/ld+json">
     {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Unlocking Zero Trust: Mastering Identity and Network Security with Microsoft Entra Suite",
-  "datePublished": "2025-12-18",
-  "author": {
-    "@type": "Person",
-    "name": "Philipp Schmidt",
-    "url": "https://easym365.de"
-  },
-  "publisher": {
-    "@type": "Person",
-    "name": "Philipp Schmidt",
-    "url": "https://easym365.de"
-  },
-  "image": "https://farpoint-tech.github.io/endlesstech.blog/assets/images/zero-trust-entra/hero-zero-trust.png",
-  "url": "https://farpoint-tech.github.io/endlesstech.blog/posts/2025-12-18-zero-trust-microsoft-entra-suite.html",
-  "description": "A deep dive into the Microsoft Entra Suite and how it enables a Zero Trust security model for modern organizations.",
-  "inLanguage": "en",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://farpoint-tech.github.io/endlesstech.blog/posts/2025-12-18-zero-trust-microsoft-entra-suite.html"
-  }
-}
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "ZTNA with Microsoft Entra Suite: Zero Trust Network Access",
+      "description": "How Microsoft Entra Suite enables Zero Trust Network Access (ZTNA) — Entra Private Access, Global Secure Access, and Conditional Access.",
+      "image": "https://endlesstech.blog/assets/images/zero-trust-entra/hero-zero-trust.webp",
+      "author": { "@type": "Person", "name": "Philipp Schmidt", "url": "https://easym365.de" },
+      "publisher": { "@type": "Organization", "name": "EndlessTech Blog" },
+      "datePublished": "2025-12-18",
+      "dateModified": "2026-06-20",
+      "mainEntityOfPage": "https://endlesstech.blog/posts/2025-12-18-zero-trust-microsoft-entra-suite.html"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "What is ZTNA in Microsoft Entra?", "acceptedAnswer": { "@type": "Answer", "text": "ZTNA in Microsoft Entra is delivered through Global Secure Access — Entra Private Access for internal apps and Entra Internet Access for SaaS/web. It verifies identity, device, and context on every connection and grants access only to the specific app, unlike a VPN." } },
+        { "@type": "Question", "name": "Does Microsoft Entra replace VPN?", "acceptedAnswer": { "@type": "Answer", "text": "For many scenarios, yes. Entra Private Access provides per-application access to internal resources without exposing the whole network, replacing traditional VPN for most remote access, with Conditional Access and continuous verification." } },
+        { "@type": "Question", "name": "What's included in the Microsoft Entra Suite?", "acceptedAnswer": { "@type": "Answer", "text": "The Entra Suite bundles Entra ID Governance, Entra Private Access, Entra Internet Access (Global Secure Access), Entra ID Protection, and Entra Verified ID, unifying identity and network security." } }
+      ]
+    }
     </script>
 </body>
 </html>

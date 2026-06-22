@@ -7,23 +7,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Is Microsoft Entra ID free? Yes — and here's exactly what the free tier includes, what paid plans cost, and when small businesses actually need to upgrade.">
     <meta name="author" content="Philipp Schmidt">
-    <meta name="keywords" content="Microsoft Entra ID free, Entra ID pricing, Azure AD free tier, Entra ID Premium P1, Entra ID Premium P2, identity management small business">
+    <meta name="keywords" content="Microsoft Entra ID pricing, Entra ID P1 vs P2, Entra ID P2 conditional access, Entra PIM licensing requirements, Entra ID SSPR license requirements, Entra ID free tier">
 
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="article">
     <meta property="og:title" content="Is Microsoft Entra ID Free? Pricing Guide for Small Businesses">
     <meta property="og:description" content="Is Microsoft Entra ID free? Yes — and here's exactly what the free tier includes, what paid plans cost, and when small businesses actually need to upgrade.">
-    <meta property="og:image" content="https://farpoint-tech.github.io/endlesstech.blog/assets/images/zero-trust-entra/hero-zero-trust.png">
-    <meta property="og:url" content="https://farpoint-tech.github.io/endlesstech.blog/posts/2026-06-09-is-microsoft-entra-id-free-pricing-guide.html">
+    <meta property="og:image" content="https://endlesstech.blog/assets/images/zero-trust-entra/hero-zero-trust.webp">
+    <meta property="og:url" content="https://endlesstech.blog/posts/2026-06-09-is-microsoft-entra-id-free-pricing-guide.html">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Is Microsoft Entra ID Free? Pricing Guide for Small Businesses">
     <meta name="twitter:description" content="Is Microsoft Entra ID free? Yes — and here's exactly what the free tier includes, what paid plans cost, and when small businesses actually need to upgrade.">
-    <meta name="twitter:image" content="https://farpoint-tech.github.io/endlesstech.blog/assets/images/zero-trust-entra/hero-zero-trust.png">
+    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/zero-trust-entra/hero-zero-trust.webp">
 
     <title>Is Microsoft Entra ID Free? Pricing Guide for Small Businesses | EndlessTech Blog</title>
 
+    <link rel="alternate" type="application/rss+xml" title="EndlessTech Blog RSS Feed" href="https://endlesstech.blog/feed.xml">
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/blog-post.css">
 
@@ -120,7 +121,7 @@
         }
     </style>
 
-    <link rel="canonical" href="https://farpoint-tech.github.io/endlesstech.blog/posts/2026-06-09-is-microsoft-entra-id-free-pricing-guide.html" />
+    <link rel="canonical" href="https://endlesstech.blog/posts/2026-06-09-is-microsoft-entra-id-free-pricing-guide.html" />
 </head>
 <body>
     <!-- Header -->
@@ -147,7 +148,7 @@
         <article>
             <!-- Hero Section -->
             <div class="post-hero-container">
-                <img src="../assets/images/zero-trust-entra/hero-zero-trust.webp" alt="Microsoft Entra ID identity management dashboard showing free and paid tier options" class="post-hero-image">
+                <img src="../assets/images/zero-trust-entra/hero-zero-trust.webp" alt="Microsoft Entra ID identity management dashboard showing free and paid tier options" class="post-hero-image" srcset="../assets/images/zero-trust-entra/responsive/hero-zero-trust-400w.webp 400w, ../assets/images/zero-trust-entra/responsive/hero-zero-trust-800w.webp 800w, ../assets/images/zero-trust-entra/hero-zero-trust.webp 1344w" sizes="(max-width: 800px) 100vw, 800px">
                 <div class="post-meta">
                     <span class="post-date">June 9, 2026</span>
                     <span class="post-author">By Philipp Schmidt</span>
@@ -174,7 +175,7 @@
                         <li><strong>Authorization:</strong> Controls what authenticated users are allowed to do</li>
                         <li><strong>Single Sign-On (SSO):</strong> Lets users log in once and access multiple apps without re-entering credentials</li>
                     </ul>
-                    <p>Unlike traditional on-premises Active Directory (which manages devices and users inside your company network), Entra ID is cloud-native. It is designed for the modern reality where your users work from anywhere and your apps live in the cloud.</p>
+                    <p>Unlike traditional on-premises Active Directory (which manages devices and users inside your company network), Entra ID is cloud-native. It is designed for the modern reality where your users work from anywhere and your apps live in the cloud. If you are unsure how your Entra ID tenant relates to Azure billing, see <a href="2026-01-02-microsoft-entra-tenant-vs-azure-subscriptions.html">Microsoft Entra tenant vs Azure subscriptions</a>.</p>
                     <p><strong>Do you need it?</strong> If your business uses Microsoft 365, Azure, or any Microsoft cloud service — you already have it. The question is whether the free tier is enough for your security requirements.</p>
                 </section>
 
@@ -274,7 +275,7 @@
                     </ol>
 
                     <div class="highlight-box">
-                        <p><strong>Common setup mistake:</strong> Many administrators enable Security Defaults and call it done. That works — but Security Defaults apply blanket rules to everyone. Once you have more than a handful of users with different roles and risk profiles, you will want Conditional Access (Premium P1) for granular control.</p>
+                        <p><strong>Common setup mistake:</strong> Many administrators enable Security Defaults and call it done. That works — but the choice between Entra ID security defaults vs conditional access matters. Security Defaults apply blanket rules to everyone. Once you have more than a handful of users with different roles and risk profiles, you will want Conditional Access (Premium P1) for granular control.</p>
                     </div>
                 </section>
 
@@ -355,8 +356,8 @@
                         </tbody>
                     </table>
 
-                    <p><strong>Conditional Access</strong> is the headline feature of Premium P1. It lets you build rules like: require MFA when users sign in from outside the corporate network, block legacy authentication protocols, or restrict access to compliant Intune-managed devices only. For any business with remote workers or compliance requirements, this is the single most valuable feature you are missing in the free tier.</p>
-                    <p><strong>Privileged Identity Management (PIM)</strong> in Premium P2 enables just-in-time admin access — admins request elevated privileges when needed rather than having them permanently assigned. This dramatically reduces your attack surface. If you have multiple Global Admins or Azure RBAC roles, PIM is worth every cent.</p>
+                    <p><strong>Conditional Access</strong> is the headline feature of Premium P1. It lets you build rules like: require MFA when users sign in from outside the corporate network, block legacy authentication protocols, or restrict access to compliant Intune-managed devices only. Conditional Access is also the cornerstone of a <a href="2025-10-24-getting-started-with-zero-trust.html">Zero Trust in Microsoft 365</a> strategy. For any business with remote workers or compliance requirements, this is the single most valuable feature you are missing in the free tier.</p>
+                    <p><strong>Privileged Identity Management (PIM)</strong> in Premium P2 enables just-in-time admin access — admins request elevated privileges when needed rather than having them permanently assigned. The Entra PIM licensing requirements are straightforward: every user who activates or is eligible for a PIM role needs a P2 license. This dramatically reduces your attack surface. If you have multiple Global Admins or Azure RBAC roles, PIM is worth every cent.</p>
 
                     <h3>How Does This Compare to Competitors?</h3>
                     <p>Okta Workforce Identity starts at around $2/user/month for SSO only — but MFA, lifecycle management, and device trust add up quickly. A comparable feature set to Entra ID Premium P1 costs $8–12/user/month with Okta. Auth0 is primarily a developer-focused CIAM platform and does not map cleanly to the same use cases. For Microsoft-centric organizations, Entra ID's native integration with M365, Azure, and Intune makes it the default choice by a wide margin.</p>
@@ -446,7 +447,7 @@
                         </tbody>
                     </table>
 
-                    <blockquote>The smartest move for most growing SMBs: start with M365 Business Premium. You get Exchange, Teams, SharePoint, Intune, Defender for Business, and Entra ID Premium P1 bundled for roughly $22/user/month. Buying those services separately costs significantly more.</blockquote>
+                    <blockquote>The smartest move for most growing SMBs: start with M365 Business Premium. You get Exchange, Teams, SharePoint, Intune, Defender for Business, and Entra ID Premium P1 bundled for roughly $22/user/month. Buying those services separately costs significantly more. See also: <a href="2025-12-18-beyond-the-basics-why-smart-m365-add-ons-are-your-best-investment.html">smart M365 add-ons</a> that stretch your licensing investment further.</blockquote>
                 </section>
 
                 <section>
@@ -500,6 +501,16 @@
                         <h3>Does Entra ID free include multi-factor authentication?</h3>
                         <p>Yes. The free tier includes MFA via Security Defaults and the Microsoft Authenticator app. What it does not include is granular per-user or per-app MFA control via Conditional Access — that requires Premium P1.</p>
                     </div>
+
+                    <div class="faq-item">
+                        <h3>Do I need Entra ID P1 or P2?</h3>
+                        <p>Choose P1 if you need Conditional Access, group-based app assignment, or on-prem password writeback — most growing SMBs land here, and it's included in Microsoft 365 Business Premium. Choose P2 only when you need risk-based Identity Protection, Privileged Identity Management (PIM), or access reviews — typically once you have privileged admins or regulated data.</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>Is PIM included in Entra ID free?</h3>
+                        <p>No. Privileged Identity Management (PIM) requires Entra ID Premium P2 (or Microsoft 365 E5). The free and P1 tiers don't include PIM. If you have multiple Global Admins, P2's just-in-time admin access is usually worth the upgrade for those accounts alone.</p>
+                    </div>
                 </section>
 
             </div>
@@ -526,54 +537,28 @@
       "@context": "https://schema.org",
       "@type": "Article",
       "headline": "Is Microsoft Entra ID Free? Pricing Guide for Small Businesses",
+      "description": "What the Entra ID free tier includes, what Premium P1 and P2 cost, and when upgrading actually makes sense.",
+      "image": "https://endlesstech.blog/assets/images/zero-trust-entra/hero-zero-trust.webp",
+      "author": { "@type": "Person", "name": "Philipp Schmidt", "url": "https://easym365.de" },
+      "publisher": { "@type": "Organization", "name": "EndlessTech Blog" },
       "datePublished": "2026-06-09",
-      "author": {
-        "@type": "Person",
-        "name": "Philipp Schmidt",
-        "url": "https://easym365.de"
-      },
-      "publisher": {
-        "@type": "Person",
-        "name": "Philipp Schmidt",
-        "url": "https://easym365.de"
-      },
-      "image": "https://farpoint-tech.github.io/endlesstech.blog/assets/images/zero-trust-entra/hero-zero-trust.png",
-      "url": "https://farpoint-tech.github.io/endlesstech.blog/posts/2026-06-09-is-microsoft-entra-id-free-pricing-guide.html",
-      "description": "Is Microsoft Entra ID free? Yes — and here's exactly what the free tier includes, what paid plans cost, and when small businesses actually need to upgrade.",
-      "inLanguage": "en",
-      "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": "https://farpoint-tech.github.io/endlesstech.blog/posts/2026-06-09-is-microsoft-entra-id-free-pricing-guide.html"
-      },
-      "mainEntity": [{
-        "@type": "Question",
-        "name": "How to create Microsoft Entra ID for free?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Create a free Azure account at azure.microsoft.com/free. An Entra ID Free tenant is provisioned automatically at no cost and with no credit card required for the identity features themselves."
-        }
-      }, {
-        "@type": "Question",
-        "name": "How much does Microsoft Entra ID cost?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "The free tier costs nothing. Premium P1 is approximately $6 per user per month. Premium P2 is approximately $9 per user per month."
-        }
-      }, {
-        "@type": "Question",
-        "name": "Does Microsoft 365 include Entra ID?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes. All Microsoft 365 plans include Entra ID. Business Premium and E3 include Premium P1. E5 includes Premium P2."
-        }
-      }, {
-        "@type": "Question",
-        "name": "Does Entra ID free include multi-factor authentication?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes. The free tier includes MFA via Security Defaults and the Microsoft Authenticator app."
-        }
-      }]
+      "dateModified": "2026-06-20",
+      "mainEntityOfPage": "https://endlesstech.blog/posts/2026-06-09-is-microsoft-entra-id-free-pricing-guide.html"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "How to create Microsoft Entra ID for free?", "acceptedAnswer": { "@type": "Answer", "text": "Create a free Azure account at azure.microsoft.com/free. An Entra ID Free tenant is provisioned automatically at no cost and with no credit card required." } },
+        { "@type": "Question", "name": "How much does Microsoft Entra ID cost?", "acceptedAnswer": { "@type": "Answer", "text": "The free tier costs nothing. Premium P1 is approximately $6 per user per month. Premium P2 is approximately $9 per user per month. Both are also bundled in Microsoft 365 Business Premium (P1), E3 (P1), and E5 (P2)." } },
+        { "@type": "Question", "name": "Does Microsoft 365 include Entra ID?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. All Microsoft 365 plans include Entra ID. Business Basic and Standard include Free. Business Premium and E3 include Premium P1. E5 includes Premium P2." } },
+        { "@type": "Question", "name": "What are the limitations of the Entra ID free tier?", "acceptedAnswer": { "@type": "Answer", "text": "The free tier lacks Conditional Access, group-based app assignment, advanced security reports, Identity Protection, PIM, and Access Reviews. Self-service password reset only works for cloud-only accounts." } },
+        { "@type": "Question", "name": "Does Entra ID free include multi-factor authentication?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. The free tier includes MFA via Security Defaults and the Microsoft Authenticator app. Granular per-user or per-app MFA control via Conditional Access requires Premium P1." } },
+        { "@type": "Question", "name": "Do I need Entra ID P1 or P2?", "acceptedAnswer": { "@type": "Answer", "text": "Choose P1 for Conditional Access, group-based app assignment, or on-prem password writeback. Choose P2 for risk-based Identity Protection, PIM, or access reviews — typically once you have privileged admins or regulated data." } },
+        { "@type": "Question", "name": "Is PIM included in Entra ID free?", "acceptedAnswer": { "@type": "Answer", "text": "No. Privileged Identity Management requires Entra ID Premium P2 (or Microsoft 365 E5). The free and P1 tiers don't include PIM." } }
+      ]
     }
     </script>
 </body>

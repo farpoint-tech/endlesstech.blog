@@ -5,31 +5,31 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
     <meta name="robots" content="index,follow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Discover how the Model Context Protocol (MCP) transforms AI integration while introducing critical security risks, and learn the four-layer defense strategy.">
+    <meta name="description" content="MCP servers security risks explained: prompt injection, RCE, supply chain attacks, and a four-layer defense strategy using Microsoft Defender and Entra ID.">
     <meta name="author" content="Philipp Schmidt">
-    <meta name="keywords" content="MCP, Model Context Protocol, AI Security, Microsoft 365, Microsoft Defender, Zero Trust, AI Tooling">
-    
+    <meta name="keywords" content="MCP servers security risks, Model Context Protocol security, MCP prompt injection, AI tooling enterprise security, MCP Defender Entra ID">
+
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="article">
-    <meta property="og:title" content="MCP Servers: Understanding the Double-Edged Sword of AI Tooling">
-    <meta property="og:description" content="Discover how the Model Context Protocol (MCP) transforms AI integration while introducing critical security risks, and learn the four-layer defense strategy.">
-    <meta property="og:image" content="https://endlesstech.blog/assets/images/cloudknox-mcp-servers-hero.png">
+    <meta property="og:title" content="MCP Servers Security Risks: The Double-Edged Sword">
+    <meta property="og:description" content="MCP servers security risks explained: prompt injection, RCE, supply chain attacks, and a four-layer defense strategy using Microsoft Defender.">
+    <meta property="og:image" content="https://endlesstech.blog/assets/images/cloudknox-mcp-servers-hero.webp">
     <meta property="og:url" content="https://endlesstech.blog/posts/2025-12-17-cloudknox-mcp-servers-understanding-the-double-edged-sword-of-ai-tooling.html">
-    
+
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="MCP Servers: Understanding the Double-Edged Sword of AI Tooling">
-    <meta name="twitter:description" content="Discover how the Model Context Protocol (MCP) transforms AI integration while introducing critical security risks, and learn the four-layer defense strategy.">
-    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/cloudknox-mcp-servers-hero.png">
-    
-    <title>MCP Servers: Understanding the Double-Edged Sword of AI Tooling | EndlessTech Blog</title>
+    <meta name="twitter:title" content="MCP Servers Security Risks: The Double-Edged Sword">
+    <meta name="twitter:description" content="MCP servers security risks explained: prompt injection, RCE, supply chain attacks, and a four-layer defense strategy using Microsoft Defender.">
+    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/cloudknox-mcp-servers-hero.webp">
+
+    <title>MCP Servers Security Risks: The Double-Edged Sword</title>
     
     <!-- Stylesheet -->
+    <link rel="alternate" type="application/rss+xml" title="EndlessTech Blog RSS Feed" href="https://endlesstech.blog/feed.xml">
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/blog-post.css">
     
-    <!-- Google Fonts -->
-    <link rel="canonical" href="https://farpoint-tech.github.io/endlesstech.blog/posts/2025-12-17-cloudknox-mcp-servers-understanding-the-double-edged-sword-of-ai-tooling.html" />
+    <link rel="canonical" href="https://endlesstech.blog/posts/2025-12-17-cloudknox-mcp-servers-understanding-the-double-edged-sword-of-ai-tooling.html" />
 </head>
 <body>
     <!-- Header -->
@@ -37,7 +37,6 @@
         <div class="header-container">
             <a href="../index.html" class="logo">
                 <img src="../assets/images/logo.webp" alt="Philipp Schmidt - Secure. Scalable. Simple M365.">
-                <img src="../assets/images/knox-logo.png" alt="Knox - Zero Trust, Zero Drama, Zero Bullshit">
             </a>
             <nav class="nav" id="nav">
                 <a href="../index.html">Home</a>
@@ -69,13 +68,13 @@
             </header>
             
             <figure class="post-full-image">
-                <img src="../assets/images/cloudknox-mcp-servers-hero.webp" alt="MCP Servers: Power and Peril - Split-screen showing AI benefits versus security risks">
+                <img src="../assets/images/cloudknox-mcp-servers-hero.webp" alt="MCP Servers: Power and Peril - Split-screen showing AI benefits versus security risks" srcset="../assets/images/responsive/cloudknox-mcp-servers-hero-400w.webp 400w, ../assets/images/responsive/cloudknox-mcp-servers-hero-800w.webp 800w, ../assets/images/cloudknox-mcp-servers-hero.webp 1344w" sizes="(max-width: 800px) 100vw, 800px">
             </figure>
 
             <section class="post-full-content">
                 <div class="post-content">
                     <h2>CxO Executive Summary: What This Means for Your Business</h2>
-                    <p>The Model Context Protocol (MCP) represents a fundamental shift in how AI systems access enterprise data and tools. Introduced by Anthropic in November 2024 and now governed by the Linux Foundation's Agentic AI Foundation (as of December 2025), MCP has achieved rapid adoption: over 10,000 active public servers, integration with ChatGPT, Microsoft Copilot, Gemini, and 97 million monthly SDK downloads.</p>
+                    <p>Understanding MCP servers security risks is critical for any enterprise adopting AI-assisted workflows. The Model Context Protocol (MCP) represents a fundamental shift in how AI systems access enterprise data and tools. Introduced by Anthropic in November 2024 and now governed by the Linux Foundation's Agentic AI Foundation (as of December 2025), MCP has achieved rapid adoption: over 10,000 active public servers, integration with ChatGPT, Microsoft Copilot, Gemini, and 97 million monthly SDK downloads.</p>
 
                     <h3>Why CxOs Should Care</h3>
                     <p>MCP is becoming the "ODBC for AI"—a universal standard that eliminates fragmented custom integrations. For enterprises, this means faster AI deployment, lower integration costs, and broader vendor choice. However, the same capabilities that make MCP transformative also introduce systemic security risks: unauthorized data access, remote code execution vectors, and supply chain vulnerabilities. Microsoft's analysis confirms that "MCP can expose sensitive information to unverified context providers, creating data leaks, malicious agent chaining, and supply chain attacks".</p>
@@ -435,6 +434,19 @@
                     <p>MCP is not a question of "if" but "when" and "how." The security challenges outlined in this analysis are real and documented—from the Asana data leak to active malicious servers in the wild. However, these challenges are solvable through disciplined security engineering, leveraging existing M365/Azure capabilities, and learning from the enterprise security community.</p>
                     <p><strong>Part 2 Preview:</strong> In the next article, we'll dive deeper into hands-on implementation: step-by-step Entra ID OAuth configuration, PowerShell scripts for MCP server deployment, Defender for Cloud policy templates, and real-world case studies from early enterprise adopters.</p>
 
+                    <p>If you are building out your security posture alongside MCP adoption, the <a href="2025-12-18-zero-trust-microsoft-entra-suite.html">Microsoft Entra Suite Zero Trust guide</a> covers the identity infrastructure that underpins every Conditional Access policy referenced above. For a broader baseline assessment, start with <a href="2025-11-15-boost-your-cyber-defense-microsoft-secure-score-for-smbs.html">Microsoft Secure Score</a>.</p>
+
+                    <h2>Frequently Asked Questions</h2>
+
+                    <h3>Are MCP servers safe to use in production?</h3>
+                    <p>MCP servers can be used safely in production when deployed with proper governance — a vetted server registry, Entra ID OAuth integration, network segmentation, and monitoring through Microsoft Defender. Without these controls, the same capabilities that make MCP useful also make it a high-value target for prompt injection, supply chain attacks, and unauthorized data access.</p>
+
+                    <h3>How do I detect rogue MCP servers in my environment?</h3>
+                    <p>Microsoft Defender for Cloud Apps provides MCP server discovery across SaaS applications. For on-premises or self-hosted deployments, network traffic analysis combined with Defender for Endpoint process monitoring will flag unauthorized MCP server processes. Establishing a trusted internal registry and blocking all unlisted servers is the most effective prevention strategy.</p>
+
+                    <h3>Does MCP replace existing API integrations?</h3>
+                    <p>MCP complements rather than replaces traditional REST or GraphQL APIs. It standardizes how AI applications discover and invoke tools, but the underlying data access still flows through your existing APIs and databases. The difference is that MCP adds a layer of AI-specific capabilities — tool discovery, prompt templates, and resource management — on top of those integrations.</p>
+
                     <hr>
 
                     <h2>Sources and References</h2>
@@ -509,29 +521,63 @@
     <script src="../assets/js/post-navigation.js"></script>
     <script type="application/ld+json">
     {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "MCP Servers: Understanding the Double-Edged Sword of AI Tooling",
-  "datePublished": "2025-12-17",
-  "author": {
-    "@type": "Person",
-    "name": "Philipp Schmidt",
-    "url": "https://easym365.de"
-  },
-  "publisher": {
-    "@type": "Person",
-    "name": "Philipp Schmidt",
-    "url": "https://easym365.de"
-  },
-  "image": "https://farpoint-tech.github.io/endlesstech.blog/assets/images/cloudknox-mcp-servers-hero.png",
-  "url": "https://farpoint-tech.github.io/endlesstech.blog/posts/2025-12-17-cloudknox-mcp-servers-understanding-the-double-edged-sword-of-ai-tooling.html",
-  "description": "Discover how the Model Context Protocol (MCP) transforms AI integration while introducing critical security risks.",
-  "inLanguage": "en",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://farpoint-tech.github.io/endlesstech.blog/posts/2025-12-17-cloudknox-mcp-servers-understanding-the-double-edged-sword-of-ai-tooling.html"
-  }
-}
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "MCP Servers Security Risks: The Double-Edged Sword",
+      "datePublished": "2025-12-17",
+      "dateModified": "2026-06-20",
+      "author": {
+        "@type": "Person",
+        "name": "Philipp Schmidt",
+        "url": "https://easym365.de"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "Philipp Schmidt",
+        "url": "https://easym365.de"
+      },
+      "image": "https://endlesstech.blog/assets/images/cloudknox-mcp-servers-hero.webp",
+      "url": "https://endlesstech.blog/posts/2025-12-17-cloudknox-mcp-servers-understanding-the-double-edged-sword-of-ai-tooling.html",
+      "description": "MCP servers security risks explained: prompt injection, RCE, supply chain attacks, and a four-layer defense strategy using Microsoft Defender and Entra ID.",
+      "keywords": "MCP servers security risks, Model Context Protocol, prompt injection, AI tooling security, MCP Defender",
+      "inLanguage": "en",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://endlesstech.blog/posts/2025-12-17-cloudknox-mcp-servers-understanding-the-double-edged-sword-of-ai-tooling.html"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Are MCP servers safe to use in production?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "MCP servers can be used safely in production when deployed with proper governance — a vetted server registry, Entra ID OAuth integration, network segmentation, and monitoring through Microsoft Defender. Without these controls, they become high-value targets for prompt injection and supply chain attacks."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I detect rogue MCP servers in my environment?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Microsoft Defender for Cloud Apps provides MCP server discovery across SaaS applications. For on-premises deployments, network traffic analysis combined with Defender for Endpoint process monitoring will flag unauthorized MCP server processes."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does MCP replace existing API integrations?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "MCP complements rather than replaces traditional REST or GraphQL APIs. It standardizes how AI applications discover and invoke tools, adding AI-specific capabilities like tool discovery and prompt templates on top of existing integrations."
+          }
+        }
+      ]
+    }
     </script>
 </body>
 </html>

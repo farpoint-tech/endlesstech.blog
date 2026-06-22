@@ -7,28 +7,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Understand the fundamental differences between Microsoft Entra ID Tenants and Azure Subscriptions, and learn how they work together to manage identity and cloud resources.">
     <meta name="author" content="Philipp Schmidt">
-    <meta name="keywords" content="Microsoft Entra, Azure Subscriptions, Identity Management, Cloud Resources, Azure AD, Enterprise Tenant">
+    <meta name="keywords" content="Entra ID tenant vs Azure subscription, Microsoft Entra ID explained, Azure AD vs Entra ID, Entra ID basics, Azure subscription, RBAC">
     
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="article">
-    <meta property="og:title" content="Microsoft Entra Tenant vs. Azure Subscriptions – What's the Difference?">
+    <meta property="og:title" content="Microsoft Entra Tenant vs. Azure Subscription: The Difference">
     <meta property="og:description" content="Understand the fundamental differences between Microsoft Entra ID Tenants and Azure Subscriptions, and learn how they work together to manage identity and cloud resources.">
-    <meta property="og:image" content="https://farpoint-tech.github.io/endlesstech.blog/assets/images/zero-trust-entra/hero-zero-trust.png">
-    <meta property="og:url" content="https://farpoint-tech.github.io/endlesstech.blog/posts/2026-01-02-microsoft-entra-tenant-vs-azure-subscriptions.html">
+    <meta property="og:image" content="https://endlesstech.blog/assets/images/zero-trust-entra/hero-zero-trust.webp">
+    <meta property="og:url" content="https://endlesstech.blog/posts/2026-01-02-microsoft-entra-tenant-vs-azure-subscriptions.html">
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Microsoft Entra Tenant vs. Azure Subscriptions – What's the Difference?">
+    <meta name="twitter:title" content="Microsoft Entra Tenant vs. Azure Subscription: The Difference">
     <meta name="twitter:description" content="Understand the fundamental differences between Microsoft Entra ID Tenants and Azure Subscriptions, and learn how they work together to manage identity and cloud resources.">
-    <meta name="twitter:image" content="https://farpoint-tech.github.io/endlesstech.blog/assets/images/zero-trust-entra/hero-zero-trust.png">
+    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/zero-trust-entra/hero-zero-trust.webp">
     
-    <title>Microsoft Entra Tenant vs. Azure Subscriptions – What's the Difference? | EndlessTech Blog</title>
+    <title>Microsoft Entra Tenant vs. Azure Subscription: The Difference</title>
     
     <!-- Stylesheet -->
+    <link rel="alternate" type="application/rss+xml" title="EndlessTech Blog RSS Feed" href="https://endlesstech.blog/feed.xml">
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/blog-post.css">
-    
-    <!-- Google Fonts -->
     
     <style>
         /* Custom styles for this blog post */
@@ -90,7 +89,7 @@
             flex-shrink: 0;
         }
     </style>
-    <link rel="canonical" href="https://farpoint-tech.github.io/endlesstech.blog/posts/2026-01-02-microsoft-entra-tenant-vs-azure-subscriptions.html" />
+    <link rel="canonical" href="https://endlesstech.blog/posts/2026-01-02-microsoft-entra-tenant-vs-azure-subscriptions.html" />
 </head>
 <body>
     <!-- Header -->
@@ -98,7 +97,6 @@
         <div class="header-container">
             <a href="../index.html" class="logo">
                 <img src="../assets/images/logo.webp" alt="Philipp Schmidt - Secure. Scalable. Simple M365.">
-                <img src="../assets/images/knox-logo.png" alt="Knox - Zero Trust, Zero Drama, Zero Bullshit">
             </a>
             <nav class="nav" id="nav">
                 <a href="../index.html">Home</a>
@@ -117,7 +115,7 @@
         <article>
             <!-- Hero Section -->
             <div class="post-hero-container">
-                <img src="../assets/images/zero-trust-entra/hero-zero-trust.webp" alt="Hierarchical diagram showing the relationship between a Microsoft Entra ID tenant and multiple Azure subscriptions" class="post-hero-image">
+                <img src="../assets/images/zero-trust-entra/hero-zero-trust.webp" alt="Hierarchical diagram showing the relationship between a Microsoft Entra ID tenant and multiple Azure subscriptions" class="post-hero-image" srcset="../assets/images/zero-trust-entra/responsive/hero-zero-trust-400w.webp 400w, ../assets/images/zero-trust-entra/responsive/hero-zero-trust-800w.webp 800w, ../assets/images/zero-trust-entra/hero-zero-trust.webp 1344w" sizes="(max-width: 800px) 100vw, 800px">
                 <div class="post-meta">
                     <span class="post-date">January 2, 2026</span>
                     <span class="post-author">By Philipp Schmidt</span>
@@ -130,7 +128,7 @@
             <!-- Content -->
             <div class="post-content container">
                 <section>
-                    <p>When working with Microsoft's cloud ecosystem, two concepts often come up: <strong>Microsoft Entra ID Tenants</strong> and <strong>Azure Subscriptions</strong>. While they work together, they serve fundamentally different purposes. Understanding the distinction is essential for anyone managing cloud resources and identity in an enterprise environment.</p>
+                    <p>When working with Microsoft's cloud ecosystem, the distinction between an <strong>Entra ID tenant vs Azure subscription</strong> comes up constantly. While they work together, they serve fundamentally different purposes. Understanding the distinction is essential for anyone managing cloud resources and identity in an enterprise environment.</p>
                     <p>This guide breaks down the differences, explains their relationship, and shows you how to navigate the cloud with confidence.</p>
                 </section>
 
@@ -146,7 +144,7 @@
                         <div class="key-point">Manages authentication and authorization across all cloud services</div>
                     </div>
                     
-                    <p><strong>Terminology Note:</strong> The official name is now <em>Microsoft Entra ID Tenant</em>. Entra ID is the identity service within the broader Entra suite, which also includes Permissions Management and Verified ID.</p>
+                    <p><strong>Terminology Note:</strong> If you're searching for <strong>Azure AD vs Entra ID</strong> — they're the same service. Microsoft renamed Azure Active Directory to Microsoft Entra ID in 2023. Entra ID is the identity service within the broader <a href="2025-12-18-zero-trust-microsoft-entra-suite.html">Entra suite</a>, which also includes Permissions Management and Verified ID. Wondering about cost? See our guide on <a href="2026-06-09-is-microsoft-entra-id-free-pricing-guide.html">whether Microsoft Entra ID is free</a>.</p>
                 </section>
 
                 <section>
@@ -169,7 +167,7 @@
                     <ul style="margin-left: var(--spacing-lg); margin-bottom: var(--spacing-md);">
                         <li><strong>One tenant, multiple subscriptions:</strong> A single Entra ID tenant can have multiple subscriptions (Production, Development, Networking, etc.). This allows organizations to organize resources by environment or department while maintaining centralized identity management.</li>
                         <li><strong>One subscription, one tenant:</strong> A subscription can only belong to one Entra ID tenant. This ensures clear ownership and prevents identity conflicts.</li>
-                        <li><strong>Centralized access control:</strong> Access is centrally controlled at the tenant level through Entra ID, while billing and resource limits are managed at the subscription level.</li>
+                        <li><strong>Centralized access control:</strong> Access is centrally controlled at the tenant level through Entra ID — a key pillar of <a href="2025-10-24-getting-started-with-zero-trust.html">Zero Trust in Microsoft 365</a> — while billing and resource limits are managed at the subscription level.</li>
                     </ul>
                 </section>
 
@@ -262,6 +260,16 @@
                     
                     <p>For expert guidance on implementing identity and cloud solutions tailored to your organization, visit <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">easym365.de</a> to learn more about consulting and implementation services.</p>
                 </section>
+
+                <section class="faq">
+                    <h2>Frequently Asked Questions</h2>
+                    <h3>What is the difference between an Entra tenant and an Azure subscription?</h3>
+                    <p>An Entra ID tenant is your organization's identity and access boundary — it stores users, groups, devices, and apps. An Azure subscription is a billing and resource container for VMs, databases, and storage. One tenant can hold many subscriptions, but each subscription belongs to exactly one tenant.</p>
+                    <h3>Is Azure AD the same as Entra ID?</h3>
+                    <p>Yes. Microsoft renamed Azure Active Directory (Azure AD) to Microsoft Entra ID in 2023. The service is the same — Microsoft's cloud identity and access management platform. "Azure AD" is the old name you'll still see in older docs and tools.</p>
+                    <h3>Can one Entra tenant have multiple Azure subscriptions?</h3>
+                    <p>Yes. A single Entra ID tenant can have many subscriptions — for example separate Production, Development, and Networking subscriptions — while identity and access stay centralized at the tenant level. Each subscription, however, links to only one tenant.</p>
+                </section>
             </div>
         </article>
         <div id="post-navigation"></div>
@@ -282,29 +290,28 @@
     <script src="../assets/js/main.js"></script>
     <script src="../assets/js/post-navigation.js"></script>
     <script type="application/ld+json">
-    {
+{
   "@context": "https://schema.org",
   "@type": "Article",
-  "headline": "Microsoft Entra Tenant vs. Azure Subscriptions - What is the Difference?",
+  "headline": "Microsoft Entra Tenant vs. Azure Subscription: The Difference",
+  "description": "The difference between a Microsoft Entra ID tenant (identity boundary) and an Azure subscription (billing/resource container), and how they work together.",
+  "image": "https://endlesstech.blog/assets/images/zero-trust-entra/hero-zero-trust.webp",
+  "author": { "@type": "Person", "name": "Philipp Schmidt", "url": "https://easym365.de" },
+  "publisher": { "@type": "Organization", "name": "EndlessTech Blog" },
   "datePublished": "2026-01-02",
-  "author": {
-    "@type": "Person",
-    "name": "Philipp Schmidt",
-    "url": "https://easym365.de"
-  },
-  "publisher": {
-    "@type": "Person",
-    "name": "Philipp Schmidt",
-    "url": "https://easym365.de"
-  },
-  "image": "https://farpoint-tech.github.io/endlesstech.blog/assets/images/zero-trust-entra/hero-zero-trust.png",
-  "url": "https://farpoint-tech.github.io/endlesstech.blog/posts/2026-01-02-microsoft-entra-tenant-vs-azure-subscriptions.html",
-  "description": "A clear guide to understanding the relationship between Microsoft Entra ID Tenants and Azure Subscriptions.",
-  "inLanguage": "en",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://farpoint-tech.github.io/endlesstech.blog/posts/2026-01-02-microsoft-entra-tenant-vs-azure-subscriptions.html"
-  }
+  "dateModified": "2026-06-20",
+  "mainEntityOfPage": "https://endlesstech.blog/posts/2026-01-02-microsoft-entra-tenant-vs-azure-subscriptions.html"
+}
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "What is the difference between an Entra tenant and an Azure subscription?", "acceptedAnswer": { "@type": "Answer", "text": "An Entra ID tenant is your organization's identity and access boundary (users, groups, devices, apps). An Azure subscription is a billing and resource container (VMs, databases, storage). One tenant can hold many subscriptions; each subscription belongs to one tenant." } },
+    { "@type": "Question", "name": "Is Azure AD the same as Entra ID?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Microsoft renamed Azure Active Directory (Azure AD) to Microsoft Entra ID in 2023. The service is the same cloud identity and access management platform; Azure AD is the old name." } },
+    { "@type": "Question", "name": "Can one Entra tenant have multiple Azure subscriptions?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. A single Entra ID tenant can have many subscriptions (e.g. Production, Development, Networking) while identity stays centralized at the tenant level. Each subscription links to only one tenant." } }
+  ]
 }
     </script>
 </body>
