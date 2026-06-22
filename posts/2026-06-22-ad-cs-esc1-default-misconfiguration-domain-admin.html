@@ -71,11 +71,6 @@
 
                     <p>This post is for MSP technicians and IT administrators running hybrid environments with AD CS deployed. If you have an NDES connector for <a href="2026-01-06-intune-enrollment-restrictions.html">Intune</a>, pay close attention&mdash;the template associated with it is a common source of exactly this misconfiguration.</p>
 
-                    <figure class="post-full-image">
-                        <img src="../assets/images/ad-cs-esc1-attack-path.webp" alt="Diagram showing the ESC1 attack chain: compromised endpoint to certificate request with SupplyInRequest to Domain Admin TGT via PKINIT" loading="lazy">
-                        <figcaption>The ESC1 attack chain: from a compromised endpoint to Domain Admin in three steps.</figcaption>
-                    </figure>
-
                     <h2>What ESC1 Actually Means</h2>
 
                     <p>Certificate templates in AD CS can be configured to allow the subject name to be supplied in the request rather than built from Active Directory. This is legitimate for certain use cases&mdash;web server certificates, for example, where the CN needs to match a specific FQDN. The problem is when this flag is combined with overly permissive enrollment rights.</p>
@@ -85,8 +80,8 @@
                     <p>The attacker doesn't need to crack a password. They just need to know a username.</p>
 
                     <figure class="post-full-image">
-                        <img src="../assets/images/ad-cs-esc1-template-config.webp" alt="Screenshot of a vulnerable AD CS certificate template showing SupplyInRequest enabled with Domain Users in enrollment rights" loading="lazy">
-                        <figcaption>A vulnerable template: SupplyInRequest enabled with Domain Users granted enrollment rights.</figcaption>
+                        <img src="../assets/images/ad-cs-esc1-pki.webp" alt="Stylized illustration of a public key infrastructure security shield over a circuit board, representing Active Directory Certificate Services" loading="lazy">
+                        <figcaption>AD CS issues the certificates that underpin domain authentication&mdash;which is exactly why a single misconfigured template is such a high-value target.</figcaption>
                     </figure>
 
                     <h2>How to Find Vulnerable Templates in Your Environment</h2>
@@ -104,11 +99,6 @@
                     <p>Any template where <code>SupplyInRequest</code> is set and the enrollment rights include <code>Domain Users</code>, <code>Domain Computers</code>, or <code>Authenticated Users</code> is a candidate for ESC1. Cross-reference against which of those templates are actually published to a CA&mdash;unpublished templates are lower risk, but should still be cleaned up.</p>
 
                     <p>For the NDES/Intune connector template specifically: enrollment rights should be scoped to the computer account of the NDES connector server only. Nothing else. If you see Domain Users or Domain Computers in there, that's your first fix.</p>
-
-                    <figure class="post-full-image">
-                        <img src="../assets/images/ad-cs-esc1-pspki-output.webp" alt="PowerShell terminal showing PSPKI module output listing vulnerable certificate templates with SupplyInRequest flag and broad enrollment rights" loading="lazy">
-                        <figcaption>PSPKI audit output highlighting templates with SupplyInRequest and overly broad enrollment rights.</figcaption>
-                    </figure>
 
                     <h2>What to Fix</h2>
 
