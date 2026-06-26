@@ -5,30 +5,30 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
     <meta name="robots" content="index,follow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Zero Trust in Microsoft 365 means &quot;never trust, always verify.&quot; A practical guide to implementing MFA, Conditional Access, and Identity Protection step by step.">
+    <meta name="description" content="Zero Trust in Microsoft 365 means never trust, always verify. A comprehensive guide to implementing Zero Trust across all six pillars — Identity, Endpoints, Data, Apps, Infrastructure, and Network — with M365 as the control plane.">
     <meta name="author" content="Philipp Schmidt">
-    <meta name="keywords" content="Zero Trust, what is zero trust in Microsoft 365, zero trust conditional access, never trust always verify, M365 zero trust implementation, Microsoft 365, IT Security">
+    <meta name="keywords" content="Zero Trust, what is zero trust in Microsoft 365, zero trust conditional access, never trust always verify, M365 zero trust implementation, Microsoft 365, IT Security, Entra ID, Intune, Defender XDR, Purview, SASE, Zero Trust pillars, Zero Trust network, Zero Trust identity">
 
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="article">
-    <meta property="og:title" content="What Is Zero Trust in Microsoft 365? Getting Started">
-    <meta property="og:description" content="Zero Trust in Microsoft 365 means &quot;never trust, always verify.&quot; A practical guide to implementing MFA, Conditional Access, and Identity Protection step by step.">
+    <meta property="og:title" content="Zero Trust with Microsoft 365: The Complete Pillar-by-Pillar Guide">
+    <meta property="og:description" content="Zero Trust in Microsoft 365 means never trust, always verify. A comprehensive guide to implementing Zero Trust across all six pillars with M365 as the control plane.">
     <meta property="og:image" content="https://endlesstech.blog/assets/images/knox-hawk.webp">
     <meta property="og:url" content="https://endlesstech.blog/posts/2025-10-24-getting-started-with-zero-trust.html">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="What Is Zero Trust in Microsoft 365? Getting Started">
-    <meta name="twitter:description" content="Zero Trust in Microsoft 365 means &quot;never trust, always verify.&quot; A practical guide to implementing MFA, Conditional Access, and Identity Protection step by step.">
+    <meta name="twitter:title" content="Zero Trust with Microsoft 365: The Complete Pillar-by-Pillar Guide">
+    <meta name="twitter:description" content="Zero Trust in Microsoft 365 means never trust, always verify. A comprehensive guide to implementing Zero Trust across all six pillars with M365 as the control plane.">
     <meta name="twitter:image" content="https://endlesstech.blog/assets/images/knox-hawk.webp">
 
-    <title>What Is Zero Trust in Microsoft 365? Getting Started</title>
-    
+    <title>Zero Trust with Microsoft 365: The Complete Pillar-by-Pillar Guide</title>
+
     <!-- Stylesheet -->
     <link rel="alternate" type="application/rss+xml" title="EndlessTech Blog RSS Feed" href="https://endlesstech.blog/feed.xml">
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/blog-post.css">
-    
+
     <link rel="canonical" href="https://endlesstech.blog/posts/2025-10-24-getting-started-with-zero-trust.html" />
 </head>
 <body>
@@ -40,272 +40,491 @@
             </a>
             <nav class="nav" id="nav">
                 <a href="../index.html">Home</a>
-                <a href="../index.html#blog">Blog</a>
+                <a href="../index.html#blog" class="active">Blog</a>
                 <a href="../about.html">About</a>
                 <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
             </nav>
             <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
-                ☰
+                &#9776;
             </button>
         </div>
     </header>
 
     <!-- Main Content -->
     <main class="container">
-        <article class="content">
-            <!-- Post Header -->
-            <header class="post-header">
-                <h1 class="post-title">Getting Started with Zero Trust Security</h1>
-                <div class="post-meta">
-                    Published on October 24, 2025 • By Philipp Schmidt
+        <article class="post-full">
+            <header class="post-full-header">
+                <h1 class="post-full-title">Zero Trust with Microsoft 365: The Complete Pillar-by-Pillar Guide</h1>
+                <div class="post-full-meta">
+                    <time datetime="2025-10-24">October 24, 2025</time> &bull; Updated June 2026 &bull; By Philipp Schmidt
                 </div>
             </header>
 
-            <!-- Featured Image -->
-            <img src="../assets/images/knox-hawk.webp" alt="Knox and Hawk mascots patrolling a Zero Trust security perimeter with layered identity verification checkpoints" class="post-image" srcset="../assets/images/responsive/knox-hawk-400w.webp 400w, ../assets/images/responsive/knox-hawk-800w.webp 800w, ../assets/images/knox-hawk.webp 1344w" sizes="(max-width: 800px) 100vw, 800px">
+            <figure class="post-full-image">
+                <img src="../assets/images/knox-hawk.webp" alt="Knox and Hawk mascots patrolling a Zero Trust security perimeter with layered identity verification checkpoints" srcset="../assets/images/responsive/knox-hawk-400w.webp 400w, ../assets/images/responsive/knox-hawk-800w.webp 800w, ../assets/images/knox-hawk.webp 1344w" sizes="(max-width: 800px) 100vw, 800px">
+            </figure>
 
-            <!-- Post Content -->
-            <div class="post-content">
-                <p>
-                    So what is Zero Trust in Microsoft 365, and why should every SMB care? Traditional perimeter-based security models assume that anything inside the corporate network is safe. That assumption breaks down the moment an employee works from a coffee shop, a contractor logs in from an unmanaged device, or an attacker compromises a single set of credentials. Zero Trust replaces that outdated model with a verify-first approach built directly into the Microsoft 365 stack — think <a href="2026-05-26-your-it-security-is-an-airport.html">Zero Trust vs. perimeter security</a>.
-                </p>
+            <section class="post-full-content">
+                <div class="post-content">
 
-                <h2>What Is Zero Trust in Microsoft 365?</h2>
-                <p>
-                    Zero Trust in Microsoft 365 is a security framework that operates on a simple principle: <strong>never trust, always verify.</strong>
-                    Unlike traditional models that assume everything inside the corporate network is safe, Zero Trust assumes threats exist both inside and outside the network.
-                </p>
+                    <p>Traditional perimeter-based security assumes that anything inside the corporate network is safe. That assumption breaks down the moment an employee works from a coffee shop, a contractor logs in from an unmanaged device, or an attacker compromises a single set of credentials. Zero Trust replaces that outdated model with a verify-first approach&mdash;and Microsoft 365 is the platform where most SMBs can build it without stitching together a dozen vendors. Think <a href="2026-05-26-your-it-security-is-an-airport.html">airport security vs. open campus</a>.</p>
 
-                <p>
-                    This approach requires strict identity verification for every person and device trying to access resources on your network, 
-                    regardless of whether they're inside or outside the network perimeter.
-                </p>
+                    <p>This guide maps the six Zero Trust pillars&mdash;Identity, Endpoints, Data, Apps, Infrastructure, and Network&mdash;to concrete M365 services and licensing. Every pillar gets its own section with the what, the why, and the specific controls to enable. The goal: a single reference page that an MSP technician or IT lead can use to plan, implement, and measure a Zero Trust posture built on Microsoft 365.</p>
 
-                <h2>Core Principles of Zero Trust</h2>
-                <p>
-                    The Zero Trust security model is built on several fundamental principles:
-                </p>
+                    <!-- ============================================================ -->
+                    <!-- SECTION: PRINCIPLES -->
+                    <!-- ============================================================ -->
 
-                <h3>1. Verify Explicitly</h3>
-                <p>
-                    Always authenticate and authorize based on all available data points, including user identity, location, device health, 
-                    service or workload, data classification, and anomalies.
-                </p>
+                    <h2>The Three Principles Behind Every Pillar</h2>
 
-                <h3>2. Use Least Privilege Access</h3>
-                <p>
-                    Limit user access with Just-In-Time and Just-Enough-Access (JIT/JEA), risk-based adaptive policies, and data protection 
-                    to help secure both data and productivity.
-                </p>
+                    <p>Before diving into the six pillars, every Zero Trust decision comes back to three principles. Microsoft, NIST SP 800-207, and the CISA Zero Trust Maturity Model all converge on the same core ideas:</p>
 
-                <h3>3. Assume Breach</h3>
-                <p>
-                    Minimize blast radius and segment access. Verify end-to-end encryption and use analytics to get visibility, drive threat 
-                    detection, and improve defenses.
-                </p>
+                    <p><strong>Verify explicitly.</strong> Authenticate and authorize based on all available signals&mdash;identity, device health, location, sign-in risk, data classification. Not once at login, but continuously throughout the session.</p>
 
-                <h2>Implementing Zero Trust in Microsoft 365</h2>
-                <p>
-                    Microsoft 365 provides a comprehensive set of tools and features to help you implement Zero Trust security. 
-                    Here's how to get started:
-                </p>
+                    <p><strong>Use least-privilege access.</strong> Grant only the permissions a user or workload needs, for only as long as they need them. Just-In-Time (JIT) and Just-Enough-Access (JEA) are the operational patterns. Privileged Identity Management (PIM) in Entra ID is where this lives in M365.</p>
 
-                <h3>Step 1: Enable Multi-Factor Authentication (MFA)</h3>
-                <p>
-                    MFA is the foundation of Zero Trust. It adds an extra layer of security by requiring users to provide two or more 
-                    verification factors to gain access to resources.
-                </p>
+                    <p><strong>Assume breach.</strong> Design every control as if an attacker is already inside the environment. Segment access, encrypt end-to-end, and build detection and response into the architecture&mdash;not bolted on afterward.</p>
 
-                <p>
-                    <strong>Action items:</strong>
-                </p>
-                <ul>
-                    <li>Enable MFA for all users, starting with administrators</li>
-                    <li>Use Conditional Access policies to enforce MFA requirements</li>
-                    <li>Consider passwordless authentication methods like Windows Hello or FIDO2 security keys</li>
-                </ul>
+                    <p>These principles are not aspirational. They translate directly into policy settings in Conditional Access, Intune compliance, Purview labels, and Defender XDR rules. The rest of this guide shows exactly where.</p>
 
-                <h3>Step 2: Implement Conditional Access Policies</h3>
-                <p>
-                    Conditional Access is the policy engine that makes zero trust conditional access enforcement possible. It analyzes signals from various sources, makes decisions,
-                    and enforces organizational policies.
-                </p>
+                    <!-- ============================================================ -->
+                    <!-- SECTION: WHY M365 -->
+                    <!-- ============================================================ -->
 
-                <p>
-                    <strong>Key policies to implement:</strong>
-                </p>
-                <ul>
-                    <li>Require MFA for all users</li>
-                    <li>Block legacy authentication protocols</li>
-                    <li>Require compliant or hybrid Azure AD joined devices</li>
-                    <li>Require approved client apps</li>
-                    <li>Block access from untrusted locations</li>
-                </ul>
+                    <h2>Why Microsoft 365 Is the Natural Zero Trust Control Plane</h2>
 
-                <h3>Step 3: Secure Identities with Azure AD Identity Protection</h3>
-                <p>
-                    Azure AD Identity Protection helps you detect, investigate, and remediate identity-based risks. It uses machine learning
-                    to identify suspicious activities and potential compromises. For the full identity stack, see <a href="2025-12-18-zero-trust-microsoft-entra-suite.html">Microsoft Entra Suite for Zero Trust</a>.
-                </p>
+                    <p>Zero Trust is a strategy, not a product. But it needs a platform to operate on, and for most organizations under 500 users, that platform is already Microsoft 365. Here is why:</p>
 
-                <p>
-                    <strong>Configure:</strong>
-                </p>
-                <ul>
-                    <li>User risk policies to detect compromised accounts</li>
-                    <li>Sign-in risk policies to identify suspicious sign-in attempts</li>
-                    <li>Automated remediation actions</li>
-                </ul>
+                    <ul>
+                        <li><strong>Identity is the new perimeter.</strong> Entra ID (formerly Azure AD) is the identity provider for Exchange, SharePoint, Teams, and every SaaS app you federate. The moment you control identity, you control access.</li>
+                        <li><strong>Conditional Access is the policy engine.</strong> It evaluates signals (who, what device, where, what risk level) and enforces decisions (allow, block, require MFA, require compliant device) in real time. This is the Zero Trust decision point.</li>
+                        <li><strong>Intune manages the endpoint.</strong> Device compliance policies feed directly into Conditional Access. An unpatched laptop gets blocked before it touches corporate data&mdash;no VPN required.</li>
+                        <li><strong>Defender XDR provides the detection layer.</strong> Defender for Endpoint, Defender for Office 365, Defender for Identity, and Defender for Cloud Apps form an integrated XDR that correlates signals across identity, email, endpoint, and SaaS.</li>
+                        <li><strong>Purview handles data classification and protection.</strong> Sensitivity labels, DLP policies, and retention rules travel with the data, regardless of where it moves.</li>
+                    </ul>
 
-                <h3>Step 4: Protect Data with Information Protection</h3>
-                <p>
-                    Use Microsoft Information Protection to classify, label, and protect sensitive data across your organization.
-                </p>
+                    <p>The key insight: you do not need six separate vendor contracts to cover six pillars. M365 Business Premium or E3/E5 covers Identity, Endpoints, Data, Apps, and a significant portion of Infrastructure. Network is the one pillar that extends beyond M365&mdash;and even there, Microsoft offers Global Secure Access (Entra Internet Access + Entra Private Access) as a cloud-delivered SASE solution.</p>
 
-                <p>
-                    <strong>Implementation steps:</strong>
-                </p>
-                <ul>
-                    <li>Create and publish sensitivity labels</li>
-                    <li>Configure Data Loss Prevention (DLP) policies</li>
-                    <li>Enable automatic classification and labeling</li>
-                    <li>Monitor and respond to data protection alerts</li>
-                </ul>
+                    <p>For a deeper look at what <a href="2026-06-09-is-microsoft-entra-id-free-pricing-guide.html">Entra ID pricing tiers</a> include and what requires an upgrade, see the dedicated pricing guide.</p>
 
-                <h3>Step 5: Monitor and Respond with Microsoft Defender</h3>
-                <p>
-                    Microsoft Defender for Office 365 and Microsoft Defender for Endpoint provide comprehensive threat protection 
-                    and detection capabilities.
-                </p>
+                    <!-- ============================================================ -->
+                    <!-- SECTION: PILLAR 1 — IDENTITY -->
+                    <!-- ============================================================ -->
 
-                <p>
-                    <strong>Key features to enable:</strong>
-                </p>
-                <ul>
-                    <li>Safe Links and Safe Attachments</li>
-                    <li>Anti-phishing policies</li>
-                    <li>Automated investigation and response (AIR)</li>
-                    <li>Threat hunting with advanced hunting queries</li>
-                </ul>
+                    <h2>Pillar 1: Identity &mdash; The Foundation of Everything</h2>
 
-                <h2>Common Challenges and How to Overcome Them</h2>
-                <p>
-                    Implementing Zero Trust isn't without its challenges. Here are some common obstacles and how to address them:
-                </p>
+                    <p>Identity is where Zero Trust starts and where it matters most. If an attacker owns a valid identity, every other control downstream has to compensate. The goal is to make identity compromise as difficult and as detectable as possible.</p>
 
-                <h3>User Resistance</h3>
-                <p>
-                    <strong>Challenge:</strong> Users may find additional security measures inconvenient.<br>
-                    <strong>Solution:</strong> Communicate the importance of security, provide training, and implement user-friendly 
-                    authentication methods like passwordless options.
-                </p>
+                    <h3>What M365 Provides</h3>
 
-                <h3>Legacy Applications</h3>
-                <p>
-                    <strong>Challenge:</strong> Older applications may not support modern authentication protocols.<br>
-                    <strong>Solution:</strong> Use Azure AD Application Proxy or plan for application modernization. In the interim, 
-                    implement compensating controls.
-                </p>
+                    <ul>
+                        <li><strong>Entra ID (P1/P2)</strong> &mdash; Cloud identity provider with Conditional Access, MFA, SSO, and self-service password reset.</li>
+                        <li><strong>Entra ID Protection (P2)</strong> &mdash; Machine-learning risk detection for users and sign-ins. Classifies risk as low, medium, or high. Feeds risk signals into Conditional Access.</li>
+                        <li><strong>Privileged Identity Management (P2)</strong> &mdash; JIT role activation for Global Admin, Exchange Admin, and other sensitive roles. Requires approval, MFA, and justification before elevating.</li>
+                        <li><strong>Passwordless authentication</strong> &mdash; FIDO2 security keys, Windows Hello for Business, Microsoft Authenticator passkeys. Eliminates the password as an attack surface.</li>
+                    </ul>
 
-                <h3>Complexity</h3>
-                <p>
-                    <strong>Challenge:</strong> Zero Trust can seem overwhelming with many moving parts.<br>
-                    <strong>Solution:</strong> Start small with high-impact areas (like MFA for admins), then gradually expand. 
-                    Use Microsoft's Zero Trust deployment guides as a roadmap.
-                </p>
+                    <h3>Implementation Priority</h3>
 
-                <h2>Measuring Success</h2>
-                <p>
-                    To ensure your Zero Trust implementation is effective, track these key metrics:
-                </p>
+                    <p><strong>Phase 1 (Day 1):</strong> Enable Security Defaults or, better, deploy Conditional Access policies. Require MFA for all users. Block legacy authentication protocols (IMAP, POP3, SMTP AUTH)&mdash;these cannot enforce MFA and are the most common entry point for credential-stuffing attacks.</p>
 
-                <ul>
-                    <li><strong>MFA adoption rate:</strong> Percentage of users with MFA enabled</li>
-                    <li><strong>Risky sign-ins blocked:</strong> Number of suspicious sign-in attempts prevented</li>
-                    <li><strong>Conditional Access policy coverage:</strong> Percentage of users covered by policies</li>
-                    <li><strong>Data classification coverage:</strong> Percentage of sensitive data properly labeled</li>
-                    <li><strong>Time to detect and respond:</strong> Average time to identify and remediate threats</li>
-                </ul>
+                    <p><strong>Phase 2 (Week 2&ndash;4):</strong> Deploy Conditional Access policies for named locations, device compliance (ties into the Endpoint pillar), and app-based restrictions. Require compliant or Entra-joined devices for access to Exchange Online and SharePoint Online.</p>
 
-                <h2>Key Takeaways</h2>
-                <p>
-                    Implementing Zero Trust security in your Microsoft 365 environment is a journey, not a destination. Here are the essential points to remember:
-                </p>
+                    <p><strong>Phase 3 (Month 2+):</strong> Enable Entra ID Protection risk policies. Configure user risk policy to require password change at medium risk. Configure sign-in risk policy to require MFA at medium risk and block at high risk. Roll out PIM for all administrative roles. Deploy passwordless for executive staff and IT team first, then company-wide.</p>
 
-                <ul>
-                    <li>Zero Trust assumes no implicit trust and verifies every access request</li>
-                    <li>Start with MFA and Conditional Access as your foundation</li>
-                    <li>Implement least privilege access principles</li>
-                    <li>Continuously monitor and improve your security posture</li>
-                    <li>Take an incremental approach - you don't have to do everything at once</li>
-                </ul>
+                    <p>For the full Entra Suite breakdown and what P1 vs. P2 gives you, see <a href="2025-12-18-zero-trust-microsoft-entra-suite.html">Microsoft Entra Suite for Zero Trust</a>.</p>
 
-                <h2>Next Steps</h2>
-                <p>
-                    Ready to enhance your Microsoft 365 security with Zero Trust? Here's what you should do next:
-                </p>
+                    <!-- ============================================================ -->
+                    <!-- SECTION: PILLAR 2 — ENDPOINTS -->
+                    <!-- ============================================================ -->
 
-                <ol>
-                    <li>Assess your current security posture using <a href="2025-11-15-boost-your-cyber-defense-microsoft-secure-score-for-smbs.html">Microsoft Secure Score</a></li>
-                    <li>Create a phased implementation plan</li>
-                    <li>Start with quick wins like enabling MFA for administrators</li>
-                    <li>Gradually expand to device compliance and data protection</li>
-                </ol>
+                    <h2>Pillar 2: Endpoints &mdash; Every Device Is a Policy Enforcement Point</h2>
 
-                <p>
-                    Need help implementing Zero Trust in your organization? I specialize in secure and scalable Microsoft 365 deployments.
-                    <a href="https://easym365.de" target="_blank" rel="noopener noreferrer"><strong>Visit my website</strong></a> to learn more about
-                    how I can help you build a robust security foundation.
-                </p>
+                    <p>An identity can be perfectly secured, but if the device it authenticates from is compromised, the session is compromised. Endpoint management turns every laptop, phone, and tablet into an active participant in the Zero Trust chain&mdash;not a passive consumer of trust.</p>
 
-                <section class="faq">
-                <h2>Frequently Asked Questions</h2>
+                    <h3>What M365 Provides</h3>
 
-                <h3>What is Zero Trust in Microsoft 365?</h3>
-                <p>
-                    Zero Trust in Microsoft 365 is a security model that trusts no user or device by default — every access request is verified explicitly. In practice it combines multi-factor authentication, Conditional Access policies, device compliance through Intune, and Identity Protection. Instead of trusting anything inside the network, Microsoft 365 checks identity, device health, and sign-in risk on every request.
-                </p>
+                    <ul>
+                        <li><strong>Microsoft Intune</strong> &mdash; MDM and MAM for Windows, macOS, iOS, and Android. Compliance policies, configuration profiles, app deployment, and remote wipe.</li>
+                        <li><strong>Windows Autopilot</strong> &mdash; Zero-touch provisioning. Ship a device directly to a user, they sign in, and the device self-configures with policies, apps, and security baselines.</li>
+                        <li><strong>Defender for Endpoint</strong> &mdash; EDR (Endpoint Detection and Response). Behavioral sensors, threat intelligence, and automated investigation and remediation.</li>
+                        <li><strong>App Protection Policies (MAM)</strong> &mdash; Protect corporate data on personal (BYOD) devices without enrolling the device. Enforce encryption, copy/paste restrictions, and PIN requirements at the app level.</li>
+                    </ul>
 
-                <h3>How do I start with Zero Trust in Microsoft 365?</h3>
-                <p>
-                    Start with the highest-impact, lowest-effort control: enable multi-factor authentication for administrators, then all users. Next, turn on Conditional Access to require MFA and block legacy authentication. Add device compliance via Intune and switch on Identity Protection risk policies as you mature. You don't need to do everything at once — Zero Trust is incremental.
-                </p>
+                    <h3>Implementation Priority</h3>
 
-                <h3>Does Zero Trust require Microsoft 365 E5?</h3>
-                <p>
-                    No. You can implement core Zero Trust with Microsoft 365 Business Premium, which includes Entra ID Premium P1 (Conditional Access) and Intune. E5 adds advanced features like risk-based Identity Protection (P2) and Defender, but the foundation — MFA, Conditional Access, and device compliance — is available well below E5.
-                </p>
+                    <p><strong>Phase 1:</strong> Enroll corporate devices into Intune. Deploy compliance policies: require disk encryption (BitLocker/FileVault), require OS version minimum, require Defender real-time protection enabled. Feed compliance state into Conditional Access&mdash;non-compliant devices get blocked or limited to web-only access.</p>
 
-                <h3>Is MFA enough for Zero Trust?</h3>
-                <p>
-                    No. MFA is the foundation, but Zero Trust means verifying every request continuously — device health, location, sign-in risk, and least-privilege access. MFA stops most password-based attacks, yet without Conditional Access, device compliance, and monitoring, gaps remain. Treat MFA as step one, not the finish line.
-                </p>
-                </section>
-            </div>
+                    <p><strong>Phase 2:</strong> Deploy <a href="2026-03-27-windows-autopilot-end-the-setup-chaos.html">Windows Autopilot</a> for new device provisioning. Configure Intune security baselines (pre-built policy sets that harden Windows based on Microsoft best practices). Deploy <a href="2025-11-10-mobile-application-management-your-quarterback-for-mobile-security.html">MAM policies for BYOD</a> scenarios.</p>
+
+                    <p><strong>Phase 3:</strong> Onboard devices to Defender for Endpoint. Configure attack surface reduction (ASR) rules. Enable automated investigation and remediation. Use Defender risk scores as a signal in Conditional Access&mdash;a high-risk device triggers step-up authentication or block.</p>
+
+                    <p>For the full Intune enrollment picture, including <a href="2026-01-06-intune-enrollment-restrictions.html">enrollment restrictions</a> and <a href="2026-01-28-ios-abm-enrollment-troubleshooting.html">ABM enrollment for iOS</a>, see the dedicated posts.</p>
+
+                    <!-- ============================================================ -->
+                    <!-- SECTION: PILLAR 3 — DATA -->
+                    <!-- ============================================================ -->
+
+                    <h2>Pillar 3: Data &mdash; Classify, Label, Protect</h2>
+
+                    <p>Data is what attackers are after. Every other pillar exists to protect it. Zero Trust for data means classification and protection follow the data wherever it goes&mdash;into email, onto USB drives, into third-party cloud apps, and into AI prompts.</p>
+
+                    <h3>What M365 Provides</h3>
+
+                    <ul>
+                        <li><strong>Microsoft Purview Information Protection</strong> &mdash; Sensitivity labels (Confidential, Internal, Public, etc.) that apply encryption, watermarks, and access restrictions. Labels persist across Office apps, SharePoint, Teams, and email.</li>
+                        <li><strong>Data Loss Prevention (DLP)</strong> &mdash; Policy-based controls that detect and block sharing of sensitive content (credit card numbers, health records, custom patterns) via email, Teams, SharePoint, and endpoint.</li>
+                        <li><strong>Microsoft Purview Data Lifecycle Management</strong> &mdash; Retention and deletion policies. Ensure regulated data is kept as long as required and disposed of when it should be.</li>
+                        <li><strong>Data Security Posture Management (DSPM) for AI</strong> &mdash; Monitors how sensitive data interacts with Copilot and third-party AI tools. Surfaces gaps in label coverage and DLP policy before they become incidents.</li>
+                    </ul>
+
+                    <h3>Implementation Priority</h3>
+
+                    <p><strong>Phase 1:</strong> Define a sensitivity label taxonomy. Start simple: Public, Internal, Confidential, Highly Confidential. Publish labels to all users. Train users to apply them manually&mdash;manual adoption builds awareness before automation takes over.</p>
+
+                    <p><strong>Phase 2:</strong> Create DLP policies for the highest-risk data types: financial data, personally identifiable information (PII under GDPR/NIS2), health records. Start in audit mode, review alerts for two weeks, then switch to enforce mode.</p>
+
+                    <p><strong>Phase 3:</strong> Enable automatic labeling with trainable classifiers. Configure client-side auto-labeling (recommends a label in Office apps) and service-side auto-labeling (applies labels to data at rest in SharePoint/OneDrive). Deploy endpoint DLP to control copy-to-USB and print actions. If Copilot is deployed, configure DSPM for AI to monitor sensitive data flows into AI workloads.</p>
+
+                    <p>The connection between data protection and <a href="2026-04-17-sharepoint-permission-auditing-copilot.html">SharePoint permission auditing</a> is direct: overshared data plus AI equals data leakage at scale. Audit permissions before enabling Copilot.</p>
+
+                    <!-- ============================================================ -->
+                    <!-- SECTION: PILLAR 4 — APPS -->
+                    <!-- ============================================================ -->
+
+                    <h2>Pillar 4: Apps &mdash; Shadow IT Visibility and SaaS Governance</h2>
+
+                    <p>Users do not just use the apps IT deploys. They sign up for SaaS tools with their corporate email, authorize OAuth connections, and pipe data into platforms IT has never heard of. The Apps pillar brings visibility and control to this sprawl.</p>
+
+                    <h3>What M365 Provides</h3>
+
+                    <ul>
+                        <li><strong>Defender for Cloud Apps (MCAS)</strong> &mdash; Cloud Access Security Broker (CASB). Discovers shadow IT via firewall/proxy log analysis. Over 30,000 apps in its catalog, including 1,000+ GenAI apps. Allows you to sanction, monitor, or block apps.</li>
+                        <li><strong>Entra ID App Registration &amp; Enterprise Apps</strong> &mdash; Controls which third-party apps can request permissions against your tenant. Admin consent workflow ensures IT reviews OAuth grants before users accept them.</li>
+                        <li><strong>Conditional Access App Controls</strong> &mdash; Session-level controls that proxy traffic through Defender for Cloud Apps. Block downloads of sensitive files to unmanaged devices, prevent copy/paste, apply real-time DLP inspection.</li>
+                    </ul>
+
+                    <h3>Implementation Priority</h3>
+
+                    <p><strong>Phase 1:</strong> Enable Defender for Cloud Apps discovery. Connect firewall logs or use the Defender for Endpoint integration (no log upload needed&mdash;the agent reports directly). Review the discovered app inventory and create a sanction/unsanction policy. Block high-risk apps.</p>
+
+                    <p><strong>Phase 2:</strong> Configure OAuth app governance. Require admin consent for third-party app registrations. Review existing OAuth grants&mdash;revoke any that are overprivileged or from unrecognized publishers. Enable anomaly detection policies for OAuth apps.</p>
+
+                    <p><strong>Phase 3:</strong> Deploy Conditional Access App Control for session-level governance. Route sessions through the reverse proxy for critical SaaS apps (Salesforce, ServiceNow, etc.). Apply real-time session policies: block download of labeled documents to unmanaged browsers, watermark documents opened in-session.</p>
+
+                    <!-- ============================================================ -->
+                    <!-- SECTION: PILLAR 5 — INFRASTRUCTURE -->
+                    <!-- ============================================================ -->
+
+                    <h2>Pillar 5: Infrastructure &mdash; Servers, VMs, Containers, and Hybrid</h2>
+
+                    <p>Infrastructure is the broadest pillar and the one where M365's coverage is thinnest by design. M365 is a SaaS platform&mdash;Microsoft manages the infrastructure underneath Exchange Online, SharePoint, and Teams. But most organizations also run on-premises servers, Azure VMs, or hybrid workloads that need Zero Trust controls.</p>
+
+                    <h3>What M365 Provides</h3>
+
+                    <ul>
+                        <li><strong>Defender for Identity</strong> &mdash; Monitors on-premises Active Directory for lateral movement, Pass-the-Hash, Pass-the-Ticket, and other identity-based attacks. The sensor sits on domain controllers and feeds signals into the Defender XDR portal.</li>
+                        <li><strong>Entra Connect / Cloud Sync</strong> &mdash; Synchronizes on-premises AD identities to Entra ID. Password Hash Sync (PHS) is recommended for resilience and enables leaked credential detection.</li>
+                        <li><strong>Defender for Cloud (Azure)</strong> &mdash; Cloud Security Posture Management (CSPM) and workload protection for Azure VMs, containers, databases, and storage. Not part of M365 licensing but integrates into the same Defender XDR portal.</li>
+                    </ul>
+
+                    <h3>Where M365 Ends and Azure Begins</h3>
+
+                    <p>The infrastructure pillar is where you cross the boundary from M365 into Azure (or other IaaS/PaaS). M365 protects the SaaS layer. Azure Defender, Azure Policy, and Azure Arc protect VMs, Kubernetes clusters, and multi-cloud workloads. For hybrid environments with on-premises domain controllers, Defender for Identity is the critical bridge&mdash;it detects AD-level attacks that Entra ID cannot see because they happen below the cloud identity plane.</p>
+
+                    <p>If you run AD CS (Active Directory Certificate Services) on-premises, certificate template misconfigurations like ESC1 can hand attackers Domain Admin in under three hours. That is an infrastructure-layer risk that no amount of Conditional Access policy can compensate for&mdash;it must be fixed at the source. See the <a href="2026-06-22-ad-cs-esc1-default-misconfiguration-domain-admin.html">AD CS ESC1 deep dive</a> for the exact audit steps.</p>
+
+                    <h3>Implementation Priority</h3>
+
+                    <p><strong>Phase 1:</strong> Deploy Defender for Identity sensors on all domain controllers. Enable Entra Connect with Password Hash Sync. This gives you leaked-credential detection (Entra ID Protection compares hashes against known-breached credentials) and attack-path visibility across hybrid identity.</p>
+
+                    <p><strong>Phase 2:</strong> If running Azure workloads, enable Defender for Cloud with at minimum the Foundational CSPM plan (free) and Defender for Servers P2. Configure Azure Policy to enforce tagging, allowed regions, and required encryption.</p>
+
+                    <p><strong>Phase 3:</strong> For multi-cloud (AWS, GCP), use Azure Arc to onboard external servers and Defender for Cloud to apply consistent security posture management across all environments.</p>
+
+                    <!-- ============================================================ -->
+                    <!-- SECTION: PILLAR 6 — NETWORK -->
+                    <!-- ============================================================ -->
+
+                    <h2>Pillar 6: Network &mdash; The Pillar That Lives Outside M365</h2>
+
+                    <p>In a traditional model, the network was the perimeter. In Zero Trust, the network is one signal among many&mdash;but it still matters. Segmentation limits lateral movement. Encryption protects data in transit. And for organizations with on-premises or hybrid environments, network controls remain essential.</p>
+
+                    <p>This is the pillar where M365 has the least native coverage&mdash;because M365 is a SaaS platform, and network security operates at a different layer. However, Microsoft's strategy is clear: bring the network perimeter into the cloud with SASE (Secure Access Service Edge).</p>
+
+                    <h3>What Microsoft Provides (Outside M365 Licensing)</h3>
+
+                    <ul>
+                        <li><strong>Microsoft Entra Internet Access</strong> &mdash; Secure Web Gateway (SWG) that inspects and controls outbound internet traffic through a cloud-delivered proxy. Replaces traditional on-premises web proxies.</li>
+                        <li><strong>Microsoft Entra Private Access</strong> &mdash; Zero Trust Network Access (ZTNA) replacement for VPN. Provides identity-aware, per-app access to on-premises resources without exposing the full network. Users connect only to the apps they need, not the entire subnet.</li>
+                        <li><strong>Azure Firewall &amp; Azure NSGs</strong> &mdash; Network segmentation and traffic filtering for Azure-hosted workloads. Macro and micro-segmentation.</li>
+                        <li><strong>Azure DDoS Protection</strong> &mdash; Volumetric and protocol-layer DDoS mitigation for Azure-hosted public endpoints.</li>
+                    </ul>
+
+                    <h3>Why Network Still Matters in an Identity-First World</h3>
+
+                    <p>Some practitioners argue that with strong identity and device controls, network segmentation is redundant. That is wrong. Identity controls prevent unauthorized access. Network controls limit what a compromised identity can reach. They are complementary, not competing.</p>
+
+                    <p>Example: A user passes MFA, signs in from a compliant device, and accesses SharePoint. Their identity is verified. But if that same user's device is later compromised by malware that moves laterally across an unsegmented network to a file server, identity controls do not help&mdash;because the malware is not authenticating through Entra ID. It is moving at the network layer. Segmentation contains the blast radius.</p>
+
+                    <h3>Implementation Priority</h3>
+
+                    <p><strong>Phase 1:</strong> If you still use traditional VPN for remote access, evaluate Microsoft Entra Private Access as a ZTNA replacement. Per-app access eliminates the "VPN = full network access" risk. For pure-cloud organizations with no on-premises resources, this pillar is largely handled by Microsoft's SaaS infrastructure.</p>
+
+                    <p><strong>Phase 2:</strong> For organizations with Azure infrastructure, implement network segmentation using NSGs and Azure Firewall. Adopt a hub-and-spoke topology. Use Private Link for PaaS services to keep traffic on the Microsoft backbone.</p>
+
+                    <p><strong>Phase 3:</strong> Deploy Microsoft Entra Internet Access (SWG) to replace legacy on-premises web proxies. Combine with Defender for Cloud Apps to create a unified SASE stack: identity-aware internet access, SaaS governance, and per-app private access through a single control plane.</p>
+
+                    <h3>What MSPs and SMBs Should Know About Network</h3>
+
+                    <p>For a pure M365 shop with no on-premises servers and no Azure infrastructure, the network pillar is largely Microsoft's responsibility. Your traffic flows to Microsoft's datacenters over TLS 1.2+, and you do not manage the network in between. The practical actions are: ensure Conditional Access restricts access by named locations (block countries where you have no business), and evaluate Entra Private Access if you still maintain a VPN.</p>
+
+                    <p>For hybrid environments, network segmentation is non-negotiable. At minimum, isolate domain controllers, AD CS servers, and management workstations into separate network segments with restricted inbound access.</p>
+
+                    <!-- ============================================================ -->
+                    <!-- SECTION: THE DEPLOYMENT SEQUENCE -->
+                    <!-- ============================================================ -->
+
+                    <h2>The Deployment Sequence: Where to Start and How to Phase</h2>
+
+                    <p>Microsoft's official Zero Trust deployment framework organizes the work into five swim lanes. Here is the practical translation for an MSP deploying to an SMB tenant:</p>
+
+                    <h3>Swim Lane 1: Secure Remote and Hybrid Work (Weeks 1&ndash;4)</h3>
+                    <p>This is the foundation. Identity + Endpoints. Three phases:</p>
+                    <ol>
+                        <li>Starting-point Conditional Access policies: MFA for all users, block legacy auth.</li>
+                        <li>Enroll devices into Intune. Deploy compliance policies. Feed compliance into Conditional Access.</li>
+                        <li>Enterprise-tier policies: require compliant devices for Exchange/SharePoint/Teams access.</li>
+                    </ol>
+
+                    <h3>Swim Lane 2: Prevent or Reduce Business Damage from a Breach (Weeks 4&ndash;8)</h3>
+                    <p>Deploy Defender XDR: Defender for Endpoint, Defender for Office 365, Defender for Identity, Defender for Cloud Apps. Enable automated investigation and response. This is the "assume breach" principle made operational.</p>
+
+                    <h3>Swim Lane 3: Identify and Protect Sensitive Business Data (Weeks 6&ndash;12)</h3>
+                    <p>Deploy Purview: sensitivity labels, DLP policies, auto-classification. Start in audit mode, graduate to enforcement. Overlaps with Swim Lane 2 because Defender for Cloud Apps extends DLP to third-party SaaS.</p>
+
+                    <h3>Swim Lane 4: Secure AI Apps and Data (Ongoing)</h3>
+                    <p>If Copilot is deployed or users access GenAI tools, configure DSPM for AI, review SharePoint oversharing, and deploy communication compliance policies to monitor AI prompts and responses.</p>
+
+                    <h3>Swim Lane 5: Regulatory Compliance (Ongoing)</h3>
+                    <p>Use Purview Compliance Manager to assess NIS2, GDPR, ISO 27001, and other regulatory posture. Map Zero Trust controls to compliance requirements. Many organizations discover that a mature Zero Trust implementation already satisfies 60&ndash;80% of NIS2 and ISO 27001 controls.</p>
+
+                    <!-- ============================================================ -->
+                    <!-- SECTION: LICENSING -->
+                    <!-- ============================================================ -->
+
+                    <h2>Licensing: What You Need and What You Can Defer</h2>
+
+                    <p>Not every pillar requires E5. Here is the realistic licensing picture:</p>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Capability</th>
+                                <th>License Required</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>MFA, Security Defaults</td>
+                                <td>Any M365 plan (free with Entra ID Free)</td>
+                            </tr>
+                            <tr>
+                                <td>Conditional Access</td>
+                                <td>Entra ID P1 (included in M365 Business Premium, E3)</td>
+                            </tr>
+                            <tr>
+                                <td>Intune MDM/MAM</td>
+                                <td>M365 Business Premium, E3, or standalone Intune</td>
+                            </tr>
+                            <tr>
+                                <td>Defender for Office 365 P1</td>
+                                <td>M365 Business Premium</td>
+                            </tr>
+                            <tr>
+                                <td>Defender for Endpoint P1</td>
+                                <td>M365 Business Premium, E3</td>
+                            </tr>
+                            <tr>
+                                <td>Entra ID Protection (risk-based CA)</td>
+                                <td>Entra ID P2 (included in M365 E5)</td>
+                            </tr>
+                            <tr>
+                                <td>Defender for Endpoint P2 (full EDR)</td>
+                                <td>M365 E5 or Defender for Endpoint P2 add-on</td>
+                            </tr>
+                            <tr>
+                                <td>Defender for Identity</td>
+                                <td>M365 E5 or standalone license</td>
+                            </tr>
+                            <tr>
+                                <td>Purview Information Protection (auto-labeling)</td>
+                                <td>M365 E5 Compliance or E5</td>
+                            </tr>
+                            <tr>
+                                <td>Defender for Cloud Apps (full CASB)</td>
+                                <td>M365 E5 or standalone license</td>
+                            </tr>
+                            <tr>
+                                <td>Entra Internet/Private Access (SASE)</td>
+                                <td>Separate Entra Suite or standalone licenses</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p><strong>The practical recommendation:</strong> M365 Business Premium is the minimum viable Zero Trust license for SMBs. It covers Identity (Conditional Access, MFA), Endpoints (Intune, Defender for Endpoint P1), Email protection (Defender for Office 365 P1), and basic data protection. For the full <a href="2025-12-18-beyond-the-basics-why-smart-m365-add-ons-are-your-best-investment.html">Business Premium value breakdown</a>, see the dedicated post.</p>
+
+                    <!-- ============================================================ -->
+                    <!-- SECTION: MEASURING -->
+                    <!-- ============================================================ -->
+
+                    <h2>Measuring Your Zero Trust Maturity</h2>
+
+                    <p>Zero Trust is not a checkbox. It is a maturity curve. Track these metrics to know where you stand:</p>
+
+                    <ul>
+                        <li><strong>MFA coverage:</strong> Percentage of users with MFA enforced via Conditional Access (target: 100%).</li>
+                        <li><strong>Legacy auth blocked:</strong> Number of legacy authentication protocols still active (target: zero).</li>
+                        <li><strong>Device compliance rate:</strong> Percentage of enrolled devices meeting compliance policies (target: &gt;95%).</li>
+                        <li><strong>Conditional Access policy coverage:</strong> Percentage of sign-ins evaluated by at least one CA policy (target: &gt;99%).</li>
+                        <li><strong>Sensitivity label adoption:</strong> Percentage of documents with a sensitivity label applied (target: &gt;70% for classified data).</li>
+                        <li><strong>Secure Score:</strong> <a href="2025-11-15-boost-your-cyber-defense-microsoft-secure-score-for-smbs.html">Microsoft Secure Score</a> percentage (track monthly trend, not absolute number).</li>
+                        <li><strong>Mean time to detect/respond:</strong> Average hours from incident detection to containment (track via Defender XDR incidents).</li>
+                        <li><strong>Shadow IT exposure:</strong> Number of unsanctioned apps discovered with &gt;50 users (target: decreasing quarterly).</li>
+                    </ul>
+
+                    <!-- ============================================================ -->
+                    <!-- SECTION: COMMON MISTAKES -->
+                    <!-- ============================================================ -->
+
+                    <h2>Common Mistakes That Undermine Zero Trust</h2>
+
+                    <p><strong>Treating MFA as the finish line.</strong> MFA stops most password-based attacks. It does not stop token theft, MFA fatigue attacks (push-bombing), or Adversary-in-the-Middle (AiTM) phishing. Phishing-resistant MFA (FIDO2, certificate-based auth) and Conditional Access token protection are the next steps.</p>
+
+                    <p><strong>Deploying Conditional Access without device compliance.</strong> A CA policy that says "require MFA" but accepts any device is only half the equation. The other half is verifying that the device itself is healthy. Without Intune compliance feeding into CA, you are trusting the device implicitly&mdash;the exact thing Zero Trust rejects.</p>
+
+                    <p><strong>Ignoring the hybrid identity layer.</strong> If you have on-premises Active Directory synced to Entra ID, both sides need protection. Defender for Identity on domain controllers. Password Hash Sync for leaked credential detection. And audit your AD CS templates&mdash;one misconfigured certificate template can bypass every cloud control you have deployed.</p>
+
+                    <p><strong>Deploying Copilot without auditing SharePoint permissions.</strong> Copilot indexes what users have access to. If SharePoint permissions are overshared (everyone-except-external links, broken inheritance, etc.), Copilot surfaces sensitive data to users who should not see it. <a href="2026-04-17-sharepoint-permission-auditing-copilot.html">Audit permissions first</a>.</p>
+
+                    <p><strong>Skipping the configuration management baseline.</strong> Security baselines in Intune exist for a reason. Deploying Intune without applying them is like installing a firewall and leaving every port open. See <a href="2026-02-25-the-golden-tenant-is-dead.html">why the golden tenant approach is dead</a> and why configuration-as-code matters.</p>
+
+                    <!-- ============================================================ -->
+                    <!-- SECTION: FRAMEWORKS -->
+                    <!-- ============================================================ -->
+
+                    <h2>How Zero Trust Maps to Compliance Frameworks</h2>
+
+                    <p>Zero Trust is not a compliance framework itself, but it maps directly to the controls required by major regulations. Here is a simplified mapping:</p>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Framework</th>
+                                <th>Key Requirement</th>
+                                <th>Zero Trust Pillar / M365 Control</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>NIS2 (EU)</td>
+                                <td>Access control, incident response</td>
+                                <td>Identity (CA, MFA), Defender XDR (incident management)</td>
+                            </tr>
+                            <tr>
+                                <td>GDPR</td>
+                                <td>Data protection, breach notification</td>
+                                <td>Data (Purview labels, DLP), Defender XDR (72h notification)</td>
+                            </tr>
+                            <tr>
+                                <td>ISO 27001</td>
+                                <td>Information security management system</td>
+                                <td>All pillars; Purview Compliance Manager for assessment</td>
+                            </tr>
+                            <tr>
+                                <td>CIS Controls v8</td>
+                                <td>Safeguards 1&ndash;18</td>
+                                <td>Maps across all six pillars; Secure Score tracks CIS alignment</td>
+                            </tr>
+                            <tr>
+                                <td>NIST CSF 2.0</td>
+                                <td>Identify, Protect, Detect, Respond, Recover, Govern</td>
+                                <td>Direct alignment with Zero Trust principles and M365 capabilities</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- ============================================================ -->
+                    <!-- SECTION: KEY TAKEAWAYS -->
+                    <!-- ============================================================ -->
+
+                    <h2>Key Takeaways</h2>
+
+                    <ul>
+                        <li>Zero Trust is a strategy built on three principles (verify explicitly, least privilege, assume breach), not a product you buy.</li>
+                        <li>Microsoft 365 covers five of six Zero Trust pillars natively. The Network pillar extends into Microsoft Entra Internet/Private Access and Azure networking.</li>
+                        <li>Start with Identity and Endpoints (Swim Lane 1). MFA + Conditional Access + device compliance is the highest-impact, lowest-cost foundation.</li>
+                        <li>M365 Business Premium is the minimum viable license for SMB Zero Trust. E5 unlocks risk-based identity protection, full EDR, and advanced data classification.</li>
+                        <li>Measure maturity continuously. Secure Score, device compliance rate, CA policy coverage, and label adoption are the metrics that matter.</li>
+                        <li>Do not treat Zero Trust as a project with an end date. Treat it as an operating model that evolves with your threat landscape.</li>
+                    </ul>
+
+                    <!-- ============================================================ -->
+                    <!-- SECTION: NEXT STEPS -->
+                    <!-- ============================================================ -->
+
+                    <h2>Next Steps</h2>
+
+                    <ol>
+                        <li>Assess your current posture with <a href="2025-11-15-boost-your-cyber-defense-microsoft-secure-score-for-smbs.html">Microsoft Secure Score</a>.</li>
+                        <li>Map your current M365 license to the pillar coverage table above. Identify gaps.</li>
+                        <li>Start Swim Lane 1: deploy Conditional Access with MFA and block legacy auth. This is a one-day task that eliminates the most common attack vector.</li>
+                        <li>Enroll devices into Intune and deploy compliance policies within the first month.</li>
+                        <li>Deploy Defender XDR in month two. Enable automated investigation.</li>
+                        <li>Begin data classification with Purview in month three.</li>
+                    </ol>
+
+                    <p>Need help building a Zero Trust roadmap for your organization? <a href="https://easym365.de" target="_blank" rel="noopener noreferrer"><strong>Visit easyM365.de</strong></a> to learn more about how I help SMBs build secure, scalable, and simple Microsoft 365 environments.</p>
+
+                    <!-- ============================================================ -->
+                    <!-- SECTION: FAQ -->
+                    <!-- ============================================================ -->
+
+                    <section class="faq">
+                    <h2>Frequently Asked Questions</h2>
+
+                    <h3>What is Zero Trust in Microsoft 365?</h3>
+                    <p>Zero Trust in Microsoft 365 is a security model that trusts no user or device by default&mdash;every access request is verified explicitly. In practice it combines multi-factor authentication, Conditional Access policies, device compliance through Intune, Defender XDR for threat detection, and Purview for data protection. Instead of trusting anything inside the network, M365 checks identity, device health, and sign-in risk on every request across all six pillars: Identity, Endpoints, Data, Apps, Infrastructure, and Network.</p>
+
+                    <h3>How do I start with Zero Trust in Microsoft 365?</h3>
+                    <p>Start with the highest-impact, lowest-effort control: enable multi-factor authentication for administrators, then all users. Next, deploy Conditional Access to require MFA and block legacy authentication. Enroll devices into Intune and configure compliance policies. Feed device compliance into Conditional Access so non-compliant devices get blocked. Then deploy Defender XDR and Purview as you mature. The full deployment typically follows Microsoft's five swim-lane model over 8&ndash;12 weeks.</p>
+
+                    <h3>Does Zero Trust require Microsoft 365 E5?</h3>
+                    <p>No. You can implement core Zero Trust with Microsoft 365 Business Premium, which includes Entra ID P1 (Conditional Access), Intune (device management), Defender for Endpoint P1, and Defender for Office 365 P1. E5 adds risk-based Identity Protection (P2), full Defender for Endpoint P2 EDR, Defender for Identity, and advanced Purview capabilities. The foundation&mdash;MFA, Conditional Access, device compliance, and basic threat protection&mdash;is available well below E5.</p>
+
+                    <h3>Is MFA enough for Zero Trust?</h3>
+                    <p>No. MFA is the foundation, but Zero Trust means verifying every request continuously&mdash;device health, location, sign-in risk, and least-privilege access. MFA stops most password-based attacks, but it does not stop token theft, MFA fatigue attacks, or Adversary-in-the-Middle phishing. Without Conditional Access, device compliance, and monitoring, significant gaps remain. Treat MFA as step one, not the finish line.</p>
+
+                    <h3>What about the network pillar if we are 100% cloud?</h3>
+                    <p>For pure-cloud organizations with no on-premises infrastructure, Microsoft manages the network layer underneath M365. Your practical actions are: restrict access by named locations in Conditional Access (block countries where you have no business), and ensure all traffic to M365 uses TLS 1.2+. If you need advanced outbound internet control or per-app access to private resources, evaluate Microsoft Entra Internet Access and Entra Private Access as a cloud-delivered SASE solution.</p>
+
+                    <h3>How does Zero Trust relate to NIS2 and GDPR compliance?</h3>
+                    <p>Zero Trust is not a compliance framework, but a mature Zero Trust implementation typically satisfies 60&ndash;80% of NIS2 and ISO 27001 controls out of the box. Identity verification maps to access control requirements. Defender XDR supports incident response and the 72-hour breach notification obligation under GDPR. Purview sensitivity labels and DLP address data protection requirements. Use Purview Compliance Manager to assess and track your regulatory posture against specific frameworks.</p>
+                    </section>
+
+                </div>
+            </section>
 
             <!-- Author Bio -->
-            <div class="author-bio">
-                <img src="../assets/images/cloudknox-hero.webp" alt="Philipp Schmidt, Microsoft 365 and Zero Trust security consultant" class="author-avatar" loading="lazy">
+            <section class="author-bio">
+                <img src="../assets/images/cloudknox-author.webp" alt="Philipp Schmidt - Microsoft 365 Security Consultant - easyM365.de" class="author-avatar" loading="lazy">
                 <div class="author-info">
                     <h3>Philipp Schmidt</h3>
-                    <p>
-                        IT Security Consultant specializing in Microsoft 365, Zero Trust, and Cloud Solutions. 
-                        Helping organizations build secure, scalable, and simple M365 environments.
-                        <br>
-                        <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">easym365.de</a> • 
-                        <a href="https://www.linkedin.com/in/pschmidt3010" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-                    </p>
+                    <p>IT consultant specializing in Microsoft 365, Security, and Zero Trust architecture. Helping SMBs build secure, scalable, and simple cloud solutions.</p>
+                    <p><strong>Complex IT? I make it simple</strong> &mdash; with M365 that protects, scales, and brings clarity.</p>
+                    <p><a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Learn more: https://easyM365.de</a></p>
                 </div>
-            </div>
-
-            <!-- Comments Section (Giscus placeholder) -->
-            <div class="mt-xxl">
-                <h2>Comments</h2>
-                <p style="color: var(--color-text-light); text-align: center; padding: var(--spacing-xl); background-color: var(--color-bg-alt); border-radius: 12px;">
-                    💬 Comments powered by Giscus will be enabled soon. Stay tuned!
-                </p>
-                <!-- Giscus will be integrated here after GitHub Discussions is enabled -->
-            </div>
+            </section>
         </article>
         <div id="post-navigation"></div>
     </main>
@@ -313,34 +532,37 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-container">
-            <p><strong>EndlessTech Blog</strong> by Philipp Schmidt</p>
-            <p>Zero Trust, Zero Drama, Zero Bullshit. Ask someone who Knows.</p>
-            <p>
-                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a> • 
-                <a href="https://www.linkedin.com/in/pschmidt3010" target="_blank" rel="noopener noreferrer">LinkedIn</a> • 
+            <p>&copy; 2026 Philipp Schmidt. All rights reserved.</p>
+            <p>Secure. Scalable. Simple M365.</p>
+            <div class="footer-links">
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+                <a href="https://www.linkedin.com/in/pschmidt3010" target="_blank" rel="noopener noreferrer">LinkedIn</a>
                 <a href="https://github.com/farpoint-tech" target="_blank" rel="noopener noreferrer">GitHub</a>
-            </p>
-            <p style="margin-top: var(--spacing-md); font-size: 0.875rem; color: var(--color-text-light);">
-                © 2026 Philipp Schmidt. All rights reserved.
-            </p>
+            </div>
         </div>
-        <p style="margin-top: var(--spacing-sm); font-size: 0.875rem;"><a href="https://farpoint.tech/impressum" target="_blank" rel="noopener noreferrer">Impressum</a></p>
     </footer>
 
-    <!-- JavaScript -->
+    <!-- Mobile Menu Script -->
+    <script>
+        const menuToggle = document.getElementById('menu-toggle');
+        const nav = document.getElementById('nav');
+        menuToggle.addEventListener('click', () => {
+            nav.classList.toggle('active');
+        });
+    </script>
     <script src="../assets/js/main.js"></script>
     <script src="../assets/js/post-navigation.js"></script>
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Article",
-      "headline": "What Is Zero Trust in Microsoft 365? Getting Started",
-      "description": "Zero Trust in Microsoft 365 means never trust, always verify. A practical guide to implementing MFA, Conditional Access, and Identity Protection.",
+      "headline": "Zero Trust with Microsoft 365: The Complete Pillar-by-Pillar Guide",
+      "description": "Zero Trust in Microsoft 365 means never trust, always verify. A comprehensive guide to implementing Zero Trust across all six pillars with M365 as the control plane.",
       "image": "https://endlesstech.blog/assets/images/knox-hawk.webp",
       "author": { "@type": "Person", "name": "Philipp Schmidt", "url": "https://easym365.de" },
       "publisher": { "@type": "Organization", "name": "EndlessTech Blog" },
       "datePublished": "2025-10-24",
-      "dateModified": "2026-06-20",
+      "dateModified": "2026-06-26",
       "mainEntityOfPage": "https://endlesstech.blog/posts/2025-10-24-getting-started-with-zero-trust.html"
     }
     </script>
@@ -349,13 +571,14 @@
       "@context": "https://schema.org",
       "@type": "FAQPage",
       "mainEntity": [
-        { "@type": "Question", "name": "What is Zero Trust in Microsoft 365?", "acceptedAnswer": { "@type": "Answer", "text": "Zero Trust in Microsoft 365 is a security model that trusts no user or device by default. It combines multi-factor authentication, Conditional Access, device compliance through Intune, and Identity Protection, checking identity, device health, and sign-in risk on every request." } },
-        { "@type": "Question", "name": "How do I start with Zero Trust in Microsoft 365?", "acceptedAnswer": { "@type": "Answer", "text": "Start by enabling multi-factor authentication for administrators, then all users. Turn on Conditional Access to require MFA and block legacy authentication, add device compliance via Intune, and enable Identity Protection risk policies as you mature." } },
-        { "@type": "Question", "name": "Does Zero Trust require Microsoft 365 E5?", "acceptedAnswer": { "@type": "Answer", "text": "No. Core Zero Trust works with Microsoft 365 Business Premium, which includes Entra ID Premium P1 (Conditional Access) and Intune. E5 adds risk-based Identity Protection (P2) and Defender, but the foundation is available well below E5." } },
-        { "@type": "Question", "name": "Is MFA enough for Zero Trust?", "acceptedAnswer": { "@type": "Answer", "text": "No. MFA is the foundation, but Zero Trust verifies every request continuously — device health, location, sign-in risk, and least-privilege access. Without Conditional Access, device compliance, and monitoring, gaps remain." } }
+        { "@type": "Question", "name": "What is Zero Trust in Microsoft 365?", "acceptedAnswer": { "@type": "Answer", "text": "Zero Trust in Microsoft 365 is a security model that trusts no user or device by default. It combines multi-factor authentication, Conditional Access, device compliance through Intune, Defender XDR for threat detection, and Purview for data protection across all six pillars: Identity, Endpoints, Data, Apps, Infrastructure, and Network." } },
+        { "@type": "Question", "name": "How do I start with Zero Trust in Microsoft 365?", "acceptedAnswer": { "@type": "Answer", "text": "Start by enabling MFA for all users and deploying Conditional Access to block legacy authentication. Enroll devices into Intune with compliance policies. Feed compliance into Conditional Access. Then deploy Defender XDR and Purview as you mature over 8-12 weeks." } },
+        { "@type": "Question", "name": "Does Zero Trust require Microsoft 365 E5?", "acceptedAnswer": { "@type": "Answer", "text": "No. M365 Business Premium covers core Zero Trust: Entra ID P1 (Conditional Access), Intune, Defender for Endpoint P1, and Defender for Office 365 P1. E5 adds risk-based Identity Protection P2, full EDR, Defender for Identity, and advanced Purview." } },
+        { "@type": "Question", "name": "Is MFA enough for Zero Trust?", "acceptedAnswer": { "@type": "Answer", "text": "No. MFA is step one, but Zero Trust requires continuous verification — device health, location, sign-in risk, and least-privilege access. Without Conditional Access, device compliance, and threat detection, significant gaps remain." } },
+        { "@type": "Question", "name": "What about the network pillar if we are 100% cloud?", "acceptedAnswer": { "@type": "Answer", "text": "For pure-cloud organizations, Microsoft manages the M365 network layer. Your actions: restrict access by named locations in Conditional Access and ensure TLS 1.2+. For advanced needs, evaluate Microsoft Entra Internet Access and Entra Private Access as a cloud-delivered SASE solution." } },
+        { "@type": "Question", "name": "How does Zero Trust relate to NIS2 and GDPR compliance?", "acceptedAnswer": { "@type": "Answer", "text": "A mature Zero Trust implementation typically satisfies 60-80% of NIS2 and ISO 27001 controls. Identity verification maps to access control, Defender XDR supports incident response and 72-hour GDPR breach notification, and Purview addresses data protection. Use Compliance Manager to track posture." } }
       ]
     }
     </script>
 </body>
 </html>
-
