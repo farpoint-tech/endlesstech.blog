@@ -798,6 +798,71 @@ em, i {
   font-size: 0.9rem;
 }
 
+/* ==================== Service CTA Section ==================== */
+.service-cta {
+  background: linear-gradient(135deg, var(--color-navy), var(--color-primary));
+  color: #fff;
+  border-radius: 16px;
+  padding: var(--spacing-xxl) var(--spacing-xl);
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.service-cta h2 {
+  color: #fff;
+  margin-top: 0;
+  font-size: 1.8rem;
+}
+
+.service-cta .service-tagline {
+  font-size: 1.15rem;
+  opacity: 0.92;
+  max-width: 640px;
+  margin: 0 auto var(--spacing-lg);
+  line-height: 1.7;
+}
+
+.service-cta .service-badge {
+  display: inline-block;
+  background: var(--color-accent);
+  color: var(--color-navy);
+  font-weight: 700;
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: 6px;
+  font-size: 0.95rem;
+  margin-bottom: var(--spacing-lg);
+}
+
+.service-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--spacing-md);
+  max-width: 700px;
+  margin: 0 auto var(--spacing-xl);
+  text-align: left;
+}
+
+.service-features li {
+  list-style: none;
+  padding-left: 1.6em;
+  position: relative;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.service-features li::before {
+  content: "\2713";
+  position: absolute;
+  left: 0;
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+.service-cta .hero-cta {
+  font-size: 1.05rem;
+}
+
 /* ==================== Responsive Design ==================== */
 @media (max-width: 1024px) {
   :root {
