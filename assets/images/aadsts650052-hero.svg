@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-label="A broken chain between an Entra ID tenant and a Microsoft Defender shield with an AADSTS650052 service principal missing error and a PowerShell repair command">
+  <defs>
+    <linearGradient id="er-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071633"/>
+      <stop offset="1" stop-color="#002863"/>
+    </linearGradient>
+    <linearGradient id="er-shield" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3366FF"/>
+      <stop offset="1" stop-color="#0e2a5c"/>
+    </linearGradient>
+    <radialGradient id="er-err" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#FF4D6D" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#FF4D6D" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="er-blur" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="8"/></filter>
+  </defs>
+
+  <rect width="1200" height="675" fill="url(#er-bg)"/>
+  <g stroke="#3366FF" stroke-opacity="0.08" stroke-width="1">
+    <path d="M0 135H1200M0 270H1200M0 405H1200M0 540H1200"/>
+    <path d="M200 0V675M400 0V675M600 0V675M800 0V675M1000 0V675"/>
+  </g>
+
+  <!-- Entra ID tenant (left hexagon) -->
+  <g transform="translate(230 250)">
+    <polygon points="90,0 175,48 175,142 90,190 5,142 5,48" fill="#0e2a5c" stroke="#00D9FF" stroke-width="2.5"/>
+    <g transform="translate(90 95)">
+      <circle cx="0" cy="-18" r="18" fill="#00D9FF" opacity="0.9"/>
+      <path d="M-30 34 a30 30 0 0 1 60 0z" fill="#00D9FF" opacity="0.9"/>
+    </g>
+    <text x="90" y="240" fill="#9db8ff" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Entra ID Tenant</text>
+  </g>
+
+  <!-- Defender shield (right) -->
+  <g transform="translate(780 240)">
+    <path d="M100 0 L190 34 V120 Q190 190 100 215 Q10 190 10 120 V34 Z" fill="url(#er-shield)" stroke="#3366FF" stroke-width="2.5"/>
+    <path d="M62 108 l26 26 l52 -58" fill="none" stroke="#00D9FF" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" opacity="0.35"/>
+    <text x="100" y="262" fill="#9db8ff" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Defender for Endpoint</text>
+  </g>
+
+  <!-- broken chain between them -->
+  <g stroke="#5b78c4" stroke-width="12" fill="none" stroke-linecap="round">
+    <path d="M420 345 q40 -20 78 -6"/>
+    <path d="M705 345 q-40 -20 -78 -6"/>
+  </g>
+  <g stroke="#3a4f86" stroke-width="4" fill="none" stroke-linecap="round">
+    <path d="M498 339 l14 -6"/><path d="M627 339 l-14 -6"/>
+  </g>
+
+  <!-- error burst in the gap -->
+  <circle cx="565" cy="345" r="90" fill="url(#er-err)" filter="url(#er-blur)"/>
+  <g transform="translate(565 345)">
+    <path d="M0 -46 L52 44 H-52 Z" fill="#FF4D6D" stroke="#2a0a12" stroke-width="2"/>
+    <rect x="-6" y="-18" width="12" height="34" rx="6" fill="#2a0a12"/>
+    <circle cx="0" cy="28" r="7" fill="#2a0a12"/>
+  </g>
+  <text x="565" y="250" fill="#FF4D6D" font-family="Consolas, 'Courier New', monospace" font-size="26" font-weight="700" text-anchor="middle">AADSTS650052</text>
+  <text x="565" y="278" fill="#ffa9ba" font-family="Segoe UI, Arial, sans-serif" font-size="16" text-anchor="middle">service principal missing</text>
+
+  <!-- PowerShell repair line -->
+  <g transform="translate(300 545)">
+    <rect x="0" y="0" width="600" height="72" rx="12" fill="#04102a" stroke="#00D9FF" stroke-opacity="0.5" stroke-width="1.5"/>
+    <text x="22" y="44" fill="#00D9FF" font-family="Consolas, 'Courier New', monospace" font-size="20">&gt;_ </text>
+    <text x="58" y="44" fill="#eaf2ff" font-family="Consolas, 'Courier New', monospace" font-size="19">New-MgServicePrincipal -AppId &lt;WDATP&gt;</text>
+    <rect x="556" y="26" width="12" height="22" fill="#ECC23B"><animate attributeName="opacity" values="1;0;1" dur="1.1s" repeatCount="indefinite"/></rect>
+  </g>
+</svg>

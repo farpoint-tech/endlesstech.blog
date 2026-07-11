@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-label="Tangled SharePoint permission connections scanned by a Copilot readiness tool flagging over-shared files in red">
+  <defs>
+    <linearGradient id="sp-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071633"/>
+      <stop offset="1" stop-color="#002863"/>
+    </linearGradient>
+    <linearGradient id="sp-scan" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ECC23B" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#ECC23B" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#ECC23B" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="sp-glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#00D9FF" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#00D9FF" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="sp-blur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="675" fill="url(#sp-bg)"/>
+  <!-- faint grid -->
+  <g stroke="#3366FF" stroke-opacity="0.08" stroke-width="1">
+    <path d="M0 135H1200M0 270H1200M0 405H1200M0 540H1200"/>
+    <path d="M150 0V675M300 0V675M450 0V675M600 0V675M750 0V675M900 0V675M1050 0V675"/>
+  </g>
+
+  <!-- connection lines from library to users (blue = ok, red = oversharing) -->
+  <g fill="none" stroke-width="2.5" stroke-linecap="round">
+    <path d="M430 338 C 560 210, 660 170, 780 150" stroke="#00D9FF" stroke-opacity="0.55"/>
+    <path d="M430 338 C 580 250, 700 230, 860 250" stroke="#3366FF" stroke-opacity="0.6"/>
+    <path d="M430 338 C 560 320, 720 330, 900 360" stroke="#00D9FF" stroke-opacity="0.5"/>
+    <path d="M430 338 C 580 420, 690 470, 830 500" stroke="#3366FF" stroke-opacity="0.55"/>
+    <path d="M430 338 C 540 450, 620 520, 720 560" stroke="#00D9FF" stroke-opacity="0.45"/>
+    <!-- oversharing (red) -->
+    <path d="M430 338 C 620 300, 780 300, 980 300" stroke="#FF4D6D" stroke-opacity="0.95"/>
+    <path d="M430 338 C 640 380, 800 430, 970 470" stroke="#FF4D6D" stroke-opacity="0.95"/>
+    <path d="M430 338 C 600 200, 720 120, 900 90" stroke="#FF4D6D" stroke-opacity="0.95"/>
+  </g>
+
+  <!-- SharePoint document library (left) -->
+  <g transform="translate(300 268)">
+    <rect x="0" y="0" width="150" height="140" rx="14" fill="#0e2a5c" stroke="#3366FF" stroke-width="2"/>
+    <rect x="22" y="26" width="106" height="16" rx="4" fill="#00D9FF" opacity="0.85"/>
+    <rect x="22" y="54" width="106" height="10" rx="3" fill="#9db8ff" opacity="0.6"/>
+    <rect x="22" y="72" width="80" height="10" rx="3" fill="#9db8ff" opacity="0.45"/>
+    <rect x="22" y="90" width="106" height="10" rx="3" fill="#9db8ff" opacity="0.6"/>
+    <rect x="22" y="108" width="64" height="10" rx="3" fill="#9db8ff" opacity="0.45"/>
+    <circle cx="130" cy="-2" r="7" fill="#ECC23B"/>
+  </g>
+  <text x="375" y="440" fill="#9db8ff" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="600" text-anchor="middle">SharePoint</text>
+
+  <!-- user nodes -->
+  <g font-family="Segoe UI, Arial, sans-serif">
+    <!-- ok users -->
+    <g fill="#3366FF"><circle cx="780" cy="150" r="20"/><circle cx="860" cy="250" r="20"/><circle cx="900" cy="360" r="20"/><circle cx="830" cy="500" r="20"/><circle cx="720" cy="560" r="20"/></g>
+    <g fill="#0a1f45"><circle cx="780" cy="145" r="7"/><circle cx="860" cy="245" r="7"/><circle cx="900" cy="355" r="7"/><circle cx="830" cy="495" r="7"/><circle cx="720" cy="555" r="7"/></g>
+    <g fill="#0a1f45"><path d="M767 168a13 13 0 0 1 26 0z"/><path d="M847 268a13 13 0 0 1 26 0z"/><path d="M887 378a13 13 0 0 1 26 0z"/><path d="M817 518a13 13 0 0 1 26 0z"/><path d="M707 578a13 13 0 0 1 26 0z"/></g>
+    <!-- oversharing users (red halo) -->
+    <g>
+      <circle cx="980" cy="300" r="26" fill="#FF4D6D" fill-opacity="0.18"/>
+      <circle cx="980" cy="300" r="20" fill="#FF4D6D"/>
+      <circle cx="980" cy="295" r="7" fill="#2a0a12"/><path d="M967 318a13 13 0 0 1 26 0z" fill="#2a0a12"/>
+      <circle cx="970" cy="470" r="26" fill="#FF4D6D" fill-opacity="0.18"/>
+      <circle cx="970" cy="470" r="20" fill="#FF4D6D"/>
+      <circle cx="970" cy="465" r="7" fill="#2a0a12"/><path d="M957 488a13 13 0 0 1 26 0z" fill="#2a0a12"/>
+      <circle cx="900" cy="90" r="26" fill="#FF4D6D" fill-opacity="0.18"/>
+      <circle cx="900" cy="90" r="20" fill="#FF4D6D"/>
+      <circle cx="900" cy="85" r="7" fill="#2a0a12"/><path d="M887 108a13 13 0 0 1 26 0z" fill="#2a0a12"/>
+    </g>
+    <!-- warning badges -->
+    <g>
+      <path d="M1012 276 l14 24 h-28 z" fill="#ECC23B"/><rect x="1017" y="284" width="4" height="9" rx="2" fill="#2a0a12"/><circle cx="1019" cy="296" r="2.2" fill="#2a0a12"/>
+      <path d="M1002 446 l14 24 h-28 z" fill="#ECC23B"/><rect x="1007" y="454" width="4" height="9" rx="2" fill="#2a0a12"/><circle cx="1009" cy="466" r="2.2" fill="#2a0a12"/>
+      <path d="M932 66 l14 24 h-28 z" fill="#ECC23B"/><rect x="937" y="74" width="4" height="9" rx="2" fill="#2a0a12"/><circle cx="939" cy="86" r="2.2" fill="#2a0a12"/>
+    </g>
+  </g>
+
+  <!-- Copilot readiness scan beam -->
+  <rect x="600" y="0" width="90" height="675" fill="url(#sp-scan)"/>
+  <g transform="translate(645 90)">
+    <circle cx="0" cy="0" r="46" fill="url(#sp-glow)" filter="url(#sp-blur)"/>
+    <circle cx="0" cy="0" r="26" fill="none" stroke="#ECC23B" stroke-width="5"/>
+    <line x1="18" y1="18" x2="40" y2="40" stroke="#ECC23B" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="0" cy="0" r="10" fill="#00D9FF" opacity="0.5"/>
+  </g>
+  <text x="600" y="628" fill="#ECC23B" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700" text-anchor="middle" letter-spacing="1">COPILOT READINESS SCAN</text>
+</svg>
