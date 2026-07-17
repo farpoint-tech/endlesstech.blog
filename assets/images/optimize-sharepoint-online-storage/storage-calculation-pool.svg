@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-label="SharePoint storage formula: 1 TB base plus 10 GB per licensed user flowing into one shared tenant pool that site collections draw from, with a 25 TB per-site technical limit">
+  <defs>
+    <linearGradient id="p-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#071633"/><stop offset="1" stop-color="#002863"/></linearGradient>
+    <linearGradient id="p-pool" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#00D9FF" stop-opacity="0.85"/><stop offset="1" stop-color="#3366FF" stop-opacity="0.6"/></linearGradient>
+  </defs>
+  <rect width="1200" height="675" fill="url(#p-bg)"/>
+  <g stroke="#3366FF" stroke-opacity="0.08" stroke-width="1"><path d="M0 135H1200M0 270H1200M0 405H1200M0 540H1200"/><path d="M300 0V675M600 0V675M900 0V675"/></g>
+
+  <!-- formula -->
+  <g font-family="Segoe UI, Arial, sans-serif" text-anchor="middle">
+    <g transform="translate(200 130)">
+      <rect x="-110" y="-40" width="220" height="80" rx="14" fill="#0e2a5c" stroke="#00D9FF" stroke-width="2"/>
+      <text x="0" y="-4" fill="#00D9FF" font-size="30" font-weight="800">1 TB</text>
+      <text x="0" y="22" fill="#9db8ff" font-size="15">base storage</text>
+    </g>
+    <text x="405" y="140" fill="#eaf2ff" font-size="40" font-weight="700">+</text>
+    <g transform="translate(610 130)">
+      <rect x="-130" y="-40" width="260" height="80" rx="14" fill="#0e2a5c" stroke="#00D9FF" stroke-width="2"/>
+      <text x="0" y="-4" fill="#00D9FF" font-size="26" font-weight="800">10 GB</text>
+      <text x="0" y="22" fill="#9db8ff" font-size="15">per licensed user</text>
+    </g>
+    <text x="815" y="140" fill="#eaf2ff" font-size="40" font-weight="700">=</text>
+  </g>
+
+  <!-- flow arrows down to pool -->
+  <g fill="none" stroke="#00D9FF" stroke-opacity="0.5" stroke-width="3" stroke-dasharray="5 7" stroke-linecap="round">
+    <path d="M200 175 C 200 250, 500 250, 590 320"/>
+    <path d="M610 175 C 610 250, 640 260, 620 320"/>
+  </g>
+
+  <!-- shared tenant pool -->
+  <g>
+    <rect x="360" y="330" width="480" height="150" rx="20" fill="url(#p-pool)" stroke="#00D9FF" stroke-width="2.5"/>
+    <path d="M360 400 q60 -22 120 0 t120 0 t120 0 t120 0 v60 q0 20 -20 20 H380 q-20 0 -20 -20 Z" fill="#002863" fill-opacity="0.35"/>
+    <text x="600" y="378" fill="#04102a" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="800" text-anchor="middle">Shared Tenant Storage Pool</text>
+  </g>
+
+  <!-- site collections drawing from pool -->
+  <g font-family="Segoe UI, Arial, sans-serif" text-anchor="middle">
+    <g fill="none" stroke="#3366FF" stroke-opacity="0.55" stroke-width="2.5">
+      <path d="M470 480 V545"/><path d="M600 480 V545"/><path d="M730 480 V545"/>
+    </g>
+    <g fill="#0e2a5c" stroke="#3366FF" stroke-width="2">
+      <rect x="410" y="548" width="120" height="82" rx="10"/><rect x="540" y="548" width="120" height="82" rx="10"/><rect x="670" y="548" width="120" height="82" rx="10"/>
+    </g>
+    <g fill="#c7d6ff" font-size="14">
+      <text x="470" y="582">Site A</text><text x="600" y="582">Site B</text><text x="730" y="582">Site C</text>
+    </g>
+    <g fill="#7f97d6" font-size="12"><text x="470" y="606">draws</text><text x="600" y="606">draws</text><text x="730" y="606">draws</text></g>
+  </g>
+
+  <!-- 25TB limit marker -->
+  <g transform="translate(1010 405)">
+    <rect x="-95" y="-55" width="190" height="110" rx="12" fill="#0a1f45" stroke="#ECC23B" stroke-width="2" stroke-dasharray="6 5"/>
+    <text x="0" y="-14" fill="#ECC23B" font-family="Segoe UI, Arial, sans-serif" font-size="26" font-weight="800" text-anchor="middle">25 TB</text>
+    <text x="0" y="10" fill="#ffe6a8" font-family="Segoe UI, Arial, sans-serif" font-size="13" text-anchor="middle">per-site limit</text>
+    <text x="0" y="34" fill="#c9a54a" font-family="Segoe UI, Arial, sans-serif" font-size="12" text-anchor="middle">ceiling, not a</text>
+    <text x="0" y="50" fill="#c9a54a" font-family="Segoe UI, Arial, sans-serif" font-size="12" text-anchor="middle">guarantee</text>
+  </g>
+</svg>

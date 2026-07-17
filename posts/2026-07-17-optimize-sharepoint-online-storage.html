@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+    <meta name="robots" content="index,follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SharePoint Online storage rarely grows because of new files. Version history, recycle bins, and the Preservation Hold Library do the damage. Here is how to reclaim it.">
+    <meta name="author" content="Philipp Schmidt">
+    <meta name="keywords" content="SharePoint Online storage, optimize SharePoint storage, Preservation Hold Library, intelligent versioning, Microsoft 365 Archive, retention policies, trim file versions, SharePoint storage quota">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Optimize SharePoint Online Storage Before You Pay For It">
+    <meta property="og:description" content="SharePoint Online storage rarely grows because of new files. Version history, recycle bins, and the Preservation Hold Library do the damage. Here is how to reclaim it.">
+    <meta property="og:image" content="https://endlesstech.blog/assets/images/optimize-sharepoint-online-storage/sharepoint-storage-hero.svg">
+    <meta property="og:url" content="https://endlesstech.blog/posts/2026-07-17-optimize-sharepoint-online-storage.html">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Optimize SharePoint Online Storage Before You Pay For It">
+    <meta name="twitter:description" content="SharePoint Online storage rarely grows because of new files. Version history, recycle bins, and the Preservation Hold Library do the damage. Here is how to reclaim it.">
+    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/optimize-sharepoint-online-storage/sharepoint-storage-hero.svg">
+
+    <title>Optimize SharePoint Online Storage Before You Pay For It</title>
+
+    <!-- Stylesheet -->
+    <link rel="alternate" type="application/rss+xml" title="EndlessTech Blog RSS Feed" href="https://endlesstech.blog/feed.xml">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/blog-post.css">
+
+    <link rel="canonical" href="https://endlesstech.blog/posts/2026-07-17-optimize-sharepoint-online-storage.html" />
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/images/logo.webp" alt="Philipp Schmidt - Secure. Scalable. Simple M365.">
+            </a>
+            <nav class="nav" id="nav">
+                <a href="../index.html">Home</a>
+                <a href="../index.html#blog" class="active">Blog</a>
+                <a href="../about.html">About</a>
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+            </nav>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+                &#9776;
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <article class="post-full">
+            <header class="post-full-header">
+                <h1 class="post-full-title">Optimize SharePoint Online Storage Before You Pay For It</h1>
+                <div class="post-full-meta">
+                    <time datetime="2026-07-17">July 17, 2026</time> &bull; By Philipp Schmidt
+                </div>
+                <div class="post-tags">
+                    <span class="tag">SharePoint Online</span>
+                    <span class="tag">M365</span>
+                    <span class="tag">Storage</span>
+                    <span class="tag">Retention</span>
+                    <span class="tag">PowerShell</span>
+                </div>
+            </header>
+
+            <figure class="post-full-image">
+                <img src="../assets/images/optimize-sharepoint-online-storage/sharepoint-storage-hero.svg" alt="Overflowing digital storage vault in neon cyan and pink, stacks of duplicate file versions and hidden archive boxes piling up behind a SharePoint tenant dashboard showing a storage quota bar at 97 percent, futuristic tech aesthetic">
+            </figure>
+
+            <section class="post-full-content">
+                <div class="post-content">
+
+                    <p>A 300-seat tenant I reviewed recently had 4 TB of pooled SharePoint storage &mdash; and sat at 96% capacity. New file uploads over the last twelve months: roughly 400 GB. The rest was version history, two stages of recycle bin nobody ever emptied, and a Preservation Hold Library that had quietly grown to 1.1 TB because a retention policy from 2022 was still holding everything forever.</p>
+
+                    <p>That pattern repeats in almost every tenant. SharePoint storage rarely fills up because people create too much content. It fills up because of what SharePoint keeps <em>behind</em> the content. And with Microsoft's new <a href="https://blog.admindroid.com/pay-as-you-go-billing-for-extra-sharepoint-storage/" target="_blank" rel="noopener noreferrer">pay-as-you-go billing for extra SharePoint storage</a>, every gigabyte of bloat now translates directly into a monthly invoice line. This guide covers what actually counts toward your quota and six practical ways to reclaim it &mdash; before finance asks why the M365 bill went up.</p>
+
+                    <h2 id="how-sharepoint-storage-is-calculated">How SharePoint Storage Is Actually Calculated</h2>
+
+                    <figure class="post-content-image">
+                        <img src="../assets/images/optimize-sharepoint-online-storage/storage-calculation-pool.svg" alt="Clean infographic showing the SharePoint Online storage formula: 1 TB base plus 10 GB per licensed user flowing into one shared tenant storage pool, with individual site collections drawing from the pool and a 25 TB per-site technical limit marked" loading="lazy">
+                        <figcaption>The SharePoint storage formula: 1 TB base + 10 GB per licensed user, pooled at tenant level &mdash; with the 25 TB per-site figure as a technical limit, not a guarantee</figcaption>
+                    </figure>
+
+                    <p>The formula is simple: <strong>1 TB base storage + 10 GB per licensed user</strong>, pooled across the whole tenant. A 100-user tenant gets 2 TB total. Every SharePoint site draws from that shared pool, and while a single site can technically grow to 25 TB, that only works if the pool has room. The 25 TB is a ceiling, not an allocation.</p>
+
+                    <p>What most admins underestimate is what counts against that pool. It is not just documents in libraries. Version history counts &mdash; every single version, in full. Both recycle bin stages count until items are permanently purged. List attachments, site pages, and site assets count. And the Preservation Hold Library counts, which is the one that hurts, because nobody sees it in the UI.</p>
+
+                    <blockquote>A 5 MB PowerPoint with 100 versions consumes 500 MB. Multiply that across a document library where marketing has been iterating on the same deck since 2021, and you understand where your terabytes went.</blockquote>
+
+                    <h2 id="find-and-delete-stale-content">1. Find and Delete Stale Content</h2>
+
+                    <figure class="post-content-image">
+                        <img src="../assets/images/optimize-sharepoint-online-storage/stale-sites-cleanup.svg" alt="SharePoint admin center active sites list with the Last activity column highlighted, several sites flagged in orange showing no activity for over a year, a magnifying glass hovering over the inactive entries" loading="lazy">
+                        <figcaption>The "Last activity" column in the SharePoint admin center is the fastest way to spot sites nobody has touched in a year</figcaption>
+                    </figure>
+
+                    <p>Start where the biggest wins usually are: entire sites nobody uses anymore. Old project sites, sites from Teams that were created for a workshop in 2023, migration leftovers. The SharePoint admin center shows a <strong>Last activity</strong> column under Active Sites &mdash; sort by it and the candidates surface immediately. The site usage reports in the Microsoft 365 admin center add file activity and storage trends on top. If your tenant is full of these, the same hunt applies to <a href="2026-05-21-ghost-hunting-m365-orphaned-teams-channel-sites.html">orphaned Teams private channel sites</a>, which accumulate silently.</p>
+
+                    <p>For anything at scale, PowerShell is faster:</p>
+
+                    <pre><code>Connect-SPOService -Url https://yourtenant-admin.sharepoint.com
+Get-SPOSite -Limit All | Select URL, LastContentModifiedDate, StorageUsageCurrent | Sort StorageUsageCurrent -Descending</code></pre>
+
+                    <p>Sorting by storage usage instead of just date matters. A dormant 2 GB site is a footnote. A dormant 400 GB site is your project.</p>
+
+                    <h2 id="empty-both-recycle-bin-stages">2. Empty Both Recycle Bin Stages</h2>
+
+                    <figure class="post-content-image">
+                        <img src="../assets/images/optimize-sharepoint-online-storage/recycle-bin-two-stages.svg" alt="Two glowing digital recycle bins side by side labeled first stage and second stage, files flowing from one into the other along a 93-day timeline arrow, both bins still connected to a storage meter showing they consume quota" loading="lazy">
+                        <figcaption>Deleted files travel through two recycle bin stages and count against your quota for up to 93 days &mdash; unless you purge them manually</figcaption>
+                    </figure>
+
+                    <p>Deleted does not mean gone. Files move to the first-stage recycle bin, then to the second-stage (site collection) recycle bin, and occupy quota for up to <strong>93 days combined</strong> before SharePoint purges them automatically. After a large cleanup or migration, that means your reclaimed space stays locked for three months &mdash; unless you purge manually.</p>
+
+                    <p>The second-stage bin hides under Site Settings &rarr; Site Collection Administration &rarr; Recycle Bin. Or you skip the clicking entirely:</p>
+
+                    <pre><code>Connect-PnPOnline -Url https://yourtenant.sharepoint.com/sites/yoursite -Interactive
+Clear-PnPRecycleBinItem -Force</code></pre>
+
+                    <p>One caveat from practice: coordinate this with the site owners first. The recycle bin is the only self-service restore users have. Purge it the day after someone deleted the wrong folder and you will hear about it.</p>
+
+                    <h2 id="get-version-history-under-control">3. Get Version History Under Control</h2>
+
+                    <figure class="post-content-image">
+                        <img src="../assets/images/optimize-sharepoint-online-storage/version-history-trimming.svg" alt="A single document icon casting a long shadow made of dozens of stacked ghost copies representing old file versions, a trimming tool cutting the stack down while an intelligent versioning dial regulates how many new versions get created" loading="lazy">
+                        <figcaption>Intelligent versioning limits what gets created going forward &mdash; trimming with PowerShell removes what already piled up</figcaption>
+                    </figure>
+
+                    <p>Version history is the classic silent consumer. SharePoint's <strong>intelligent versioning</strong> now thins out version retention automatically &mdash; keeping recent versions dense and aging older ones out &mdash; which solves the problem going forward. It does nothing about the versions already sitting in your libraries.</p>
+
+                    <p>For that, Microsoft provides <a href="https://learn.microsoft.com/en-us/sharepoint/trim-versions" target="_blank" rel="noopener noreferrer">version trimming via PowerShell</a>, targeting whole sites, individual libraries, or OneDrive accounts. Be aware of what you are doing here: <strong>trimmed versions bypass the recycle bin and are unrecoverable</strong>. No undo, no second stage, nothing. Run a report first, trim second, and document the decision &mdash; especially in environments with compliance requirements.</p>
+
+                    <h2 id="archive-instead-of-delete">4. Archive Inactive Sites Instead of Deleting Them</h2>
+
+                    <figure class="post-content-image">
+                        <img src="../assets/images/optimize-sharepoint-online-storage/archive-cold-storage.svg" alt="A SharePoint site being moved from a hot glowing active storage tier down into a frost-covered cold storage vault, metadata tags and permission locks traveling with it intact, price tag showing a fraction of the original cost" loading="lazy">
+                        <figcaption>Microsoft 365 Archive moves inactive sites to a cold storage tier in place &mdash; permissions and metadata stay intact, and the storage stops counting against your quota</figcaption>
+                    </figure>
+
+                    <p>Not everything stale can be deleted. Finished projects, department archives, anything with retention value &mdash; that content needs to stay, just not at active-storage prices. <strong>Microsoft 365 Archive</strong> moves sites to a cold storage tier fully in place: no data migration, permissions and metadata preserved, sites become read-only and disappear from the active list. For the full picture on where this is headed, see my deep dive on <a href="2026-02-25-cloudknox-sharepoint-file-level-archiving.html">file-level archiving in SharePoint</a>.</p>
+
+                    <p>The key detail: <strong>archived storage no longer counts against your SharePoint quota</strong>. For tenants bumping against their pool limit, archiving a handful of large legacy sites is often the difference between buying extra storage and not. Reactivation works without data loss if a site turns out to be needed after all.</p>
+
+                    <h2 id="retention-policies-and-the-phl">5. Retention Policies &mdash; and the Hidden Library They Feed</h2>
+
+                    <figure class="post-content-image">
+                        <img src="../assets/images/optimize-sharepoint-online-storage/retention-policy-phl.svg" alt="A hidden vault door behind a normal SharePoint document library revealing the Preservation Hold Library stuffed with every deleted and modified file copy, a retention policy control panel above it with dials for retain and delete periods" loading="lazy">
+                        <figcaption>Every retention policy feeds the hidden Preservation Hold Library &mdash; deleted and modified items live on there and count fully against your storage pool</figcaption>
+                    </figure>
+
+                    <p>Retention policies in Microsoft Purview cut both ways for storage. Configured well, they are your automation layer: a policy that deletes content five years after last modification keeps old project files from accumulating forever, without anyone lifting a finger. Configured carelessly, they are the reason your storage never shrinks no matter what you delete.</p>
+
+                    <p>The mechanism behind that is the <strong>Preservation Hold Library (PHL)</strong> &mdash; a hidden system library on every site under retention. Delete or modify a file covered by a hold, and SharePoint quietly preserves a copy in the PHL. That copy counts fully against your quota, and users cannot see or touch it. In the tenant from my opening example, a blanket "retain indefinitely" policy from a long-gone compliance project had turned the PHL into the single largest storage consumer.</p>
+
+                    <p>You can inspect it directly:</p>
+
+                    <pre><code>https://yourtenant.sharepoint.com/sites/yoursite/PreservationHoldLibrary/Forms/AllItems.aspx</code></pre>
+
+                    <p>The fix is rarely technical. Review your existing retention policies against actual compliance requirements, retire the ones nobody can justify anymore, and scope the rest properly. Two notes for the rollout: policy enforcement can take up to a week, and a delete-after-X-years policy will <strong>immediately and permanently remove everything already older than X</strong> the moment it kicks in. Communicate that before you hit submit, not after.</p>
+
+                    <h2 id="key-takeaways">Key Takeaways</h2>
+
+                    <ul>
+                        <li><strong>Know your formula:</strong> 1 TB + 10 GB per user, pooled tenant-wide. Versions, recycle bins, and the PHL all count against it.</li>
+                        <li><strong>Biggest wins first:</strong> sort sites by storage usage, not just by last activity &mdash; then delete, archive, or clean up in that order.</li>
+                        <li><strong>Recycle bins hold space for 93 days</strong> &mdash; purge manually after large cleanups, but coordinate with site owners.</li>
+                        <li><strong>Intelligent versioning is forward-looking only.</strong> Existing version bloat needs trimming, and trimming is permanent.</li>
+                        <li><strong>Microsoft 365 Archive</strong> takes inactive sites out of your quota without deleting anything.</li>
+                        <li><strong>Audit your retention policies.</strong> The Preservation Hold Library is where forgotten holds go to eat terabytes.</li>
+                        <li>With <strong>pay-as-you-go storage billing</strong> now available, unmanaged bloat is no longer just a technical debt &mdash; it is a recurring cost.</li>
+                    </ul>
+
+                    <p>Storage optimization in SharePoint is 20% PowerShell and 80% governance decisions: what stays, what gets archived, what a retention policy is actually for. If your tenant is creeping toward its quota and you would rather fix the cause than buy more space, <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">get in touch</a> &mdash; this is exactly the kind of cleanup I do.</p>
+
+                    <hr>
+                    <h3>References</h3>
+                    <ol class="post-references">
+                        <li><a href="https://blog.admindroid.com/effective-ways-to-optimize-sharepoint-storage/" target="_blank" rel="noopener noreferrer">AdminDroid: 6 Effective Ways to Optimize SharePoint Storage</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/sharepoint/trim-versions" target="_blank" rel="noopener noreferrer">Microsoft Learn: Trim file versions in SharePoint and OneDrive</a></li>
+                        <li><a href="https://blog.admindroid.com/pay-as-you-go-billing-for-extra-sharepoint-storage/" target="_blank" rel="noopener noreferrer">AdminDroid: Pay-As-You-Go Billing for Microsoft 365 SharePoint Storage</a></li>
+                    </ol>
+                </div>
+            </section>
+
+            <section class="author-bio">
+                <img src="../assets/images/cloudknox-author.webp" alt="Philipp Schmidt - Microsoft 365 Security Consultant - easyM365.de" class="author-avatar" loading="lazy">
+                <div class="author-info">
+                    <h3>Philipp Schmidt</h3>
+                    <p>M365 Solution Architect specializing in Microsoft 365, Security, and Zero Trust architecture.</p>
+                    <p><strong>Zero Trust. Zero Drama. Zero Bullshit.</strong></p>
+                    <p><a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Learn more: https://easym365.de</a></p>
+                </div>
+            </section>
+        </article>
+        <div id="post-navigation"></div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2026 Philipp Schmidt. All rights reserved.</p>
+            <p>Secure. Scalable. Simple M365.</p>
+            <div class="footer-links">
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+                <a href="https://www.linkedin.com/in/pschmidt3010" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://github.com/farpoint-tech" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu Script -->
+    <script>
+        const menuToggle = document.getElementById("menu-toggle");
+        const nav = document.getElementById("nav");
+        menuToggle.addEventListener("click", () => {
+            nav.classList.toggle("active");
+        });
+    </script>
+    <script src="../assets/js/post-navigation.js"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Optimize SharePoint Online Storage Before You Pay For It",
+      "description": "SharePoint Online storage rarely grows because of new files. Version history, recycle bins, and the Preservation Hold Library do the damage. Here is how to reclaim it.",
+      "image": "https://endlesstech.blog/assets/images/optimize-sharepoint-online-storage/sharepoint-storage-hero.svg",
+      "author": { "@type": "Person", "name": "Philipp Schmidt", "url": "https://easym365.de" },
+      "publisher": { "@type": "Organization", "name": "EndlessTech Blog" },
+      "datePublished": "2026-07-17",
+      "dateModified": "2026-07-17",
+      "mainEntityOfPage": "https://endlesstech.blog/posts/2026-07-17-optimize-sharepoint-online-storage.html"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "How is SharePoint Online storage calculated?", "acceptedAnswer": { "@type": "Answer", "text": "SharePoint Online storage is 1 TB base plus 10 GB per licensed user, pooled across the whole tenant. Every site draws from that shared pool. A single site can technically reach 25 TB, but only if the pool has room — the 25 TB is a ceiling, not a guaranteed allocation." } },
+        { "@type": "Question", "name": "Does deleting files free up SharePoint storage immediately?", "acceptedAnswer": { "@type": "Answer", "text": "No. Deleted files move to the first-stage and then second-stage recycle bin and continue to count against your quota for up to 93 days combined before SharePoint purges them automatically. To reclaim the space sooner, purge both recycle bin stages manually — after coordinating with site owners." } },
+        { "@type": "Question", "name": "What is the Preservation Hold Library and why does it consume storage?", "acceptedAnswer": { "@type": "Answer", "text": "The Preservation Hold Library (PHL) is a hidden system library created on any site covered by a retention policy or hold. When a covered file is deleted or modified, SharePoint preserves a copy in the PHL. Those copies count fully against your storage quota and are invisible to users, so a broad or forgotten retention policy can make the PHL your single largest storage consumer." } },
+        { "@type": "Question", "name": "Does Microsoft 365 Archive reduce my SharePoint storage quota usage?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Microsoft 365 Archive moves inactive sites to a cold storage tier in place, preserving permissions and metadata. Archived storage no longer counts against your active SharePoint quota, and sites can be reactivated without data loss." } }
+      ]
+    }
+    </script>
+</body>
+</html>

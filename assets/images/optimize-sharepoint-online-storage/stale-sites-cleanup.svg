@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-label="SharePoint admin center active sites list with a Last activity column, several inactive sites flagged in orange, and a magnifying glass over the stale entries">
+  <defs>
+    <linearGradient id="s-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#071633"/><stop offset="1" stop-color="#002863"/></linearGradient>
+    <radialGradient id="s-lens" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#ECC23B" stop-opacity="0.25"/><stop offset="1" stop-color="#ECC23B" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1200" height="675" fill="url(#s-bg)"/>
+
+  <!-- admin table -->
+  <g font-family="Segoe UI, Arial, sans-serif">
+    <rect x="150" y="110" width="900" height="460" rx="16" fill="#0b1f47" stroke="#22335f" stroke-width="1.5"/>
+    <text x="180" y="150" fill="#eaf2ff" font-size="20" font-weight="700">Active sites</text>
+    <!-- header row -->
+    <rect x="170" y="172" width="860" height="40" rx="8" fill="#0e2a5c"/>
+    <text x="196" y="198" fill="#9db8ff" font-size="15" font-weight="600">Site name</text>
+    <text x="560" y="198" fill="#9db8ff" font-size="15" font-weight="600">Storage used</text>
+    <rect x="740" y="180" width="176" height="24" rx="6" fill="#ECC23B" fill-opacity="0.18"/>
+    <text x="756" y="198" fill="#ECC23B" font-size="15" font-weight="700">Last activity</text>
+
+    <!-- rows -->
+    <g font-size="15">
+      <!-- active row -->
+      <text x="196" y="248" fill="#dbe6ff">Marketing Hub</text><text x="560" y="248" fill="#c7d6ff">210 GB</text><text x="756" y="248" fill="#7ee0a0">2 days ago</text>
+      <line x1="170" y1="266" x2="1030" y2="266" stroke="#22335f"/>
+      <!-- stale rows highlighted orange -->
+      <rect x="170" y="272" width="860" height="42" fill="#ECC23B" fill-opacity="0.10"/>
+      <text x="196" y="299" fill="#ffe6a8">Workshop 2023</text><text x="560" y="299" fill="#ffe6a8">180 GB</text><text x="756" y="299" fill="#ECC23B" font-weight="700">412 days ago</text>
+      <line x1="170" y1="316" x2="1030" y2="316" stroke="#22335f"/>
+      <text x="196" y="349" fill="#dbe6ff">Finance FY24</text><text x="560" y="349" fill="#c7d6ff">64 GB</text><text x="756" y="349" fill="#7ee0a0">yesterday</text>
+      <line x1="170" y1="366" x2="1030" y2="366" stroke="#22335f"/>
+      <rect x="170" y="372" width="860" height="42" fill="#ECC23B" fill-opacity="0.10"/>
+      <text x="196" y="399" fill="#ffe6a8">Project Atlas (closed)</text><text x="560" y="399" fill="#ffe6a8">398 GB</text><text x="756" y="399" fill="#ECC23B" font-weight="700">509 days ago</text>
+      <line x1="170" y1="416" x2="1030" y2="416" stroke="#22335f"/>
+      <rect x="170" y="422" width="860" height="42" fill="#ECC23B" fill-opacity="0.10"/>
+      <text x="196" y="449" fill="#ffe6a8">Migration Leftover</text><text x="560" y="449" fill="#ffe6a8">240 GB</text><text x="756" y="449" fill="#ECC23B" font-weight="700">700+ days ago</text>
+      <line x1="170" y1="466" x2="1030" y2="466" stroke="#22335f"/>
+      <text x="196" y="499" fill="#dbe6ff">HR Onboarding</text><text x="560" y="499" fill="#c7d6ff">32 GB</text><text x="756" y="499" fill="#7ee0a0">1 week ago</text>
+    </g>
+  </g>
+
+  <!-- magnifier over stale rows -->
+  <circle cx="820" cy="420" r="150" fill="url(#s-lens)"/>
+  <g transform="translate(880 470)" stroke="#ECC23B" fill="none">
+    <circle cx="0" cy="0" r="42" stroke-width="7"/>
+    <line x1="30" y1="30" x2="66" y2="66" stroke-width="9" stroke-linecap="round"/>
+  </g>
+</svg>

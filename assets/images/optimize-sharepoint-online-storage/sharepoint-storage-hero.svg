@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-label="A SharePoint tenant storage quota bar at 97 percent with stacks of duplicate file versions and hidden archive boxes piling up behind the dashboard">
+  <defs>
+    <linearGradient id="h-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#071633"/><stop offset="1" stop-color="#002863"/></linearGradient>
+    <linearGradient id="h-quota" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#00D9FF"/><stop offset="0.75" stop-color="#3366FF"/><stop offset="0.85" stop-color="#FF00FF"/><stop offset="1" stop-color="#FF4D6D"/></linearGradient>
+    <filter id="h-glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="7"/></filter>
+  </defs>
+  <rect width="1200" height="675" fill="url(#h-bg)"/>
+  <g stroke="#3366FF" stroke-opacity="0.08" stroke-width="1"><path d="M0 135H1200M0 270H1200M0 405H1200M0 540H1200"/><path d="M200 0V675M400 0V675M600 0V675M800 0V675M1000 0V675"/></g>
+
+  <!-- stacks of duplicate versions piling up behind -->
+  <g opacity="0.55">
+    <g fill="#0e2a5c" stroke="#00D9FF" stroke-opacity="0.4" stroke-width="1.5">
+      <rect x="150" y="470" width="70" height="90" rx="6"/><rect x="160" y="450" width="70" height="90" rx="6"/><rect x="170" y="430" width="70" height="90" rx="6"/><rect x="180" y="410" width="70" height="90" rx="6"/>
+      <rect x="980" y="480" width="70" height="90" rx="6"/><rect x="990" y="462" width="70" height="90" rx="6"/><rect x="1000" y="444" width="70" height="90" rx="6"/>
+    </g>
+  </g>
+  <!-- hidden archive boxes -->
+  <g opacity="0.5" fill="#0a1f45" stroke="#ECC23B" stroke-opacity="0.5" stroke-width="1.5">
+    <rect x="300" y="500" width="80" height="60" rx="4"/><path d="M300 520 h80" stroke="#ECC23B" stroke-opacity="0.5"/>
+    <rect x="840" y="510" width="80" height="55" rx="4"/><path d="M840 528 h80" stroke="#ECC23B" stroke-opacity="0.5"/>
+  </g>
+
+  <!-- central tenant dashboard card -->
+  <g>
+    <rect x="330" y="150" width="540" height="330" rx="18" fill="#0b1f47" stroke="#00D9FF" stroke-width="2"/>
+    <rect x="330" y="150" width="540" height="60" rx="18" fill="#00D9FF" fill-opacity="0.12"/>
+    <circle cx="362" cy="180" r="7" fill="#FF4D6D"/><circle cx="386" cy="180" r="7" fill="#ECC23B"/><circle cx="410" cy="180" r="7" fill="#00D9FF"/>
+    <text x="600" y="186" fill="#eaf2ff" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="700" text-anchor="middle">SharePoint Tenant Storage</text>
+
+    <!-- quota bar -->
+    <text x="366" y="262" fill="#9db8ff" font-family="Segoe UI, Arial, sans-serif" font-size="16">Pooled quota</text>
+    <rect x="366" y="278" width="468" height="34" rx="17" fill="#04102a" stroke="#22335f" stroke-width="1.5"/>
+    <rect x="366" y="278" width="454" height="34" rx="17" fill="url(#h-quota)"/>
+    <text x="600" y="302" fill="#04102a" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="800" text-anchor="middle">97% FULL</text>
+
+    <!-- breakdown legend -->
+    <g font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#c7d6ff">
+      <rect x="366" y="345" width="14" height="14" rx="3" fill="#00D9FF"/><text x="388" y="357">Active files</text>
+      <rect x="520" y="345" width="14" height="14" rx="3" fill="#3366FF"/><text x="542" y="357">Version history</text>
+      <rect x="366" y="378" width="14" height="14" rx="3" fill="#ECC23B"/><text x="388" y="390">Recycle bins</text>
+      <rect x="520" y="378" width="14" height="14" rx="3" fill="#FF4D6D"/><text x="542" y="390">Preservation Hold Library</text>
+    </g>
+    <text x="366" y="440" fill="#ff9db0" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-style="italic">Most of it is not new files.</text>
+  </g>
+
+  <!-- warning glow -->
+  <circle cx="835" cy="295" r="30" fill="#FF4D6D" filter="url(#h-glow)" opacity="0.6"/>
+  <g transform="translate(835 295)"><path d="M0 -16 L18 15 H-18 Z" fill="#FF4D6D" stroke="#2a0a12" stroke-width="1.5"/><rect x="-2.5" y="-6" width="5" height="12" rx="2" fill="#2a0a12"/><circle cx="0" cy="10" r="2.6" fill="#2a0a12"/></g>
+</svg>

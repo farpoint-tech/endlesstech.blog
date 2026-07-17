@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-label="A single document casting a long shadow of stacked old version copies, a trimming tool cutting the stack down, and an intelligent versioning dial regulating new versions">
+  <defs>
+    <linearGradient id="v-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#071633"/><stop offset="1" stop-color="#002863"/></linearGradient>
+    <linearGradient id="v-doc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#eaf2ff"/><stop offset="1" stop-color="#b9d0ff"/></linearGradient>
+  </defs>
+  <rect width="1200" height="675" fill="url(#v-bg)"/>
+  <g stroke="#3366FF" stroke-opacity="0.08" stroke-width="1"><path d="M0 135H1200M0 270H1200M0 405H1200M0 540H1200"/></g>
+
+  <!-- stacked ghost versions receding -->
+  <g>
+    <g>
+      <g transform="translate(250 200)">
+        <!-- ghosts -->
+        <g fill="#3366FF">
+          <rect x="0" y="150" width="120" height="150" rx="8" opacity="0.10"/>
+          <rect x="14" y="126" width="120" height="150" rx="8" opacity="0.14"/>
+          <rect x="28" y="102" width="120" height="150" rx="8" opacity="0.18"/>
+          <rect x="42" y="78" width="120" height="150" rx="8" opacity="0.24"/>
+          <rect x="56" y="54" width="120" height="150" rx="8" opacity="0.32"/>
+          <rect x="70" y="30" width="120" height="150" rx="8" opacity="0.42"/>
+        </g>
+        <!-- current doc -->
+        <g transform="translate(84 6)">
+          <path d="M0 0 H92 L120 28 V150 H0 Z" fill="url(#v-doc)"/><path d="M92 0 V28 H120 Z" fill="#8fb0ee"/>
+          <rect x="16" y="52" width="72" height="7" rx="3" fill="#3366FF" opacity="0.6"/>
+          <rect x="16" y="70" width="88" height="7" rx="3" fill="#3366FF" opacity="0.45"/>
+          <rect x="16" y="88" width="60" height="7" rx="3" fill="#3366FF" opacity="0.45"/>
+        </g>
+      </g>
+    </g>
+    <text x="360" y="400" fill="#9db8ff" font-family="Segoe UI, Arial, sans-serif" font-size="16" text-anchor="middle">one file, 100 versions = 100× the size</text>
+  </g>
+
+  <!-- trimming tool (scissors-like cutter) cutting the stack -->
+  <g transform="translate(470 210)">
+    <line x1="-40" y1="0" x2="120" y2="0" stroke="#ECC23B" stroke-width="4" stroke-dasharray="10 8"/>
+    <g transform="translate(120 0)" fill="#ECC23B">
+      <circle cx="18" cy="-14" r="12" fill="none" stroke="#ECC23B" stroke-width="4"/>
+      <circle cx="18" cy="14" r="12" fill="none" stroke="#ECC23B" stroke-width="4"/>
+      <path d="M6 -14 L-40 0 L6 14" fill="none" stroke="#ECC23B" stroke-width="4" stroke-linecap="round"/>
+    </g>
+    <text x="40" y="-26" fill="#ECC23B" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" text-anchor="middle">trim (permanent)</text>
+  </g>
+
+  <!-- intelligent versioning dial -->
+  <g transform="translate(880 300)" font-family="Segoe UI, Arial, sans-serif" text-anchor="middle">
+    <circle cx="0" cy="0" r="110" fill="#0b1f47" stroke="#00D9FF" stroke-width="2"/>
+    <circle cx="0" cy="0" r="82" fill="none" stroke="#22335f" stroke-width="10"/>
+    <path d="M0 -82 A82 82 0 0 1 71 41" fill="none" stroke="#00D9FF" stroke-width="10" stroke-linecap="round"/>
+    <line x1="0" y1="0" x2="52" y2="-52" stroke="#00D9FF" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="0" cy="0" r="9" fill="#00D9FF"/>
+    <text x="0" y="60" fill="#eaf2ff" font-size="16" font-weight="700">Intelligent</text>
+    <text x="0" y="80" fill="#eaf2ff" font-size="16" font-weight="700">versioning</text>
+    <text x="0" y="132" fill="#9db8ff" font-size="13">limits new versions going forward</text>
+  </g>
+</svg>

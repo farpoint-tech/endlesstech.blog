@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-label="A SharePoint site moving from a hot active storage tier down into a frost-covered cold archive vault, with permissions and metadata preserved and a much lower price">
+  <defs>
+    <linearGradient id="a-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#071633"/><stop offset="1" stop-color="#002863"/></linearGradient>
+    <linearGradient id="a-hot" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF7A45"/><stop offset="1" stop-color="#E2681D"/></linearGradient>
+    <linearGradient id="a-cold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fe6ff"/><stop offset="1" stop-color="#3aa0d6"/></linearGradient>
+  </defs>
+  <rect width="1200" height="675" fill="url(#a-bg)"/>
+  <g stroke="#3366FF" stroke-opacity="0.08" stroke-width="1"><path d="M0 135H1200M0 270H1200M0 405H1200M0 540H1200"/></g>
+
+  <!-- hot active tier -->
+  <g font-family="Segoe UI, Arial, sans-serif" text-anchor="middle">
+    <rect x="150" y="130" width="360" height="160" rx="18" fill="#3a1a10" stroke="#FF7A45" stroke-width="2"/>
+    <text x="330" y="168" fill="#ffd0b8" font-size="18" font-weight="700">Active storage tier</text>
+    <g transform="translate(250 210)">
+      <rect x="0" y="0" width="160" height="60" rx="10" fill="url(#a-hot)"/>
+      <text x="80" y="37" fill="#3a1a10" font-size="16" font-weight="800">$0.20 / GB</text>
+    </g>
+    <text x="330" y="182" fill="#ff9d76" font-size="0"> </text>
+  </g>
+
+  <!-- cold vault -->
+  <g font-family="Segoe UI, Arial, sans-serif" text-anchor="middle">
+    <rect x="690" y="360" width="380" height="210" rx="18" fill="#0d2740" stroke="#8fe6ff" stroke-width="2"/>
+    <rect x="690" y="360" width="380" height="52" rx="18" fill="#8fe6ff" fill-opacity="0.15"/>
+    <text x="880" y="393" fill="#d6f4ff" font-size="18" font-weight="700">Cold archive tier</text>
+    <!-- frost crystals -->
+    <g stroke="#bfefff" stroke-width="2" stroke-linecap="round" opacity="0.7">
+      <path d="M720 430 v20 M710 440 h20 M714 434 l12 12 M726 434 l-12 12"/>
+      <path d="M1040 500 v18 M1031 509 h18 M1035 503 l10 10 M1045 503 l-10 10"/>
+    </g>
+    <g transform="translate(800 445)">
+      <rect x="0" y="0" width="160" height="60" rx="10" fill="url(#a-cold)"/>
+      <text x="80" y="37" fill="#07354d" font-size="16" font-weight="800">$0.05 / GB</text>
+    </g>
+    <text x="880" y="548" fill="#9fd6ef" font-size="14">out of your active quota</text>
+  </g>
+
+  <!-- moving site with lock + tags traveling -->
+  <g fill="none" stroke="#00D9FF" stroke-opacity="0.6" stroke-width="3" stroke-dasharray="6 8" stroke-linecap="round">
+    <path d="M470 290 C 640 340, 660 380, 740 430"/>
+  </g>
+  <g transform="translate(600 355)">
+    <rect x="-46" y="-40" width="92" height="80" rx="10" fill="#0e2a5c" stroke="#00D9FF" stroke-width="2"/>
+    <!-- lock -->
+    <rect x="-14" y="-8" width="28" height="24" rx="5" fill="#00D9FF"/>
+    <path d="M-8 -8 V-18 a8 8 0 0 1 16 0 V-8" fill="none" stroke="#00D9FF" stroke-width="4"/>
+    <!-- tag -->
+    <path d="M18 -34 l16 0 l8 8 l-16 16 l-8 -8 z" fill="#ECC23B"/><circle cx="26" cy="-26" r="2.5" fill="#0e2a5c"/>
+    <text x="0" y="34" fill="#9db8ff" font-family="Segoe UI, Arial, sans-serif" font-size="11" text-anchor="middle">perms + metadata</text>
+  </g>
+</svg>
