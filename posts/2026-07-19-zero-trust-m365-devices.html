@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+    <meta name="robots" content="index,follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Devices are the second Zero Trust pillar for Microsoft 365. How Intune compliance, security baselines, Autopilot, and Defender for Endpoint turn every device into a policy enforcement point.">
+    <meta name="author" content="Philipp Schmidt">
+    <meta name="keywords" content="Zero Trust devices, Microsoft Intune compliance, device compliance Conditional Access, Windows Autopilot, Defender for Endpoint, security baselines, mobile application management, Secure Score devices">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Zero Trust for Microsoft 365, Part 2: Securing Devices">
+    <meta property="og:description" content="Devices are the second Zero Trust pillar for Microsoft 365. How Intune compliance, security baselines, Autopilot, and Defender for Endpoint turn every device into a policy enforcement point.">
+    <meta property="og:image" content="https://endlesstech.blog/assets/images/zero-trust-m365-series/devices-hero.svg">
+    <meta property="og:url" content="https://endlesstech.blog/posts/2026-07-19-zero-trust-m365-devices.html">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Zero Trust for Microsoft 365, Part 2: Securing Devices">
+    <meta name="twitter:description" content="Devices are the second Zero Trust pillar for Microsoft 365. How Intune compliance, security baselines, Autopilot, and Defender for Endpoint turn every device into a policy enforcement point.">
+    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/zero-trust-m365-series/devices-hero.svg">
+
+    <title>Zero Trust for Microsoft 365, Part 2: Securing Devices</title>
+
+    <link rel="alternate" type="application/rss+xml" title="EndlessTech Blog RSS Feed" href="https://endlesstech.blog/feed.xml">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/blog-post.css">
+
+    <link rel="canonical" href="https://endlesstech.blog/posts/2026-07-19-zero-trust-m365-devices.html" />
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/images/logo.webp" alt="Philipp Schmidt - Secure. Scalable. Simple M365.">
+            </a>
+            <nav class="nav" id="nav">
+                <a href="../index.html">Home</a>
+                <a href="../index.html#blog" class="active">Blog</a>
+                <a href="../about.html">About</a>
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+            </nav>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">&#9776;</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="post-full">
+            <header class="post-full-header">
+                <h1 class="post-full-title">Zero Trust for Microsoft 365, Part 2: Securing Devices</h1>
+                <div class="post-full-meta">
+                    <time datetime="2026-07-19">July 19, 2026</time> &bull; By Philipp Schmidt
+                </div>
+                <div class="post-tags">
+                    <span class="tag">Zero Trust</span>
+                    <span class="tag">Microsoft 365</span>
+                    <span class="tag">Devices</span>
+                    <span class="tag">Secure Score</span>
+                </div>
+            </header>
+
+            <figure class="post-full-image">
+                <img src="../assets/images/zero-trust-m365-series/devices-hero.svg" alt="The four Microsoft 365 Zero Trust pillars with Devices highlighted — a laptop and phone icon — aligned to Microsoft Secure Score">
+            </figure>
+
+            <section class="post-full-content">
+                <div class="post-content">
+
+                    <div class="post-tldr">
+                        <h2>In short</h2>
+                        <p>A secured identity signing in from a compromised device is still a compromised session. The Devices pillar turns every laptop and phone into an active participant in Zero Trust. In Microsoft 365 that means Intune: enrol devices, enforce compliance policies (encryption, patch level, Defender on), and feed that compliance state back into Conditional Access so an unhealthy device is blocked before it reaches data. Protect BYOD with app protection policies without managing the whole device.</p>
+                    </div>
+
+                    <nav class="series-nav" aria-label="Zero Trust for Microsoft 365 series">
+                        <p class="series-label">Zero Trust for Microsoft 365 &mdash; a 4-part series</p>
+                        <ol>
+                            <li><span class="series-part">Part 1</span> <a href="2026-07-19-zero-trust-m365-identity.html">Identity</a></li>
+                            <li class="current"><span class="series-part">Part 2</span> <span class="current-text">Devices &mdash; you are here</span></li>
+                            <li><span class="series-part">Part 3</span> <a href="2026-07-19-zero-trust-m365-apps.html">Apps</a></li>
+                            <li><span class="series-part">Part 4</span> <a href="2026-07-19-zero-trust-m365-data.html">Data</a></li>
+                            <li><span class="series-part">Overview</span> <a href="2025-10-24-getting-started-with-zero-trust.html">The four-pillar overview</a></li>
+                        </ol>
+                    </nav>
+
+                    <nav class="post-toc" aria-label="Table of contents">
+                        <h2>On this page</h2>
+                        <ol>
+                            <li><a href="#why-devices-matter">Why the Device Is a Signal, Not a Given</a></li>
+                            <li><a href="#what-secure-score-measures">What Secure Score Measures Here</a></li>
+                            <li><a href="#the-controls">The Controls That Matter</a></li>
+                            <li><a href="#implementation">How to Roll It Out</a></li>
+                            <li><a href="#common-mistakes">Common Mistakes</a></li>
+                        </ol>
+                    </nav>
+
+
+<h2 id="why-devices-matter">Why the Device Is a Signal, Not a Given</h2>
+<p>Identity answers &ldquo;who is this?&rdquo; The device pillar answers &ldquo;and can I trust the thing they are using?&rdquo; A perfectly authenticated user on a jailbroken phone or an unpatched laptop is still a risk. Zero Trust treats device health as a live signal in the access decision, not as something you assume once at enrolment.</p>
+<p>This is the pillar that makes Conditional Access more than a login prompt. When Intune reports a device as compliant, that state flows into the access decision &mdash; and a non-compliant device gets blocked or dropped to limited web-only access.</p>
+
+<h2 id="what-secure-score-measures">What Secure Score Measures Here</h2>
+<ul>
+    <li><strong>Devices enrolled and marked compliant</strong> in Intune.</li>
+    <li><strong>Disk encryption</strong> (BitLocker / FileVault) enforced.</li>
+    <li><strong>Defender for Endpoint onboarded</strong> and reporting.</li>
+    <li><strong>Security baselines deployed</strong> rather than default configurations.</li>
+    <li><strong>Conditional Access requiring a compliant or hybrid-joined device</strong> for access to Exchange, SharePoint, and Teams.</li>
+</ul>
+
+<h2 id="the-controls">The Controls That Matter</h2>
+<p><strong>Intune enrolment and compliance policies.</strong> The foundation. A compliance policy sets the bar &mdash; minimum OS version, encryption on, Defender active, no jailbreak &mdash; and Intune continuously evaluates it. Then you tie compliance to access. Start here; the whole pillar depends on it. If you are just standing this up, the <a href="2026-01-06-intune-enrollment-restrictions.html">Intune enrollment restrictions guide</a> is the right first control.</p>
+<p><strong>Windows Autopilot.</strong> Zero-touch provisioning. Ship a device straight to a user; they sign in and it self-configures with policies, apps, and baselines. No golden image, no manual build. See <a href="2026-03-27-windows-autopilot-end-the-setup-chaos.html">how Autopilot ends the setup chaos</a>.</p>
+<p><strong>Security baselines.</strong> Deploying Intune without applying a baseline is like fitting a door and leaving it open. Baselines are Microsoft's hardened, pre-built policy sets; apply them and tune from there rather than starting from defaults. This is also why the <a href="2026-02-25-the-golden-tenant-is-dead.html">golden tenant approach is dead</a> &mdash; configuration lives in policy, not in a hand-built image.</p>
+<p><strong>Defender for Endpoint.</strong> Endpoint detection and response &mdash; behavioural sensors, automated investigation, and a device risk score that can itself become a Conditional Access signal, so a high-risk device triggers step-up or block.</p>
+<p><strong>App protection policies (MAM) for BYOD.</strong> You do not need to own a personal phone to protect corporate data on it. App protection policies enforce encryption, PIN, and copy-paste limits at the app level, leaving the rest of the device alone. See <a href="2025-11-10-mobile-application-management-your-quarterback-for-mobile-security.html">mobile application management for BYOD</a>.</p>
+
+<h2 id="implementation">How to Roll It Out</h2>
+<p><strong>Phase one:</strong> Enrol corporate devices. Deploy compliance policies (encryption, OS floor, Defender on) and connect compliance to Conditional Access. Non-compliant devices lose access to corporate data.</p>
+<p><strong>Phase two:</strong> Stand up Autopilot for new devices and apply Intune security baselines. Roll out app protection policies for personal devices.</p>
+<p><strong>Phase three:</strong> Onboard everything to Defender for Endpoint, enable attack surface reduction rules, and use the device risk score as a Conditional Access signal.</p>
+
+<h2 id="common-mistakes">Common Mistakes</h2>
+<p><strong>Conditional Access without device compliance.</strong> A policy that requires MFA but accepts any device is trusting the device implicitly &mdash; the exact thing Zero Trust rejects. Compliance has to feed the gate.</p>
+<p><strong>Enrolling without a baseline.</strong> Managed and hardened are not the same thing. Apply the baseline.</p>
+<p><strong>Forcing full enrolment on personal phones.</strong> Users resist it and you take on liability you do not want. App protection policies get you the data protection without managing the device.</p>
+
+                    <section class="post-glossary">
+                    <h2 id="glossary">Glossary</h2>
+                    <dl>
+                        <dt>Intune</dt><dd>Microsoft's cloud endpoint management service for device compliance, configuration, and app protection across Windows, macOS, iOS, and Android.</dd>
+                        <dt>Compliance policy</dt><dd>An Intune rule set (encryption, OS version, Defender state, jailbreak check) that a device must meet; its result feeds Conditional Access.</dd>
+                        <dt>Windows Autopilot</dt><dd>Zero-touch provisioning that self-configures a new device with policies, apps, and baselines when the user first signs in.</dd>
+                        <dt>Security baseline</dt><dd>A pre-built, hardened Intune policy set based on Microsoft best practice, applied instead of default configuration.</dd>
+                        <dt>Defender for Endpoint</dt><dd>Endpoint detection and response &mdash; behavioural sensors, automated investigation, and a device risk score usable as a Conditional Access signal.</dd>
+                        <dt>MAM / App protection policy</dt><dd>Mobile Application Management &mdash; protects corporate data inside apps on unmanaged (BYOD) devices without enrolling the whole device.</dd>
+                    </dl>
+                    </section>
+
+                    <section class="faq">
+                    <h2 id="faq">Frequently Asked Questions</h2>
+                    <h3>How do devices fit into Zero Trust for Microsoft 365?</h3>
+                    <p>Device health becomes a signal in every access decision. Intune evaluates each device against a compliance policy, and that compliant/non-compliant state feeds into Conditional Access &mdash; so an unhealthy device is blocked before it reaches Exchange, SharePoint, or Teams.</p>
+                    <h3>Do I have to enrol personal (BYOD) phones to secure them?</h3>
+                    <p>No. App protection policies (Mobile Application Management) protect corporate data inside the apps &mdash; enforcing encryption, a PIN, and copy-paste limits &mdash; without managing the rest of the personal device.</p>
+                    <h3>Is deploying Intune enough?</h3>
+                    <p>Not on its own. Enrolling a device makes it managed, not hardened. Apply Intune security baselines, enforce encryption, onboard Defender for Endpoint, and connect compliance to Conditional Access to actually raise the bar.</p>
+                    </section>
+
+                </div>
+            </section>
+
+            <section class="author-bio">
+                <img src="../assets/images/cloudknox-author.webp" alt="Philipp Schmidt - Microsoft 365 Security Consultant - easyM365.de" class="author-avatar" loading="lazy">
+                <div class="author-info">
+                    <h3>Philipp Schmidt</h3>
+                    <p>IT consultant specializing in Microsoft 365, Security, and Zero Trust architecture. Helping SMBs build secure, scalable, and simple cloud solutions.</p>
+                    <p><strong>Zero Trust. Zero Drama. Zero Bullshit.</strong></p>
+                    <p><a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Learn more: https://easym365.de</a></p>
+                </div>
+            </section>
+        </article>
+        <div id="post-navigation"></div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2026 Philipp Schmidt. All rights reserved.</p>
+            <p>Secure. Scalable. Simple M365.</p>
+            <div class="footer-links">
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+                <a href="https://www.linkedin.com/in/pschmidt3010" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://github.com/farpoint-tech" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const menuToggle = document.getElementById("menu-toggle");
+        const nav = document.getElementById("nav");
+        menuToggle.addEventListener("click", () => { nav.classList.toggle("active"); });
+    </script>
+    <script src="../assets/js/post-navigation.js"></script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Zero Trust for Microsoft 365, Part 2: Securing Devices",
+  "description": "Devices are the second Zero Trust pillar for Microsoft 365. How Intune compliance, security baselines, Autopilot, and Defender for Endpoint turn every device into a policy enforcement point.",
+  "image": "https://endlesstech.blog/assets/images/zero-trust-m365-series/devices-hero.svg",
+  "author": {
+    "@type": "Person",
+    "name": "Philipp Schmidt",
+    "url": "https://easym365.de"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "EndlessTech Blog"
+  },
+  "datePublished": "2026-07-19",
+  "dateModified": "2026-07-19",
+  "isPartOf": {
+    "@type": "CreativeWorkSeries",
+    "name": "Zero Trust for Microsoft 365"
+  },
+  "mainEntityOfPage": "https://endlesstech.blog/posts/2026-07-19-zero-trust-m365-devices.html"
+}
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do devices fit into Zero Trust for Microsoft 365?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Device health becomes a signal in every access decision. Intune evaluates each device against a compliance policy, and that compliant/non-compliant state feeds into Conditional Access \u2014 so an unhealthy device is blocked before it reaches Exchange, SharePoint, or Teams."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I have to enrol personal (BYOD) phones to secure them?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. App protection policies (Mobile Application Management) protect corporate data inside the apps \u2014 enforcing encryption, a PIN, and copy-paste limits \u2014 without managing the rest of the personal device."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is deploying Intune enough?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Not on its own. Enrolling a device makes it managed, not hardened. Apply Intune security baselines, enforce encryption, onboard Defender for Endpoint, and connect compliance to Conditional Access to actually raise the bar."
+      }
+    }
+  ]
+}
+    </script>
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+    <meta name="robots" content="index,follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Identity is the first pillar of Zero Trust for Microsoft 365 and the highest-impact category in Secure Score. How to secure it with MFA, Conditional Access, passwordless, and PIM.">
+    <meta name="author" content="Philipp Schmidt">
+    <meta name="keywords" content="Zero Trust identity, Microsoft 365 identity security, Entra ID Conditional Access, MFA, phishing-resistant MFA, Privileged Identity Management, Identity Protection, Microsoft Secure Score identity">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Zero Trust for Microsoft 365, Part 1: Securing Identity">
+    <meta property="og:description" content="Identity is the first pillar of Zero Trust for Microsoft 365 and the highest-impact category in Secure Score. How to secure it with MFA, Conditional Access, passwordless, and PIM.">
+    <meta property="og:image" content="https://endlesstech.blog/assets/images/zero-trust-m365-series/identity-hero.svg">
+    <meta property="og:url" content="https://endlesstech.blog/posts/2026-07-19-zero-trust-m365-identity.html">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Zero Trust for Microsoft 365, Part 1: Securing Identity">
+    <meta name="twitter:description" content="Identity is the first pillar of Zero Trust for Microsoft 365 and the highest-impact category in Secure Score. How to secure it with MFA, Conditional Access, passwordless, and PIM.">
+    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/zero-trust-m365-series/identity-hero.svg">
+
+    <title>Zero Trust for Microsoft 365, Part 1: Securing Identity</title>
+
+    <link rel="alternate" type="application/rss+xml" title="EndlessTech Blog RSS Feed" href="https://endlesstech.blog/feed.xml">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/blog-post.css">
+
+    <link rel="canonical" href="https://endlesstech.blog/posts/2026-07-19-zero-trust-m365-identity.html" />
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/images/logo.webp" alt="Philipp Schmidt - Secure. Scalable. Simple M365.">
+            </a>
+            <nav class="nav" id="nav">
+                <a href="../index.html">Home</a>
+                <a href="../index.html#blog" class="active">Blog</a>
+                <a href="../about.html">About</a>
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+            </nav>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">&#9776;</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="post-full">
+            <header class="post-full-header">
+                <h1 class="post-full-title">Zero Trust for Microsoft 365, Part 1: Securing Identity</h1>
+                <div class="post-full-meta">
+                    <time datetime="2026-07-19">July 19, 2026</time> &bull; By Philipp Schmidt
+                </div>
+                <div class="post-tags">
+                    <span class="tag">Zero Trust</span>
+                    <span class="tag">Microsoft 365</span>
+                    <span class="tag">Identity</span>
+                    <span class="tag">Secure Score</span>
+                </div>
+            </header>
+
+            <figure class="post-full-image">
+                <img src="../assets/images/zero-trust-m365-series/identity-hero.svg" alt="The four Microsoft 365 Zero Trust pillars with Identity highlighted — a person and key icon — aligned to Microsoft Secure Score">
+            </figure>
+
+            <section class="post-full-content">
+                <div class="post-content">
+
+                    <div class="post-tldr">
+                        <h2>In short</h2>
+                        <p>Identity is where Zero Trust starts and where Secure Score gives you the most points. In Microsoft 365 you secure it with Entra ID: enforce MFA for everyone through Conditional Access, block legacy authentication, move privileged accounts to phishing-resistant sign-in and Privileged Identity Management, and let Identity Protection act on risky sign-ins. Get identity right and every other pillar has something solid to stand on.</p>
+                    </div>
+
+                    <nav class="series-nav" aria-label="Zero Trust for Microsoft 365 series">
+                        <p class="series-label">Zero Trust for Microsoft 365 &mdash; a 4-part series</p>
+                        <ol>
+                            <li class="current"><span class="series-part">Part 1</span> <span class="current-text">Identity &mdash; you are here</span></li>
+                            <li><span class="series-part">Part 2</span> <a href="2026-07-19-zero-trust-m365-devices.html">Devices</a></li>
+                            <li><span class="series-part">Part 3</span> <a href="2026-07-19-zero-trust-m365-apps.html">Apps</a></li>
+                            <li><span class="series-part">Part 4</span> <a href="2026-07-19-zero-trust-m365-data.html">Data</a></li>
+                            <li><span class="series-part">Overview</span> <a href="2025-10-24-getting-started-with-zero-trust.html">The four-pillar overview</a></li>
+                        </ol>
+                    </nav>
+
+                    <nav class="post-toc" aria-label="Table of contents">
+                        <h2>On this page</h2>
+                        <ol>
+                            <li><a href="#why-identity-is-first">Why Identity Is the First Pillar</a></li>
+                            <li><a href="#what-secure-score-measures">What Secure Score Measures Here</a></li>
+                            <li><a href="#the-controls">The Controls That Matter</a></li>
+                            <li><a href="#implementation">How to Roll It Out</a></li>
+                            <li><a href="#common-mistakes">Common Mistakes</a></li>
+                        </ol>
+                    </nav>
+
+
+<h2 id="why-identity-is-first">Why Identity Is the First Pillar</h2>
+<p>If an attacker owns a valid identity, every control downstream has to compensate for it. That is why identity is the first pillar of Zero Trust for Microsoft 365, and it is no accident that the <strong>Identity category holds the highest-impact actions in Microsoft Secure Score</strong>. Turn on multi-factor authentication for all users and your score jumps more than almost anything else you can do in an afternoon.</p>
+<p>Identity is also the pillar that decides everything else. Conditional Access is the gate; device health, app, and data controls are signals and consequences that hang off it. So this is where you start &mdash; not with a firewall, not with a new tool, but with who is allowed in and under what conditions.</p>
+
+<h2 id="what-secure-score-measures">What Secure Score Measures Here</h2>
+<p>The Identity improvement actions in Secure Score are a useful checklist because they map to real attacker behaviour. The ones worth chasing first:</p>
+<ul>
+    <li><strong>Require MFA for all users and for administrators</strong> &mdash; separate actions; do both.</li>
+    <li><strong>Block legacy authentication</strong> &mdash; IMAP, POP3, and SMTP AUTH cannot enforce MFA and are the favourite entry point for password spraying.</li>
+    <li><strong>Ensure all users can complete MFA registration</strong> and enable combined security information registration.</li>
+    <li><strong>Enable a user-risk and sign-in-risk policy</strong> (Identity Protection).</li>
+    <li><strong>Do not allow users to grant consent to unmanaged apps</strong> &mdash; this bleeds into the Apps pillar, but it starts at identity.</li>
+</ul>
+
+<h2 id="the-controls">The Controls That Matter</h2>
+<p><strong>Multi-factor authentication.</strong> The single highest-value control in Microsoft 365. Enforce it through Conditional Access rather than per-user settings so it applies by policy and reports cleanly. Start with administrators, then all users, within the same week.</p>
+<p><strong>Conditional Access.</strong> This is the policy engine that makes Zero Trust real. It weighs signals &mdash; who, which device, what location, what risk level &mdash; and enforces a decision: allow, block, require MFA, or require a compliant device. Everything else in this series feeds signals into it. For the deeper picture of what the platform costs, see the <a href="2026-06-09-is-microsoft-entra-id-free-pricing-guide.html">Entra ID pricing guide</a>.</p>
+<p><strong>Phishing-resistant, passwordless sign-in.</strong> Ordinary MFA stops password reuse, but not modern adversary-in-the-middle phishing that steals the session token. Windows Hello for Business, FIDO2 keys, and passkeys remove the password as an attack surface entirely. Roll them out to admins and executives first.</p>
+<p><strong>Privileged Identity Management (PIM).</strong> Standing Global Admin rights are a liability. PIM makes privileged roles just-in-time: a user activates the role for a bounded window, with approval, MFA, and a justification. Nothing is permanently elevated.</p>
+<p><strong>Identity Protection.</strong> With Entra ID P2, machine-learning risk detection classifies sign-ins and users as low, medium, or high risk and feeds that straight into Conditional Access &mdash; require MFA at medium risk, block at high.</p>
+
+<h2 id="implementation">How to Roll It Out</h2>
+<p><strong>Day one:</strong> Conditional Access requiring MFA for all users; block legacy authentication. These two changes remove the most common attack path and cost nothing but coordination.</p>
+<p><strong>Weeks two to four:</strong> Named-location policies, combined registration, and MFA for guests. Begin the passwordless rollout with IT and leadership.</p>
+<p><strong>Month two onward:</strong> Turn on Identity Protection risk policies. Move every administrative role into PIM. Expand phishing-resistant sign-in company-wide.</p>
+
+<h2 id="common-mistakes">Common Mistakes</h2>
+<p><strong>Treating MFA as the finish line.</strong> It is step one. Token theft and MFA-fatigue attacks walk straight past basic MFA; phishing-resistant methods and token protection are the answer.</p>
+<p><strong>Leaving standing admin rights.</strong> A permanently-elevated Global Admin is one phish away from a tenant takeover. PIM is not optional at any real size.</p>
+<p><strong>Skipping legacy-auth blocking &ldquo;because something might break.&rdquo;</strong> Run the sign-in logs in report-only first, find the three service accounts still using it, fix them, then enforce.</p>
+
+                    <section class="post-glossary">
+                    <h2 id="glossary">Glossary</h2>
+                    <dl>
+                        <dt>Entra ID</dt><dd>Microsoft's cloud identity and access management service (formerly Azure AD) &mdash; the identity provider behind Microsoft 365.</dd>
+                        <dt>Conditional Access</dt><dd>The Entra ID policy engine that enforces an access decision (allow, block, require MFA, require compliant device) from real-time signals.</dd>
+                        <dt>Phishing-resistant MFA</dt><dd>Authentication that cannot be relayed by an adversary-in-the-middle &mdash; FIDO2 security keys, Windows Hello for Business, and passkeys.</dd>
+                        <dt>PIM (Privileged Identity Management)</dt><dd>Just-in-time activation of privileged roles with approval, MFA, and justification, so no role is permanently elevated.</dd>
+                        <dt>Identity Protection</dt><dd>Entra ID P2 machine-learning risk detection for users and sign-ins that feeds risk signals into Conditional Access.</dd>
+                        <dt>Secure Score</dt><dd>Microsoft's measurement of your security posture, grouped into Identity, Devices, Apps, and Data improvement actions.</dd>
+                    </dl>
+                    </section>
+
+                    <section class="faq">
+                    <h2 id="faq">Frequently Asked Questions</h2>
+                    <h3>Which identity control should I enable first in Microsoft 365?</h3>
+                    <p>Enforce multi-factor authentication for all users through a Conditional Access policy, and block legacy authentication. These two changes remove the most common attack path &mdash; password-based sign-ins that bypass MFA &mdash; and cost nothing but a little coordination.</p>
+                    <h3>Does securing identity require Microsoft 365 E5?</h3>
+                    <p>No. MFA and Conditional Access come with Entra ID P1, which is included in Microsoft 365 Business Premium and E3. E5 (Entra ID P2) adds risk-based Identity Protection and Privileged Identity Management, but the foundation is available well below E5.</p>
+                    <h3>Is MFA enough to secure identity?</h3>
+                    <p>No. MFA stops password reuse but not token theft or adversary-in-the-middle phishing. Add phishing-resistant methods (FIDO2, Windows Hello), Conditional Access, and Privileged Identity Management to cover the gaps.</p>
+                    </section>
+
+                </div>
+            </section>
+
+            <section class="author-bio">
+                <img src="../assets/images/cloudknox-author.webp" alt="Philipp Schmidt - Microsoft 365 Security Consultant - easyM365.de" class="author-avatar" loading="lazy">
+                <div class="author-info">
+                    <h3>Philipp Schmidt</h3>
+                    <p>IT consultant specializing in Microsoft 365, Security, and Zero Trust architecture. Helping SMBs build secure, scalable, and simple cloud solutions.</p>
+                    <p><strong>Zero Trust. Zero Drama. Zero Bullshit.</strong></p>
+                    <p><a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Learn more: https://easym365.de</a></p>
+                </div>
+            </section>
+        </article>
+        <div id="post-navigation"></div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2026 Philipp Schmidt. All rights reserved.</p>
+            <p>Secure. Scalable. Simple M365.</p>
+            <div class="footer-links">
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+                <a href="https://www.linkedin.com/in/pschmidt3010" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://github.com/farpoint-tech" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const menuToggle = document.getElementById("menu-toggle");
+        const nav = document.getElementById("nav");
+        menuToggle.addEventListener("click", () => { nav.classList.toggle("active"); });
+    </script>
+    <script src="../assets/js/post-navigation.js"></script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Zero Trust for Microsoft 365, Part 1: Securing Identity",
+  "description": "Identity is the first pillar of Zero Trust for Microsoft 365 and the highest-impact category in Secure Score. How to secure it with MFA, Conditional Access, passwordless, and PIM.",
+  "image": "https://endlesstech.blog/assets/images/zero-trust-m365-series/identity-hero.svg",
+  "author": {
+    "@type": "Person",
+    "name": "Philipp Schmidt",
+    "url": "https://easym365.de"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "EndlessTech Blog"
+  },
+  "datePublished": "2026-07-19",
+  "dateModified": "2026-07-19",
+  "isPartOf": {
+    "@type": "CreativeWorkSeries",
+    "name": "Zero Trust for Microsoft 365"
+  },
+  "mainEntityOfPage": "https://endlesstech.blog/posts/2026-07-19-zero-trust-m365-identity.html"
+}
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Which identity control should I enable first in Microsoft 365?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Enforce multi-factor authentication for all users through a Conditional Access policy, and block legacy authentication. These two changes remove the most common attack path \u2014 password-based sign-ins that bypass MFA \u2014 and cost nothing but a little coordination."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does securing identity require Microsoft 365 E5?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. MFA and Conditional Access come with Entra ID P1, which is included in Microsoft 365 Business Premium and E3. E5 (Entra ID P2) adds risk-based Identity Protection and Privileged Identity Management, but the foundation is available well below E5."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is MFA enough to secure identity?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. MFA stops password reuse but not token theft or adversary-in-the-middle phishing. Add phishing-resistant methods (FIDO2, Windows Hello), Conditional Access, and Privileged Identity Management to cover the gaps."
+      }
+    }
+  ]
+}
+    </script>
+</body>
+</html>

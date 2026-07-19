@@ -420,3 +420,41 @@
 }
 /* offset anchor jumps so headings aren't hidden under the sticky header */
 .post-content h2[id] { scroll-margin-top: 90px; }
+
+/* ==================== Zero Trust Series Navigation ==================== */
+.series-nav {
+    background: linear-gradient(135deg, var(--color-navy, #002863), var(--color-primary, #1D4ED8));
+    color: #fff;
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    margin: 0 0 2.5rem;
+}
+.series-nav .series-label {
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.8rem;
+    font-weight: 700;
+    opacity: 0.85;
+    margin: 0 0 0.75rem;
+}
+.series-nav ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.5rem;
+}
+.series-nav li { display: flex; align-items: baseline; gap: 0.6rem; }
+.series-nav .series-part {
+    flex: 0 0 auto;
+    font-size: 0.75rem;
+    font-weight: 700;
+    background: rgba(255,255,255,0.15);
+    border-radius: 999px;
+    padding: 0.1rem 0.6rem;
+}
+.series-nav a { color: #fff; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.4); }
+.series-nav a:hover { color: var(--color-accent, #ECC23B); border-color: var(--color-accent, #ECC23B); }
+.series-nav li.current { font-weight: 700; }
+.series-nav li.current .series-part { background: var(--color-accent, #ECC23B); color: var(--color-navy, #002863); }
+.series-nav li.current span.current-text { color: var(--color-accent, #ECC23B); }

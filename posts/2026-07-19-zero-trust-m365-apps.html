@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+    <meta name="robots" content="index,follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Apps are the third Zero Trust pillar for Microsoft 365. How Defender for Cloud Apps, OAuth governance, and Conditional Access App Control bring shadow IT and SaaS under control.">
+    <meta name="author" content="Philipp Schmidt">
+    <meta name="keywords" content="Zero Trust apps, Defender for Cloud Apps, CASB, shadow IT discovery, OAuth app governance, Conditional Access App Control, SaaS security Microsoft 365, Secure Score apps">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Zero Trust for Microsoft 365, Part 3: Securing Apps">
+    <meta property="og:description" content="Apps are the third Zero Trust pillar for Microsoft 365. How Defender for Cloud Apps, OAuth governance, and Conditional Access App Control bring shadow IT and SaaS under control.">
+    <meta property="og:image" content="https://endlesstech.blog/assets/images/zero-trust-m365-series/apps-hero.svg">
+    <meta property="og:url" content="https://endlesstech.blog/posts/2026-07-19-zero-trust-m365-apps.html">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Zero Trust for Microsoft 365, Part 3: Securing Apps">
+    <meta name="twitter:description" content="Apps are the third Zero Trust pillar for Microsoft 365. How Defender for Cloud Apps, OAuth governance, and Conditional Access App Control bring shadow IT and SaaS under control.">
+    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/zero-trust-m365-series/apps-hero.svg">
+
+    <title>Zero Trust for Microsoft 365, Part 3: Securing Apps</title>
+
+    <link rel="alternate" type="application/rss+xml" title="EndlessTech Blog RSS Feed" href="https://endlesstech.blog/feed.xml">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/blog-post.css">
+
+    <link rel="canonical" href="https://endlesstech.blog/posts/2026-07-19-zero-trust-m365-apps.html" />
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/images/logo.webp" alt="Philipp Schmidt - Secure. Scalable. Simple M365.">
+            </a>
+            <nav class="nav" id="nav">
+                <a href="../index.html">Home</a>
+                <a href="../index.html#blog" class="active">Blog</a>
+                <a href="../about.html">About</a>
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+            </nav>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">&#9776;</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="post-full">
+            <header class="post-full-header">
+                <h1 class="post-full-title">Zero Trust for Microsoft 365, Part 3: Securing Apps</h1>
+                <div class="post-full-meta">
+                    <time datetime="2026-07-19">July 19, 2026</time> &bull; By Philipp Schmidt
+                </div>
+                <div class="post-tags">
+                    <span class="tag">Zero Trust</span>
+                    <span class="tag">Microsoft 365</span>
+                    <span class="tag">Apps</span>
+                    <span class="tag">Secure Score</span>
+                </div>
+            </header>
+
+            <figure class="post-full-image">
+                <img src="../assets/images/zero-trust-m365-series/apps-hero.svg" alt="The four Microsoft 365 Zero Trust pillars with Apps highlighted — a grid of app tiles — aligned to Microsoft Secure Score">
+            </figure>
+
+            <section class="post-full-content">
+                <div class="post-content">
+
+                    <div class="post-tldr">
+                        <h2>In short</h2>
+                        <p>Users sign up for SaaS tools, authorise OAuth connections, and pipe data into apps IT has never heard of. The Apps pillar brings that sprawl under control. In Microsoft 365 the tool is Defender for Cloud Apps: discover shadow IT, sanction or block apps, govern the OAuth grants that quietly hold access to your tenant, and use Conditional Access App Control to police what happens inside a session.</p>
+                    </div>
+
+                    <nav class="series-nav" aria-label="Zero Trust for Microsoft 365 series">
+                        <p class="series-label">Zero Trust for Microsoft 365 &mdash; a 4-part series</p>
+                        <ol>
+                            <li><span class="series-part">Part 1</span> <a href="2026-07-19-zero-trust-m365-identity.html">Identity</a></li>
+                            <li><span class="series-part">Part 2</span> <a href="2026-07-19-zero-trust-m365-devices.html">Devices</a></li>
+                            <li class="current"><span class="series-part">Part 3</span> <span class="current-text">Apps &mdash; you are here</span></li>
+                            <li><span class="series-part">Part 4</span> <a href="2026-07-19-zero-trust-m365-data.html">Data</a></li>
+                            <li><span class="series-part">Overview</span> <a href="2025-10-24-getting-started-with-zero-trust.html">The four-pillar overview</a></li>
+                        </ol>
+                    </nav>
+
+                    <nav class="post-toc" aria-label="Table of contents">
+                        <h2>On this page</h2>
+                        <ol>
+                            <li><a href="#why-apps-matter">The Pillar Nobody Watches</a></li>
+                            <li><a href="#what-secure-score-measures">What Secure Score Measures Here</a></li>
+                            <li><a href="#the-controls">The Controls That Matter</a></li>
+                            <li><a href="#implementation">How to Roll It Out</a></li>
+                            <li><a href="#common-mistakes">Common Mistakes</a></li>
+                        </ol>
+                    </nav>
+
+
+<h2 id="why-apps-matter">The Pillar Nobody Watches</h2>
+<p>Identity and devices get attention because they are obvious. Apps are where the quiet risk lives. A user connects a third-party tool with their work account, clicks &ldquo;accept&rdquo; on an OAuth consent screen, and now an app you never approved holds a token that can read mail or files &mdash; no password, no device, no further prompt. Multiply that across a few hundred users and you have an attack surface nobody is looking at.</p>
+<p>The Apps pillar is about visibility first and control second: know what is connected, decide what is allowed, and govern what sanctioned apps can actually do.</p>
+
+<h2 id="what-secure-score-measures">What Secure Score Measures Here</h2>
+<ul>
+    <li><strong>Cloud app discovery enabled</strong> so shadow IT is visible.</li>
+    <li><strong>User consent to apps restricted</strong> to verified publishers or an admin-consent workflow.</li>
+    <li><strong>Risky OAuth apps reviewed and revoked.</strong></li>
+    <li><strong>Conditional Access session controls</strong> applied to sensitive apps.</li>
+</ul>
+
+<h2 id="the-controls">The Controls That Matter</h2>
+<p><strong>Defender for Cloud Apps (the CASB).</strong> This is the core of the pillar. It discovers shadow IT by analysing traffic &mdash; often straight from the Defender for Endpoint agent, no log upload needed &mdash; and scores thousands of apps, including a growing catalogue of generative-AI tools. From there you sanction, monitor, or block.</p>
+<p><strong>OAuth and enterprise app governance.</strong> The consent screen is the new phishing lure. Restrict user consent to verified publishers, require admin consent for anything broader, and review existing grants &mdash; revoke the over-permissioned and the unrecognised. This starts in the Identity pillar and pays off here.</p>
+<p><strong>Conditional Access App Control.</strong> Session-level enforcement that proxies traffic through Defender for Cloud Apps. Block download of a labelled document to an unmanaged browser, prevent copy-paste, watermark what is viewed in-session &mdash; real-time control over what a sanctioned app is allowed to do.</p>
+<p><strong>App protection for the data inside apps.</strong> The Devices pillar's app protection policies matter here too: they keep corporate data from leaking out of sanctioned mobile apps into personal ones.</p>
+
+<h2 id="implementation">How to Roll It Out</h2>
+<p><strong>Phase one:</strong> Enable Defender for Cloud Apps discovery. Review the app inventory, sanction the known-good, block the clearly-risky.</p>
+<p><strong>Phase two:</strong> Lock down OAuth consent. Require admin consent for third-party apps, review and prune existing grants, and turn on anomaly detection for OAuth apps.</p>
+<p><strong>Phase three:</strong> Deploy Conditional Access App Control for your most sensitive SaaS. Route those sessions through the reverse proxy and apply real-time download and copy controls.</p>
+
+<h2 id="common-mistakes">Common Mistakes</h2>
+<p><strong>Assuming you have no shadow IT.</strong> Every tenant does. The only question is whether you can see it. Turn on discovery before you claim otherwise.</p>
+<p><strong>Leaving user consent wide open.</strong> Default consent settings let any user grant a third-party app access to their data. Restrict it &mdash; this is one of the cheapest, highest-value changes in the whole model.</p>
+<p><strong>Enabling Copilot and other AI apps blind.</strong> Generative-AI tools are apps too. Know which ones your users are feeding data into before it becomes an incident.</p>
+
+                    <section class="post-glossary">
+                    <h2 id="glossary">Glossary</h2>
+                    <dl>
+                        <dt>Defender for Cloud Apps (CASB)</dt><dd>A Cloud Access Security Broker that discovers shadow IT, scores SaaS apps, and lets you sanction, monitor, or block them.</dd>
+                        <dt>Shadow IT</dt><dd>SaaS applications in use across the organisation that IT never approved or, often, ever knew about.</dd>
+                        <dt>OAuth consent</dt><dd>The screen where a user grants a third-party app token-based access to their Microsoft 365 data &mdash; a common, password-free attack vector when left unrestricted.</dd>
+                        <dt>Conditional Access App Control</dt><dd>Session-level enforcement that proxies app traffic through Defender for Cloud Apps to block downloads, copy-paste, or apply watermarks in real time.</dd>
+                        <dt>Enterprise app governance</dt><dd>Reviewing and controlling which third-party applications hold permissions against your tenant, and revoking the over-permissioned ones.</dd>
+                    </dl>
+                    </section>
+
+                    <section class="faq">
+                    <h2 id="faq">Frequently Asked Questions</h2>
+                    <h3>What is the Apps pillar in Zero Trust for Microsoft 365?</h3>
+                    <p>It is about seeing and controlling the SaaS applications and OAuth connections in your tenant &mdash; the shadow IT and third-party grants that identity and device controls do not cover. Defender for Cloud Apps is the primary tool for discovery, sanctioning, and session control.</p>
+                    <h3>Why is OAuth consent a security risk?</h3>
+                    <p>When a user accepts an OAuth consent screen, a third-party app receives a token that can read mail or files without a password or device check. Left unrestricted, a malicious app can phish that consent and hold quiet, persistent access. Restricting consent to verified publishers closes the gap.</p>
+                    <h3>Do I need E5 for the Apps pillar?</h3>
+                    <p>Basic OAuth consent restrictions and enterprise app governance come with Entra ID P1. The full Defender for Cloud Apps CASB &mdash; discovery, session control, and anomaly detection &mdash; requires E5 or a standalone Defender for Cloud Apps licence.</p>
+                    </section>
+
+                </div>
+            </section>
+
+            <section class="author-bio">
+                <img src="../assets/images/cloudknox-author.webp" alt="Philipp Schmidt - Microsoft 365 Security Consultant - easyM365.de" class="author-avatar" loading="lazy">
+                <div class="author-info">
+                    <h3>Philipp Schmidt</h3>
+                    <p>IT consultant specializing in Microsoft 365, Security, and Zero Trust architecture. Helping SMBs build secure, scalable, and simple cloud solutions.</p>
+                    <p><strong>Zero Trust. Zero Drama. Zero Bullshit.</strong></p>
+                    <p><a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Learn more: https://easym365.de</a></p>
+                </div>
+            </section>
+        </article>
+        <div id="post-navigation"></div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2026 Philipp Schmidt. All rights reserved.</p>
+            <p>Secure. Scalable. Simple M365.</p>
+            <div class="footer-links">
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+                <a href="https://www.linkedin.com/in/pschmidt3010" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://github.com/farpoint-tech" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const menuToggle = document.getElementById("menu-toggle");
+        const nav = document.getElementById("nav");
+        menuToggle.addEventListener("click", () => { nav.classList.toggle("active"); });
+    </script>
+    <script src="../assets/js/post-navigation.js"></script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Zero Trust for Microsoft 365, Part 3: Securing Apps",
+  "description": "Apps are the third Zero Trust pillar for Microsoft 365. How Defender for Cloud Apps, OAuth governance, and Conditional Access App Control bring shadow IT and SaaS under control.",
+  "image": "https://endlesstech.blog/assets/images/zero-trust-m365-series/apps-hero.svg",
+  "author": {
+    "@type": "Person",
+    "name": "Philipp Schmidt",
+    "url": "https://easym365.de"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "EndlessTech Blog"
+  },
+  "datePublished": "2026-07-19",
+  "dateModified": "2026-07-19",
+  "isPartOf": {
+    "@type": "CreativeWorkSeries",
+    "name": "Zero Trust for Microsoft 365"
+  },
+  "mainEntityOfPage": "https://endlesstech.blog/posts/2026-07-19-zero-trust-m365-apps.html"
+}
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the Apps pillar in Zero Trust for Microsoft 365?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It is about seeing and controlling the SaaS applications and OAuth connections in your tenant \u2014 the shadow IT and third-party grants that identity and device controls do not cover. Defender for Cloud Apps is the primary tool for discovery, sanctioning, and session control."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why is OAuth consent a security risk?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "When a user accepts an OAuth consent screen, a third-party app receives a token that can read mail or files without a password or device check. Left unrestricted, a malicious app can phish that consent and hold quiet, persistent access. Restricting consent to verified publishers closes the gap."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need E5 for the Apps pillar?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Basic OAuth consent restrictions and enterprise app governance come with Entra ID P1. The full Defender for Cloud Apps CASB \u2014 discovery, session control, and anomaly detection \u2014 requires E5 or a standalone Defender for Cloud Apps licence."
+      }
+    }
+  ]
+}
+    </script>
+</body>
+</html>

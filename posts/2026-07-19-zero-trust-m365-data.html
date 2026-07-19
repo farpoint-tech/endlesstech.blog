@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+    <meta name="robots" content="index,follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Data is the fourth Zero Trust pillar for Microsoft 365 and the one the other three exist to protect. How Purview sensitivity labels, DLP, and auto-labeling keep data protected wherever it moves.">
+    <meta name="author" content="Philipp Schmidt">
+    <meta name="keywords" content="Zero Trust data, Microsoft Purview, sensitivity labels, Data Loss Prevention, DLP, auto-labeling, DSPM for AI, Copilot data security, Secure Score data">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Zero Trust for Microsoft 365, Part 4: Securing Data">
+    <meta property="og:description" content="Data is the fourth Zero Trust pillar for Microsoft 365 and the one the other three exist to protect. How Purview sensitivity labels, DLP, and auto-labeling keep data protected wherever it moves.">
+    <meta property="og:image" content="https://endlesstech.blog/assets/images/zero-trust-m365-series/data-hero.svg">
+    <meta property="og:url" content="https://endlesstech.blog/posts/2026-07-19-zero-trust-m365-data.html">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Zero Trust for Microsoft 365, Part 4: Securing Data">
+    <meta name="twitter:description" content="Data is the fourth Zero Trust pillar for Microsoft 365 and the one the other three exist to protect. How Purview sensitivity labels, DLP, and auto-labeling keep data protected wherever it moves.">
+    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/zero-trust-m365-series/data-hero.svg">
+
+    <title>Zero Trust for Microsoft 365, Part 4: Securing Data</title>
+
+    <link rel="alternate" type="application/rss+xml" title="EndlessTech Blog RSS Feed" href="https://endlesstech.blog/feed.xml">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/blog-post.css">
+
+    <link rel="canonical" href="https://endlesstech.blog/posts/2026-07-19-zero-trust-m365-data.html" />
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/images/logo.webp" alt="Philipp Schmidt - Secure. Scalable. Simple M365.">
+            </a>
+            <nav class="nav" id="nav">
+                <a href="../index.html">Home</a>
+                <a href="../index.html#blog" class="active">Blog</a>
+                <a href="../about.html">About</a>
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+            </nav>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">&#9776;</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="post-full">
+            <header class="post-full-header">
+                <h1 class="post-full-title">Zero Trust for Microsoft 365, Part 4: Securing Data</h1>
+                <div class="post-full-meta">
+                    <time datetime="2026-07-19">July 19, 2026</time> &bull; By Philipp Schmidt
+                </div>
+                <div class="post-tags">
+                    <span class="tag">Zero Trust</span>
+                    <span class="tag">Microsoft 365</span>
+                    <span class="tag">Data</span>
+                    <span class="tag">Secure Score</span>
+                </div>
+            </header>
+
+            <figure class="post-full-image">
+                <img src="../assets/images/zero-trust-m365-series/data-hero.svg" alt="The four Microsoft 365 Zero Trust pillars with Data highlighted — a database and lock icon — aligned to Microsoft Secure Score">
+            </figure>
+
+            <section class="post-full-content">
+                <div class="post-content">
+
+                    <div class="post-tldr">
+                        <h2>In short</h2>
+                        <p>Data is what attackers are after &mdash; the other three pillars exist to protect it. Zero Trust for data means protection travels with the file, wherever it goes: into email, onto a USB drive, into a third-party app, into an AI prompt. In Microsoft 365 that is Purview: sensitivity labels that carry encryption and access rules, DLP that stops sensitive content leaving, and DSPM for AI that watches what Copilot can reach.</p>
+                    </div>
+
+                    <nav class="series-nav" aria-label="Zero Trust for Microsoft 365 series">
+                        <p class="series-label">Zero Trust for Microsoft 365 &mdash; a 4-part series</p>
+                        <ol>
+                            <li><span class="series-part">Part 1</span> <a href="2026-07-19-zero-trust-m365-identity.html">Identity</a></li>
+                            <li><span class="series-part">Part 2</span> <a href="2026-07-19-zero-trust-m365-devices.html">Devices</a></li>
+                            <li><span class="series-part">Part 3</span> <a href="2026-07-19-zero-trust-m365-apps.html">Apps</a></li>
+                            <li class="current"><span class="series-part">Part 4</span> <span class="current-text">Data &mdash; you are here</span></li>
+                            <li><span class="series-part">Overview</span> <a href="2025-10-24-getting-started-with-zero-trust.html">The four-pillar overview</a></li>
+                        </ol>
+                    </nav>
+
+                    <nav class="post-toc" aria-label="Table of contents">
+                        <h2>On this page</h2>
+                        <ol>
+                            <li><a href="#why-data-is-the-objective">The Pillar Everything Else Protects</a></li>
+                            <li><a href="#what-secure-score-measures">What Secure Score Measures Here</a></li>
+                            <li><a href="#the-controls">The Controls That Matter</a></li>
+                            <li><a href="#implementation">How to Roll It Out</a></li>
+                            <li><a href="#common-mistakes">Common Mistakes</a></li>
+                        </ol>
+                    </nav>
+
+
+<h2 id="why-data-is-the-objective">The Pillar Everything Else Protects</h2>
+<p>Identity, devices, and apps are all means to an end. Data is the end. A breach is only a breach because data left. So the data pillar asks a different question from the others: not &ldquo;who gets in?&rdquo; but &ldquo;what happens to this file once it is out of my sight?&rdquo;</p>
+<p>The answer in Microsoft 365 is to make protection part of the data itself. A sensitivity label is not a folder permission &mdash; it travels with the document into email, into downloads, into other tenants, and enforces encryption and access rules wherever the file lands.</p>
+
+<h2 id="what-secure-score-measures">What Secure Score Measures Here</h2>
+<ul>
+    <li><strong>Sensitivity labels published and applied.</strong></li>
+    <li><strong>Data Loss Prevention policies</strong> covering the high-risk data types.</li>
+    <li><strong>Auto-labeling</strong> for data at rest and in transit.</li>
+    <li><strong>Oversharing controls</strong> ahead of Copilot rollout.</li>
+</ul>
+
+<h2 id="the-controls">The Controls That Matter</h2>
+<p><strong>Sensitivity labels (Purview Information Protection).</strong> A simple taxonomy &mdash; Public, Internal, Confidential, Highly Confidential &mdash; that applies encryption, watermarks, and access restrictions and persists across Office apps, SharePoint, Teams, and email. Start with manual labelling to build awareness, then automate.</p>
+<p><strong>Data Loss Prevention (DLP).</strong> Policy-based controls that detect and block sensitive content &mdash; card numbers, health records, custom patterns &mdash; leaving via email, Teams, SharePoint, or the endpoint. Run in audit mode first, review two weeks of alerts, then enforce.</p>
+<p><strong>Auto-labeling and trainable classifiers.</strong> Once the taxonomy holds, let service-side and client-side auto-labeling apply labels at scale, so protection does not depend on every user remembering to click.</p>
+<p><strong>DSPM for AI.</strong> If Copilot is in the tenant, Data Security Posture Management for AI shows where sensitive data meets AI workloads and surfaces the gaps before they become leaks. This is where the data pillar and Copilot readiness meet &mdash; and why you <a href="2026-04-17-sharepoint-permission-auditing-copilot.html">audit SharePoint permissions before enabling Copilot</a>. Oversharing plus AI equals data leakage at scale.</p>
+
+<h2 id="implementation">How to Roll It Out</h2>
+<p><strong>Phase one:</strong> Define and publish a small sensitivity-label taxonomy. Train users to apply it manually &mdash; adoption builds the awareness that automation later relies on.</p>
+<p><strong>Phase two:</strong> Create DLP policies for your highest-risk data. Start in audit mode, review, then switch to enforce.</p>
+<p><strong>Phase three:</strong> Turn on auto-labeling and endpoint DLP. If Copilot is deployed, enable DSPM for AI and close the oversharing gaps first.</p>
+
+<h2 id="common-mistakes">Common Mistakes</h2>
+<p><strong>Enabling Copilot before auditing permissions.</strong> Copilot surfaces whatever a user can already reach. If SharePoint is overshared, Copilot turns that into instant, searchable exposure. Fix permissions and labels first.</p>
+<p><strong>Building a label taxonomy nobody understands.</strong> Twelve labels with sub-labels and no guidance get ignored. Four clear ones get used.</p>
+<p><strong>Going straight to enforce on DLP.</strong> You will block legitimate work and lose the room. Audit, review, communicate, then enforce.</p>
+
+                    <section class="post-glossary">
+                    <h2 id="glossary">Glossary</h2>
+                    <dl>
+                        <dt>Microsoft Purview</dt><dd>Microsoft's data governance and compliance platform &mdash; sensitivity labels, Data Loss Prevention, and retention.</dd>
+                        <dt>Sensitivity label</dt><dd>A classification that travels with a document or email and applies encryption, watermarks, and access rules wherever the file goes.</dd>
+                        <dt>Data Loss Prevention (DLP)</dt><dd>Policy-based detection and blocking of sensitive content leaving via email, Teams, SharePoint, or the endpoint.</dd>
+                        <dt>Auto-labeling</dt><dd>Automatic application of sensitivity labels to data at rest and in transit using trainable classifiers, rather than relying on manual tagging.</dd>
+                        <dt>DSPM for AI</dt><dd>Data Security Posture Management for AI &mdash; monitors how sensitive data interacts with Copilot and other AI tools and surfaces coverage gaps.</dd>
+                    </dl>
+                    </section>
+
+                    <section class="faq">
+                    <h2 id="faq">Frequently Asked Questions</h2>
+                    <h3>What does the Data pillar cover in Zero Trust for Microsoft 365?</h3>
+                    <p>Protecting the data itself so it stays protected wherever it moves. In Microsoft 365 that means Purview sensitivity labels (which carry encryption and access rules with the file), Data Loss Prevention, and auto-labeling &mdash; plus DSPM for AI when Copilot is in play.</p>
+                    <h3>How do sensitivity labels differ from SharePoint permissions?</h3>
+                    <p>Permissions control access to a location; a sensitivity label travels with the file. Once labelled, a document keeps its encryption and access rules even after it is downloaded, emailed, or moved to another tenant &mdash; which permissions alone cannot do.</p>
+                    <h3>What should I do about data security before enabling Copilot?</h3>
+                    <p>Audit SharePoint and OneDrive permissions for oversharing, publish and apply sensitivity labels to your sensitive content, and enable DSPM for AI. Copilot exposes whatever a user can already reach, so unmanaged oversharing becomes instant, searchable exposure.</p>
+                    </section>
+
+                </div>
+            </section>
+
+            <section class="author-bio">
+                <img src="../assets/images/cloudknox-author.webp" alt="Philipp Schmidt - Microsoft 365 Security Consultant - easyM365.de" class="author-avatar" loading="lazy">
+                <div class="author-info">
+                    <h3>Philipp Schmidt</h3>
+                    <p>IT consultant specializing in Microsoft 365, Security, and Zero Trust architecture. Helping SMBs build secure, scalable, and simple cloud solutions.</p>
+                    <p><strong>Zero Trust. Zero Drama. Zero Bullshit.</strong></p>
+                    <p><a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Learn more: https://easym365.de</a></p>
+                </div>
+            </section>
+        </article>
+        <div id="post-navigation"></div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2026 Philipp Schmidt. All rights reserved.</p>
+            <p>Secure. Scalable. Simple M365.</p>
+            <div class="footer-links">
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+                <a href="https://www.linkedin.com/in/pschmidt3010" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://github.com/farpoint-tech" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const menuToggle = document.getElementById("menu-toggle");
+        const nav = document.getElementById("nav");
+        menuToggle.addEventListener("click", () => { nav.classList.toggle("active"); });
+    </script>
+    <script src="../assets/js/post-navigation.js"></script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Zero Trust for Microsoft 365, Part 4: Securing Data",
+  "description": "Data is the fourth Zero Trust pillar for Microsoft 365 and the one the other three exist to protect. How Purview sensitivity labels, DLP, and auto-labeling keep data protected wherever it moves.",
+  "image": "https://endlesstech.blog/assets/images/zero-trust-m365-series/data-hero.svg",
+  "author": {
+    "@type": "Person",
+    "name": "Philipp Schmidt",
+    "url": "https://easym365.de"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "EndlessTech Blog"
+  },
+  "datePublished": "2026-07-19",
+  "dateModified": "2026-07-19",
+  "isPartOf": {
+    "@type": "CreativeWorkSeries",
+    "name": "Zero Trust for Microsoft 365"
+  },
+  "mainEntityOfPage": "https://endlesstech.blog/posts/2026-07-19-zero-trust-m365-data.html"
+}
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What does the Data pillar cover in Zero Trust for Microsoft 365?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Protecting the data itself so it stays protected wherever it moves. In Microsoft 365 that means Purview sensitivity labels (which carry encryption and access rules with the file), Data Loss Prevention, and auto-labeling \u2014 plus DSPM for AI when Copilot is in play."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do sensitivity labels differ from SharePoint permissions?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Permissions control access to a location; a sensitivity label travels with the file. Once labelled, a document keeps its encryption and access rules even after it is downloaded, emailed, or moved to another tenant \u2014 which permissions alone cannot do."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What should I do about data security before enabling Copilot?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Audit SharePoint and OneDrive permissions for oversharing, publish and apply sensitivity labels to your sensitive content, and enable DSPM for AI. Copilot exposes whatever a user can already reach, so unmanaged oversharing becomes instant, searchable exposure."
+      }
+    }
+  ]
+}
+    </script>
+</body>
+</html>
