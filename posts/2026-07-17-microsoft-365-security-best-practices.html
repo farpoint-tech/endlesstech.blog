@@ -80,7 +80,7 @@
 
                     <div class="post-tldr">
                         <h2>In short</h2>
-                        <p>Microsoft 365 security spans three overlapping domains: <strong>IT security</strong> (Intune + Entra ID device and identity foundation), <strong>information security</strong> (Purview data governance), and <strong>cybersecurity</strong> (Defender XDR + Conditional Access threat protection). This guide maps all three to the NIST CSF 2.0 framework and gives you five Conditional Access policies to deploy first &mdash; starting with admin MFA and blocking legacy authentication.</p>
+                        <p>Microsoft 365 security spans three overlapping domains: <strong>IT security</strong> (Entra ID identity as the first line of defense, then Intune device compliance), <strong>information security</strong> (Purview data governance), and <strong>cybersecurity</strong> (Defender XDR + Conditional Access threat protection). This guide maps all three to the NIST CSF 2.0 framework and gives you five Conditional Access policies to deploy first &mdash; starting with admin MFA and blocking legacy authentication.</p>
                     </div>
 
                     <nav class="post-toc" aria-label="Table of contents">
@@ -101,19 +101,19 @@
 
                     <h2 id="the-three-pillars-in-your-m365-environment">The Three Pillars in Your M365 Environment</h2>
                     <h3 id="it-security-your-microsoft-365-infrastructure-foundation">IT Security: Your Microsoft 365 Infrastructure Foundation</h3>
-                    <p>In the M365 world, IT security centers on <strong>device management, identity infrastructure, and service configuration</strong>. This is where Intune, Entra ID, and your hybrid connectivity components create the technical foundation for everything else.</p>
+                    <p>In the M365 world, IT security starts with <strong>identity</strong> &mdash; it is the first line of defense and the new perimeter. Entra ID decides who gets in and under what conditions; Intune then proves the device they are coming from is healthy. Together with service configuration and hybrid connectivity, they form the technical foundation everything else builds on. Get identity right first, and every downstream control has something solid to stand on.</p>
                     <figure class="post-content-image">
                     <img alt="Professional Microsoft 365 network security visualization displaying Intune-managed devices, Entra ID authentication flows, Exchange Online Protection, and Global Secure Access components in a modern corporate environment" loading="lazy" src="../assets/images/microsoft-365-security-best-practices/it-security-intune-entra-id.webp" style="max-width: 100%; height: auto; display: block; margin: 2rem auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"/>
                     <figcaption style="text-align: center; font-style: italic; color: #666; margin-top: 0.5rem;">Professional Microsoft 365 network security visualization displaying Intune-managed devices, Entra ID authentication flows, Exchange Online Protection, and Global Secure Access components in a modern corporate environment</figcaption>
                     </figure>
                     <p><strong>Core M365 Services:</strong></p>
                     <ul>
+                    <li><strong>Entra ID</strong>: The primary perimeter &mdash; MFA, Conditional Access, authentication strength, identity governance, directory synchronization</li>
                     <li><strong>Microsoft Intune</strong>: Device compliance policies, <a href="https://docs.microsoft.com/en-us/mem/intune/protect/security-baselines">security baselines</a>, app protection</li>
-                    <li><strong>Entra ID</strong>: Identity governance, authentication methods, directory synchronization</li>
                     <li><strong>Exchange Online Protection</strong>: Anti-spam, anti-malware, safe attachments</li>
                     <li><strong>Global Secure Access</strong>: Private and internet access for hybrid scenarios</li>
                     </ul>
-                    <p><strong>Practical Implementation:</strong> Your IT security foundation starts with <a href="https://docs.microsoft.com/en-us/mem/intune/protect/device-compliance-get-started">Intune device compliance policies</a> that enforce Windows security baselines, require BitLocker encryption, and validate device health attestation. Combine this with Entra ID authentication strength policies that mandate Windows Hello for Business or FIDO2 keys for privileged accounts. For hybrid environments, Global Secure Access with Kerberos trust enables Entra-joined devices to securely access on-premises applications without traditional VPN complexity.</p>
+                    <p><strong>Practical Implementation:</strong> Your IT security foundation starts with <strong>identity</strong>: enforce multi-factor authentication for every user through <a href="https://docs.microsoft.com/en-us/entra/identity/conditional-access/">Conditional Access</a>, block legacy authentication protocols, and require phishing-resistant methods (Windows Hello for Business or FIDO2 keys) for privileged accounts. Only once identity is locked down do you layer on <a href="https://docs.microsoft.com/en-us/mem/intune/protect/device-compliance-get-started">Intune device compliance policies</a> that enforce Windows security baselines, require BitLocker encryption, and validate device health attestation &mdash; then feed that compliance signal back into Conditional Access, so an unhealthy device is blocked before it ever reaches your data. For hybrid environments, Global Secure Access with Kerberos trust enables Entra-joined devices to securely access on-premises applications without traditional VPN complexity.</p>
                     <h3 id="information-security-microsoft-purview-and-data-governance">Information Security: Microsoft Purview and Data Governance</h3>
                     <p>Information security in M365 revolves around <strong>data discovery, classification, protection, and governance</strong> across your entire Microsoft 365 tenant and connected systems.</p>
                     <figure class="post-content-image">
