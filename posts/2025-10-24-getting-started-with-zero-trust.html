@@ -75,7 +75,33 @@
                     <!-- SECTION: PRINCIPLES -->
                     <!-- ============================================================ -->
 
-                    <h2>The Three Principles Behind Every Pillar</h2>
+
+                    <div class="post-tldr">
+                        <h2>In short</h2>
+                        <p>Zero Trust means "never trust, always verify." In Microsoft 365 you build it across six pillars &mdash; Identity, Endpoints, Data, Apps, Infrastructure, and Network &mdash; using Entra ID Conditional Access, Intune device compliance, Defender XDR, and Purview. Start with MFA + Conditional Access + compliant devices; you do not need E5 to begin, and M365 Business Premium covers the foundation.</p>
+                    </div>
+
+                    <nav class="post-toc" aria-label="Table of contents">
+                        <h2>On this page</h2>
+                        <ol>
+                        <li><a href="#the-three-principles-behind-every-pillar">The Three Principles Behind Every Pillar</a></li>
+                        <li><a href="#why-microsoft-365-is-the-natural-zero-trust-control-plane">Why Microsoft 365 Is the Natural Zero Trust Control Plane</a></li>
+                        <li><a href="#pillar-1-identity-the-foundation-of-everything">Pillar 1: Identity &mdash; The Foundation of Everything</a></li>
+                        <li><a href="#pillar-2-endpoints-every-device-is-a-policy-enforcement-point">Pillar 2: Endpoints &mdash; Every Device Is a Policy Enforcement Point</a></li>
+                        <li><a href="#pillar-3-data-classify-label-protect">Pillar 3: Data &mdash; Classify, Label, Protect</a></li>
+                        <li><a href="#pillar-4-apps-shadow-it-visibility-and-saas-governance">Pillar 4: Apps &mdash; Shadow IT Visibility and SaaS Governance</a></li>
+                        <li><a href="#pillar-5-infrastructure-servers-vms-containers-and-hybrid">Pillar 5: Infrastructure &mdash; Servers, VMs, Containers, and Hybrid</a></li>
+                        <li><a href="#pillar-6-network-the-pillar-that-lives-outside-m365">Pillar 6: Network &mdash; The Pillar That Lives Outside M365</a></li>
+                        <li><a href="#the-deployment-sequence-where-to-start-and-how-to-phase">The Deployment Sequence: Where to Start and How to Phase</a></li>
+                        <li><a href="#licensing-what-you-need-and-what-you-can-defer">Licensing: What You Need and What You Can Defer</a></li>
+                        <li><a href="#measuring-your-zero-trust-maturity">Measuring Your Zero Trust Maturity</a></li>
+                        <li><a href="#common-mistakes-that-undermine-zero-trust">Common Mistakes That Undermine Zero Trust</a></li>
+                        <li><a href="#how-zero-trust-maps-to-compliance-frameworks">How Zero Trust Maps to Compliance Frameworks</a></li>
+                        <li><a href="#frequently-asked-questions">Frequently Asked Questions</a></li>
+                        </ol>
+                    </nav>
+
+                    <h2 id="the-three-principles-behind-every-pillar">The Three Principles Behind Every Pillar</h2>
 
                     <p>Before diving into the six pillars, every Zero Trust decision comes back to three principles. Microsoft, NIST SP 800-207, and the CISA Zero Trust Maturity Model all converge on the same core ideas:</p>
 
@@ -91,7 +117,7 @@
                     <!-- SECTION: WHY M365 -->
                     <!-- ============================================================ -->
 
-                    <h2>Why Microsoft 365 Is the Natural Zero Trust Control Plane</h2>
+                    <h2 id="why-microsoft-365-is-the-natural-zero-trust-control-plane">Why Microsoft 365 Is the Natural Zero Trust Control Plane</h2>
 
                     <p>Zero Trust is a strategy, not a product. But it needs a platform to operate on, and for most organizations under 500 users, that platform is already Microsoft 365. Here is why:</p>
 
@@ -111,7 +137,7 @@
                     <!-- SECTION: PILLAR 1 — IDENTITY -->
                     <!-- ============================================================ -->
 
-                    <h2>Pillar 1: Identity &mdash; The Foundation of Everything</h2>
+                    <h2 id="pillar-1-identity-the-foundation-of-everything">Pillar 1: Identity &mdash; The Foundation of Everything</h2>
 
                     <p>Identity is where Zero Trust starts and where it matters most. If an attacker owns a valid identity, every other control downstream has to compensate. The goal is to make identity compromise as difficult and as detectable as possible.</p>
 
@@ -138,7 +164,7 @@
                     <!-- SECTION: PILLAR 2 — ENDPOINTS -->
                     <!-- ============================================================ -->
 
-                    <h2>Pillar 2: Endpoints &mdash; Every Device Is a Policy Enforcement Point</h2>
+                    <h2 id="pillar-2-endpoints-every-device-is-a-policy-enforcement-point">Pillar 2: Endpoints &mdash; Every Device Is a Policy Enforcement Point</h2>
 
                     <p>An identity can be perfectly secured, but if the device it authenticates from is compromised, the session is compromised. Endpoint management turns every laptop, phone, and tablet into an active participant in the Zero Trust chain&mdash;not a passive consumer of trust.</p>
 
@@ -165,7 +191,7 @@
                     <!-- SECTION: PILLAR 3 — DATA -->
                     <!-- ============================================================ -->
 
-                    <h2>Pillar 3: Data &mdash; Classify, Label, Protect</h2>
+                    <h2 id="pillar-3-data-classify-label-protect">Pillar 3: Data &mdash; Classify, Label, Protect</h2>
 
                     <p>Data is what attackers are after. Every other pillar exists to protect it. Zero Trust for data means classification and protection follow the data wherever it goes&mdash;into email, onto USB drives, into third-party cloud apps, and into AI prompts.</p>
 
@@ -192,7 +218,7 @@
                     <!-- SECTION: PILLAR 4 — APPS -->
                     <!-- ============================================================ -->
 
-                    <h2>Pillar 4: Apps &mdash; Shadow IT Visibility and SaaS Governance</h2>
+                    <h2 id="pillar-4-apps-shadow-it-visibility-and-saas-governance">Pillar 4: Apps &mdash; Shadow IT Visibility and SaaS Governance</h2>
 
                     <p>Users do not just use the apps IT deploys. They sign up for SaaS tools with their corporate email, authorize OAuth connections, and pipe data into platforms IT has never heard of. The Apps pillar brings visibility and control to this sprawl.</p>
 
@@ -216,7 +242,7 @@
                     <!-- SECTION: PILLAR 5 — INFRASTRUCTURE -->
                     <!-- ============================================================ -->
 
-                    <h2>Pillar 5: Infrastructure &mdash; Servers, VMs, Containers, and Hybrid</h2>
+                    <h2 id="pillar-5-infrastructure-servers-vms-containers-and-hybrid">Pillar 5: Infrastructure &mdash; Servers, VMs, Containers, and Hybrid</h2>
 
                     <p>Infrastructure is the broadest pillar and the one where M365's coverage is thinnest by design. M365 is a SaaS platform&mdash;Microsoft manages the infrastructure underneath Exchange Online, SharePoint, and Teams. But most organizations also run on-premises servers, Azure VMs, or hybrid workloads that need Zero Trust controls.</p>
 
@@ -246,7 +272,7 @@
                     <!-- SECTION: PILLAR 6 — NETWORK -->
                     <!-- ============================================================ -->
 
-                    <h2>Pillar 6: Network &mdash; The Pillar That Lives Outside M365</h2>
+                    <h2 id="pillar-6-network-the-pillar-that-lives-outside-m365">Pillar 6: Network &mdash; The Pillar That Lives Outside M365</h2>
 
                     <p>In a traditional model, the network was the perimeter. In Zero Trust, the network is one signal among many&mdash;but it still matters. Segmentation limits lateral movement. Encryption protects data in transit. And for organizations with on-premises or hybrid environments, network controls remain essential.</p>
 
@@ -285,7 +311,7 @@
                     <!-- SECTION: THE DEPLOYMENT SEQUENCE -->
                     <!-- ============================================================ -->
 
-                    <h2>The Deployment Sequence: Where to Start and How to Phase</h2>
+                    <h2 id="the-deployment-sequence-where-to-start-and-how-to-phase">The Deployment Sequence: Where to Start and How to Phase</h2>
 
                     <p>Microsoft's official Zero Trust deployment framework organizes the work into five swim lanes. Here is the practical translation for an MSP deploying to an SMB tenant:</p>
 
@@ -313,7 +339,7 @@
                     <!-- SECTION: LICENSING -->
                     <!-- ============================================================ -->
 
-                    <h2>Licensing: What You Need and What You Can Defer</h2>
+                    <h2 id="licensing-what-you-need-and-what-you-can-defer">Licensing: What You Need and What You Can Defer</h2>
 
                     <p>Not every pillar requires E5. Here is the realistic licensing picture:</p>
 
@@ -378,7 +404,7 @@
                     <!-- SECTION: MEASURING -->
                     <!-- ============================================================ -->
 
-                    <h2>Measuring Your Zero Trust Maturity</h2>
+                    <h2 id="measuring-your-zero-trust-maturity">Measuring Your Zero Trust Maturity</h2>
 
                     <p>Zero Trust is not a checkbox. It is a maturity curve. Track these metrics to know where you stand:</p>
 
@@ -397,7 +423,7 @@
                     <!-- SECTION: COMMON MISTAKES -->
                     <!-- ============================================================ -->
 
-                    <h2>Common Mistakes That Undermine Zero Trust</h2>
+                    <h2 id="common-mistakes-that-undermine-zero-trust">Common Mistakes That Undermine Zero Trust</h2>
 
                     <p><strong>Treating MFA as the finish line.</strong> MFA stops most password-based attacks. It does not stop token theft, MFA fatigue attacks (push-bombing), or Adversary-in-the-Middle (AiTM) phishing. Phishing-resistant MFA (FIDO2, certificate-based auth) and Conditional Access token protection are the next steps.</p>
 
@@ -413,7 +439,7 @@
                     <!-- SECTION: FRAMEWORKS -->
                     <!-- ============================================================ -->
 
-                    <h2>How Zero Trust Maps to Compliance Frameworks</h2>
+                    <h2 id="how-zero-trust-maps-to-compliance-frameworks">How Zero Trust Maps to Compliance Frameworks</h2>
 
                     <p>Zero Trust is not a compliance framework itself, but it maps directly to the controls required by major regulations. Here is a simplified mapping:</p>
 
@@ -458,7 +484,22 @@
                     <!-- SECTION: KEY TAKEAWAYS -->
                     <!-- ============================================================ -->
 
-                    <h2>Key Takeaways</h2>
+                    <section class="post-glossary">
+                    <h2 id="glossary">Glossary: Zero Trust Terms in Plain English</h2>
+                    <dl>
+                        <dt>Zero Trust</dt><dd>A security model that trusts no user or device by default and verifies every access request explicitly, continuously, and with least privilege.</dd>
+                        <dt>Conditional Access</dt><dd>The Entra ID policy engine that evaluates signals (user, device, location, risk) and enforces a decision &mdash; allow, block, require MFA, or require a compliant device &mdash; on each sign-in.</dd>
+                        <dt>Entra ID</dt><dd>Microsoft's cloud identity and access management service (formerly Azure AD); the identity provider behind Microsoft 365 and federated apps.</dd>
+                        <dt>Intune</dt><dd>Microsoft's cloud endpoint management service for device compliance, configuration, and app protection across Windows, macOS, iOS, and Android.</dd>
+                        <dt>Defender XDR</dt><dd>Microsoft's extended detection and response suite correlating signals across identity, email, endpoint, and SaaS (Defender for Endpoint, Office 365, Identity, and Cloud Apps).</dd>
+                        <dt>Purview</dt><dd>Microsoft's data governance and compliance platform for sensitivity labels, Data Loss Prevention (DLP), and retention.</dd>
+                        <dt>PIM (Privileged Identity Management)</dt><dd>Entra ID feature for Just-In-Time activation of privileged roles, requiring approval, MFA, and justification before elevation.</dd>
+                        <dt>SASE / ZTNA</dt><dd>Secure Access Service Edge / Zero Trust Network Access &mdash; cloud-delivered network security that grants identity-aware, per-app access instead of full-network VPN access (e.g. Microsoft Entra Internet/Private Access).</dd>
+                        <dt>MFA</dt><dd>Multi-Factor Authentication &mdash; requiring two or more verification factors; the foundational Zero Trust control, though not sufficient on its own.</dd>
+                    </dl>
+                    </section>
+
+                    <h2 id="key-takeaways">Key Takeaways</h2>
 
                     <ul>
                         <li>Zero Trust is a strategy built on three principles (verify explicitly, least privilege, assume breach), not a product you buy.</li>
@@ -473,7 +514,7 @@
                     <!-- SECTION: NEXT STEPS -->
                     <!-- ============================================================ -->
 
-                    <h2>Next Steps</h2>
+                    <h2 id="next-steps">Next Steps</h2>
 
                     <ol>
                         <li>Assess your current posture with <a href="2025-11-15-boost-your-cyber-defense-microsoft-secure-score-for-smbs.html">Microsoft Secure Score</a>.</li>
@@ -491,7 +532,7 @@
                     <!-- ============================================================ -->
 
                     <section class="faq">
-                    <h2>Frequently Asked Questions</h2>
+                    <h2 id="frequently-asked-questions">Frequently Asked Questions</h2>
 
                     <h3>What is Zero Trust in Microsoft 365?</h3>
                     <p>Zero Trust in Microsoft 365 is a security model that trusts no user or device by default&mdash;every access request is verified explicitly. In practice it combines multi-factor authentication, Conditional Access policies, device compliance through Intune, Defender XDR for threat detection, and Purview for data protection. Instead of trusting anything inside the network, M365 checks identity, device health, and sign-in risk on every request across all six pillars: Identity, Endpoints, Data, Apps, Infrastructure, and Network.</p>

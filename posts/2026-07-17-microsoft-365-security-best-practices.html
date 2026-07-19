@@ -78,6 +78,27 @@
 
 <p>In the Microsoft 365 ecosystem, the lines between IT security, information security, and cybersecurity blur — but understanding their distinct roles is crucial for building comprehensive Zero Trust architectures. Whether you're implementing Conditional Access baseline policies, configuring Defender XDR playbooks, or establishing data governance with Purview, each security domain requires specific Microsoft 365 services and configurations. This guide will help you navigate these domains with practical, M365-native solutions that your organization can implement today.</p>
 
+                    <div class="post-tldr">
+                        <h2>In short</h2>
+                        <p>Microsoft 365 security spans three overlapping domains: <strong>IT security</strong> (Intune + Entra ID device and identity foundation), <strong>information security</strong> (Purview data governance), and <strong>cybersecurity</strong> (Defender XDR + Conditional Access threat protection). This guide maps all three to the NIST CSF 2.0 framework and gives you five Conditional Access policies to deploy first &mdash; starting with admin MFA and blocking legacy authentication.</p>
+                    </div>
+
+                    <nav class="post-toc" aria-label="Table of contents">
+                        <h2>On this page</h2>
+                        <ol>
+                        <li><a href="#the-three-pillars-in-your-m365-environment">The Three Pillars in Your M365 Environment</a></li>
+                        <li><a href="#security-domains-comparison-m365-edition">Security Domains Comparison</a></li>
+                        <li><a href="#framework-integration-the-nist-csf-2.0-foundation">Framework Integration: NIST CSF 2.0</a></li>
+                        <li><a href="#zero-trust-in-practice-conditional-access-deep-dive">Zero Trust in Practice: Conditional Access</a></li>
+                        <li><a href="#industry-specific-m365-implementations">Industry-Specific M365 Implementations</a></li>
+                        <li><a href="#measuring-success-m365-security-metrics">Measuring Success: Security Metrics</a></li>
+                        <li><a href="#the-business-case-m365-security-roi">The Business Case: Security ROI</a></li>
+                        <li><a href="#conclusion-your-m365-security-journey">Conclusion</a></li>
+                        <li><a href="#glossary">Glossary</a></li>
+                        <li><a href="#frequently-asked-questions">FAQ</a></li>
+                        </ol>
+                    </nav>
+
                     <h2 id="the-three-pillars-in-your-m365-environment">The Three Pillars in Your M365 Environment</h2>
                     <h3 id="it-security-your-microsoft-365-infrastructure-foundation">IT Security: Your Microsoft 365 Infrastructure Foundation</h3>
                     <p>In the M365 world, IT security centers on <strong>device management, identity infrastructure, and service configuration</strong>. This is where Intune, Entra ID, and your hybrid connectivity components create the technical foundation for everything else.</p>
@@ -307,6 +328,21 @@
                     <blockquote>
                     <p>Ready to strengthen your M365 security posture? Start with a Microsoft Secure Score assessment, implement the baseline Conditional Access policies above, and begin your Purview data discovery journey. Your organization’s digital transformation depends on getting security right from the foundation up.</p>
                     </blockquote>
+                    <section class="post-glossary">
+                    <h2 id="glossary">Glossary: Key Terms</h2>
+                    <dl>
+                        <dt>IT Security</dt><dd>Protection of the technical infrastructure &mdash; in M365, device management (Intune), identity infrastructure (Entra ID), and service configuration.</dd>
+                        <dt>Information Security</dt><dd>Protection of data itself regardless of where it lives &mdash; classification, labeling, DLP, and retention via Microsoft Purview.</dd>
+                        <dt>Cybersecurity</dt><dd>Defense against active threats and attackers &mdash; detection, response, and threat protection via Defender XDR and Conditional Access.</dd>
+                        <dt>Zero Trust</dt><dd>A security model that trusts no user or device by default and verifies every access request explicitly, continuously, and with least privilege.</dd>
+                        <dt>Conditional Access</dt><dd>The Entra ID policy engine that enforces access decisions (allow, block, require MFA, require compliant device) based on real-time signals.</dd>
+                        <dt>XDR (Extended Detection and Response)</dt><dd>Correlated threat detection and response across multiple layers &mdash; identity, email, endpoint, and cloud apps &mdash; unified in Microsoft Defender XDR.</dd>
+                        <dt>SIEM</dt><dd>Security Information and Event Management &mdash; centralized log aggregation, correlation, and alerting; Microsoft Sentinel is the M365-native SIEM.</dd>
+                        <dt>MDR / MXDR</dt><dd>Managed Detection and Response / Managed Extended DR &mdash; a service where a third party runs 24/7 monitoring and response on top of your tooling.</dd>
+                        <dt>NIST CSF 2.0</dt><dd>The NIST Cybersecurity Framework, organized around six functions: Govern, Identify, Protect, Detect, Respond, and Recover.</dd>
+                    </dl>
+                    </section>
+
                     <h2 id="frequently-asked-questions">Frequently Asked Questions</h2>
                     <h3 id="whats-the-difference-between-it-security-information-security-and-cybersecurity-in-microsoft-365">What’s the difference between IT security, information security, and cybersecurity in Microsoft 365?</h3>
                     <p>IT security covers device management and infrastructure (Intune, Entra ID). Information security covers data governance and classification (Purview). Cybersecurity covers threat detection and response (Defender XDR, Sentinel). All three need to work together under a Zero Trust model.</p>
