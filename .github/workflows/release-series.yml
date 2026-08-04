@@ -1,0 +1,38 @@
+name: Release scheduled post
+
+# 05:50 UTC = 07:50 Europe/Berlin (CEST), on 10-14 August. The post lands on the
+# homepage shortly before the 08:00 LinkedIn announcement goes out.
+on:
+  schedule:
+    - cron: "50 5 10-14 8 *"
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "Release date to publish (YYYY-MM-DD). Defaults to today."
+        required: false
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: master
+
+      - name: Publish the day's card
+        run: python3 .github/scripts/publish-scheduled.py ${{ inputs.date }}
+
+      - name: Commit and push
+        run: |
+          if git diff --quiet; then
+            echo "no changes"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "publish scheduled Zero Trust post to homepage"
+          git push origin master
