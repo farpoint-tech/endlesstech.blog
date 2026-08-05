@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-label="An attacker probing a Microsoft 365 tenant login endpoint, getting a green valid-user response for one address and a red user-not-found response for another, before password spraying the confirmed accounts">
+  <defs>
+    <linearGradient id="en-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#071633"/><stop offset="1" stop-color="#002863"/></linearGradient>
+    <filter id="en-glow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="6"/></filter>
+  </defs>
+  <rect width="1200" height="675" fill="url(#en-bg)"/>
+  <g stroke="#3366FF" stroke-opacity="0.08" stroke-width="1"><path d="M0 135H1200M0 270H1200M0 405H1200M0 540H1200"/><path d="M300 0V675M600 0V675M900 0V675"/></g>
+
+  <text x="600" y="70" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="2" fill="#00D9FF">MICROSOFT 365 TENANT ENUMERATION</text>
+
+  <!-- attacker -->
+  <g transform="translate(150 300)" font-family="Segoe UI, Arial, sans-serif" text-anchor="middle">
+    <circle cx="0" cy="0" r="58" fill="#1a0e2a" stroke="#FF4D6D" stroke-width="2.5"/>
+    <circle cx="0" cy="-14" r="17" fill="#FF4D6D"/><path d="M-28 30 a28 28 0 0 1 56 0z" fill="#FF4D6D"/>
+    <text x="0" y="92" fill="#ff9db0" font-size="17" font-weight="700">Unauthenticated</text>
+    <text x="0" y="114" fill="#ff9db0" font-size="17" font-weight="700">attacker</text>
+  </g>
+
+  <!-- login endpoint -->
+  <g transform="translate(600 300)" font-family="Segoe UI, Arial, sans-serif" text-anchor="middle">
+    <rect x="-120" y="-70" width="240" height="140" rx="14" fill="#0b1f47" stroke="#00D9FF" stroke-width="2"/>
+    <text x="0" y="-30" fill="#eaf2ff" font-size="15" font-weight="700">login.microsoftonline.com</text>
+    <text x="0" y="-6" fill="#9db8ff" font-size="13">/common/GetCredentialType</text>
+    <g transform="translate(0 32)"><rect x="-26" y="-16" width="52" height="34" rx="6" fill="#00D9FF" opacity="0.85"/><circle cx="0" cy="1" r="7" fill="#04102a"/></g>
+  </g>
+  <g fill="none" stroke="#5b78c4" stroke-width="2.5" stroke-dasharray="6 6"><path d="M212 300 H478"/></g>
+  <text x="345" y="288" fill="#c7d6ff" font-family="Segoe UI, Arial, sans-serif" font-size="14" text-anchor="middle">POST username</text>
+
+  <!-- two responses -->
+  <g font-family="Segoe UI, Arial, sans-serif">
+    <!-- valid -->
+    <g transform="translate(1000 190)">
+      <circle cx="-120" cy="10" r="30" fill="#1e3a24" filter="url(#en-glow)" opacity="0.5"/>
+      <rect x="-95" y="-34" width="290" height="88" rx="12" fill="#0e2a1a" stroke="#3ddc84" stroke-width="2"/>
+      <path d="M-70 10 l14 14 l26 -30" fill="none" stroke="#3ddc84" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="30" y="-6" fill="#8ff0b5" font-size="15" font-weight="700" text-anchor="middle">IfExistsResult: 0</text>
+      <text x="30" y="20" fill="#cfeede" font-size="14" text-anchor="middle">user exists — valid</text>
+      <text x="30" y="42" fill="#7fb99a" font-size="12" text-anchor="middle">philipp@target-company.com</text>
+    </g>
+    <!-- invalid -->
+    <g transform="translate(1000 410)">
+      <rect x="-95" y="-34" width="290" height="88" rx="12" fill="#2a0e14" stroke="#FF4D6D" stroke-width="2"/>
+      <g stroke="#FF4D6D" stroke-width="6" stroke-linecap="round"><path d="M-70 -6 l24 24"/><path d="M-46 -6 l-24 24"/></g>
+      <text x="35" y="-6" fill="#ff9db0" font-size="15" font-weight="700" text-anchor="middle">IfExistsResult: 1</text>
+      <text x="35" y="20" fill="#f2c9d1" font-size="14" text-anchor="middle">not found in tenant</text>
+      <text x="35" y="42" fill="#c98a95" font-size="12" text-anchor="middle">ghost@target-company.com</text>
+    </g>
+    <g fill="none" stroke-width="2.5" stroke-dasharray="6 6">
+      <path d="M720 270 C 800 230, 850 210, 905 205" stroke="#3ddc84" stroke-opacity="0.7"/>
+      <path d="M720 330 C 800 380, 850 405, 905 420" stroke="#FF4D6D" stroke-opacity="0.7"/>
+    </g>
+  </g>
+
+  <text x="600" y="628" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="600" fill="#ECC23B">Confirm which accounts exist — then spray only the real ones</text>
+</svg>
