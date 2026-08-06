@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-label="A chart of cost per million tokens versus utilization. Local hosting is very expensive at low utilization and drops below the cloud API line only at sustained high utilization; the cloud API line stays roughly flat.">
+  <defs><linearGradient id="tc-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#071633"/><stop offset="1" stop-color="#002863"/></linearGradient></defs>
+  <rect width="1200" height="675" fill="url(#tc-bg)"/>
+
+  <text x="600" y="60" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700" fill="#eaf2ff">Cost per million tokens vs. utilization</text>
+
+  <!-- axes -->
+  <g stroke="#3a548a" stroke-width="2">
+    <path d="M150 540 H1060"/>
+    <path d="M150 110 V540"/>
+  </g>
+  <g font-family="Segoe UI, Arial, sans-serif" fill="#9db8ff" font-size="14">
+    <text x="605" y="588" text-anchor="middle">Utilization (tokens/day) →</text>
+    <text x="150" y="575" text-anchor="middle">low</text>
+    <text x="1040" y="575" text-anchor="middle">near-capacity</text>
+    <text x="72" y="330" text-anchor="middle" transform="rotate(-90 72 330)">Cost / 1M tokens →</text>
+  </g>
+
+  <!-- cloud line (roughly flat, slight economies) -->
+  <path d="M150 400 C 400 392, 700 386, 1060 382" fill="none" stroke="#00D9FF" stroke-width="4"/>
+  <text x="1000" y="360" fill="#00D9FF" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700" text-anchor="end">Cloud API (per-token)</text>
+
+  <!-- local line (very high at low util, drops steeply, crosses, flattens low) -->
+  <path d="M175 150 C 300 300, 380 430, 520 470 C 700 505, 900 500, 1060 498" fill="none" stroke="#FF00FF" stroke-width="4"/>
+  <text x="210" y="150" fill="#FF00FF" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700">Local / on-prem (fixed cost ÷ usage)</text>
+
+  <!-- crossover marker -->
+  <g>
+    <line x1="470" y1="110" x2="470" y2="540" stroke="#ECC23B" stroke-width="1.5" stroke-dasharray="6 6"/>
+    <circle cx="470" cy="474" r="8" fill="#ECC23B"/>
+    <text x="470" y="96" fill="#ECC23B" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" text-anchor="middle">break-even</text>
+  </g>
+
+  <!-- zones -->
+  <text x="300" y="520" fill="#8fb0ee" font-family="Segoe UI, Arial, sans-serif" font-size="14" text-anchor="middle">cloud cheaper here</text>
+  <text x="770" y="455" fill="#e59dff" font-family="Segoe UI, Arial, sans-serif" font-size="14" text-anchor="middle">local cheaper here (if quality tier matches)</text>
+
+  <text x="605" y="632" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#7f97d6">Real-world gap seen between self-hosted and API for the same 70B model: up to ~350× — driven by utilization, not technology</text>
+</svg>
