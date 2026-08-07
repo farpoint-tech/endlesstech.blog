@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-label="A balance scale weighing a cloud API with a per-token meter against a local GPU with power, personnel and hardware costs, over a dark neon background">
+  <defs>
+    <linearGradient id="ai-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#071633"/><stop offset="1" stop-color="#002863"/></linearGradient>
+  </defs>
+  <rect width="1200" height="675" fill="url(#ai-bg)"/>
+  <g stroke="#3366FF" stroke-opacity="0.08" stroke-width="1"><path d="M0 135H1200M0 270H1200M0 405H1200M0 540H1200"/><path d="M300 0V675M600 0V675M900 0V675"/></g>
+
+  <text x="600" y="72" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="2" fill="#00D9FF">CLOUD API vs. LOCAL AI MODELS</text>
+
+  <!-- balance beam -->
+  <g stroke="#ECC23B" stroke-width="5" stroke-linecap="round">
+    <path d="M600 150 V190"/>
+    <path d="M300 210 H900"/>
+  </g>
+  <circle cx="600" cy="150" r="10" fill="#ECC23B"/>
+  <path d="M560 560 H640 L600 470 Z" fill="none" stroke="#ECC23B" stroke-width="4"/>
+  <g stroke="#ECC23B" stroke-width="3"><path d="M300 210 V300"/><path d="M900 210 V300"/></g>
+
+  <!-- LEFT pan: Cloud API -->
+  <g font-family="Segoe UI, Arial, sans-serif" text-anchor="middle">
+    <path d="M210 300 H390 L360 340 H240 Z" fill="#0e2a5c" stroke="#00D9FF" stroke-width="2"/>
+    <g transform="translate(300 250)">
+      <path d="M-46 6 a26 26 0 0 1 8 -50 a34 34 0 0 1 64 6 a24 24 0 0 1 -6 44 Z" fill="none" stroke="#00D9FF" stroke-width="3"/>
+      <text x="0" y="2" fill="#eaf2ff" font-size="14" font-weight="700">CLOUD</text>
+    </g>
+    <text x="300" y="392" fill="#00D9FF" font-size="19" font-weight="800">Cloud API</text>
+    <text x="300" y="420" fill="#9db8ff" font-size="14">pay per token · $/1M</text>
+    <text x="300" y="444" fill="#9db8ff" font-size="14">frontier quality on tap</text>
+    <text x="300" y="468" fill="#7fb0ff" font-size="13">variable OPEX · data leaves network</text>
+  </g>
+
+  <!-- RIGHT pan: Local GPU -->
+  <g font-family="Segoe UI, Arial, sans-serif" text-anchor="middle">
+    <path d="M810 300 H990 L960 340 H840 Z" fill="#0e2a5c" stroke="#FF00FF" stroke-width="2"/>
+    <g transform="translate(900 250)">
+      <rect x="-40" y="-26" width="80" height="46" rx="6" fill="none" stroke="#FF00FF" stroke-width="3"/>
+      <rect x="-28" y="-14" width="56" height="22" rx="3" fill="#FF00FF" opacity="0.5"/>
+      <path d="M-40 -8 h-12 M-40 6 h-12 M40 -8 h12 M40 6 h12" stroke="#FF00FF" stroke-width="3"/>
+    </g>
+    <text x="900" y="392" fill="#FF00FF" font-size="19" font-weight="800">Local GPU</text>
+    <text x="900" y="420" fill="#f0b8ff" font-size="14">hardware · energy · cooling</text>
+    <text x="900" y="444" fill="#f0b8ff" font-size="14">+ personnel (the real bill)</text>
+    <text x="900" y="468" fill="#e59dff" font-size="13">high CAPEX · data stays local</text>
+  </g>
+
+  <text x="600" y="632" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="600" fill="#ECC23B">Neither is universally cheaper — it is decided by utilization, quality tier, and data class</text>
+</svg>

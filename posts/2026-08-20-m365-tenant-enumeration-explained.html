@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+    <meta name="robots" content="index,follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="M365 tenant enumeration lets an unauthenticated attacker confirm which accounts exist before ever guessing a password. The technical vectors, why Microsoft can't fully fix it, and how to make the leak useless.">
+    <meta name="author" content="Philipp Schmidt">
+    <meta name="keywords" content="M365 tenant enumeration, Microsoft 365 username enumeration, GetCredentialType, IfExistsResult, password spraying, Azure AD enumeration, Smart Lockout, block legacy authentication, Entra ID Protection, stop phishing emails M365 tenant to tenant, Office 365 phishing epidemic 2026, password spraying detection Microsoft 365, how to detect compromised user accounts in M365, Phishing zwischen M365 Tenants stoppen, Password Spraying erkennen, kompromittierte Konten erkennen M365">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="M365 Tenant Enumeration: The Identity Leak Microsoft Won't Fully Close">
+    <meta property="og:description" content="How an unauthenticated attacker confirms which accounts exist in a Microsoft 365 tenant, the technical vectors behind it, and how to make the leak useless.">
+    <meta property="og:image" content="https://endlesstech.blog/assets/images/m365-tenant-enumeration/tenant-enumeration-hero.svg">
+    <meta property="og:url" content="https://endlesstech.blog/posts/2026-08-20-m365-tenant-enumeration-explained.html">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="M365 Tenant Enumeration: The Identity Leak Microsoft Won't Fully Close">
+    <meta name="twitter:description" content="How an unauthenticated attacker confirms which accounts exist in a Microsoft 365 tenant, the technical vectors behind it, and how to make the leak useless.">
+    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/m365-tenant-enumeration/tenant-enumeration-hero.svg">
+
+    <title>M365 Tenant Enumeration: The Identity Leak Microsoft Won't Fully Close</title>
+
+    <link rel="alternate" type="application/rss+xml" title="EndlessTech Blog RSS Feed" href="https://endlesstech.blog/feed.xml">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/blog-post.css">
+
+    <link rel="canonical" href="https://endlesstech.blog/posts/2026-08-20-m365-tenant-enumeration-explained.html" />
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/images/logo.webp" alt="Philipp Schmidt - Secure. Scalable. Simple M365.">
+            </a>
+            <nav class="nav" id="nav">
+                <a href="../index.html">Home</a>
+                <a href="../index.html#blog" class="active">Blog</a>
+                <a href="../about.html">About</a>
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+            </nav>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">&#9776;</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="post-full">
+            <header class="post-full-header">
+                <h1 class="post-full-title">M365 Tenant Enumeration: The Identity Leak Microsoft Won't Fully Close</h1>
+                <div class="post-full-meta">
+                    <time datetime="2026-08-20">August 2026</time> &bull; By Philipp Schmidt
+                </div>
+                <div class="post-tags">
+                    <span class="tag">Microsoft 365</span>
+                    <span class="tag">Security</span>
+                    <span class="tag">Entra ID</span>
+                    <span class="tag">Identity</span>
+                    <span class="tag">Red Team</span>
+                </div>
+            </header>
+
+            <figure class="post-full-image">
+                <img src="../assets/images/m365-tenant-enumeration/tenant-enumeration-hero.svg" alt="An unauthenticated attacker posts a username to the Microsoft 365 login endpoint and gets a green valid-user response for one address and a red user-not-found response for another, then sprays only the confirmed accounts">
+            </figure>
+
+            <section class="post-full-content">
+                <div class="post-content">
+
+                    <p>Before an attacker guesses a single password, they want to know which accounts are worth guessing against. In Microsoft 365 they can find out &mdash; without any credentials, without tripping a lockout, and without ever authenticating. Post a username to the right endpoint and the tenant tells you whether that account exists. That is tenant enumeration, and it is the quiet first step in front of almost every password-spray and phishing campaign I get called in to clean up.</p>
+
+                    <div class="post-tldr">
+                        <h2>In short</h2>
+                        <p>Tenant enumeration lets an unauthenticated attacker confirm whether an email address is a real account in a Microsoft 365 tenant. Endpoints like <code>GetCredentialType</code> return a plain "exists / does not exist" flag, so the attacker validates targets first and only then sprays passwords &mdash; which is far harder to detect than brute-forcing blind. Microsoft can't fully close it because federation and B2B need to know if a user exists. You can't remove the leak, but you can make it useless: block legacy auth, enforce MFA, turn on Smart Lockout and password protection, and watch the sign-in logs.</p>
+                    </div>
+
+                    <nav class="post-toc" aria-label="Table of contents">
+                        <h2>On this page</h2>
+                        <ol>
+                            <li><a href="#what-it-is">What tenant enumeration actually is</a></li>
+                            <li><a href="#why-its-a-problem">Why it is a problem</a></li>
+                            <li><a href="#how-it-works">How enumeration works &mdash; the technical vectors</a></li>
+                            <li><a href="#why-microsoft-cant-fix-it">Why Microsoft can't easily fix it</a></li>
+                            <li><a href="#what-you-can-do">What you can do as a defender</a></li>
+                            <li><a href="#key-takeaways">Key takeaways</a></li>
+                            <li><a href="#glossary">Glossary</a></li>
+                            <li><a href="#faq">Frequently Asked Questions</a></li>
+                        </ol>
+                    </nav>
+
+                    <h2 id="what-it-is">What tenant enumeration actually is</h2>
+                    <p>Tenant enumeration is the ability for an unauthenticated attacker to determine whether a given email address or username is valid in a target Microsoft 365 tenant. Instead of blindly guessing credentials, the attacker first validates which accounts <em>exist</em>, then focuses password attacks on the ones that do. The security principle it violates is a simple one: <strong>don't tell an attacker whether a user exists.</strong> M365 tells them anyway.</p>
+
+                    <h2 id="why-its-a-problem">Why it is a problem</h2>
+                    <p>Confirming that <code>philipp@target-company.com</code> is a real account changes the economics of an attack. Once an attacker has a list of accounts they know are real, they can:</p>
+                    <ul>
+                        <li>Launch <strong>password spraying</strong> against validated accounts &mdash; one or two common passwords tried across thousands of confirmed users is much harder to detect than hammering a single account.</li>
+                        <li>Run <strong>spear phishing</strong> with higher confidence, because they are not wasting shots on addresses that bounce.</li>
+                        <li>Map the org structure &mdash; who works there, and the tenant's username convention.</li>
+                        <li>Clear the first hurdle of most MFA-bypass techniques. MFA fatigue and token theft both need a valid UPN to aim at.</li>
+                    </ul>
+
+                    <h2 id="how-it-works">How enumeration works &mdash; the technical vectors</h2>
+                    <p>This is not one bug. It is a family of endpoints that each answer the same question in a slightly different dialect.</p>
+
+                    <figure class="post-content-image">
+                        <img src="../assets/images/m365-tenant-enumeration/enumeration-vectors.svg" alt="Six enumeration vectors radiating from a central M365 tenant: GetCredentialType, login timing and error codes, Autodiscover and OWA and EWS, B2B invitations, Teams external access, and OpenID Connect discovery" loading="lazy">
+                        <figcaption>Six ways the same "does this user exist?" question leaks out of a Microsoft 365 tenant</figcaption>
+                    </figure>
+
+                    <h3>1. GetCredentialType</h3>
+                    <p>The most famous one. A single unauthenticated POST returns a flag telling you whether the account exists:</p>
+<pre><code>POST https://login.microsoftonline.com/common/GetCredentialType
+Content-Type: application/json
+
+{ "Username": "user@domain.com" }</code></pre>
+                    <p>The response carries <code>IfExistsResult</code>: <strong>0</strong> for a valid user, <strong>1</strong> for one that does not exist. The endpoint was built for client-side UX &mdash; it lets the login page decide whether to show a password field or redirect you to your organisation's identity provider. It was never meant as an oracle, but it is completely unauthenticated and it answers the existence question directly. Tooling like <strong>o365creeper</strong>, <strong>MailSniper</strong>, and <strong>CredMaster</strong> has leaned on it since at least 2018.</p>
+
+                    <h3>2. Login endpoint timing and error codes</h3>
+                    <p>Post a username to the token endpoint (<code>/common/oauth2/token</code>) and the tenant reacts differently depending on the account:</p>
+                    <ul>
+                        <li><strong>Valid user</strong> &rarr; a "password required" response, or a redirect to the federated IdP (ADFS, Ping, Okta).</li>
+                        <li><strong>Invalid user</strong> &rarr; an immediate "user not found in this tenant" error.</li>
+                    </ul>
+                    <p>Different response times, error codes, and HTTP statuses all leak existence. A federated valid user gets redirected somewhere; a non-existent user gets an instant rejection. Even without <code>GetCredentialType</code>, the timing alone is enough.</p>
+
+                    <h3>3. Autodiscover, OWA, EWS and ActiveSync</h3>
+                    <p>The legacy mail protocols were designed long before anti-enumeration was a concern, and they answer valid and invalid users differently:</p>
+                    <ul>
+                        <li><code>autodiscover-s.outlook.com/autodiscover/autodiscover.xml</code> returns mailbox configuration for a valid user and a 600 "Invalid Request" for one that does not exist.</li>
+                        <li><code>/ews/</code>, <code>/owa/</code> and <code>/Microsoft-Server-ActiveSync</code> each give distinguishable responses for valid versus invalid accounts.</li>
+                    </ul>
+
+                    <h3>4. Azure AD B2B invitation timing</h3>
+                    <p>The B2B invitation API (<code>/invitations</code>) behaves differently when the target already exists versus when it doesn't, which leaks existence at the tenant level as a side effect of how guest onboarding resolves an address.</p>
+
+                    <h3>5. Teams external access</h3>
+                    <p>Trying to start a chat with an external user can reveal whether that user exists. Teams has patched and re-broken this behaviour more than once, so treat it as a moving target rather than a closed door.</p>
+
+                    <h3>6. OpenID Connect discovery</h3>
+                    <p>The OIDC metadata endpoints (<code>/.well-known/openid-configuration</code>) combined with tenant-specific endpoints leak whether a domain is <strong>Managed</strong> or <strong>Federated</strong>, and to which IdP. That single fact tells an attacker whether to run a straight password spray or aim at the ADFS endpoint instead &mdash; reconnaissance before a single credential is tried.</p>
+
+                    <h2 id="why-microsoft-cant-fix-it">Why Microsoft can't easily fix it</h2>
+                    <p>This is not a bug waiting on a patch. It is baked into how cloud identity works, and every layer has a reason it leaks.</p>
+
+                    <table class="post-table">
+                        <thead>
+                            <tr><th>Layer</th><th>Why it leaks existence</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>Federation</strong></td><td>A federated domain must redirect the user to the correct IdP. If the user doesn't exist, there is no IdP to redirect to &mdash; and the redirect (or its absence) reveals which case you are in.</td></tr>
+                            <tr><td><strong>B2B / guest</strong></td><td>Inviting a guest by email inherently requires resolving whether that address exists.</td></tr>
+                            <tr><td><strong>UX design</strong></td><td><code>GetCredentialType</code> exists so the login UI can show "enter password" versus "redirecting to your organisation" &mdash; two paths for two account states.</td></tr>
+                            <tr><td><strong>Legacy protocols</strong></td><td>Autodiscover, ActiveSync and EWS predate anti-enumeration thinking entirely and were never designed to hide it.</td></tr>
+                        </tbody>
+                    </table>
+
+                    <p>Microsoft has made incremental improvements &mdash; <strong>Smart Lockout</strong> rate-limits per account and per IP to make spraying harder, <strong>Conditional Access</strong> can block legacy auth (which closes the legacy enumeration vectors along with it), and some error messages have been obfuscated in certain flows. But the root cause stays open, because federation and B2B genuinely need to know whether a user exists.</p>
+
+                    <h2 id="what-you-can-do">What you can do as a defender</h2>
+                    <p>You cannot delete the leak. What you can do is make the information it leaks worthless &mdash; a confirmed username is only dangerous if it leads somewhere. Layer the controls so it doesn't.</p>
+
+                    <figure class="post-content-image">
+                        <img src="../assets/images/m365-tenant-enumeration/defense-layers.svg" alt="Four concentric defensive layers around a tenant: block legacy authentication, Smart Lockout and password protection, MFA for all users, and monitoring sign-in logs for enumeration patterns" loading="lazy">
+                        <figcaption>You can't stop the leak &mdash; you layer controls until a valid username is worthless on its own</figcaption>
+                    </figure>
+
+                    <h3>Immediate, high impact</h3>
+                    <ul>
+                        <li><strong>Block legacy authentication</strong> via <a href="2025-10-24-getting-started-with-zero-trust.html">Conditional Access</a>. This kills the Autodiscover, EWS and ActiveSync enumeration vectors at the same time as it closes basic-auth password spray.</li>
+                        <li><strong>Enable Smart Lockout</strong> with aggressive thresholds so validated accounts can't be sprayed at volume.</li>
+                        <li><strong>Turn on password protection</strong> &mdash; ban common and custom weak passwords so a spray of the usual suspects finds nothing.</li>
+                        <li><strong>Enforce MFA for all users.</strong> This is the one that matters most here: enumeration plus a correct password still fails without the second factor, so a valid UPN on its own is worthless.</li>
+                    </ul>
+
+                    <h3>Medium term</h3>
+                    <ul>
+                        <li><strong>Monitor sign-in logs for enumeration patterns</strong> &mdash; high volumes of error <code>50126</code> (invalid username or password) or <code>50053</code> (account locked out) from a single IP are the fingerprint of a spray in progress.</li>
+                        <li><strong>Use Microsoft Entra ID Protection</strong> to detect leaked credentials, risky sign-ins and impossible travel, and feed that risk into Conditional Access.</li>
+                        <li><strong>Disable basic auth tenant-wide</strong> if you somehow still have it on. It is the single biggest open door for both enumeration and spraying.</li>
+                    </ul>
+
+                    <h2 id="key-takeaways">Key takeaways</h2>
+                    <ul>
+                        <li>Tenant enumeration confirms which accounts <strong>exist</strong> before any password is tried &mdash; it is reconnaissance, not an attack in itself.</li>
+                        <li><code>GetCredentialType</code> and its <code>IfExistsResult</code> flag are the classic vector, but timing, legacy mail protocols, B2B, Teams and OIDC discovery all leak the same fact.</li>
+                        <li>Microsoft can't fully close it &mdash; federation and B2B <em>need</em> to resolve whether a user exists.</li>
+                        <li>The defence is not to hide the username, but to make it useless: <strong>MFA, block legacy auth, Smart Lockout, password protection, and monitoring.</strong></li>
+                    </ul>
+
+                    <p>If you want to know how exposed your own tenant is &mdash; whether legacy auth is still open, whether your sign-in logs are already full of <code>50126</code> spikes, whether MFA actually covers everyone &mdash; that is exactly the kind of review I do. <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Get in touch.</a></p>
+
+                    <section class="post-glossary">
+                    <h2 id="glossary">Glossary</h2>
+                    <dl>
+                        <dt>Tenant enumeration</dt><dd>Determining, without authentication, whether a username or email address is a valid account in a target Microsoft 365 tenant.</dd>
+                        <dt>GetCredentialType</dt><dd>An unauthenticated Microsoft login endpoint that returns an <code>IfExistsResult</code> flag indicating whether an account exists; built for login-page UX, abused for enumeration.</dd>
+                        <dt>Password spraying</dt><dd>Trying one or two common passwords across many accounts, rather than many passwords against one &mdash; low and slow, to stay under lockout thresholds.</dd>
+                        <dt>Managed vs Federated domain</dt><dd>A managed domain authenticates directly against Entra ID; a federated domain redirects to an external IdP such as ADFS. OIDC discovery reveals which, guiding the attacker's next move.</dd>
+                        <dt>Smart Lockout</dt><dd>Entra ID's adaptive lockout that rate-limits sign-in attempts per account and per IP to blunt password spraying.</dd>
+                        <dt>Entra ID Protection</dt><dd>Microsoft's risk engine that flags leaked credentials, risky sign-ins and impossible travel, and can feed risk into Conditional Access.</dd>
+                    </dl>
+                    </section>
+
+                    <section class="faq">
+                    <h2 id="faq">Frequently Asked Questions</h2>
+                    <h3>Can I stop Microsoft 365 tenant enumeration completely?</h3>
+                    <p>No. The leak is architectural &mdash; federation and B2B guest invitations both need to resolve whether a user exists, so endpoints like <code>GetCredentialType</code> and the login flow will keep answering that question. The realistic goal is to make a confirmed username worthless by layering MFA, blocking legacy authentication, enabling Smart Lockout and password protection, and monitoring the sign-in logs.</p>
+                    <h3>Is tenant enumeration illegal or an actual attack?</h3>
+                    <p>On its own it is reconnaissance, not intrusion &mdash; no credentials are used and nothing is accessed. It is the step that comes <em>before</em> password spraying or phishing. That's exactly why it matters: stopping the follow-on attack is where your controls earn their keep.</p>
+                    <h3>Does enforcing MFA make enumeration harmless?</h3>
+                    <p>MFA is the single most important control here, because a valid username plus a correct password still fails without the second factor. It does not stop the enumeration itself, so pair it with blocking legacy authentication (which bypasses MFA) and Smart Lockout to cover the whole path.</p>
+                    <h3>Which sign-in log signals point to an enumeration or spray attempt?</h3>
+                    <p>Watch for high volumes of error code <code>50126</code> (invalid username or password) and <code>50053</code> (account locked out) originating from a single IP or a small range, especially spread thinly across many accounts. Entra ID Protection's risky-sign-in and impossible-travel detections add another layer.</p>
+                    </section>
+
+                    <hr>
+                    <h3>References</h3>
+                    <ol class="post-references">
+                        <li><a href="https://learn.microsoft.com/en-us/entra/identity/authentication/howto-password-smart-lockout" target="_blank" rel="noopener noreferrer">Microsoft Learn: Smart Lockout in Microsoft Entra ID</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-block-legacy-authentication" target="_blank" rel="noopener noreferrer">Microsoft Learn: Block legacy authentication with Conditional Access</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/entra/id-protection/overview-identity-protection" target="_blank" rel="noopener noreferrer">Microsoft Learn: What is Microsoft Entra ID Protection?</a></li>
+                    </ol>
+                </div>
+            </section>
+
+            <section class="author-bio">
+                <img src="../assets/images/cloudknox-author.webp" alt="Philipp Schmidt - Microsoft 365 Security Consultant - easyM365.de" class="author-avatar" loading="lazy">
+                <div class="author-info">
+                    <h3>Philipp Schmidt</h3>
+                    <p>IT consultant specializing in Microsoft 365, Security, and Zero Trust architecture. Helping SMBs build secure, scalable, and simple cloud solutions.</p>
+                    <p><strong>Zero Trust. Zero Drama. Zero Bullshit.</strong></p>
+                    <p><a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Learn more: https://easym365.de</a></p>
+                </div>
+            </section>
+        </article>
+        <div id="post-navigation"></div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2026 Philipp Schmidt. All rights reserved.</p>
+            <p>Secure. Scalable. Simple M365.</p>
+            <div class="footer-links">
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+                <a href="https://www.linkedin.com/in/pschmidt3010" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://github.com/farpoint-tech" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const menuToggle = document.getElementById("menu-toggle");
+        const nav = document.getElementById("nav");
+        menuToggle.addEventListener("click", () => { nav.classList.toggle("active"); });
+    </script>
+    <script src="../assets/js/post-navigation.js"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "M365 Tenant Enumeration: The Identity Leak Microsoft Won't Fully Close",
+      "description": "How an unauthenticated attacker confirms which accounts exist in a Microsoft 365 tenant, the technical vectors behind it, and how to make the leak useless.",
+      "image": "https://endlesstech.blog/assets/images/m365-tenant-enumeration/tenant-enumeration-hero.svg",
+      "author": { "@type": "Person", "name": "Philipp Schmidt", "url": "https://easym365.de" },
+      "publisher": { "@type": "Organization", "name": "EndlessTech Blog" },
+      "datePublished": "2026-08-20",
+      "dateModified": "2026-08-20",
+      "inLanguage": "en",
+      "mainEntityOfPage": "https://endlesstech.blog/posts/2026-08-20-m365-tenant-enumeration-explained.html"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Can I stop Microsoft 365 tenant enumeration completely?", "acceptedAnswer": { "@type": "Answer", "text": "No. The leak is architectural — federation and B2B guest invitations both need to resolve whether a user exists, so endpoints like GetCredentialType and the login flow keep answering that question. The realistic goal is to make a confirmed username worthless: enforce MFA, block legacy authentication, enable Smart Lockout and password protection, and monitor the sign-in logs." } },
+        { "@type": "Question", "name": "Is tenant enumeration illegal or an actual attack?", "acceptedAnswer": { "@type": "Answer", "text": "On its own it is reconnaissance, not intrusion — no credentials are used and nothing is accessed. It is the step before password spraying or phishing, which is why stopping the follow-on attack is where your controls matter." } },
+        { "@type": "Question", "name": "Does enforcing MFA make enumeration harmless?", "acceptedAnswer": { "@type": "Answer", "text": "MFA is the most important control here because a valid username plus a correct password still fails without the second factor. It does not stop the enumeration itself, so pair it with blocking legacy authentication (which bypasses MFA) and Smart Lockout." } },
+        { "@type": "Question", "name": "Which sign-in log signals point to an enumeration or spray attempt?", "acceptedAnswer": { "@type": "Answer", "text": "High volumes of error code 50126 (invalid username or password) and 50053 (account locked out) from a single IP or small range, spread thinly across many accounts. Entra ID Protection risky-sign-in and impossible-travel detections add another layer." } }
+      ]
+    }
+    </script>
+</body>
+</html>

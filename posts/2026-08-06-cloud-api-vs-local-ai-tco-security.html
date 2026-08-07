@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+    <meta name="robots" content="index,follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Cloud AI APIs vs local models: the honest total cost of ownership and security analysis. Why utilization — not technology — decides the cost, and how local deployment shifts risk rather than removing it.">
+    <meta name="author" content="Philipp Schmidt">
+    <meta name="keywords" content="local AI vs cloud API, LLM total cost of ownership, self-hosted LLM cost, on-prem AI, LLMOps, data privacy AI, GDPR AI, indirect prompt injection, open-weight models, AI TCO">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Cloud API vs. Local AI Models: The Honest TCO and Security Analysis">
+    <meta property="og:description" content="Why utilization — not technology — decides whether local AI is cheaper, and why local deployment shifts security risk rather than removing it.">
+    <meta property="og:image" content="https://endlesstech.blog/assets/images/cloud-vs-local-ai/cloud-vs-local-hero.svg">
+    <meta property="og:url" content="https://endlesstech.blog/posts/2026-08-06-cloud-api-vs-local-ai-tco-security.html">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Cloud API vs. Local AI Models: The Honest TCO and Security Analysis">
+    <meta name="twitter:description" content="Why utilization — not technology — decides whether local AI is cheaper, and why local deployment shifts security risk rather than removing it.">
+    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/cloud-vs-local-ai/cloud-vs-local-hero.svg">
+
+    <title>Cloud API vs. Local AI Models: The Honest TCO and Security Analysis</title>
+
+    <link rel="alternate" type="application/rss+xml" title="EndlessTech Blog RSS Feed" href="https://endlesstech.blog/feed.xml">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/blog-post.css">
+
+    <link rel="canonical" href="https://endlesstech.blog/posts/2026-08-06-cloud-api-vs-local-ai-tco-security.html" />
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/images/logo.webp" alt="Philipp Schmidt - Secure. Scalable. Simple M365.">
+            </a>
+            <nav class="nav" id="nav">
+                <a href="../index.html">Home</a>
+                <a href="../index.html#blog" class="active">Blog</a>
+                <a href="../about.html">About</a>
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+            </nav>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">&#9776;</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="post-full">
+            <header class="post-full-header">
+                <h1 class="post-full-title">Cloud API vs. Local AI Models: The Honest TCO and Security Analysis No One Wants to Write</h1>
+                <div class="post-full-meta">
+                    <time datetime="2026-08-06">August 2026</time> &bull; By Philipp Schmidt
+                </div>
+                <div class="post-tags">
+                    <span class="tag">AI</span>
+                    <span class="tag">LLM</span>
+                    <span class="tag">TCO</span>
+                    <span class="tag">Data Privacy</span>
+                    <span class="tag">Security</span>
+                </div>
+            </header>
+
+            <figure class="post-full-image">
+                <img src="../assets/images/cloud-vs-local-ai/cloud-vs-local-hero.svg" alt="A balance scale weighing a cloud API with a per-token meter against a local GPU carrying hardware, energy, and personnel costs">
+            </figure>
+
+            <section class="post-full-content">
+                <div class="post-content">
+
+                    <p>Every company integrating AI eventually hits the same fork in the road: pay per token via cloud APIs, or invest in hardware and run models locally. The pitch for each side sounds deceptively simple &mdash; cloud means zero upfront cost but variable spend that scales with usage; on-prem means high CAPEX but "free" tokens forever. Security tells a similar binary story: cloud is convenient but data leaves your network; local is sovereign but you are on your own.</p>
+
+                    <p>Both narratives are oversimplified. Here is what the numbers and the research actually say &mdash; including where each argument breaks down.</p>
+
+                    <div class="post-tldr">
+                        <h2>In short</h2>
+                        <p>Neither option is universally cheaper. On-prem wins at sustained high utilization <em>with a model class that meets your quality bar</em> &mdash; and only when personnel, energy, and infrastructure are fully counted. Cloud wins at low-to-moderate volume, for burst workloads, and whenever you need frontier capability. On security, local deployment doesn't remove risk, it <strong>shifts</strong> it: you trade third-party data access for supply-chain, operational, and personnel risk. The right call comes from data classification and measured usage, not ideology.</p>
+                    </div>
+
+                    <nav class="post-toc" aria-label="Table of contents">
+                        <h2>On this page</h2>
+                        <ol>
+                            <li><a href="#tco">Part 1 &mdash; Total cost of ownership</a></li>
+                            <li><a href="#security">Part 2 &mdash; Four uncomfortable security truths</a></li>
+                            <li><a href="#gdpr">What about GDPR?</a></li>
+                            <li><a href="#decide">Part 3 &mdash; How to actually decide</a></li>
+                            <li><a href="#glossary">Glossary</a></li>
+                            <li><a href="#faq">Frequently Asked Questions</a></li>
+                        </ol>
+                    </nav>
+
+                    <h2 id="tco">Part 1 &mdash; Total cost of ownership: the math you're not doing</h2>
+
+                    <h3>The token-price illusion</h3>
+                    <p>At frontier API prices (Claude around <strong>$3 per million input tokens and $15 per million output</strong>; GPT-4o around <strong>$2.50 / $10</strong>), one RTX 4090 at its ~<strong>$1,599</strong> MSRP buys you roughly <strong>0.3 to 0.5 billion tokens</strong>. That's it. But at budget-model API prices &mdash; DeepSeek V4 Flash from ~<strong>$0.14</strong> per million, Llama 3.3 70B from ~<strong>$0.12</strong> per million via low-cost providers &mdash; the same $1,599 covers <strong>6 to over 13 billion tokens</strong>.</p>
+
+                    <p>The much-repeated claim that "for the cost of one GPU you can burn 5 billion tokens" sits squarely in the budget-model bracket &mdash; and those are exactly the model classes that can realistically run on a single consumer GPU. Both sides of the debate cherry-pick their price point. The honest answer: the comparison only makes sense when you align model quality tiers.</p>
+
+                    <figure class="post-content-image">
+                        <img src="../assets/images/cloud-vs-local-ai/tco-crossover.svg" alt="Chart of cost per million tokens versus utilization: local hosting is very expensive at low utilization and only drops below the roughly flat cloud API line at sustained high utilization" loading="lazy">
+                        <figcaption>Local cost is a fixed sum divided by usage &mdash; brutal at low utilization, competitive only near capacity. The same 70B model self-hosted vs. served by an API can differ ~350x, driven by utilization, not technology.</figcaption>
+                    </figure>
+
+                    <h3>The utilization trap</h3>
+                    <p>An RTX 4090 running a quantized 70B model produces between <strong>8 and 30 tokens per second</strong> in real-world conditions &mdash; about <strong>2.5 million tokens per day</strong> at full throttle. At frontier blended pricing (~$4&ndash;6 per million for a typical 3:1 input-output mix), that's <strong>$10&ndash;15 per day</strong> in equivalent API value &mdash; enough to amortize the hardware over roughly one year of continuous use.</p>
+
+                    <p>But if your use case needs only 50,000 tokens per day, locally hosted becomes dramatically more expensive. Real-world comparisons show self-hosted Llama 3.3 70B at low utilization costing up to <strong>$43 per million tokens</strong>, while the same model served via a well-priced API provider runs at <strong>$0.12 per million</strong>. That's a <strong>350x difference</strong> &mdash; driven entirely by utilization, not technology.</p>
+
+                    <h3>The spreadsheet blind spots</h3>
+                    <p>A functional 70B inference box costs far more than the GPU. You need 128 GB of RAM, a capable CPU, and fast NVMe storage &mdash; easily <strong>&euro;4,000&ndash;6,000</strong> for the complete system. Then energy: an RTX 4090 pulls up to 450W under load; a full server draws more. At German business electricity rates (~&euro;0.27/kWh), the GPU alone costs <strong>&euro;1,000&ndash;1,500 per year</strong> &mdash; add 30&ndash;40% for cooling. Over a 3-year hardware lifecycle, energy costs alone can exceed the GPU purchase price.</p>
+
+                    <p>Then there's the biggest line item nearly every on-prem ROI pitch ignores: <strong>personnel</strong>. Running a local AI stack isn't plug-and-play. Someone handles model selection, quantization, updates, monitoring, security patches, and failure response. In the DACH region that competence costs six figures annually &mdash; and it dominates any hardware spreadsheet.</p>
+
+                    <h3>The quality ceiling</h3>
+                    <p>Frontier models with hundreds of billions of parameters do not run on a single RTX 4090. Locally, you are typically deploying 8B to 70B parameter models, often quantized. These are solid for many business tasks &mdash; text classification, summarization, RAG over internal documents &mdash; but they don't match the strongest cloud models on complex reasoning, multimodal tasks, or multi-step agentic workflows. If you need frontier quality, you need either multiple high-end GPUs or the cloud. Either way, the "local is always cheaper" math falls apart.</p>
+
+                    <blockquote>On-prem wins at sustained high utilization with a model class that meets your quality requirements &mdash; and only when personnel, energy, and infrastructure are fully accounted for. Cloud wins at low-to-moderate volume, for burst workloads, and whenever you need frontier capability. Anyone telling you one side is universally cheaper is either selling hardware or hasn't done the spreadsheet.</blockquote>
+
+                    <h2 id="security">Part 2 &mdash; Four uncomfortable truths about local models</h2>
+                    <p>The security argument for local deployment usually goes: "your data never leaves your network, so it's inherently safer." That's directionally true for the data-transfer risk. But local models introduce their own attack surface the on-prem narrative tends to omit.</p>
+
+                    <h3>1. Open-weight is not open source</h3>
+                    <p>The Open Source Initiative has been unambiguous: Meta's Llama 3.x does not meet the Open Source Definition. It carries commercial-usage thresholds (over 700 million monthly active users triggers a separate license) and distribution restrictions. Similar patterns apply to Google's Gemma and others. Notably, some Chinese models are licensed more permissively &mdash; DeepSeek R1 is MIT-licensed, Qwen models ship under Apache 2.0-style terms. Regardless of license: you cannot practically audit billions of model weights. The transparency that "open source" implies simply doesn't exist at this scale.</p>
+
+                    <h3>2. Export controls on models are a real, evolving risk</h3>
+                    <p>The U.S. government's "AI Diffusion Rule," issued in January 2025, attempted to regulate the distribution of open-weight AI models for the first time. It was rescinded in May 2025 before taking effect &mdash; but a replacement framework has been announced, and chip export controls remain fully in place. The precedent is set: which models a company can legally download and deploy can change with geopolitics. If your strategy depends on freely available open-weight models from abroad, that dependency carries a political risk premium.</p>
+
+                    <h3>3. Backdoors and supply-chain risk are documented, not theoretical</h3>
+                    <p>Anthropic's "Sleeper Agents" research (Hubinger et al., 2024) showed that training-time backdoors in large language models survive standard safety fine-tuning &mdash; including adversarial training. In their experiments, backdoor behavior activated roughly 99% of the time even after mitigation attempts. This is foundational research, not a report of a production attack. But the implication is clear: if you pull model weights from third parties &mdash; model hubs, community fine-tunes &mdash; you inherit a supply-chain risk you cannot fully verify. The very risk local deployment seeks to avoid (external dependency) resurfaces through the model supply chain itself.</p>
+
+                    <h3>4. Air-gapped is a myth for most real workloads</h3>
+                    <p>A model without current information is useless for nearly every business application. You will need retrieval-augmented generation (RAG), agent frameworks, tool integrations, and database connections &mdash; collectively, a harness that links the system to the outside world. That means the system is not, and cannot be, fully isolated. The research on indirect prompt injection (Greshake et al., 2023 &mdash; now the #1 risk in the OWASP Top 10 for LLM applications) shows attackers can control LLM applications through content the model processes: documents, websites, emails, database records. Running locally shifts responsibility for that perimeter to you; it doesn't make the attack go away.</p>
+
+                    <h2 id="gdpr">What about GDPR?</h2>
+                    <p>The GDPR concern is real. DeepSeek was banned in Italy (January 2025) and scrutinized in Ireland specifically over data-handling practices. But the compliance picture is broader than "cloud APIs violate GDPR." The EU-U.S. Data Privacy Framework, with its adequacy decision from July 2023, survived its first court challenge in September 2025. Major cloud providers offer EU Data Boundary configurations that include AI processing residency. Standard Contractual Clauses remain available. European providers (OVH, Ionos, Schwarz Group / StackIT) offer alternatives entirely outside U.S. jurisdiction.</p>
+
+                    <p>The honest security assessment: local deployment shifts risks rather than eliminating them. You trade third-party data access risk for supply-chain, operational, and personnel risk. Cloud trades direct control for provider certifications, SLAs, and shared responsibility. The right approach is <strong>data classification</strong> &mdash; knowing which data goes where based on actual risk, not ideology.</p>
+
+                    <h2 id="decide">Part 3 &mdash; How to actually decide</h2>
+                    <p>A decision matrix beats a rule of thumb:</p>
+
+                    <table class="post-table">
+                        <thead>
+                            <tr><th>Decision factor</th><th>Cloud API wins when&hellip;</th><th>Local / on-prem wins when&hellip;</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>Usage pattern</strong></td><td>Occasional, prototypes, burst workloads</td><td>Sustained near-capacity, batch processing</td></tr>
+                            <tr><td><strong>Data sensitivity</strong></td><td>Public or low-risk internal data</td><td>Regulated data: healthcare, legal, finance, government</td></tr>
+                            <tr><td><strong>Quality requirement</strong></td><td>Frontier models needed (400B+, multimodal)</td><td>8&ndash;70B models sufficient for your tasks</td></tr>
+                            <tr><td><strong>In-house skills</strong></td><td>No dedicated MLOps team</td><td>Existing AI / infrastructure engineering team</td></tr>
+                            <tr><td><strong>Latency / connectivity</strong></td><td>Tolerant of network latency</td><td>Real-time or offline operation required</td></tr>
+                            <tr><td><strong>Compliance posture</strong></td><td>DPF / SCCs / EU processing adequate</td><td>Maximum data sovereignty mandated</td></tr>
+                            <tr><td><strong>Budget structure</strong></td><td>Variable OPEX preferred</td><td>CAPEX acceptable, long-term volume pricing desired</td></tr>
+                        </tbody>
+                    </table>
+
+                    <h3>The pragmatic default: hybrid</h3>
+                    <p>In practice, most organizations land on a hybrid architecture:</p>
+                    <ul>
+                        <li><strong>Sensitive, high-volume workloads</strong> &rarr; local or EU sovereign cloud</li>
+                        <li><strong>High-volume, non-sensitive tasks</strong> &rarr; low-cost API providers (e.g. Llama 3.3 70B at ~$0.12 / 1M via a budget host)</li>
+                        <li><strong>Complex, low-volume queries</strong> &rarr; frontier models (Claude, GPT-4o) on demand</li>
+                        <li><strong>Routing layer</strong> &rarr; directs each request by sensitivity and complexity</li>
+                    </ul>
+
+                    <h3>The process that matters more than the conclusion</h3>
+                    <ol>
+                        <li><strong>Measure your actual usage for 90 days</strong> &mdash; token volume, model class, query patterns.</li>
+                        <li><strong>Classify your data</strong> &mdash; what's regulated, what's sensitive, what's public.</li>
+                        <li><strong>Define your quality requirements</strong> &mdash; can a quantized 70B do the job, or do you need frontier reasoning?</li>
+                        <li><strong>Calculate TCO with all components</strong> &mdash; hardware, energy, cooling, personnel, licenses, model updates, failure risk, compliance overhead.</li>
+                        <li><strong>Decide based on the numbers</strong> &mdash; not on what hardware vendors, cloud providers, or LinkedIn posts tell you.</li>
+                    </ol>
+
+                    <h2 id="conclusion">Conclusion</h2>
+                    <p>The choice between cloud APIs and local AI models is genuinely complex. Local inference promises sovereignty and potentially lower cost at scale, but it demands high utilization, significant operational investment, and acceptance of its own security risks. Cloud APIs offer instant access to frontier capability with zero hardware management, but they introduce variable cost at scale and a third party into your data pipeline.</p>
+                    <p>Neither path is universally right. The companies that get this decision right stop asking "which is better?" and start asking "for this specific workload, with this data classification, at this volume &mdash; what do the numbers say?"</p>
+
+                    <section class="post-glossary">
+                    <h2 id="glossary">Glossary</h2>
+                    <dl>
+                        <dt>TCO (Total Cost of Ownership)</dt><dd>The full cost of a solution over its life &mdash; here: hardware, energy, cooling, personnel, licensing, updates, failure risk, and compliance, not just the sticker price of a GPU or a per-token rate.</dd>
+                        <dt>Open-weight vs open-source</dt><dd>Open-weight means the model parameters are downloadable; open-source (per the OSI definition) also means unrestricted use and transparency. Most "open" LLMs are open-weight but carry licensing and usage restrictions.</dd>
+                        <dt>Quantization</dt><dd>Compressing a model's weights to lower precision so it fits and runs on smaller hardware, at some cost to quality.</dd>
+                        <dt>RAG (Retrieval-Augmented Generation)</dt><dd>Feeding a model current, external documents at query time so it can answer with information it wasn't trained on &mdash; and the reason a "local" model is rarely truly isolated.</dd>
+                        <dt>Indirect prompt injection</dt><dd>An attack where malicious instructions hidden in content the model reads (a document, webpage, email) hijack its behavior. The #1 risk in the OWASP Top 10 for LLM applications.</dd>
+                        <dt>EU-U.S. Data Privacy Framework (DPF)</dt><dd>The adequacy mechanism (2023) that legitimizes personal-data transfers to certified U.S. providers; it survived its first court challenge in September 2025.</dd>
+                    </dl>
+                    </section>
+
+                    <section class="faq">
+                    <h2 id="faq">Frequently Asked Questions</h2>
+                    <h3>Is running a local LLM actually cheaper than a cloud API?</h3>
+                    <p>Only at sustained high utilization, and only when the local model class meets your quality requirement. The cost of local hosting is a fixed sum divided by usage &mdash; brutal at low volume. The same 70B model can cost up to ~$43 per million tokens self-hosted at low utilization versus ~$0.12 per million via an API, a ~350x gap driven by utilization, not technology. And that's before personnel, energy, and cooling.</p>
+                    <h3>Does keeping AI local make it more secure?</h3>
+                    <p>It removes the third-party data-transfer risk but adds others: unverifiable model supply chain (training-time backdoors survive fine-tuning), export-control exposure on the models themselves, and full operational responsibility for the RAG/agent harness &mdash; which is where indirect prompt injection lives. Local shifts risk rather than eliminating it.</p>
+                    <h3>Do cloud AI APIs automatically violate GDPR?</h3>
+                    <p>No. The EU-U.S. Data Privacy Framework, EU Data Boundary configurations, Standard Contractual Clauses, and EU sovereign providers all offer compliant paths. GDPR compliance is a matter of configuration and data classification, not simply "cloud versus local."</p>
+                    <h3>What's the pragmatic default architecture?</h3>
+                    <p>Hybrid with a routing layer: sensitive or high-volume workloads to local or EU sovereign cloud, high-volume non-sensitive tasks to a low-cost API host, and complex low-volume queries to a frontier model on demand &mdash; each request routed by sensitivity and complexity.</p>
+                    </section>
+
+                    <hr>
+                    <h3>References</h3>
+                    <ol class="post-references">
+                        <li>Hubinger et al. (2024). <a href="https://arxiv.org/abs/2401.05566" target="_blank" rel="noopener noreferrer">Sleeper Agents: Training Deceptive LLMs that Persist Through Safety Training</a>.</li>
+                        <li>Greshake et al. (2023). <a href="https://arxiv.org/abs/2302.12173" target="_blank" rel="noopener noreferrer">Not what you've signed up for: Compromising Real-World LLM-Integrated Applications with Indirect Prompt Injection</a>.</li>
+                        <li><a href="https://genai.owasp.org/llm-top-10/" target="_blank" rel="noopener noreferrer">OWASP Top 10 for LLM Applications</a>.</li>
+                        <li><a href="https://opensource.org/" target="_blank" rel="noopener noreferrer">Open Source Initiative</a> &mdash; on open-weight vs the Open Source Definition.</li>
+                    </ol>
+                </div>
+            </section>
+
+            <section class="author-bio">
+                <img src="../assets/images/cloudknox-author.webp" alt="Philipp Schmidt - Microsoft 365 Security Consultant - easyM365.de" class="author-avatar" loading="lazy">
+                <div class="author-info">
+                    <h3>Philipp Schmidt</h3>
+                    <p>IT consultant specializing in Microsoft 365, Security, and Zero Trust architecture. Helping SMBs build secure, scalable, and simple cloud solutions.</p>
+                    <p><strong>Zero Trust. Zero Drama. Zero Bullshit.</strong></p>
+                    <p><a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Learn more: https://easym365.de</a></p>
+                </div>
+            </section>
+        </article>
+        <div id="post-navigation"></div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2026 Philipp Schmidt. All rights reserved.</p>
+            <p>Secure. Scalable. Simple M365.</p>
+            <div class="footer-links">
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+                <a href="https://www.linkedin.com/in/pschmidt3010" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://github.com/farpoint-tech" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const menuToggle = document.getElementById("menu-toggle");
+        const nav = document.getElementById("nav");
+        menuToggle.addEventListener("click", () => { nav.classList.toggle("active"); });
+    </script>
+    <script src="../assets/js/post-navigation.js"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Cloud API vs. Local AI Models: The Honest TCO and Security Analysis No One Wants to Write",
+      "description": "Why utilization — not technology — decides whether local AI is cheaper, and why local deployment shifts security risk rather than removing it.",
+      "image": "https://endlesstech.blog/assets/images/cloud-vs-local-ai/cloud-vs-local-hero.svg",
+      "author": { "@type": "Person", "name": "Philipp Schmidt", "url": "https://easym365.de" },
+      "publisher": { "@type": "Organization", "name": "EndlessTech Blog" },
+      "datePublished": "2026-08-06",
+      "dateModified": "2026-08-06",
+      "inLanguage": "en",
+      "mainEntityOfPage": "https://endlesstech.blog/posts/2026-08-06-cloud-api-vs-local-ai-tco-security.html"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Is running a local LLM actually cheaper than a cloud API?", "acceptedAnswer": { "@type": "Answer", "text": "Only at sustained high utilization, and only when the local model class meets your quality requirement. Local cost is a fixed sum divided by usage — brutal at low volume. The same 70B model can cost up to ~$43 per million tokens self-hosted at low utilization versus ~$0.12 per million via an API — a ~350x gap driven by utilization, not technology — and that's before personnel, energy, and cooling." } },
+        { "@type": "Question", "name": "Does keeping AI local make it more secure?", "acceptedAnswer": { "@type": "Answer", "text": "It removes the third-party data-transfer risk but adds others: an unverifiable model supply chain (training-time backdoors survive fine-tuning), export-control exposure on the models, and full operational responsibility for the RAG/agent harness where indirect prompt injection lives. Local shifts risk rather than eliminating it." } },
+        { "@type": "Question", "name": "Do cloud AI APIs automatically violate GDPR?", "acceptedAnswer": { "@type": "Answer", "text": "No. The EU-U.S. Data Privacy Framework, EU Data Boundary configurations, Standard Contractual Clauses, and EU sovereign providers all offer compliant paths. Compliance is a matter of configuration and data classification, not simply cloud versus local." } },
+        { "@type": "Question", "name": "What is the pragmatic default architecture for AI?", "acceptedAnswer": { "@type": "Answer", "text": "Hybrid with a routing layer: sensitive or high-volume workloads to local or EU sovereign cloud, high-volume non-sensitive tasks to a low-cost API host, and complex low-volume queries to a frontier model on demand — each request routed by sensitivity and complexity." } }
+      ]
+    }
+    </script>
+</body>
+</html>
