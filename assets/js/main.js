@@ -173,6 +173,34 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// Hold staged post cards back until their release day. Cards carry
+// data-release="YYYY-MM-DD" and stay hidden until that date has arrived in
+// Europe/Berlin, so a card releases on the same day wherever it is read from.
+document.addEventListener('DOMContentLoaded', function() {
+    const staged = document.querySelectorAll('.post-card[data-release]');
+    if (!staged.length) return;
+
+    let today;
+    try {
+        today = new Intl.DateTimeFormat('en-CA', {
+            timeZone: 'Europe/Berlin',
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+        }).format(new Date());
+    } catch (err) {
+        // No Intl time zone support: fall back to the reader's own date rather
+        // than hiding posts that are in fact published.
+        today = new Date().toISOString().slice(0, 10);
+    }
+
+    staged.forEach(card => {
+        if (card.dataset.release > today) {
+            card.classList.add('unreleased');
+        }
+    });
+});
+
 // Category filter for blog post grid
 document.addEventListener('DOMContentLoaded', function() {
     const filterButtons = document.querySelectorAll('.category-btn');

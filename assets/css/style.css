@@ -951,6 +951,12 @@ em, i {
   display: none;
 }
 
+/* Held back until its release day by the data-release gate in main.js. Kept
+   separate from .hidden so the category filter cannot reveal it. */
+.post-card.unreleased {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .category-filter {
     gap: 0.5rem;
