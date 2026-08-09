@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+    <meta name="robots" content="index,follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Entra ID PIM's authentication context often fails to re-verify at role activation. How to check it, automate activation safely, and what P1 tenants can do instead.">
+    <meta name="author" content="Philipp Schmidt">
+    <meta name="keywords" content="Entra PIM authentication context, privileged identity management SMB, PIM activation PowerShell, zero standing privilege, PIM service principals, GDAP PIM MSP, do I need Entra ID P2 for PIM, PIM Authentifizierungskontext, privilegierte Rollen zeitlich begrenzen">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Entra ID PIM Setup: Why Authentication Context Still Isn't Enforced on Role Activation">
+    <meta property="og:description" content="Entra ID PIM's authentication context often fails to re-verify at role activation. How to check it, automate activation safely, and what P1 tenants can do instead.">
+    <meta property="og:image" content="https://endlesstech.blog/assets/images/entra-pim-authentication-context/pim-activation-hero.svg">
+    <meta property="og:url" content="https://endlesstech.blog/posts/2026-09-03-entra-pim-authentication-context.html">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Entra ID PIM Setup: Why Authentication Context Still Isn't Enforced on Role Activation">
+    <meta name="twitter:description" content="Entra ID PIM's authentication context often fails to re-verify at role activation. How to check it, automate activation safely, and what P1 tenants can do instead.">
+    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/entra-pim-authentication-context/pim-activation-hero.svg">
+
+    <title>Entra ID PIM Setup: Why Authentication Context Still Isn't Enforced on Role Activation</title>
+
+    <link rel="alternate" type="application/rss+xml" title="EndlessTech Blog RSS Feed" href="https://endlesstech.blog/feed.xml">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/blog-post.css">
+
+    <link rel="canonical" href="https://endlesstech.blog/posts/2026-09-03-entra-pim-authentication-context.html" />
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/images/logo.webp" alt="Philipp Schmidt - Secure. Scalable. Simple M365.">
+            </a>
+            <nav class="nav" id="nav">
+                <a href="../index.html">Home</a>
+                <a href="../index.html#blog" class="active">Blog</a>
+                <a href="../about.html">About</a>
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+            </nav>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">&#9776;</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="post-full">
+            <header class="post-full-header">
+                <h1 class="post-full-title">Entra ID PIM Setup: Why Authentication Context Still Isn't Enforced on Role Activation</h1>
+                <div class="post-full-meta">
+                    <time datetime="2026-09-03">September 2026</time> &bull; By Philipp Schmidt
+                </div>
+                <div class="post-tags"><span class="tag">Entra ID</span><span class="tag">Security</span><span class="tag">PIM</span><span class="tag">Identity</span><span class="tag">Best Practices</span></div>
+            </header>
+
+            <figure class="post-full-image">
+                <img src="../assets/images/entra-pim-authentication-context/pim-activation-hero.svg" alt="A privileged role activation gate checking authentication context, with a stale MFA claim slipping past the check">
+            </figure>
+
+            <section class="post-full-content">
+                <div class="post-content">
+
+                    <p>Privileged Identity Management is the right idea. Nobody should sit on Global Administrator around the clock, and time-bound, justified, logged role activation is how that gets fixed. The problem shows up once you actually configure it: authentication context, the setting that is supposed to force a stronger sign-in method before a role activates, does not reliably apply to PIM activation the way admins expect. A user can activate an eligible privileged role without being pushed through the stricter authentication check tied to that role's Conditional Access policy.</p>
+
+                    <p>That gap gets flagged repeatedly, alongside a quieter one: below Entra ID P2, PIM does not exist at all &mdash; which means most SMB tenants on P1 or Business Premium have zero role-activation governance no matter how well the concept works on paper.</p>
+
+                    <div class="post-tldr">
+                        <h2>In short</h2>
+                        <p>PIM is the correct architecture for cutting standing privilege, but <strong>authentication context does not reliably re-verify at activation time</strong> &mdash; an MFA claim from earlier in the day can satisfy the check, which defeats the point of a deliberate elevation moment. Verify the behaviour in your own tenant before treating PIM as your control against a compromised session. <strong>P1 tenants have no PIM at all</strong>; the fallback is a disciplined manual role review, not nothing.</p>
+                    </div>
+
+                    <nav class="post-toc" aria-label="Table of contents">
+                        <h2>On this page</h2>
+                        <ol>
+                            <li><a href="#why-they-dont-line-up">Why authentication context and PIM activation don't line up</a></li>
+                            <li><a href="#service-principals">PIM for service principals is a separate, immature story</a></li>
+                            <li><a href="#without-p2">What SMBs without P2 actually have</a></li>
+                            <li><a href="#automating">Automating activation without losing the record</a></li>
+                            <li><a href="#msp">For MSPs: PIM layered onto GDAP</a></li>
+                            <li><a href="#glossary">Glossary</a></li>
+                            <li><a href="#faq">Frequently Asked Questions</a></li>
+                        </ol>
+                    </nav>
+
+                    <h2 id="why-they-dont-line-up">Why authentication context and PIM activation don't line up</h2>
+                    <p>Authentication context lets you attach a specific Conditional Access requirement &mdash; phishing-resistant MFA, a managed device, a specific location &mdash; to a sensitive action instead of an entire app. PIM role activation is a listed trigger for it. In practice, admins report activating an eligible role without the associated Conditional Access policy actually firing, especially when the session already carries an MFA claim from earlier in the day. The claim gets treated as satisfying the requirement, even though it was not issued for this specific elevation.</p>
+                    <p>That matters because the entire security case for PIM rests on activation being a deliberate, verified moment. If activation can happen on stale claims, the time-bound nature of the role stops being the control people think it is &mdash; a compromised session with an old token can still reach Global Administrator for the activation window.</p>
+                    <p>Before rolling PIM out as your primary privileged-access control, verify the claim is actually re-evaluated at activation, not just checked against session state:</p>
+                    <ul>
+                        <li>Confirm the Conditional Access policy scoped to authentication context targets the PIM role activation trigger specifically, not just app sign-in</li>
+                        <li>Check the sign-in logs for the activation event and confirm which method satisfied the policy &mdash; and when that method was originally established</li>
+                        <li>Test with an account whose MFA claim is older than your session lifetime, and confirm re-authentication is actually required rather than silently waived</li>
+                    </ul>
+
+                    <h2 id="service-principals">PIM for service principals is a separate, immature story</h2>
+                    <p>Most PIM tooling assumes a human activating a role. Service principals and privileged service accounts need the same time-bound treatment, but there is no native "eligible" activation flow for a service principal the way there is for a user. Service principals with standing application permissions stay standing &mdash; exactly the persistence risk PIM was built to close for humans. It matters most where it is least covered: automation accounts holding Global Administrator or Application Administrator rights that run unattended.</p>
+
+                    <h2 id="without-p2">What SMBs without P2 actually have</h2>
+                    <p>If PIM is not licensed, the fallback is not "no governance" &mdash; it is manual governance done consistently. That means no standing Global Administrator assignments beyond the two required break-glass accounts, a quarterly review of role assignments through the Entra admin center or the Graph <code>roleManagement</code> endpoints, and documented sign-off on who holds which privileged role and why. Slower, and dependent on someone actually doing it. But it is a real control, and better than assuming a licence you do not have is protecting you.</p>
+
+                    <h2 id="automating">Automating activation without losing the record</h2>
+                    <p>The native activation UI is functional but slow for anyone elevating several times a day, which is why PowerShell automation around PIM keeps showing up in admin communities. <code>Microsoft.Graph.Identity.Governance</code> is the current module; the <code>AzureADPreview</code> PIM cmdlets are deprecated and should not be the basis of anything built now. Any automation wrapping activation should still write to the same audit trail PIM itself uses &mdash; the point is automating the click, not the logging.</p>
+
+                    <h2 id="msp">For MSPs: PIM layered onto GDAP</h2>
+                    <p>MSPs increasingly put technicians into PIM-eligible roles scoped through GDAP rather than granting standing GDAP role assignments per customer. That is the right direction: it turns "this technician can always administer this customer" into "this technician can activate access for a bounded window, for a stated reason." The complexity is that it stacks PIM's activation gap on top of <a href="2026-09-19-gdap-msp-circular-dependency.html">GDAP's own reliability issues</a> &mdash; worth solving deliberately rather than assuming the stack works end to end because each piece is documented separately.</p>
+
+                    <h2 id="bottom-line">Bottom line</h2>
+                    <p>PIM is the correct architecture for reducing standing privilege, and the authentication context gap does not change that. It changes what you can claim it protects against. Verify the activation-time check actually fires before treating PIM as your defence against a compromised session &mdash; and if you are on P1, run the manual review rather than assuming there is nothing to do.</p>
+
+                    <section class="post-glossary">
+                    <h2 id="glossary">Glossary</h2>
+                    <dl>
+                        <dt>PIM (Privileged Identity Management)</dt><dd>Entra ID P2 capability for just-in-time, time-bound, approved and logged activation of privileged roles instead of standing assignment.</dd>
+                        <dt>Authentication context</dt><dd>A Conditional Access mechanism that attaches a stricter requirement (phishing-resistant MFA, compliant device) to a specific sensitive action rather than a whole application.</dd>
+                        <dt>Zero standing privilege</dt><dd>The principle that no account holds privileged rights permanently &mdash; rights are activated for a bounded window and expire automatically.</dd>
+                        <dt>Break-glass account</dt><dd>An excluded emergency-access account kept outside normal Conditional Access and PIM scope so a policy failure cannot lock everyone out.</dd>
+                        <dt>Service principal</dt><dd>The identity an application or automation uses to authenticate. Standing application permissions on service principals are not covered by PIM's user-oriented activation flow.</dd>
+                    </dl>
+                    </section>
+
+                    <section class="faq">
+                    <h2 id="faq">Frequently Asked Questions</h2>
+                    <h3>Is Entra ID PIM authentication context a known security gap?</h3>
+                    <p>Conditional Access policies scoped to authentication context are documented to trigger on PIM role activation, but admins consistently report the check being satisfied by an existing MFA claim rather than a fresh one at activation. Confirm the re-authentication behaviour in your own tenant before relying on it as a control.</p>
+                    <h3>Do I need Entra ID P2 for Privileged Identity Management?</h3>
+                    <p>Yes. PIM's role activation, approval workflow and access reviews require Entra ID P2 or Microsoft 365 E5. P1 and Business Premium tenants do not have PIM available at all and need a documented manual role-review process instead.</p>
+                    <h3>How do I automate PIM role activation with PowerShell?</h3>
+                    <p>Use the Microsoft.Graph.Identity.Governance module against the roleManagement/directory endpoints to request and approve eligible activations. Avoid the deprecated AzureADPreview PIM cmdlets — they are unmaintained and should not underpin new automation.</p>
+                    <h3>What can a P1 tenant do without PIM?</h3>
+                    <p>Hard-limit standing Global Administrator assignments to two break-glass accounts, and run a documented quarterly review of role assignments via the Entra admin center or Graph roleManagement queries. It is manual, but it is a real control.</p>
+                    </section>
+
+                    <hr>
+                    <h3>References</h3>
+                    <ol class="post-references">
+                        <li><a href="https://learn.microsoft.com/en-us/entra/id-governance/privileged-identity-management/pim-configure" target="_blank" rel="noopener noreferrer">Microsoft Learn: What is Privileged Identity Management?</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-cloud-apps" target="_blank" rel="noopener noreferrer">Microsoft Learn: Conditional Access authentication context</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/security-emergency-access" target="_blank" rel="noopener noreferrer">Microsoft Learn: Manage emergency access accounts</a></li>
+                    </ol>
+                </div>
+            </section>
+
+            <section class="author-bio">
+                <img src="../assets/images/cloudknox-author.webp" alt="Philipp Schmidt - Microsoft 365 Security Consultant - easyM365.de" class="author-avatar" loading="lazy">
+                <div class="author-info">
+                    <h3>Philipp Schmidt</h3>
+                    <p>IT consultant specializing in Microsoft 365, Security, and Zero Trust architecture. Helping SMBs build secure, scalable, and simple cloud solutions.</p>
+                    <p><strong>Zero Trust. Zero Drama. Zero Bullshit.</strong></p>
+                    <p><a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Learn more: https://easym365.de</a></p>
+                </div>
+            </section>
+        </article>
+        <div id="post-navigation"></div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2026 Philipp Schmidt. All rights reserved.</p>
+            <p>Secure. Scalable. Simple M365.</p>
+            <div class="footer-links">
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+                <a href="https://www.linkedin.com/in/pschmidt3010" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://github.com/farpoint-tech" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const menuToggle = document.getElementById("menu-toggle");
+        const nav = document.getElementById("nav");
+        menuToggle.addEventListener("click", () => { nav.classList.toggle("active"); });
+    </script>
+    <script src="../assets/js/post-navigation.js"></script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Entra ID PIM Setup: Why Authentication Context Still Isn't Enforced on Role Activation",
+  "description": "Entra ID PIM's authentication context often fails to re-verify at role activation. How to check it, automate activation safely, and what P1 tenants can do instead.",
+  "image": "https://endlesstech.blog/assets/images/entra-pim-authentication-context/pim-activation-hero.svg",
+  "author": {
+    "@type": "Person",
+    "name": "Philipp Schmidt",
+    "url": "https://easym365.de"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "EndlessTech Blog"
+  },
+  "datePublished": "2026-09-03",
+  "dateModified": "2026-09-03",
+  "inLanguage": "en",
+  "mainEntityOfPage": "https://endlesstech.blog/posts/2026-09-03-entra-pim-authentication-context.html"
+}
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is Entra ID PIM authentication context a known security gap?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Conditional Access policies scoped to authentication context are documented to trigger on PIM role activation, but admins consistently report the check being satisfied by an existing MFA claim rather than a fresh one at activation. Confirm the re-authentication behaviour in your own tenant before relying on it as a control."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need Entra ID P2 for Privileged Identity Management?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. PIM's role activation, approval workflow and access reviews require Entra ID P2 or Microsoft 365 E5. P1 and Business Premium tenants do not have PIM available at all and need a documented manual role-review process instead."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I automate PIM role activation with PowerShell?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use the Microsoft.Graph.Identity.Governance module against the roleManagement/directory endpoints to request and approve eligible activations. Avoid the deprecated AzureADPreview PIM cmdlets \u2014 they are unmaintained and should not underpin new automation."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What can a P1 tenant do without PIM?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Hard-limit standing Global Administrator assignments to two break-glass accounts, and run a documented quarterly review of role assignments via the Entra admin center or Graph roleManagement queries. It is manual, but it is a real control."
+      }
+    }
+  ]
+}
+    </script>
+</body>
+</html>

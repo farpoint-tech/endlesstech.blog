@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-label="A departing employee icon with connected access points — mailbox, groups, owned apps, shared links — only some of them closed off">
+  <defs>
+    <linearGradient id="offboarding-lifecycle-hero-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071633"/><stop offset="1" stop-color="#002863"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="675" fill="url(#offboarding-lifecycle-hero-bg)"/>
+  <g stroke="#3366FF" stroke-opacity="0.08" stroke-width="1">
+    <path d="M0 135H1200M0 270H1200M0 405H1200M0 540H1200"/>
+    <path d="M200 0V675M400 0V675M600 0V675M800 0V675M1000 0V675"/>
+  </g>
+  <g transform="translate(560 200)">
+    <circle cx="0" cy="0" r="50" fill="#0e2a5c" stroke="#00D9FF" stroke-width="3"/>
+    <circle cx="0" cy="-14" r="16" fill="#9db8ff"/>
+    <path d="M-26 34 Q0 4 26 34" fill="#9db8ff"/>
+  </g>
+  <path d="M530 188 L240 120" stroke="#4ADE80" stroke-width="3" fill="none"/>
+  <rect x="170" y="96" width="140" height="48" rx="10" fill="#0e2a5c" stroke="#4ADE80" stroke-width="2.5"/>
+  <text x="240" y="126" fill="#eaf2ff" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="600" text-anchor="middle">Mailbox</text>
+  <path d="M530 212 L240 280" stroke="#4ADE80" stroke-width="3" fill="none"/>
+  <rect x="170" y="256" width="140" height="48" rx="10" fill="#0e2a5c" stroke="#4ADE80" stroke-width="2.5"/>
+  <text x="240" y="286" fill="#eaf2ff" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="600" text-anchor="middle">Groups &amp; roles</text>
+  <path d="M590 188 L880 120" stroke="#FF6B6B" stroke-width="3" stroke-dasharray="6 8" fill="none"/>
+  <rect x="810" y="96" width="140" height="48" rx="10" fill="#0e2a5c" stroke="#FF6B6B" stroke-width="2.5"/>
+  <text x="880" y="126" fill="#eaf2ff" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="600" text-anchor="middle">Owned apps</text>
+  <path d="M590 212 L880 280" stroke="#FF6B6B" stroke-width="3" stroke-dasharray="6 8" fill="none"/>
+  <rect x="810" y="256" width="140" height="48" rx="10" fill="#0e2a5c" stroke="#FF6B6B" stroke-width="2.5"/>
+  <text x="880" y="286" fill="#eaf2ff" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="600" text-anchor="middle">Shared links</text>
+  <text x="560" y="560" fill="#9db8ff" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Disabled account. Some connections still open.</text>
+</svg>
