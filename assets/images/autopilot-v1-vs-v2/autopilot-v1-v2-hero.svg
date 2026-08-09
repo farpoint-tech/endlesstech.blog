@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-label="Two Windows Autopilot provisioning paths side by side: classic Autopilot requiring a hardware hash upload before shipping, and Device Preparation requiring no pre-registration">
+  <defs><linearGradient id="ap-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#071633"/><stop offset="1" stop-color="#002863"/></linearGradient></defs>
+  <rect width="1200" height="675" fill="url(#ap-bg)"/>
+  <g stroke="#3366FF" stroke-opacity="0.08" stroke-width="1">
+    <path d="M0 135H1200M0 270H1200M0 405H1200M0 540H1200"/><path d="M300 0V675M600 0V675M900 0V675"/>
+  </g>
+  <text x="600" y="72" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="2" fill="#00D9FF">WINDOWS AUTOPILOT — TWO PROVISIONING PATHS</text>
+
+  <g transform="translate(60 130)">
+    <rect x="0" y="0" width="500" height="440" rx="18" fill="#0b1f47" stroke="#5b78c4" stroke-width="2.5"/>
+    <text x="250" y="46" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="21" font-weight="800" fill="#9db8ff">classic Autopilot (V1)</text>
+    <text x="250" y="72" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" fill="#7f97d6">device must be known before it ships</text>
+    <g font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#c7d6ff">
+      <rect x="34" y="100" width="432" height="52" rx="9" fill="#12213f" stroke="#5b78c4" stroke-width="1.5"/><text x="54" y="132">1 · Hardware hash uploaded by OEM</text>
+      <rect x="34" y="164" width="432" height="52" rx="9" fill="#12213f" stroke="#5b78c4" stroke-width="1.5"/><text x="54" y="196">2 · Device imported into the tenant</text>
+      <rect x="34" y="228" width="432" height="52" rx="9" fill="#12213f" stroke="#5b78c4" stroke-width="1.5"/><text x="54" y="260">3 · Deployment profile assigned</text>
+      <rect x="34" y="292" width="432" height="52" rx="9" fill="#12213f" stroke="#5b78c4" stroke-width="1.5"/><text x="54" y="324">4 · OOBE + Enrollment Status Page</text>
+    </g>
+    <text x="250" y="400" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#ECC23B">Hybrid Join · Self-deploying · Kiosk</text>
+  </g>
+
+  <g transform="translate(640 130)">
+    <rect x="0" y="0" width="500" height="440" rx="18" fill="#0d2a5c" stroke="#00D9FF" stroke-width="3"/>
+    <text x="250" y="46" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="21" font-weight="800" fill="#00D9FF">Device Preparation (V2)</text>
+    <text x="250" y="72" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" fill="#9db8ff">no hash, no pre-registration</text>
+    <g font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#c7d6ff">
+      <rect x="34" y="100" width="432" height="52" rx="9" fill="#12213f" stroke="#00D9FF" stroke-width="1.5"/><text x="54" y="132">1 · Static group + service principal owner</text>
+      <rect x="34" y="164" width="432" height="52" rx="9" fill="#12213f" stroke="#00D9FF" stroke-width="1.5"/><text x="54" y="196">2 · Policy: max 10 apps + 10 scripts</text>
+      <rect x="34" y="228" width="432" height="52" rx="9" fill="#12213f" stroke="#00D9FF" stroke-width="1.5"/><text x="54" y="260">3 · User signs in — device joins group</text>
+      <rect x="34" y="292" width="432" height="52" rx="9" fill="#12213f" stroke="#00D9FF" stroke-width="1.5"/><text x="54" y="324">4 · Enforcement AFTER enrollment</text>
+    </g>
+    <text x="250" y="400" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#ECC23B">Cloud-only · Entra Join · Retail purchase</text>
+  </g>
+  <text x="600" y="632" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="600" fill="#7f97d6">A device already registered in classic Autopilot ignores every Device Preparation policy</text>
+</svg>

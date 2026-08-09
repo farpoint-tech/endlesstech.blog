@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-label="Decision tree: hybrid join or self-deploying or kiosk leads to classic Autopilot, cloud-only user-driven leads to Device Preparation, Windows 365 leads to Device Preparation automatic mode">
+  <defs><linearGradient id="dt-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#071633"/><stop offset="1" stop-color="#002863"/></linearGradient></defs>
+  <rect width="1200" height="675" fill="url(#dt-bg)"/>
+  <g stroke="#3366FF" stroke-opacity="0.08" stroke-width="1"><path d="M0 168H1200M0 336H1200M0 504H1200"/><path d="M300 0V675M600 0V675M900 0V675"/></g>
+  <text x="600" y="60" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="21" font-weight="700" letter-spacing="1.5" fill="#00D9FF">WHICH PATH — DECIDED PER CUSTOMER, NOT PER FLEET</text>
+
+  <g font-family="Segoe UI, Arial, sans-serif">
+    <g transform="translate(600 130)">
+      <rect x="-190" y="-32" width="380" height="64" rx="12" fill="#0b1f47" stroke="#ECC23B" stroke-width="2.5"/>
+      <text x="0" y="7" text-anchor="middle" font-size="17" font-weight="700" fill="#ECC23B">On-prem AD / Hybrid Join required?</text>
+    </g>
+    <path d="M410 130 H250 V210" fill="none" stroke="#FF6B6B" stroke-width="2.5"/>
+    <text x="300" y="118" font-size="14" font-weight="700" fill="#FF6B6B">yes</text>
+    <path d="M600 162 V210" fill="none" stroke="#4ADE80" stroke-width="2.5"/>
+    <text x="614" y="192" font-size="14" font-weight="700" fill="#4ADE80">no</text>
+
+    <g transform="translate(250 250)">
+      <rect x="-165" y="-40" width="330" height="80" rx="12" fill="#12213f" stroke="#5b78c4" stroke-width="2"/>
+      <text x="0" y="-6" text-anchor="middle" font-size="18" font-weight="800" fill="#9db8ff">classic Autopilot (V1)</text>
+      <text x="0" y="20" text-anchor="middle" font-size="13.5" fill="#7f97d6">no alternative exists</text>
+    </g>
+
+    <g transform="translate(700 250)">
+      <rect x="-190" y="-32" width="380" height="64" rx="12" fill="#0b1f47" stroke="#ECC23B" stroke-width="2.5"/>
+      <text x="0" y="7" text-anchor="middle" font-size="17" font-weight="700" fill="#ECC23B">Self-deploying / kiosk / shared?</text>
+    </g>
+    <path d="M510 250 H420" fill="none" stroke="#FF6B6B" stroke-width="2.5"/>
+    <text x="452" y="238" font-size="14" font-weight="700" fill="#FF6B6B">yes</text>
+    <path d="M700 282 V340" fill="none" stroke="#4ADE80" stroke-width="2.5"/>
+    <text x="714" y="318" font-size="14" font-weight="700" fill="#4ADE80">no</text>
+
+    <g transform="translate(700 380)">
+      <rect x="-190" y="-32" width="380" height="64" rx="12" fill="#0b1f47" stroke="#ECC23B" stroke-width="2.5"/>
+      <text x="0" y="7" text-anchor="middle" font-size="17" font-weight="700" fill="#ECC23B">Windows 365 Cloud PC?</text>
+    </g>
+    <path d="M700 412 V470" fill="none" stroke="#00D9FF" stroke-width="2.5"/>
+    <path d="M890 380 H1000 V470" fill="none" stroke="#FF00FF" stroke-width="2.5"/>
+    <text x="930" y="368" font-size="14" font-weight="700" fill="#FF00FF">yes</text>
+    <text x="714" y="450" font-size="14" font-weight="700" fill="#00D9FF">no</text>
+
+    <g transform="translate(620 520)">
+      <rect x="-180" y="-40" width="330" height="80" rx="12" fill="#0d2a5c" stroke="#00D9FF" stroke-width="2.5"/>
+      <text x="-15" y="-6" text-anchor="middle" font-size="18" font-weight="800" fill="#00D9FF">Device Preparation</text>
+      <text x="-15" y="20" text-anchor="middle" font-size="13.5" fill="#9db8ff">user-driven, Entra Join</text>
+    </g>
+    <g transform="translate(1000 520)">
+      <rect x="-140" y="-40" width="280" height="80" rx="12" fill="#0d2a5c" stroke="#FF00FF" stroke-width="2.5"/>
+      <text x="0" y="-6" text-anchor="middle" font-size="18" font-weight="800" fill="#FF00FF">Device Preparation</text>
+      <text x="0" y="20" text-anchor="middle" font-size="13.5" fill="#f0b8ff">Automatic Mode</text>
+    </g>
+  </g>
+</svg>
