@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+    <meta name="robots" content="index,follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="EOP vs Defender Plan 1 vs Plan 2 explained without the licensing fog, plus the preset policy setup that stops most phishing in a Microsoft 365 tenant you already pay for.">
+    <meta name="author" content="Philipp Schmidt">
+    <meta name="keywords" content="Microsoft Defender for Office 365, Defender Plan 1 vs Plan 2, EOP vs Defender, is Defender for Office 365 included in Business Premium, how to stop phishing emails in Microsoft 365 small business, preset security policies, Safe Links, Safe Attachments, anti-phishing policy, impersonation protection, DMARC Microsoft 365, Defender for Office 365 vs third party email security, Defender for Office 365 in Business Premium enthalten, Phishing E-Mails Microsoft 365 stoppen, Voreingestellte Sicherheitsrichtlinien">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Microsoft Defender for Office 365: Plans, Features, and a Sane SMB Setup">
+    <meta property="og:description" content="EOP vs Defender Plan 1 vs Plan 2 explained without the licensing fog, plus the preset policy setup that stops most phishing in a Microsoft 365 tenant you already pay for.">
+    <meta property="og:image" content="https://endlesstech.blog/assets/images/defender-office365-smb/defender-plans-hero.svg">
+    <meta property="og:url" content="https://endlesstech.blog/posts/2026-08-25-defender-for-office-365-smb-setup.html">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Microsoft Defender for Office 365: Plans, Features, and a Sane SMB Setup">
+    <meta name="twitter:description" content="EOP vs Defender Plan 1 vs Plan 2 explained without the licensing fog, plus the preset policy setup that stops most phishing in a Microsoft 365 tenant you already pay for.">
+    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/defender-office365-smb/defender-plans-hero.svg">
+
+    <title>Microsoft Defender for Office 365: Plans, Features, and a Sane SMB Setup</title>
+
+    <link rel="alternate" type="application/rss+xml" title="EndlessTech Blog RSS Feed" href="https://endlesstech.blog/feed.xml">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/blog-post.css">
+
+    <link rel="canonical" href="https://endlesstech.blog/posts/2026-08-25-defender-for-office-365-smb-setup.html" />
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/images/logo.webp" alt="Philipp Schmidt - Secure. Scalable. Simple M365.">
+            </a>
+            <nav class="nav" id="nav">
+                <a href="../index.html">Home</a>
+                <a href="../index.html#blog" class="active">Blog</a>
+                <a href="../about.html">About</a>
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+            </nav>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">&#9776;</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="post-full">
+            <header class="post-full-header">
+                <h1 class="post-full-title">Microsoft Defender for Office 365: Plans, Features, and a Sane SMB Setup</h1>
+                <div class="post-full-meta">
+                    <time datetime="2026-08-25">August 2026</time> &bull; By Philipp Schmidt
+                </div>
+                <div class="post-tags"><span class="tag">Microsoft 365</span><span class="tag">Security</span><span class="tag">Defender</span><span class="tag">Email Security</span><span class="tag">Phishing</span></div>
+            </header>
+
+            <figure class="post-full-image">
+                <img src="../assets/images/defender-office365-smb/defender-plans-hero.svg" alt="Three layered Defender for Office 365 tiers shown as shields of increasing size — Exchange Online Protection, Plan 1 and Plan 2 — with a phishing mail probing them">
+            </figure>
+
+            <section class="post-full-content">
+                <div class="post-content">
+
+                    <p>Almost every tenant I get called into after a phishing incident already had the licence that would have stopped it. Defender for Office 365 Plan 1 ships with Business Premium. Nobody had switched the preset policies on. The mail landed, someone clicked, and the post-mortem turned into a licensing discussion that should have happened two years earlier.</p>
+
+                    <p>This is the guide I wish those tenants had read first: what Exchange Online Protection already does, what Plan 1 and Plan 2 add on top, and the setup that gets an SMB most of the way there in an afternoon.</p>
+
+                    <div class="post-tldr">
+                        <h2>In short</h2>
+                        <p>Exchange Online Protection (EOP) comes with every mailbox and handles spam and known malware. <strong>Plan 1</strong> — included in Business Premium — adds Safe Links, Safe Attachments and real impersonation protection. <strong>Plan 2</strong> adds hunting, attack simulation and automated investigation, and is mostly for teams with someone to actually use it. For most SMBs the win is not buying more: it is turning on the <strong>Standard preset security policy</strong>, fixing SPF/DKIM/DMARC, and restricting OAuth consent.</p>
+                    </div>
+
+                    <nav class="post-toc" aria-label="Table of contents">
+                        <h2>On this page</h2>
+                        <ol>
+                            <li><a href="#what-you-already-have">What you already have: EOP</a></li>
+                            <li><a href="#plan-1">What Plan 1 adds</a></li>
+                            <li><a href="#plan-2">What Plan 2 adds — and who needs it</a></li>
+                            <li><a href="#why-phishing-still-gets-through">Why phishing still gets through</a></li>
+                            <li><a href="#sane-setup">The sane SMB setup</a></li>
+                            <li><a href="#third-party">When a third-party filter makes sense</a></li>
+                            <li><a href="#glossary">Glossary</a></li>
+                            <li><a href="#faq">Frequently Asked Questions</a></li>
+                        </ol>
+                    </nav>
+
+                    <h2 id="what-you-already-have">What you already have: Exchange Online Protection</h2>
+                    <p>Every mailbox in Microsoft 365 sits behind EOP whether you configured it or not. It handles connection filtering, anti-spam, anti-malware based on known signatures, and outbound spam control. It is genuinely decent at the bulk problem: the obvious spam, the mass-mailed malware, the stuff with a bad reputation attached.</p>
+                    <p>What EOP does not do is judge intent. A clean, well-written mail from a freshly registered domain, with no attachment and one link that only turns malicious an hour after delivery, looks fine to a signature-based filter. That is the gap the paid tiers exist to close.</p>
+
+                    <h2 id="plan-1">What Plan 1 adds</h2>
+                    <p>Plan 1 is the tier most SMBs already own without knowing it — it is included in <strong>Microsoft 365 Business Premium</strong>. Four things matter:</p>
+                    <ul>
+                        <li><strong>Safe Links</strong> rewrites URLs and checks them at click time, not delivery time. This is what catches the link that was clean when it arrived and weaponised afterwards.</li>
+                        <li><strong>Safe Attachments</strong> detonates attachments in a sandbox before delivery, which catches malware that has no signature yet.</li>
+                        <li><strong>Anti-phishing with impersonation protection</strong> — the one that actually earns its keep. You list your executives and your own domain, and Defender flags mail that pretends to be them. Without this, a display-name spoof of your CEO sails straight through.</li>
+                        <li><strong>Real-time reports</strong> so you can see what was blocked and why.</li>
+                    </ul>
+                    <p>If you have Business Premium and have not configured impersonation protection, you own a lock you never fitted to the door.</p>
+
+                    <h2 id="plan-2">What Plan 2 adds — and who needs it</h2>
+                    <p>Plan 2 (included in E5, otherwise an add-on) is a different category of tool. It adds <strong>Threat Explorer</strong> and hunting, <strong>Automated Investigation and Response</strong> (AIR), <strong>Attack Simulation Training</strong>, and campaign views that group related mail into one incident.</p>
+                    <p>The honest assessment: Plan 2 pays for itself when someone will actually open Threat Explorer on a Tuesday. If your tenant has no one whose job includes threat hunting, most of Plan 2 will sit unused — and you would get more security per euro by finishing your Plan 1 configuration and rolling out phishing-resistant MFA. Attack Simulation Training is the exception worth naming: for organisations that need documented user awareness training, it is a genuinely useful reason to go to Plan 2.</p>
+
+                    <h2 id="why-phishing-still-gets-through">Why phishing still gets through</h2>
+                    <p>Three patterns account for most of what I see reaching inboxes in properly licensed tenants.</p>
+                    <p><strong>Tenant-to-tenant phishing.</strong> The mail comes from a real, compromised Microsoft 365 tenant. It has valid SPF, valid DKIM, a clean sending reputation, and it originates inside the same cloud your tenant lives in. Reputation-based filtering has almost nothing to work with. This is where impersonation protection and Safe Links carry the load.</p>
+                    <p><strong>High-confidence phishing overrides your allow-lists.</strong> This one surprises people: mail Defender classifies as high-confidence phishing is quarantined regardless of your allow entries. That is deliberate and correct — but it means a legitimate sender caught by it will not be rescued by a tenant allow-list, and you need to fix the actual reason (usually the sender's own DMARC) instead.</p>
+                    <p><strong>OAuth consent phishing.</strong> No malicious link, no attachment. The mail asks the user to authorise an app. The user clicks accept and hands over a token that reads their mail without a password — and never trips your email filter, because nothing malicious was ever delivered. Email security cannot solve this one; consent governance can. I covered the mechanics in <a href="2026-08-13-zero-trust-m365-apps.html">Part 3 of the Zero Trust series</a>.</p>
+
+                    <h2 id="sane-setup">The sane SMB setup</h2>
+                    <p>In rough order of impact per hour spent:</p>
+                    <ol>
+                        <li><strong>Turn on the Standard preset security policy</strong> in the Defender portal and scope it to all users. Microsoft maintains the settings; you stop hand-tuning spam thresholds forever. Use Strict for executives and finance. This single step closes most of the gap in most tenants.</li>
+                        <li><strong>Configure impersonation protection</strong> — add your own domain and your handful of high-risk users (CEO, CFO, whoever signs payments). Preset policies do not know who your executives are; you have to tell them.</li>
+                        <li><strong>Fix SPF, DKIM and DMARC on your own domains.</strong> Publish SPF, enable DKIM signing for every sending domain, then move DMARC from <code>p=none</code> to <code>p=quarantine</code> once your reports are clean. This stops other people being phished in your name — and it is what makes your mail trusted elsewhere.</li>
+                        <li><strong>Deploy the Report Phishing button</strong> and tell people to use it. User reports are the only detection layer that scales to intent, and in Plan 2 they feed AIR directly.</li>
+                        <li><strong>Restrict OAuth app consent</strong> to verified publishers, with an admin consent workflow. Cheapest high-value change on this list.</li>
+                        <li><strong>Review quarantine weekly</strong> for the first month. You will find both the false positives and the pattern of what is actually targeting you.</li>
+                    </ol>
+                    <blockquote>The order matters more than the tooling. A tenant with preset policies on, DMARC enforced and consent locked down beats a tenant with Plan 2 and default settings — every time.</blockquote>
+
+                    <h2 id="third-party">When a third-party filter makes sense</h2>
+                    <p>Adding a third-party gateway in front of a properly configured Defender setup usually buys less than people expect, and costs you the native signal correlation with Entra ID and Defender for Endpoint. It is a reasonable choice in three cases: you need a feature Defender genuinely lacks (certain archiving or eDiscovery workflows), you are running a hybrid or non-Microsoft mail estate, or a compliance framework requires a separately attested filtering layer.</p>
+                    <p>Doing it because "Defender missed one" is usually the wrong reason. Check whether the preset policies were even enabled first — in my experience that is the actual finding more often than not.</p>
+
+                    <section class="post-glossary">
+                    <h2 id="glossary">Glossary</h2>
+                    <dl>
+                        <dt>EOP (Exchange Online Protection)</dt><dd>The baseline mail filtering included with every Microsoft 365 mailbox: connection filtering, anti-spam and signature-based anti-malware.</dd>
+                        <dt>Safe Links</dt><dd>Rewrites URLs in mail and Teams and checks them at click time, catching links that turn malicious after delivery.</dd>
+                        <dt>Safe Attachments</dt><dd>Detonates attachments in an isolated sandbox before delivery to catch malware with no known signature.</dd>
+                        <dt>Impersonation protection</dt><dd>Anti-phishing rules that flag mail pretending to be your own domain or named users — you must configure the protected users yourself.</dd>
+                        <dt>Preset security policy</dt><dd>Microsoft-maintained Standard and Strict policy bundles that apply recommended Defender settings without manual tuning.</dd>
+                        <dt>DMARC</dt><dd>A DNS policy telling receivers what to do with mail that fails SPF and DKIM — moving from p=none to p=quarantine is what actually stops spoofing of your domain.</dd>
+                        <dt>AIR (Automated Investigation and Response)</dt><dd>Plan 2 automation that investigates alerts and proposes or applies remediation without an analyst starting the work.</dd>
+                    </dl>
+                    </section>
+
+                    <section class="faq">
+                    <h2 id="faq">Frequently Asked Questions</h2>
+                    <h3>Is Microsoft Defender for Office 365 included in Business Premium?</h3>
+                    <p>Yes — Microsoft 365 Business Premium includes Defender for Office 365 <strong>Plan 1</strong>, which gives you Safe Links, Safe Attachments, anti-phishing with impersonation protection and real-time reports. Plan 2 (hunting, attack simulation, automated investigation) is included in E5 or bought as an add-on. Most SMBs already own Plan 1 and simply have not enabled the preset policies.</p>
+                    <h3>Do I need Defender for Office 365 Plan 2?</h3>
+                    <p>Only if someone will use it. Plan 2 adds Threat Explorer, hunting, campaign views and automated investigation — valuable when you have a person whose job includes looking at them. If nobody in the tenant hunts threats, you get more security per euro by finishing your Plan 1 configuration. The one broadly useful exception is Attack Simulation Training when you need documented user-awareness training.</p>
+                    <h3>Why do phishing emails keep getting through Microsoft Defender?</h3>
+                    <p>Usually one of three reasons: the mail comes from a genuine compromised Microsoft 365 tenant so reputation filtering has nothing to flag; impersonation protection was never configured with your actual executives and domains; or it is OAuth consent phishing, which contains no malicious link or attachment and cannot be caught by an email filter at all. Enabling the Standard preset policy and configuring impersonation protection closes most of the first two.</p>
+                    <h3>Should I use Defender for Office 365 or a third-party email filter?</h3>
+                    <p>For a Microsoft-centric SMB, a correctly configured Defender setup is usually enough, and it keeps signal correlation with Entra ID and Defender for Endpoint intact. A third-party gateway is justified when you need a capability Defender lacks, run a hybrid or non-Microsoft mail estate, or must show a separately attested filtering layer for compliance. "Defender missed one" is rarely the real reason — check whether the preset policies were enabled first.</p>
+                    </section>
+
+                    <hr>
+                    <h3>References</h3>
+                    <ol class="post-references">
+                        <li><a href="https://learn.microsoft.com/en-us/defender-office-365/mdo-about" target="_blank" rel="noopener noreferrer">Microsoft Learn: Microsoft Defender for Office 365 overview</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/defender-office-365/preset-security-policies" target="_blank" rel="noopener noreferrer">Microsoft Learn: Preset security policies in EOP and Defender for Office 365</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/defender-office-365/anti-phishing-policies-about" target="_blank" rel="noopener noreferrer">Microsoft Learn: Anti-phishing policies and impersonation protection</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/defender-office-365/email-authentication-dmarc-configure" target="_blank" rel="noopener noreferrer">Microsoft Learn: Set up DMARC to validate the From address</a></li>
+                    </ol>
+                </div>
+            </section>
+
+            <section class="author-bio">
+                <img src="../assets/images/cloudknox-author.webp" alt="Philipp Schmidt - Microsoft 365 Security Consultant - easyM365.de" class="author-avatar" loading="lazy">
+                <div class="author-info">
+                    <h3>Philipp Schmidt</h3>
+                    <p>IT consultant specializing in Microsoft 365, Security, and Zero Trust architecture. Helping SMBs build secure, scalable, and simple cloud solutions.</p>
+                    <p><strong>Zero Trust. Zero Drama. Zero Bullshit.</strong></p>
+                    <p><a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Learn more: https://easym365.de</a></p>
+                </div>
+            </section>
+        </article>
+        <div id="post-navigation"></div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2026 Philipp Schmidt. All rights reserved.</p>
+            <p>Secure. Scalable. Simple M365.</p>
+            <div class="footer-links">
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+                <a href="https://www.linkedin.com/in/pschmidt3010" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://github.com/farpoint-tech" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const menuToggle = document.getElementById("menu-toggle");
+        const nav = document.getElementById("nav");
+        menuToggle.addEventListener("click", () => { nav.classList.toggle("active"); });
+    </script>
+    <script src="../assets/js/post-navigation.js"></script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Microsoft Defender for Office 365: Plans, Features, and a Sane SMB Setup",
+  "description": "EOP vs Defender Plan 1 vs Plan 2 explained without the licensing fog, plus the preset policy setup that stops most phishing in a Microsoft 365 tenant you already pay for.",
+  "image": "https://endlesstech.blog/assets/images/defender-office365-smb/defender-plans-hero.svg",
+  "author": {
+    "@type": "Person",
+    "name": "Philipp Schmidt",
+    "url": "https://easym365.de"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "EndlessTech Blog"
+  },
+  "datePublished": "2026-08-25",
+  "dateModified": "2026-08-25",
+  "inLanguage": "en",
+  "mainEntityOfPage": "https://endlesstech.blog/posts/2026-08-25-defender-for-office-365-smb-setup.html"
+}
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is Microsoft Defender for Office 365 included in Business Premium?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes \u2014 Microsoft 365 Business Premium includes Defender for Office 365 Plan 1, which gives you Safe Links, Safe Attachments, anti-phishing with impersonation protection and real-time reports. Plan 2 (hunting, attack simulation, automated investigation) is included in E5 or bought as an add-on. Most SMBs already own Plan 1 and simply have not enabled the preset policies."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need Defender for Office 365 Plan 2?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Only if someone will use it. Plan 2 adds Threat Explorer, hunting, campaign views and automated investigation \u2014 valuable when you have a person whose job includes looking at them. If nobody in the tenant hunts threats, you get more security per euro by finishing your Plan 1 configuration. The one broadly useful exception is Attack Simulation Training when you need documented user-awareness training."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why do phishing emails keep getting through Microsoft Defender?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Usually one of three reasons: the mail comes from a genuine compromised Microsoft 365 tenant so reputation filtering has nothing to flag; impersonation protection was never configured with your actual executives and domains; or it is OAuth consent phishing, which contains no malicious link or attachment and cannot be caught by an email filter at all. Enabling the Standard preset policy and configuring impersonation protection closes most of the first two."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I use Defender for Office 365 or a third-party email filter?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For a Microsoft-centric SMB, a correctly configured Defender setup is usually enough, and it keeps signal correlation with Entra ID and Defender for Endpoint intact. A third-party gateway is justified when you need a capability Defender lacks, run a hybrid or non-Microsoft mail estate, or must show a separately attested filtering layer for compliance. \"Defender missed one\" is rarely the real reason \u2014 check whether the preset policies were enabled first."
+      }
+    }
+  ]
+}
+    </script>
+</body>
+</html>
