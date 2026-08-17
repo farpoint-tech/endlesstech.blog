@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <rect width="256" height="256" rx="48" fill="#1e3a8a"/>
+  <circle cx="128" cy="100" r="36" fill="#00ced1"/>
+  <text x="128" y="200" text-anchor="middle" font-family="Inter, Manrope, system-ui, sans-serif" font-size="96" font-weight="800" letter-spacing="-2" fill="#ff6a00">365</text>
+</svg>
