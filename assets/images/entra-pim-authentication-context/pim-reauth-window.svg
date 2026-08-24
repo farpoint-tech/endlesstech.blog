@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-label="A PIM reauthentication timeline: a Tier 1 role activation at minute zero requires a device-bound passkey, and a Tier 0 activation eight minutes later opens without a hardware key prompt because the ten-minute reauthentication window is still open">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#071633"/><stop offset="1" stop-color="#002863"/></linearGradient>
+    <linearGradient id="win" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#00D9FF" stop-opacity="0.28"/><stop offset="1" stop-color="#00D9FF" stop-opacity="0.05"/></linearGradient>
+  </defs>
+  <rect width="1200" height="675" fill="url(#bg)"/>
+  <g stroke="#3366FF" stroke-opacity="0.08" stroke-width="1"><path d="M0 168H1200M0 336H1200M0 504H1200"/><path d="M240 0V675M480 0V675M720 0V675M960 0V675"/></g>
+
+  <text x="600" y="82" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="19" font-weight="700" letter-spacing="3" fill="#00D9FF">PRIVILEGED IDENTITY MANAGEMENT</text>
+  <text x="600" y="140" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="46" font-weight="800" fill="#ffffff">The 10-Minute Window</text>
+  <text x="600" y="176" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="19" fill="#9db8ff">One reauthentication, every role that follows</text>
+
+  <rect x="150" y="250" width="700" height="120" rx="14" fill="url(#win)" stroke="#00D9FF" stroke-width="2" stroke-dasharray="8 6"/>
+  <text x="500" y="240" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700" letter-spacing="2" fill="#00D9FF">REAUTHENTICATION WINDOW — 10 MINUTES</text>
+
+  <line x1="150" y1="440" x2="1050" y2="440" stroke="#9db8ff" stroke-opacity="0.5" stroke-width="3"/>
+  <g font-family="Segoe UI, Arial, sans-serif" font-size="14" fill="#9db8ff" text-anchor="middle">
+    <text x="150" y="472">00:00</text><text x="500" y="472">08:00</text><text x="850" y="472">10:00</text><text x="1050" y="472">later</text>
+  </g>
+  <g stroke="#9db8ff" stroke-opacity="0.5" stroke-width="3"><path d="M150 430V450M500 430V450M850 430V450M1050 430V450"/></g>
+
+  <g transform="translate(150 310)">
+    <circle cx="0" cy="0" r="20" fill="#ECC23B"/>
+    <rect x="-14" y="-6" width="28" height="12" rx="3" fill="#071633"/>
+    <text x="0" y="-46" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="800" fill="#ffffff">Tier 1 activates</text>
+    <text x="0" y="66" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#ECC23B">Device-bound passkey</text>
+    <text x="0" y="88" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#9db8ff">Prompt shown</text>
+  </g>
+
+  <g transform="translate(500 310)">
+    <circle cx="0" cy="0" r="20" fill="none" stroke="#FF5C5C" stroke-width="3" stroke-dasharray="5 4"/>
+    <path d="M-9 -9 L9 9 M9 -9 L-9 9" stroke="#FF5C5C" stroke-width="3" stroke-linecap="round"/>
+    <text x="0" y="-46" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="800" fill="#ffffff">Tier 0 activates</text>
+    <text x="0" y="66" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#FF5C5C">YubiKey AAGUID required</text>
+    <text x="0" y="88" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#FF5C5C">No prompt. No key.</text>
+  </g>
+
+  <g transform="translate(1050 310)">
+    <circle cx="0" cy="0" r="20" fill="#ECC23B"/>
+    <rect x="-14" y="-6" width="28" height="12" rx="3" fill="#071633"/>
+    <text x="0" y="-46" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="800" fill="#ffffff">Window closed</text>
+    <text x="0" y="66" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#ECC23B">Key touched again</text>
+  </g>
+
+  <text x="600" y="610" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="18" fill="#ffffff">The window spans Entra roles, Azure resource roles and PIM for Groups.</text>
+</svg>
