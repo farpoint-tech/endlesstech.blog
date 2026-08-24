@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+    <meta name="robots" content="index,follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Intune policies fail silently more often than they throw an error. A troubleshooting order for policy conflicts, Entra sync lag, and App Protection failures.">
+    <meta name="author" content="Philipp Schmidt">
+    <meta name="keywords" content="Intune policy not applying, Intune silent failure, Intune app protection policy stopped working, Intune Entra sync licensing mismatch, Intune Autopilot lifecycle, Intune Richtlinie wird nicht angewendet, Intune Fehlersuche">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Intune Policy Not Applying: Why Silent Failures Keep Coming Back">
+    <meta property="og:description" content="Intune policies fail silently more often than they throw an error. A troubleshooting order for policy conflicts, Entra sync lag, and App Protection failures.">
+    <meta property="og:image" content="https://endlesstech.blog/assets/images/intune-policy-not-applying/intune-troubleshooting-hero.svg">
+    <meta property="og:url" content="https://endlesstech.blog/posts/2026-09-08-intune-policy-not-applying-troubleshooting.html">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Intune Policy Not Applying: Why Silent Failures Keep Coming Back">
+    <meta name="twitter:description" content="Intune policies fail silently more often than they throw an error. A troubleshooting order for policy conflicts, Entra sync lag, and App Protection failures.">
+    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/intune-policy-not-applying/intune-troubleshooting-hero.svg">
+
+    <title>Intune Policy Not Applying: Why Silent Failures Keep Coming Back</title>
+
+    <link rel="alternate" type="application/rss+xml" title="EndlessTech Blog RSS Feed" href="https://endlesstech.blog/feed.xml">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/blog-post.css">
+
+    <link rel="canonical" href="https://endlesstech.blog/posts/2026-09-08-intune-policy-not-applying-troubleshooting.html" />
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/images/logo.webp" alt="Philipp Schmidt - Secure. Scalable. Simple M365.">
+            </a>
+            <nav class="nav" id="nav">
+                <a href="../index.html">Home</a>
+                <a href="../index.html#blog" class="active">Blog</a>
+                <a href="../about.html">About</a>
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+            </nav>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">&#9776;</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="post-full">
+            <header class="post-full-header">
+                <h1 class="post-full-title">Intune Policy Not Applying: Why Silent Failures Keep Coming Back</h1>
+                <div class="post-full-meta">
+                    <time datetime="2026-09-08">September 2026</time> &bull; By Philipp Schmidt
+                </div>
+                <div class="post-tags"><span class="tag">Intune</span><span class="tag">Device Management</span><span class="tag">Microsoft 365</span><span class="tag">Troubleshooting</span></div>
+            </header>
+
+            <figure class="post-full-image">
+                <img src="../assets/images/intune-policy-not-applying/intune-troubleshooting-hero.svg" alt="A managed device with a compliant checkmark next to a policy setting that silently failed to apply">
+            </figure>
+
+            <section class="post-full-content">
+                <div class="post-content">
+
+                    <p>A device shows as compliant, the policy shows as assigned, and the setting still is not there. That is the specific shape of the Intune complaint that keeps coming back &mdash; not "Intune is hard to learn," but "Intune says this worked and it did not, and nothing tells me why."</p>
+
+                    <p>The admin center's deployment status tells you a policy reached a device. It does not reliably tell you why a device did not apply it, which turns troubleshooting into a process of elimination instead of reading an error message.</p>
+
+                    <div class="post-tldr">
+                        <h2>In short</h2>
+                        <p>Most "Intune is broken" tickets are not broken policies. They are <strong>policy conflicts</strong> where one silently wins, <strong>stale Entra ID license sync</strong> that makes Intune read the wrong entitlement, or a device that simply <strong>has not checked in yet</strong>. Work from the device outward &mdash; sync, conflicts, license state, registration state &mdash; and only then look at the policy itself. Four steps out of five resolve before you ever open the policy.</p>
+                    </div>
+
+                    <nav class="post-toc" aria-label="Table of contents">
+                        <h2>On this page</h2>
+                        <ol>
+                            <li><a href="#silent-failures">Where the silent failures come from</a></li>
+                            <li><a href="#app-protection">When App Protection stops being detected by Conditional Access</a></li>
+                            <li><a href="#order">A practical troubleshooting order</a></li>
+                            <li><a href="#autopilot">Autopilot: front-loading the pain, not removing it</a></li>
+                            <li><a href="#glossary">Glossary</a></li>
+                            <li><a href="#faq">Frequently Asked Questions</a></li>
+                        </ol>
+                    </nav>
+
+                    <h2 id="silent-failures">Where the silent failures come from</h2>
+                    <p>Three sources account for most of the "it should be working" tickets.</p>
+                    <p><strong>Policy conflict, not policy failure.</strong> Two policies targeting the same device with contradictory settings do not produce an error. One silently wins, usually on precedence rules that are not visible from either policy's configuration screen. Check for overlapping assignments before assuming a policy is broken.</p>
+                    <p><strong>Entra ID sync lag surfacing as a licensing problem.</strong> Intune determines a lot of its behaviour &mdash; including which App Protection Policies apply &mdash; from license state synced out of Entra ID. When that sync lags or returns stale data, Intune behaves as if a user has different licensing than they do. The result looks like an Intune bug while the root cause sits in the identity layer.</p>
+                    <p><strong>Device check-in timing.</strong> Policy changes apply on the next scheduled check-in, not immediately, and the default interval is long enough that "it is not working" is sometimes just "it has not checked in yet." Forcing a sync from the Company Portal confirms whether timing rather than configuration is the actual issue.</p>
+
+                    <h2 id="app-protection">When App Protection stops being detected by Conditional Access</h2>
+                    <p>A specific and disproportionately painful failure: a Conditional Access policy requiring an approved client app or App Protection Policy starts rejecting a device that Intune still shows as protected. The workaround that circulates &mdash; remove all corporate apps and reinstall starting with Microsoft Authenticator &mdash; tells you the underlying state is corrupted at device-registration level, not that the policy is misconfigured. Before reaching for it, confirm the device's registration state in Entra ID and check whether compliance and protection state actually match what Intune reports. A mismatch there is the signal, not a coincidence.</p>
+
+                    <h2 id="order">A practical troubleshooting order</h2>
+                    <p>Work from the device inward rather than from the policy outward:</p>
+                    <ol>
+                        <li>Force a device sync and let the check-in cycle complete before troubleshooting anything else</li>
+                        <li>Check for assignment conflicts across every policy targeting that device or its groups</li>
+                        <li>Confirm the user's license state in Entra ID matches expectations, and check sync status if it looks stale</li>
+                        <li>Review the device's compliance <em>and</em> registration state in Entra ID directly, not just the Intune compliance dashboard</li>
+                        <li>Only then treat it as a genuine policy configuration issue</li>
+                    </ol>
+                    <p>Most tickets resolve somewhere in steps 1 to 4, before anyone opens the policy.</p>
+
+                    <h2 id="autopilot">Autopilot: front-loading the pain, not removing it</h2>
+                    <p>Autopilot solves real deployment friction &mdash; zero-touch provisioning genuinely beats imaging. What it does not solve is lifecycle. A device enrolled via Autopilot still needs deliberate handling when it is reassigned, retired or wiped, and its registration can persist past the point the device is actually in use, leaving stale records that complicate re-enrolment later. Autopilot removes work at deployment. It does not remove the need for a process at the other end.</p>
+
+                    <h2 id="bottom-line">Bottom line</h2>
+                    <p>Intune's failures are rarely visible where you would expect to find them &mdash; the policy's own configuration screen. Most of what looks like a broken policy is a conflict, a stale license sync, or a device that has not checked in. Working from the device outward finds the cause faster than staring at the same deployment status screen a second time.</p>
+
+                    <section class="post-glossary">
+                    <h2 id="glossary">Glossary</h2>
+                    <dl>
+                        <dt>Policy conflict</dt><dd>Two Intune policies targeting the same device with contradictory settings. One silently wins on precedence rules — no error is raised.</dd>
+                        <dt>Check-in cycle</dt><dd>The interval at which a managed device contacts Intune for policy. Changes do not apply until the next check-in unless a sync is forced.</dd>
+                        <dt>App Protection Policy (MAM)</dt><dd>Policy that protects corporate data inside apps, on managed or unmanaged devices, without managing the whole device.</dd>
+                        <dt>Device registration state</dt><dd>The device's identity record in Entra ID. A mismatch between this and Intune's reported compliance is the underlying cause of several Conditional Access rejections.</dd>
+                        <dt>Autopilot</dt><dd>Zero-touch provisioning that self-configures a new device on first sign-in. Covers deployment, not device lifecycle or retirement.</dd>
+                    </dl>
+                    </section>
+
+                    <section class="faq">
+                    <h2 id="faq">Frequently Asked Questions</h2>
+                    <h3>Why are my Intune policies not applying to devices?</h3>
+                    <p>Most commonly a conflicting policy silently wins, the device has not checked in since the policy changed, or the license and compliance state synced from Entra ID is stale. Genuine misconfiguration is real but less frequent than these three.</p>
+                    <h3>Why is Intune App Protection suddenly not detected by Conditional Access?</h3>
+                    <p>This usually traces to device registration state falling out of sync with what Intune and Conditional Access read independently. Confirm the device's actual registration and compliance state in Entra ID before reconfiguring the policy.</p>
+                    <h3>How do I troubleshoot Intune policy deployment failures systematically?</h3>
+                    <p>Force a device sync, check for assignment conflicts, verify license and sync status in Entra ID, then review the device's compliance and registration state — in that order — before treating it as a policy configuration problem.</p>
+                    <h3>Can Entra sync issues break Intune licensing and policy behaviour?</h3>
+                    <p>Yes. Intune reads license state from Entra ID, and sync lag or stale data there produces policy behaviour that looks like an Intune fault but originates in the identity layer. Checking sync status is a legitimate early step, not a detour.</p>
+                    <h3>Is Intune Autopilot enough for full device lifecycle management?</h3>
+                    <p>No. Autopilot handles provisioning at deployment, not reassignment or retirement. Stale Autopilot records that outlive actual device use are a common source of later re-enrolment problems.</p>
+                    </section>
+
+                    <hr>
+                    <h3>References</h3>
+                    <ol class="post-references">
+                        <li><a href="https://learn.microsoft.com/en-us/mem/intune/configuration/device-profile-troubleshoot" target="_blank" rel="noopener noreferrer">Microsoft Learn: Troubleshoot device profiles in Microsoft Intune</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/mem/intune/apps/app-protection-policy" target="_blank" rel="noopener noreferrer">Microsoft Learn: App protection policies overview</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/autopilot/windows-autopilot" target="_blank" rel="noopener noreferrer">Microsoft Learn: Windows Autopilot overview</a></li>
+                    </ol>
+                </div>
+            </section>
+
+            <section class="author-bio">
+                <img src="../assets/images/cloudknox-author.webp" alt="Philipp Schmidt - Microsoft 365 Security Consultant - easyM365.de" class="author-avatar" loading="lazy">
+                <div class="author-info">
+                    <h3>Philipp Schmidt</h3>
+                    <p>IT consultant specializing in Microsoft 365, Security, and Zero Trust architecture. Helping SMBs build secure, scalable, and simple cloud solutions.</p>
+                    <p><strong>Zero Trust. Zero Drama. Zero Bullshit.</strong></p>
+                    <p><a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Learn more: https://easym365.de</a></p>
+                </div>
+            </section>
+        </article>
+        <div id="post-navigation"></div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2026 Philipp Schmidt. All rights reserved.</p>
+            <p>Secure. Scalable. Simple M365.</p>
+            <div class="footer-links">
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+                <a href="https://www.linkedin.com/in/pschmidt3010" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://github.com/farpoint-tech" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const menuToggle = document.getElementById("menu-toggle");
+        const nav = document.getElementById("nav");
+        menuToggle.addEventListener("click", () => { nav.classList.toggle("active"); });
+    </script>
+    <script src="../assets/js/post-navigation.js"></script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Intune Policy Not Applying: Why Silent Failures Keep Coming Back",
+  "description": "Intune policies fail silently more often than they throw an error. A troubleshooting order for policy conflicts, Entra sync lag, and App Protection failures.",
+  "image": "https://endlesstech.blog/assets/images/intune-policy-not-applying/intune-troubleshooting-hero.svg",
+  "author": {
+    "@type": "Person",
+    "name": "Philipp Schmidt",
+    "url": "https://easym365.de"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "EndlessTech Blog"
+  },
+  "datePublished": "2026-09-08",
+  "dateModified": "2026-09-08",
+  "inLanguage": "en",
+  "mainEntityOfPage": "https://endlesstech.blog/posts/2026-09-08-intune-policy-not-applying-troubleshooting.html"
+}
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Why are my Intune policies not applying to devices?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Most commonly a conflicting policy silently wins, the device has not checked in since the policy changed, or the license and compliance state synced from Entra ID is stale. Genuine misconfiguration is real but less frequent than these three."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why is Intune App Protection suddenly not detected by Conditional Access?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "This usually traces to device registration state falling out of sync with what Intune and Conditional Access read independently. Confirm the device's actual registration and compliance state in Entra ID before reconfiguring the policy."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I troubleshoot Intune policy deployment failures systematically?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Force a device sync, check for assignment conflicts, verify license and sync status in Entra ID, then review the device's compliance and registration state \u2014 in that order \u2014 before treating it as a policy configuration problem."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can Entra sync issues break Intune licensing and policy behaviour?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Intune reads license state from Entra ID, and sync lag or stale data there produces policy behaviour that looks like an Intune fault but originates in the identity layer. Checking sync status is a legitimate early step, not a detour."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is Intune Autopilot enough for full device lifecycle management?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Autopilot handles provisioning at deployment, not reassignment or retirement. Stale Autopilot records that outlive actual device use are a common source of later re-enrolment problems."
+      }
+    }
+  ]
+}
+    </script>
+</body>
+</html>

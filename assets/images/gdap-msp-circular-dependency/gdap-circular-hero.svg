@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-label="A locked loop diagram showing an MSP needing Global Administrator access to restore the GDAP relationship that grants Global Administrator access">
+  <defs>
+    <linearGradient id="gdap-circular-hero-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071633"/>
+      <stop offset="1" stop-color="#002863"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="675" fill="url(#gdap-circular-hero-bg)"/>
+  <g stroke="#3366FF" stroke-opacity="0.08" stroke-width="1">
+    <path d="M0 135H1200M0 270H1200M0 405H1200M0 540H1200"/>
+    <path d="M200 0V675M400 0V675M600 0V675M800 0V675M1000 0V675"/>
+  </g>
+  <g transform="translate(600 330)">
+    <circle cx="0" cy="0" r="150" fill="none" stroke="#00D9FF" stroke-width="4" stroke-dasharray="14 12"/>
+    <circle cx="0" cy="0" r="46" fill="#0e2a5c" stroke="#FFB84D" stroke-width="3"/>
+    <g transform="translate(-18 -26)" stroke="#FFB84D" stroke-width="4" fill="none">
+      <path d="M0 20 a18 18 0 0 1 36 0 v6"/>
+      <rect x="-4" y="26" width="44" height="30" rx="4"/>
+    </g>
+    <g transform="translate(-150 0)">
+      <rect x="-60" y="-30" width="120" height="60" rx="10" fill="#0e2a5c" stroke="#00D9FF" stroke-width="2.5"/>
+      <text x="0" y="6" fill="#eaf2ff" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" text-anchor="middle">MSP</text>
+    </g>
+    <g transform="translate(150 0)">
+      <rect x="-70" y="-30" width="140" height="60" rx="10" fill="#0e2a5c" stroke="#4ADE80" stroke-width="2.5"/>
+      <text x="0" y="6" fill="#eaf2ff" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" text-anchor="middle">Customer tenant</text>
+    </g>
+  </g>
+  <text x="600" y="560" fill="#9db8ff" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Needs GDAP to get access. Needs access to fix GDAP.</text>
+</svg>

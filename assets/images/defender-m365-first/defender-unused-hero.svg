@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-label="A security control panel where half the capability toggles are switched off and greyed out, beside an invoice showing the licence has already been paid">
+  <defs>
+    <linearGradient id="dmf-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#071633"/><stop offset="1" stop-color="#002863"/></linearGradient>
+  </defs>
+  <rect width="1200" height="675" fill="url(#dmf-bg)"/>
+  <g stroke="#3366FF" stroke-opacity="0.08" stroke-width="1">
+    <path d="M0 135H1200M0 270H1200M0 405H1200M0 540H1200"/>
+    <path d="M200 0V675M400 0V675M600 0V675M800 0V675M1000 0V675"/>
+  </g>
+  <text x="600" y="76" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="2" fill="#00D9FF">PAID FOR. NEVER SWITCHED ON.</text>
+  <g transform="translate(120 150)">
+    <rect x="0" y="0" width="520" height="400" rx="18" fill="#0b1f47" stroke="#00D9FF" stroke-width="2"/>
+    <text x="30" y="46" fill="#eaf2ff" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700">Defender capabilities</text>
+    <g font-family="Segoe UI, Arial, sans-serif" font-size="15">
+      <text x="30" y="104" fill="#cfeede">Device discovery</text>
+      <rect x="410" y="86" width="76" height="30" rx="15" fill="#3ddc84" opacity="0.85"/><circle cx="471" cy="101" r="11" fill="#04102a"/>
+      <text x="30" y="164" fill="#8fa8d8">Tamper protection</text>
+      <rect x="410" y="146" width="76" height="30" rx="15" fill="#25406e"/><circle cx="425" cy="161" r="11" fill="#0b1f47"/>
+      <text x="30" y="224" fill="#8fa8d8">Attack disruption</text>
+      <rect x="410" y="206" width="76" height="30" rx="15" fill="#25406e"/><circle cx="425" cy="221" r="11" fill="#0b1f47"/>
+      <text x="30" y="284" fill="#8fa8d8">Intune risk signal</text>
+      <rect x="410" y="266" width="76" height="30" rx="15" fill="#25406e"/><circle cx="425" cy="281" r="11" fill="#0b1f47"/>
+      <text x="30" y="344" fill="#8fa8d8">Cloud app discovery</text>
+      <rect x="410" y="326" width="76" height="30" rx="15" fill="#25406e"/><circle cx="425" cy="341" r="11" fill="#0b1f47"/>
+    </g>
+  </g>
+  <g transform="translate(730 190)">
+    <rect x="0" y="0" width="340" height="300" rx="14" fill="#eaf2ff"/>
+    <rect x="0" y="0" width="340" height="56" rx="14" fill="#3366FF"/>
+    <text x="170" y="36" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="800" fill="#ffffff">ANNUAL INVOICE</text>
+    <g fill="#3366FF" opacity="0.35">
+      <rect x="28" y="90" width="200" height="12" rx="4"/><rect x="28" y="120" width="160" height="12" rx="4"/>
+      <rect x="28" y="150" width="220" height="12" rx="4"/><rect x="28" y="180" width="140" height="12" rx="4"/>
+    </g>
+    <rect x="28" y="222" width="284" height="3" fill="#3366FF" opacity="0.5"/>
+    <text x="28" y="262" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="800" fill="#071633">PAID IN FULL</text>
+  </g>
+  <text x="600" y="622" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="600" fill="#ECC23B">The invoice is understood. The coverage behind it is not.</text>
+</svg>

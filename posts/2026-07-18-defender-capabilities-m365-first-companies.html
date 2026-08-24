@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+    <meta name="robots" content="index,follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Most M365-first companies pay for endpoint security they never switched on. Why the platform you already own beats adding another tool — a leadership perspective.">
+    <meta name="author" content="Philipp Schmidt">
+    <meta name="keywords" content="Microsoft Defender for Endpoint, M365-first security, Defender capabilities, E5 license value, tamper protection, device discovery, attack disruption, Intune connection, Zero Trust, Defender bereits bezahlt, Endpunktschutz nicht aktiviert">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="You Already Paid for This: Defender in M365-First Companies">
+    <meta property="og:description" content="Most M365-first companies pay for endpoint security they never switched on. Why the platform you already own beats adding another tool — a leadership perspective.">
+    <meta property="og:image" content="https://endlesstech.blog/assets/images/defender-m365-first/defender-unused-hero.svg">
+    <meta property="og:url" content="https://endlesstech.blog/posts/2026-07-18-defender-capabilities-m365-first-companies.html">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="You Already Paid for This: Defender in M365-First Companies">
+    <meta name="twitter:description" content="Most M365-first companies pay for endpoint security they never switched on. Why the platform you already own beats adding another tool — a leadership perspective.">
+    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/defender-m365-first/defender-unused-hero.svg">
+
+    <title>You Already Paid for This: Defender in M365-First Companies</title>
+
+    <link rel="alternate" type="application/rss+xml" title="EndlessTech Blog RSS Feed" href="https://endlesstech.blog/feed.xml">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/blog-post.css">
+
+    <link rel="canonical" href="https://endlesstech.blog/posts/2026-07-18-defender-capabilities-m365-first-companies.html" />
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/images/logo.webp" alt="Philipp Schmidt - Secure. Scalable. Simple M365.">
+            </a>
+            <nav class="nav" id="nav">
+                <a href="../index.html">Home</a>
+                <a href="../index.html#blog" class="active">Blog</a>
+                <a href="../about.html">About</a>
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+            </nav>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">&#9776;</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="post-full">
+            <header class="post-full-header">
+                <h1 class="post-full-title">You Already Paid for This: Defender in M365-First Companies</h1>
+                <div class="post-full-meta">
+                    <time datetime="2026-07-18">July 2026</time> &bull; By Philipp Schmidt
+                </div>
+                <div class="post-tags"><span class="tag">Microsoft 365</span><span class="tag">Security</span><span class="tag">Microsoft Defender</span><span class="tag">Zero Trust</span><span class="tag">Leadership</span></div>
+            </header>
+
+            <figure class="post-full-image">
+                <img src="../assets/images/defender-m365-first/defender-unused-hero.svg" alt="A security control panel where most capability toggles are switched off, beside an invoice marked paid in full">
+            </figure>
+
+            <section class="post-full-content">
+                <div class="post-content">
+
+                    <p>Two weeks ago, a managing director told me &mdash; without looking anything up &mdash; exactly what his company pays Microsoft every year. Down to the euro. Then I asked a second question: how much of the security included in that number is actually switched on? He looked at his IT lead. His IT lead looked at his notes. Nobody in the room had an answer.</p>
+
+                    <p>That moment is not unusual. It is the single most common finding when I review a company that went all-in on Microsoft 365. The invoice is well understood. The coverage behind it is not.</p>
+
+                    <div class="post-tldr">
+                        <h2>In short</h2>
+                        <p>If your company runs on Microsoft 365 with an advanced licence, you very likely own a stronger security posture than the one currently protecting you &mdash; and the gap is a <strong>settings page, not a purchase order</strong>. Onboarding a platform is not the same as switching its capabilities on. The three that matter most at leadership level: <strong>device discovery</strong>, <strong>tamper protection and automatic attack disruption</strong>, and <strong>the Defender-to-Intune signal connection</strong> that no standalone product can replicate.</p>
+                    </div>
+
+                    <nav class="post-toc" aria-label="Table of contents">
+                        <h2>On this page</h2>
+                        <ol>
+                            <li><a href="#invoice">The invoice you know, the protection you don't</a></li>
+                            <li><a href="#half-truth">“But we have it running” — the dangerous half-truth</a></li>
+                            <li><a href="#what-changes">What actually changes when you switch it on</a></li>
+                            <li><a href="#leadership">Why this is a leadership topic, not a ticket</a></li>
+                            <li><a href="#glossary">Glossary</a></li>
+                            <li><a href="#faq">Frequently Asked Questions</a></li>
+                        </ol>
+                    </nav>
+
+                    <h2 id="invoice">The invoice you know, the protection you don't</h2>
+                    <p>Here is what typically happened in these companies, and none of it was a mistake at the time. A few years ago leadership made a strategic decision: consolidate on one platform. Mail, files, collaboration, identity &mdash; all Microsoft. Somewhere along the way the licence tier went up, usually because a specific feature was needed, sometimes because a partner recommended it. The security capabilities came along in the same bundle.</p>
+                    <p>Then the project ended. The migration was declared successful, the consultants moved on, and the environment entered maintenance mode: keep it running, answer tickets, do not break anything. The advanced protection that came with the licence was never on anyone's task list &mdash; not because the IT team is careless, but because "review everything we already own" is a project nobody commissions.</p>
+                    <p>The consequence is quiet and expensive. Some companies pay twice, buying third-party tools that duplicate what the existing licence already covers. Others simply carry the gap. And if something does happen, the uncomfortable question will not come from me &mdash; it will come from the insurer, asking why protection you demonstrably paid for was demonstrably off.</p>
+
+                    <h2 id="half-truth">"But we have it running" &mdash; the dangerous half-truth</h2>
+                    <p>When I raise this, the answer is almost always the same: we onboarded that years ago, it is running. And it is &mdash; in the same way a car with disabled airbags is running. It drives. It gets you to work. The difference only shows on the one day it matters.</p>
+                    <p>Onboarding a security platform means the devices report in. It does not mean the capabilities are working for you. Between those two states sits a settings page most people have opened exactly once, during initial setup, under time pressure, with a go-live date breathing down their neck. I keep finding the same picture there: half the platform dark. Paid for. Never touched.</p>
+
+                    <h2 id="what-changes">What actually changes when you switch it on</h2>
+                    <p>In a Microsoft-365-first company the platform in question is Defender for Endpoint, and its unused capabilities fall into three groups that matter at leadership level.</p>
+                    <p><strong>You see what you actually own.</strong> Device discovery turns your existing managed machines into sensors that find the unmanaged ones &mdash; the old laptop in the warehouse, the printer nobody inventoried, the switch a contractor left behind. No new hardware, no new agent. The fleet maps itself, and anything appearing where it should not triggers an alert. Most companies I visit discover devices in the first week that nobody knew existed.</p>
+                    <p><strong>Attackers lose their favourite move.</strong> Tamper protection prevents anyone &mdash; including malware running with admin rights &mdash; from quietly disabling your protection or excluding entire drives from scanning. In real ransomware cases, switching off the defences is step one of the playbook. This single toggle takes that step away. Automatic attack disruption goes further: when telemetry recognises an active attack chain with high confidence, the compromised device is contained within minutes, before a human has read the alert. At 2 a.m. on a Saturday, that is the difference between one encrypted laptop and an encrypted company.</p>
+                    <p><strong>The platform talks to itself.</strong> This is the part no standalone product replicates, and the real answer to "why M365-first." Connect Defender to Intune and a device's risk score feeds directly into your access rules: a laptop that looks compromised loses access to sensitive systems automatically and regains it when clean. Endpoint signals flow into cloud app discovery, so shadow IT becomes visible from telemetry you already collect. No integration project, no middleware, no additional vendor contract. The signals connect because it is one platform &mdash; that connection is what the higher licence tier actually buys, and it is precisely the part that stays off most often. It is the same wiring described in <a href="2026-08-12-zero-trust-m365-devices.html">the Devices pillar</a>.</p>
+
+                    <h2 id="leadership">Why this is a leadership topic, not a ticket</h2>
+                    <p>None of the toggles above require new budget. What they require is a decision: someone has to own the question "are we using what we pay for?" &mdash; and in my experience that question only gets answered when it comes from the top. IT teams optimise for stability, and rightly so; every activated feature is a change, and change carries risk. That is a legitimate concern, which is why some capabilities should be piloted before a global rollout. But "we might break a legacy script" is a scheduling problem. "Our paid protection was off during the incident" is a liability problem. Those two do not weigh the same.</p>
+
+                    <h2 id="key-takeaway">Key takeaway</h2>
+                    <p>If your company runs on Microsoft 365 with an advanced licence, there is a good chance you own a meaningfully stronger security posture than the one currently protecting you &mdash; and the gap between the two is a settings page, not a purchase order. The honest first step costs one meeting: ask your IT lead to walk you through what is on, what is off, and why. If the answer to "why is this off" is silence, you have found your starting point.</p>
+                    <p>If you would rather have an outside pair of eyes on that settings page first, <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">get in touch</a> &mdash; reviewing it takes half a day, and you will know exactly where you stand.</p>
+
+                    <section class="post-glossary">
+                    <h2 id="glossary">Glossary</h2>
+                    <dl>
+                        <dt>Defender for Endpoint</dt><dd>Microsoft's endpoint detection and response platform, included in Microsoft 365 E5 and available as an add-on. Onboarding a device is not the same as enabling its capabilities.</dd>
+                        <dt>Device discovery</dt><dd>Uses already-managed endpoints as sensors to find unmanaged devices on the same network — no additional hardware or agent required.</dd>
+                        <dt>Tamper protection</dt><dd>Prevents security settings from being disabled or scan exclusions added, even by processes running with administrative rights.</dd>
+                        <dt>Automatic attack disruption</dt><dd>Contains a compromised device automatically when an active attack chain is recognised with high confidence, without waiting for an analyst.</dd>
+                        <dt>Device risk score</dt><dd>A Defender-calculated risk value for an endpoint that can be consumed by Intune compliance and Conditional Access to gate access automatically.</dd>
+                    </dl>
+                    </section>
+
+                    <section class="faq">
+                    <h2 id="faq">Frequently Asked Questions</h2>
+                    <h3>Is Microsoft Defender for Endpoint included in what we already pay for?</h3>
+                    <p>If you hold Microsoft 365 E5 it is included; it is also available as a standalone add-on. The more common finding is not a missing licence but an owned licence whose capabilities were never enabled after onboarding.</p>
+                    <h3>What is the difference between onboarding Defender and actually using it?</h3>
+                    <p>Onboarding means devices report telemetry. Using it means capabilities like tamper protection, device discovery, attack disruption and the Intune risk-signal connection are switched on and configured. Most tenants have done the first and not the second.</p>
+                    <h3>Which Defender capabilities should we switch on first?</h3>
+                    <p>Tamper protection is the highest value per minute of effort, because disabling defences is step one in most ransomware playbooks. Device discovery is the fastest way to learn what is actually on your network. The Intune risk-signal connection delivers the most long-term value and is most often left off.</p>
+                    <h3>Do we still need a third-party endpoint tool if we are Microsoft 365-first?</h3>
+                    <p>Often not — many companies pay twice for capabilities their existing licence already covers. Check what your current tier includes and what is actually enabled before adding another vendor. A third-party tool is justified by a specific capability gap, not by a Defender configuration nobody has reviewed.</p>
+                    </section>
+
+                    <hr>
+                    <h3>References</h3>
+                    <ol class="post-references">
+                        <li><a href="https://learn.microsoft.com/en-us/defender-endpoint/microsoft-defender-endpoint" target="_blank" rel="noopener noreferrer">Microsoft Learn: Microsoft Defender for Endpoint overview</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/defender-endpoint/prevent-changes-to-security-settings-with-tamper-protection" target="_blank" rel="noopener noreferrer">Microsoft Learn: Protect security settings with tamper protection</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/defender-xdr/automatic-attack-disruption" target="_blank" rel="noopener noreferrer">Microsoft Learn: Automatic attack disruption in Microsoft Defender XDR</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/defender-endpoint/device-discovery" target="_blank" rel="noopener noreferrer">Microsoft Learn: Device discovery overview</a></li>
+                    </ol>
+                </div>
+            </section>
+
+            <section class="author-bio">
+                <img src="../assets/images/cloudknox-author.webp" alt="Philipp Schmidt - Microsoft 365 Security Consultant - easyM365.de" class="author-avatar" loading="lazy">
+                <div class="author-info">
+                    <h3>Philipp Schmidt</h3>
+                    <p>IT consultant specializing in Microsoft 365, Security, and Zero Trust architecture. Helping SMBs build secure, scalable, and simple cloud solutions.</p>
+                    <p><strong>Zero Trust. Zero Drama. Zero Bullshit.</strong></p>
+                    <p><a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Learn more: https://easym365.de</a></p>
+                </div>
+            </section>
+        </article>
+        <div id="post-navigation"></div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2026 Philipp Schmidt. All rights reserved.</p>
+            <p>Secure. Scalable. Simple M365.</p>
+            <div class="footer-links">
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+                <a href="https://www.linkedin.com/in/pschmidt3010" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://github.com/farpoint-tech" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const menuToggle = document.getElementById("menu-toggle");
+        const nav = document.getElementById("nav");
+        menuToggle.addEventListener("click", () => { nav.classList.toggle("active"); });
+    </script>
+    <script src="../assets/js/post-navigation.js"></script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "You Already Paid for This: Defender in M365-First Companies",
+  "description": "Most M365-first companies pay for endpoint security they never switched on. Why the platform you already own beats adding another tool \u2014 a leadership perspective.",
+  "image": "https://endlesstech.blog/assets/images/defender-m365-first/defender-unused-hero.svg",
+  "author": {
+    "@type": "Person",
+    "name": "Philipp Schmidt",
+    "url": "https://easym365.de"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "EndlessTech Blog"
+  },
+  "datePublished": "2026-07-18",
+  "dateModified": "2026-07-18",
+  "inLanguage": "en",
+  "mainEntityOfPage": "https://endlesstech.blog/posts/2026-07-18-defender-capabilities-m365-first-companies.html"
+}
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is Microsoft Defender for Endpoint included in what we already pay for?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "If you hold Microsoft 365 E5 it is included; it is also available as a standalone add-on. The more common finding is not a missing licence but an owned licence whose capabilities were never enabled after onboarding."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between onboarding Defender and actually using it?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Onboarding means devices report telemetry. Using it means capabilities like tamper protection, device discovery, attack disruption and the Intune risk-signal connection are switched on and configured. Most tenants have done the first and not the second."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which Defender capabilities should we switch on first?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tamper protection is the highest value per minute of effort, because disabling defences is step one in most ransomware playbooks. Device discovery is the fastest way to learn what is actually on your network. The Intune risk-signal connection delivers the most long-term value and is most often left off."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do we still need a third-party endpoint tool if we are Microsoft 365-first?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Often not \u2014 many companies pay twice for capabilities their existing licence already covers. Check what your current tier includes and what is actually enabled before adding another vendor. A third-party tool is justified by a specific capability gap, not by a Defender configuration nobody has reviewed."
+      }
+    }
+  ]
+}
+    </script>
+</body>
+</html>

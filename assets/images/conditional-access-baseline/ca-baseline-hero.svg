@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-label="Six core Conditional Access policy blocks forming a baseline, with a pile of unreviewed report-only policies beside them">
+  <defs>
+    <linearGradient id="ca-baseline-hero-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071633"/><stop offset="1" stop-color="#002863"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="675" fill="url(#ca-baseline-hero-bg)"/>
+  <g stroke="#3366FF" stroke-opacity="0.08" stroke-width="1">
+    <path d="M0 135H1200M0 270H1200M0 405H1200M0 540H1200"/>
+    <path d="M200 0V675M400 0V675M600 0V675M800 0V675M1000 0V675"/>
+  </g>
+  <g transform="translate(0 180)">
+    <rect x="230" y="0" width="100" height="90" rx="10" fill="#0e2a5c" stroke="#00D9FF" stroke-width="2.5"/>
+    <text x="280" y="40" fill="#eaf2ff" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="600" text-anchor="middle">MFA</text>
+    <text x="280" y="58" fill="#eaf2ff" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="600" text-anchor="middle">all users</text>
+    <rect x="350" y="0" width="100" height="90" rx="10" fill="#0e2a5c" stroke="#00D9FF" stroke-width="2.5"/>
+    <text x="400" y="40" fill="#eaf2ff" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Block</text>
+    <text x="400" y="58" fill="#eaf2ff" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="600" text-anchor="middle">legacy auth</text>
+    <rect x="470" y="0" width="100" height="90" rx="10" fill="#0e2a5c" stroke="#00D9FF" stroke-width="2.5"/>
+    <text x="520" y="40" fill="#eaf2ff" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Admin</text>
+    <text x="520" y="58" fill="#eaf2ff" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="600" text-anchor="middle">MFA</text>
+    <rect x="590" y="0" width="100" height="90" rx="10" fill="#0e2a5c" stroke="#00D9FF" stroke-width="2.5"/>
+    <text x="640" y="40" fill="#eaf2ff" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Device</text>
+    <text x="640" y="58" fill="#eaf2ff" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="600" text-anchor="middle">compliance</text>
+    <rect x="710" y="0" width="100" height="90" rx="10" fill="#0e2a5c" stroke="#00D9FF" stroke-width="2.5"/>
+    <text x="760" y="48" fill="#eaf2ff" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Risk/location</text>
+    <rect x="830" y="0" width="100" height="90" rx="10" fill="#0e2a5c" stroke="#00D9FF" stroke-width="2.5"/>
+    <text x="880" y="40" fill="#eaf2ff" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Session</text>
+    <text x="880" y="58" fill="#eaf2ff" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="600" text-anchor="middle">controls</text>
+  </g>
+  <g transform="translate(230 420)" opacity="0.55">
+    <rect x="57" y="11" width="60" height="40" rx="6" fill="#0e2a5c" stroke="#9db8ff" stroke-width="1.5" transform="rotate(-13 87 31)"/>
+    <rect x="369" y="21" width="60" height="40" rx="6" fill="#0e2a5c" stroke="#9db8ff" stroke-width="1.5" transform="rotate(1 399 41)"/>
+    <rect x="257" y="27" width="60" height="40" rx="6" fill="#0e2a5c" stroke="#9db8ff" stroke-width="1.5" transform="rotate(-16 287 47)"/>
+    <rect x="595" y="20" width="60" height="40" rx="6" fill="#0e2a5c" stroke="#9db8ff" stroke-width="1.5" transform="rotate(9 625 40)"/>
+    <rect x="402" y="65" width="60" height="40" rx="6" fill="#0e2a5c" stroke="#9db8ff" stroke-width="1.5" transform="rotate(5 432 85)"/>
+    <rect x="557" y="56" width="60" height="40" rx="6" fill="#0e2a5c" stroke="#9db8ff" stroke-width="1.5" transform="rotate(14 587 76)"/>
+    <rect x="274" y="4" width="60" height="40" rx="6" fill="#0e2a5c" stroke="#9db8ff" stroke-width="1.5" transform="rotate(-17 304 24)"/>
+    <rect x="168" y="22" width="60" height="40" rx="6" fill="#0e2a5c" stroke="#9db8ff" stroke-width="1.5" transform="rotate(-3 198 42)"/>
+  </g>
+  <text x="560" y="550" fill="#9db8ff" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="600" text-anchor="middle">6-policy baseline vs. an unreviewed pile</text>
+</svg>
