@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+    <meta name="robots" content="index,follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="An Entra app with zero user sign-ins can still read every mailbox every night. How to separate delegated logins from app-only data flows before you clean up.">
+    <meta name="author" content="Philipp Schmidt">
+    <meta name="keywords" content="unused enterprise applications Entra, servicePrincipalSignInActivities, enterprise app last sign-in, app-only token audit, service principal sign-in logs, delegated vs application permissions, OAuth consent cleanup, orphaned enterprise apps Microsoft 365, Entra app governance, app registration owner missing">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Unused Enterprise Apps: Why Last Sign-In Lies">
+    <meta property="og:description" content="An Entra app with zero user sign-ins can still read every mailbox every night. How to separate delegated logins from app-only data flows before you clean up.">
+    <meta property="og:image" content="https://endlesstech.blog/assets/images/enterprise-app-lifecycle/signin-vs-dataflow-hero.svg">
+    <meta property="og:url" content="https://endlesstech.blog/posts/2026-08-26-enterprise-apps-sign-in-vs-data-flow.html">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Unused Enterprise Apps: Why Last Sign-In Lies">
+    <meta name="twitter:description" content="An Entra app with zero user sign-ins can still read every mailbox every night. How to separate delegated logins from app-only data flows before you clean up.">
+    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/enterprise-app-lifecycle/signin-vs-dataflow-hero.svg">
+
+    <title>Unused Enterprise Apps: Why Last Sign-In Lies</title>
+
+    <link rel="alternate" type="application/rss+xml" title="EndlessTech Blog RSS Feed" href="https://endlesstech.blog/feed.xml">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/blog-post.css">
+
+    <link rel="canonical" href="https://endlesstech.blog/posts/2026-08-26-enterprise-apps-sign-in-vs-data-flow.html" />
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/images/logo.webp" alt="Philipp Schmidt - Secure. Scalable. Simple M365.">
+            </a>
+            <nav class="nav" id="nav">
+                <a href="../index.html">Home</a>
+                <a href="../index.html#blog" class="active">Blog</a>
+                <a href="../about.html">About</a>
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+            </nav>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">&#9776;</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="post-full">
+            <header class="post-full-header">
+                <h1 class="post-full-title">Unused Enterprise Apps: Why Last Sign-In Lies</h1>
+                <div class="post-full-meta">
+                    <time datetime="2026-08-26">August 2026</time> &bull; By Philipp Schmidt
+                </div>
+                <div class="post-tags"><span class="tag">Microsoft 365</span><span class="tag">Entra ID</span><span class="tag">Security</span><span class="tag">Governance</span><span class="tag">Microsoft Graph</span></div>
+            </header>
+
+            <figure class="post-full-image">
+                <img src="../assets/images/enterprise-app-lifecycle/signin-vs-dataflow-hero.svg" alt="Two paths into Microsoft 365 data: a delegated path where a user signs in and the sign-in is logged, and an app-only path with a nightly job that reads every mailbox and records no sign-in at all">
+            </figure>
+
+            <section class="post-full-content">
+                <div class="post-content">
+
+                    <p>A customer wanted their Enterprise Apps cleaned up. 312 service principals, nobody could say what half of them did. We pulled the list, sorted by last sign-in, and marked everything with no sign-in in twelve months for deletion. Forty-one apps. It looked like a good afternoon's work.</p>
+
+                    <p>One of those forty-one was the backup connector. It had never recorded a single sign-in, because no human had ever signed into it. Every night at two in the morning it authenticated with its own credentials and read every mailbox in the tenant. Deleting it would not have thrown an error in the portal. It would have thrown an error four weeks later, when someone needed a restore.</p>
+
+                    <p>The sign-in column was not wrong. It was answering a different question than the one we were asking.</p>
+
+                    <div class="post-tldr">
+                        <h2>In short</h2>
+                        <p>Entra records two very different things under the umbrella of "sign-in": an app acting <strong>on behalf of a user</strong> (delegated), and an app acting <strong>as itself</strong> with client credentials (app-only). The blade you look at by default mostly shows you the first kind. An app that never appears there can still be moving data continuously. The beta endpoint <code>servicePrincipalSignInActivities</code> separates the two, and that separation is the difference between a safe cleanup and an outage.</p>
+                    </div>
+
+                    <nav class="post-toc" aria-label="Table of contents">
+                        <h2>On this page</h2>
+                        <ol>
+                            <li><a href="#two-kinds">Two kinds of "used"</a></li>
+                            <li><a href="#getting-the-data">Getting the data out of Graph</a></li>
+                            <li><a href="#quadrants">Usage alone is not a decision</a></li>
+                            <li><a href="#missing-column">The column Graph will never have</a></li>
+                            <li><a href="#building">What I am building around this</a></li>
+                            <li><a href="#faq">Frequently asked questions</a></li>
+                        </ol>
+                    </nav>
+
+                    <h2 id="two-kinds">Two kinds of "used"</h2>
+
+                    <p>When a user opens an app and consents to it reading their calendar, the app requests a token on that user's behalf. That is a delegated flow, and it produces exactly what you expect: a sign-in event with a username attached, visible in the sign-in logs, filterable, obvious.</p>
+
+                    <p>When a daemon, a sync job or a backup tool authenticates with a client secret or certificate, there is no user in the transaction at all. The app presents its own credentials and receives a token scoped to application permissions — <code>Mail.Read.All</code>, <code>Files.Read.All</code>, <code>Directory.Read.All</code>. Those tokens are the ones that matter most from a blast-radius perspective, because they are not limited to one person's mailbox. They are limited to nothing.</p>
+
+                    <p>Both are recorded. They are just recorded as different sign-in event types, and the default view of the sign-in logs does not put them side by side. So the mental model most of us carry — "no sign-in means nobody uses it" — quietly maps onto only half the picture.</p>
+
+                    <h2 id="getting-the-data">Getting the data out of Graph</h2>
+
+                    <p>The endpoint that makes this tractable is in beta:</p>
+
+                    <pre><code>GET https://graph.microsoft.com/beta/reports/servicePrincipalSignInActivities</code></pre>
+
+                    <p>Per service principal it returns several timestamps rather than one. The names are long, and the distinction is the entire point:</p>
+
+                    <table>
+                        <thead>
+                            <tr><th>Field</th><th>What it actually means</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code>delegatedClientSignInActivity</code></td><td>The app requested a token on behalf of a user. The classic login.</td></tr>
+                            <tr><td><code>applicationAuthenticationClientSignInActivity</code></td><td>The app authenticated as itself. Daemon, sync, backup — the invisible traffic.</td></tr>
+                            <tr><td><code>delegatedResourceSignInActivity</code></td><td>The app was the resource another app requested access to on a user's behalf.</td></tr>
+                            <tr><td><code>lastSignInActivity</code></td><td>The most recent of any of them. Useful as a rollup, useless as a decision input on its own.</td></tr>
+                        </tbody>
+                    </table>
+
+                    <p>An app whose <code>delegatedClientSignInActivity</code> is empty and whose <code>applicationAuthenticationClientSignInActivity</code> is from last night is not unused. It is unattended, which is a different word and a different risk.</p>
+
+                    <p>Two constraints before you build anything on this. It needs <strong>Entra ID P1 or P2</strong> — on a Free tenant you get no service principal sign-in telemetry at all, and this whole approach collapses to guesswork. And it is a <strong>beta endpoint</strong>: the shape can change, so check the response against your own tenant rather than trusting any blog post, including this one.</p>
+
+                    <p>Read scopes are modest — <code>AuditLog.Read.All</code> for the activity data, <code>Application.Read.All</code> and <code>Directory.Read.All</code> to resolve permissions, owners and consent grants alongside it. Nothing here needs write access, which makes it an easy conversation with a nervous customer.</p>
+
+                    <p>If you want the raw events instead of the rollup, the sign-in log itself will filter by event type:</p>
+
+                    <pre><code>GET https://graph.microsoft.com/beta/auditLogs/signIns
+    ?$filter=signInEventTypes/any(t: t eq 'servicePrincipal')</code></pre>
+
+                    <p>Bear in mind the retention: seven days on Entra ID Free, thirty days with P1 or P2. "Unused for twelve months" is not a statement the sign-in log can support. It is a statement the activity report can support, which is exactly why the report exists.</p>
+
+                    <h2 id="quadrants">Usage alone is not a decision</h2>
+
+                    <p>Knowing an app is idle does not tell you what to do with it. Pair usage with the severity of what it is allowed to touch, and the list sorts itself into four groups with genuinely different answers:</p>
+
+                    <table>
+                        <thead>
+                            <tr><th></th><th>High permissions</th><th>Low permissions</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>In use</strong></td><td>Critical. Needs a named owner and a documented purpose, today.</td><td>Fine. Revisit on schedule.</td></tr>
+                            <tr><td><strong>Idle</strong></td><td>Remove. A dormant app holding <code>Mail.ReadWrite.All</code> is a credential waiting to be found.</td><td>Housekeeping. Low urgency, low risk.</td></tr>
+                        </tbody>
+                    </table>
+
+                    <p>The top-left box is where the surprises live. In that same tenant, the app with the widest permissions was a five-year-old integration for a ticketing system that had been replaced twice since. It still worked. It still had <code>Directory.ReadWrite.All</code>. Nobody had thought about it since the person who set it up left.</p>
+
+                    <p>Two more signals belong in the same view. <strong>Consent type</strong> tells you whether an admin deliberately approved the app or a user clicked through a consent prompt — user consent at scale is how shadow IT and illicit consent attacks look from the inside. And <strong>credential expiry</strong>, because a secret that expires next month will take an integration down whether or not anyone is watching that app.</p>
+
+                    <h2 id="missing-column">The column Graph will never have</h2>
+
+                    <p>Everything above is a machine fact. You can pull it fresh whenever you like, and it will always be current.</p>
+
+                    <p>Then there is the other half: who owns this app, what business process depends on it, what did we decide about it last time, and when do we look again. Graph does not have those fields, because they are not properties of the tenant. They are properties of a conversation. The <code>owners</code> collection helps only when someone bothered to fill it in, and in most tenants I open it is empty for the apps that matter most.</p>
+
+                    <p>This is why an app inventory that is only a report does not change anything. You run it, you feel briefly informed, and six months later you run it again from zero. The decisions from last time are gone. The value is not in the list — it is in the <em>diff</em> between this list and the last one: three new apps, one permission escalation, two apps that stopped being used since the last review.</p>
+
+                    <h2 id="building">What I am building around this</h2>
+
+                    <p>I have been putting this together as a browser-based tool rather than another service to host. It signs in with your own account, reads what it needs through Graph, and never sends tenant data anywhere else — nothing to deploy, nothing to trust with your data beyond the browser tab it runs in.</p>
+
+                    <p>Two design decisions matter more than the feature list. Human knowledge — owner, business purpose, decision, review date — is carried in an exportable file that you re-import next time, so a review compares against the previous one instead of starting over. And where AI helps translate a wall of permission scopes into a sentence a department head can act on, it runs on your own API key, not mine, so the tenant data path stays yours.</p>
+
+                    <p>It is not finished and I am not taking sign-ups yet. If you want to try the query above against your own tenant in the meantime, I would genuinely like to hear how many apps in the idle-but-privileged box you end up with. My number was eleven, in a tenant that had been "cleaned up" the year before.</p>
+
+                    <h2 id="faq">Frequently asked questions</h2>
+
+                    <h3>Does this work without Entra ID P1?</h3>
+                    <p>No. Service principal sign-in telemetry requires P1 or P2. Without it you can still enumerate apps, permissions, owners and consent grants, but you cannot tell a dormant app from a busy one, which removes the part that makes cleanup safe.</p>
+
+                    <h3>Is the beta endpoint safe to rely on?</h3>
+                    <p>For analysis, yes. For anything automated that deletes things, treat it as a signal and not as an authority — beta contracts change without much notice, and a wrong answer here has an outage attached.</p>
+
+                    <h3>Why not just use the built-in recommendation for unused apps?</h3>
+                    <p>Use it — it is a reasonable starting point. It gives you a list at a point in time. What it does not do is carry your decisions forward, distinguish the two usage types explicitly in the same view, or tell you who agreed to keep an app last quarter.</p>
+
+                    <h3>What about apps with no owner at all?</h3>
+                    <p>Treat a missing owner as a finding rather than a formality. An app nobody claims, holding permissions nobody reviews, is the exact configuration attackers look for after an initial compromise — it survives password resets and it rarely gets noticed.</p>
+
+                    <h2>Where to start</h2>
+
+                    <p>Pull <code>servicePrincipalSignInActivities</code> once against a tenant you know well and sort by the app-only timestamp. If a name shows up there that you cannot immediately explain, you have found the reason this matters — before the cleanup, rather than after it.</p>
+
+                </div>
+            </section>
+
+            <section class="author-bio">
+                <img src="../assets/images/cloudknox-author.webp" alt="Philipp Schmidt - Microsoft 365 Security Consultant - easyM365.de" class="author-avatar" loading="lazy">
+                <div class="author-info">
+                    <h3>Philipp Schmidt</h3>
+                    <p>IT consultant specializing in Microsoft 365, Security, and Zero Trust architecture. Helping SMBs build secure, scalable, and simple cloud solutions.</p>
+                    <p><strong>Zero Trust. Zero Drama. Zero Bullshit.</strong></p>
+                    <p><a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Learn more: https://easym365.de</a></p>
+                </div>
+            </section>
+        </article>
+        <div id="post-navigation"></div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2026 Philipp Schmidt. All rights reserved.</p>
+            <p>Secure. Scalable. Simple M365.</p>
+            <div class="footer-links">
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+                <a href="https://www.linkedin.com/in/pschmidt3010" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://github.com/farpoint-tech" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const menuToggle = document.getElementById("menu-toggle");
+        const nav = document.getElementById("nav");
+        menuToggle.addEventListener("click", () => { nav.classList.toggle("active"); });
+    </script>
+    <script src="../assets/js/post-navigation.js"></script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Unused Enterprise Apps: Why Last Sign-In Lies",
+  "description": "An Entra app with zero user sign-ins can still read every mailbox every night. How to separate delegated logins from app-only data flows before you clean up.",
+  "image": "https://endlesstech.blog/assets/images/enterprise-app-lifecycle/signin-vs-dataflow-hero.svg",
+  "author": {
+    "@type": "Person",
+    "name": "Philipp Schmidt",
+    "url": "https://easym365.de"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "EndlessTech Blog"
+  },
+  "datePublished": "2026-08-26",
+  "dateModified": "2026-08-26",
+  "inLanguage": "en",
+  "mainEntityOfPage": "https://endlesstech.blog/posts/2026-08-26-enterprise-apps-sign-in-vs-data-flow.html"
+}
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does enterprise app usage analysis work without Entra ID P1?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Service principal sign-in telemetry requires Entra ID P1 or P2. Without it you can still enumerate apps, permissions, owners and consent grants, but you cannot tell a dormant app from a busy one."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is the servicePrincipalSignInActivities beta endpoint safe to rely on?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For analysis, yes. For automated deletion, treat it as a signal rather than an authority, because beta contracts can change without much notice."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why not just use the built-in Entra recommendation for unused apps?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It is a reasonable starting point, but it gives a list at a point in time. It does not carry your decisions forward, distinguish delegated from app-only usage in the same view, or record who agreed to keep an app last quarter."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What should I do with enterprise apps that have no owner?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Treat a missing owner as a finding. An unclaimed app holding unreviewed permissions survives password resets and rarely gets noticed, which is exactly what attackers look for after an initial compromise."
+      }
+    }
+  ]
+}
+    </script>
+</body>
+</html>
