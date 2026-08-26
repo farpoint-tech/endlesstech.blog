@@ -3,26 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
-    <meta name="robots" content="index,follow">
+    <meta name="robots" content="noindex,nofollow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Entra ID PIM's authentication context does not reliably re-verify at role activation. The 10-minute window, what Every time really does, and how to prove it.">
+    <meta name="description" content="What Microsoft documents about PIM authentication context, the 10-minute reauthentication window, and how to validate the behaviour in your tenant.">
     <meta name="author" content="Philipp Schmidt">
     <meta name="keywords" content="Entra PIM authentication context, privileged identity management SMB, PIM activation PowerShell, zero standing privilege, PIM service principals, GDAP PIM MSP, do I need Entra ID P2 for PIM, PIM Authentifizierungskontext, privilegierte Rollen zeitlich begrenzen">
 
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="article">
-    <meta property="og:title" content="Entra ID PIM Setup: Why Authentication Context Still Isn't Enforced on Role Activation">
-    <meta property="og:description" content="Entra ID PIM's authentication context does not reliably re-verify at role activation. The 10-minute window, what Every time really does, and how to prove it.">
+    <meta property="og:title" content="Entra ID PIM Setup: What to Validate About Authentication Context at Role Activation">
+    <meta property="og:description" content="What Microsoft documents about PIM authentication context, the 10-minute reauthentication window, and how to validate the behaviour in your tenant.">
     <meta property="og:image" content="https://endlesstech.blog/assets/images/entra-pim-authentication-context/pim-activation-hero.svg">
     <meta property="og:url" content="https://endlesstech.blog/posts/2026-09-03-entra-pim-authentication-context.html">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Entra ID PIM Setup: Why Authentication Context Still Isn't Enforced on Role Activation">
-    <meta name="twitter:description" content="Entra ID PIM's authentication context does not reliably re-verify at role activation. The 10-minute window, what Every time really does, and how to prove it.">
+    <meta name="twitter:title" content="Entra ID PIM Setup: What to Validate About Authentication Context at Role Activation">
+    <meta name="twitter:description" content="What Microsoft documents about PIM authentication context, the 10-minute reauthentication window, and how to validate the behaviour in your tenant.">
     <meta name="twitter:image" content="https://endlesstech.blog/assets/images/entra-pim-authentication-context/pim-activation-hero.svg">
 
-    <title>Entra ID PIM Setup: Why Authentication Context Still Isn't Enforced on Role Activation</title>
+    <title>Entra ID PIM Setup: What to Validate About Authentication Context at Role Activation</title>
 
     <link rel="alternate" type="application/rss+xml" title="EndlessTech Blog RSS Feed" href="https://endlesstech.blog/feed.xml">
     <link rel="stylesheet" href="../assets/css/style.css">
@@ -49,7 +49,7 @@
     <main class="container">
         <article class="post-full">
             <header class="post-full-header">
-                <h1 class="post-full-title">Entra ID PIM Setup: Why Authentication Context Still Isn't Enforced on Role Activation</h1>
+                <h1 class="post-full-title">Entra ID PIM Setup: What to Validate About Authentication Context at Role Activation</h1>
                 <div class="post-full-meta">
                     <time datetime="2026-09-03">September 2026</time> &bull; By Philipp Schmidt
                 </div>
@@ -63,13 +63,13 @@
             <section class="post-full-content">
                 <div class="post-content">
 
-                    <p>Privileged Identity Management is the right idea. Nobody should sit on Global Administrator around the clock, and time-bound, justified, logged role activation is how that gets fixed. The problem shows up once you actually configure it: authentication context, the setting that is supposed to force a stronger sign-in method before a role activates, does not reliably apply to PIM activation the way admins expect. A user can activate an eligible privileged role without being pushed through the stricter authentication check tied to that role's Conditional Access policy.</p>
+                    <p>Privileged Identity Management is the right idea. Nobody should sit on Global Administrator around the clock, and time-bound, justified, logged role activation is how that gets fixed. Authentication context can attach a stricter Conditional Access requirement to activation, but its documented reauthentication windows and session behaviour mean admins must validate exactly what their own tenant prompts for and logs.</p>
 
                     <p>That gap gets flagged repeatedly, alongside a quieter one: below Entra ID P2, PIM does not exist at all &mdash; which means most SMB tenants on P1 or Business Premium have zero role-activation governance no matter how well the concept works on paper.</p>
 
                     <div class="post-tldr">
                         <h2>In short</h2>
-                        <p>PIM is the correct architecture for cutting standing privilege, but <strong>authentication context does not reliably re-verify at activation time</strong> &mdash; an MFA claim from earlier in the day can satisfy the check, which defeats the point of a deliberate elevation moment. Verify the behaviour in your own tenant before treating PIM as your control against a compromised session. <strong>P1 tenants have no PIM at all</strong>; the fallback is a disciplined manual role review, not nothing.</p>
+                        <p>PIM is the correct architecture for cutting standing privilege, but authentication context does not prove that every activation creates a fresh prompt. Microsoft documents a 10-minute reauthentication window and session-control caveats. Verify the behaviour in your own tenant before treating a prompt as evidence of a fresh phishing-resistant event. <strong>P1 tenants have no PIM at all</strong>; the fallback is a disciplined manual role review, not nothing.</p>
                     </div>
 
                     <nav class="post-toc" aria-label="Table of contents">
@@ -77,7 +77,7 @@
                         <ol>
                             <li><a href="#why-they-dont-line-up">Why authentication context and PIM activation don't line up</a></li>
                             <li><a href="#the-window">The 10-minute reauthentication window</a></li>
-                            <li><a href="#silent-failures">Three ways the enforcement silently does not apply</a></li>
+                            <li><a href="#silent-failures">Three configuration and session behaviours to validate</a></li>
                             <li><a href="#what-holds">What holds, and how to prove it</a></li>
                             <li><a href="#service-principals">PIM for service principals is a separate, immature story</a></li>
                             <li><a href="#without-p2">What SMBs without P2 actually have</a></li>
@@ -115,13 +115,13 @@
                     <p>The worse of the two is filed as a known limitation. Learn's own example: a resource requires passkey (FIDO2) strength and a sign-in frequency of one hour. The user signed in with the passkey 24 hours ago, unlocks the device today with Windows Hello, and gets access, because in Microsoft's wording yesterday's sign-in satisfies the authentication strength requirement and today's device unlock satisfies the sign-in frequency requirement. Read against a hardware-key promise, that means the key can carry over from an old sign-in while the freshness comes from a Windows Hello unlock. Two satisfied conditions, nobody touched anything.</p>
                     <p>One piece of provenance worth knowing before building a control on either paragraph: the <em>Every time</em> recommendation and the 10-minute window entered the Entra documentation in a single AI-assisted commit in March 2026, which inserted them into all three PIM articles at once. Three pages, one statement, and no precedence rule can be derived from three copies of the same sentence.</p>
 
-                    <h2 id="silent-failures">Three ways the enforcement silently does not apply</h2>
+                    <h2 id="silent-failures">Three configuration and session behaviours to validate</h2>
                     <p><strong>Report-only is more dangerous here than no policy at all.</strong> If a tenant has no Conditional Access policy on the authentication context that PIM references, PIM falls back to requiring plain Entra MFA, a deliberate guard against misconfiguration. That fallback does not fire when the policy exists but is disabled, sits in report-only, or excludes the eligible users. In that state there is neither enforcement nor fallback, the activation runs through unchecked, and the portal shows a policy sitting exactly where it should be. A tenant still rolling out its Conditional Access catalogue is precisely where this bites.</p>
                     <p><strong>One policy instead of two.</strong> The authentication context governs the activation. It says nothing about using the rights afterwards, so an admin can activate with the key and then exercise the elevated permissions from another session or device. The guidance is two policies: one scoped to the authentication context for activation, one scoped to the directory roles or admin persona for the use of the activated role. Ship only the first and the tier is hardened at the door and open at the desk.</p>
                     <p><strong>Scoping a PIM for Groups policy to the group itself.</strong> The policy behind the authentication context must not target the group being activated, because during activation the user does not hold the membership yet, so the policy does not apply. Target the eligible users instead. Scoped to the group it has no effect, and it does not surface in testing, because the activation simply works.</p>
 
                     <h2 id="what-holds">What holds, and how to prove it</h2>
-                    <p>None of this makes the model pointless. It makes the enforcement narrower than the design document, so build for the narrower version. Keep <em>Every time</em> on the authentication-context policy, and write down that it means once every five minutes rather than every request. Add the second Conditional Access policy on the directory role or admin persona, with a custom authentication strength and an AAGUID allow-list. The built-in phishing-resistant strength also accepts Windows Hello for Business and certificate-based authentication, which is not the same control as one approved key model. Verify at rollout that both policies are enabled rather than in report-only or pilot, and that no eligible user sits in an exclusion group. Target eligible users with the auth-context policy, never the PIM group. Where you can, sequence activations so a top-tier elevation is not routinely preceded by a lower-tier one; process is a weak control, but it is the only lever over the window itself.</p>
+                    <p>None of this makes the model pointless. It means the documented session behaviour must be part of the design and test plan. Keep <em>Every time</em> on the authentication-context policy, and write down that it means once every five minutes rather than every request. Add the second Conditional Access policy on the directory role or admin persona, with a custom authentication strength and an AAGUID allow-list. The built-in phishing-resistant strength also accepts Windows Hello for Business and certificate-based authentication, which is not the same control as one approved key model. Verify at rollout that both policies are enabled rather than in report-only or pilot, and that no eligible user sits in an exclusion group. Target eligible users with the auth-context policy, never the PIM group. Where you can, sequence activations so a top-tier elevation is not routinely preceded by a lower-tier one; process is a weak control, but it is the only lever over the window itself.</p>
                     <p>Then stop treating the activation prompt as evidence. The prompt tells you what Entra felt like asking for, and in the case that matters there is no prompt to observe. Pull the PIM audit event for the activation, take its timestamp and actor, and match it against the sign-in log entry for the same session. That entry carries the authentication method and the requirement actually satisfied. If the elevation carries no sign-in with the approved method inside the activation window, the key was not touched, regardless of what the design says.</p>
                     <p>If you alert on privileged activations with a scheduled query rule, budget the latency honestly. A five-minute evaluation frequency is a reasonable baseline, but end-to-end latency from sign-in to alert typically lands at five to fifteen minutes, dominated by sign-in log ingestion rather than by how often the rule runs. For a top-tier elevation that is a baseline, not a target.</p>
                     <p>Two questions stayed open after a full pass through the documentation. Whether <em>Every time</em> forces an evaluation the PIM timer would otherwise skip is undocumented; the only Learn text tying session controls to authentication-context token issuance covers sign-in frequency <em>by interval</em> and leaves <em>Every time</em> unaddressed. Whether it prevents strength and frequency from decoupling is equally undocumented. The only empirical data point is a TechCommunity thread from January 2025 describing this exact setup, where the author reports the behaviour as unpredictable and browser-dependent, with observed windows of twenty minutes, an hour, and none at all. No Microsoft engineer replied. Forum evidence proves nothing, but it puts a question mark on the fixed 10-minute figure too.</p>
@@ -219,8 +219,8 @@
 {
   "@context": "https://schema.org",
   "@type": "Article",
-  "headline": "Entra ID PIM Setup: Why Authentication Context Still Isn't Enforced on Role Activation",
-  "description": "Entra ID PIM's authentication context does not reliably re-verify at role activation. The 10-minute window, what Every time really does, and how to prove it.",
+  "headline": "Entra ID PIM Setup: What to Validate About Authentication Context at Role Activation",
+  "description": "What Microsoft documents about PIM authentication context, the 10-minute reauthentication window, and how to validate the behaviour in your tenant.",
   "image": "https://endlesstech.blog/assets/images/entra-pim-authentication-context/pim-activation-hero.svg",
   "author": {
     "@type": "Person",

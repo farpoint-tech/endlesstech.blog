@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
-    <meta name="robots" content="index,follow">
+    <meta name="robots" content="noindex,nofollow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Microsoft 365 is not GDPR-compliant out of the box — it gives you the controls. What SMBs actually need to configure: audit log retention, retention policies, data subject requests, and Compliance Manager.">
     <meta name="author" content="Philipp Schmidt">
@@ -96,7 +96,7 @@
                     <p>What to do, in order:</p>
                     <ol>
                         <li><strong>Verify auditing is on for your tenant</strong> and that new users inherit it. Do not assume &mdash; check.</li>
-                        <li><strong>Know your actual retention window.</strong> Standard-tier audit retention is materially shorter than the premium tier, and it is the single most common unpleasant surprise in an SMB investigation. Look it up for your licence before you need it, not during an incident.</li>
+                        <li><strong>Know your actual retention window.</strong> Audit retention is SKU- and workload-dependent, and service plans change over time. Record the retention that applies to your tenant from the current Purview licensing documentation before you need it, not during an incident.</li>
                         <li><strong>Decide whether that window is long enough for your risk.</strong> Breaches are frequently discovered months after the fact. If your window is shorter than your realistic detection time, extend retention or export the log to somewhere that keeps it.</li>
                         <li><strong>Test one search now.</strong> Look up a file access or a sign-in from last month. You will find out in five minutes whether this works before you need it under pressure.</li>
                     </ol>
@@ -113,7 +113,7 @@
 
                     <h2 id="dsr">Data subject requests: rehearse before you need it</h2>
                     <p>A person has the right to know what you hold about them, get a copy, and in many cases have it deleted &mdash; and you have a legal deadline to respond. The failure mode in small companies is never the law; it is that nobody has ever tried to find all data about one person across Exchange, SharePoint, OneDrive and Teams, and the first attempt happens under a running clock.</p>
-                    <p>Do the dry run instead. Pick a name, run a content search across the tenant, and see what comes back. You will learn three things fast: where personal data has spread that you did not expect, whether your search skills are up to it, and how long the process actually takes. The eDiscovery tooling included in Business Premium and E3 is enough for this in a small organisation.</p>
+                    <p>Do the dry run instead. Pick a name, run a content search across the tenant, and see what comes back. You will learn three things fast: where personal data has spread that you did not expect, whether your search skills are up to it, and how long the process actually takes. Verify the eDiscovery tier and export, review and legal-hold requirements against your licence and counsel; a basic content search is useful for a dry run but is not a universal DSR or investigation solution.</p>
                     <p>Also write down the trivial part everyone forgets: <strong>who receives the request</strong> when it arrives by mail to the info@ address on a Friday afternoon, and who is allowed to act on it.</p>
 
                     <h2 id="compliance-manager">Compliance Manager: the scored checklist</h2>
@@ -124,7 +124,7 @@
                     <p><strong>Days 1&ndash;30 &mdash; know where you stand.</strong> Verify audit logging and record your real retention window. Run one test audit search. Open Compliance Manager and read your GDPR assessment. Confirm your DPA and note which data residency you are actually on.</p>
                     <p><strong>Days 31&ndash;60 &mdash; close the obvious gaps.</strong> Publish a small sensitivity label set. Set your first two retention policies with legal sign-off. Do the data subject request dry run and write the one-page procedure that comes out of it.</p>
                     <p><strong>Days 61&ndash;90 &mdash; make it durable.</strong> Add the DLP policies for your highest-risk data (<a href="2026-08-27-dlp-microsoft-365-small-it-teams.html">audit-first, as described here</a>). Document who owns which control. Put a recurring quarterly review in the calendar &mdash; compliance decays silently, and the review is what catches it.</p>
-                    <p>None of this requires E5 or a compliance officer. It requires someone deciding to own it for three months.</p>
+                    <p>Much of this can start without E5 or a compliance officer, but the exact audit, eDiscovery, retention and governance capabilities are licence-dependent. It requires someone deciding to own the controls for three months.</p>
 
                     <section class="post-glossary">
                     <h2 id="glossary">Glossary</h2>

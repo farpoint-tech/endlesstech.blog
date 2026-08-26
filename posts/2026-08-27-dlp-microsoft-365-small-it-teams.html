@@ -3,23 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
-    <meta name="robots" content="index,follow">
+    <meta name="robots" content="noindex,nofollow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="How to implement DLP in Microsoft 365 without E5 — what Business Premium and E3 already cover, three starter policies, and the audit-first rollout that avoids blocking legitimate work.">
+    <meta name="description" content="How to implement DLP in Microsoft 365 without E5 — what E3-class licensing covers, where Teams message protection needs E5, and how to roll out safely.">
     <meta name="author" content="Philipp Schmidt">
     <meta name="keywords" content="DLP Microsoft 365, how to implement DLP in Microsoft 365 without E5, DLP licensing requirements Microsoft 365, data loss prevention SMB guide, DLP policy templates M365, simulation mode DLP, endpoint DLP licensing, DLP Teams stopped working, sensitivity labels without E5, how to stop employees from emailing sensitive data outside the company, DLP in Microsoft 365 einrichten, Datenabfluss verhindern kleine Unternehmen, DLP Lizenz Anforderungen">
 
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="article">
     <meta property="og:title" content="Data Loss Prevention in Microsoft 365: Policies That Work for Small IT Teams">
-    <meta property="og:description" content="How to implement DLP in Microsoft 365 without E5 — what Business Premium and E3 already cover, three starter policies, and the audit-first rollout that avoids blocking legitimate work.">
+    <meta property="og:description" content="How to implement DLP in Microsoft 365 without E5 — what E3-class licensing covers, where Teams message protection needs E5, and how to roll out safely.">
     <meta property="og:image" content="https://endlesstech.blog/assets/images/dlp-microsoft-365-smb/dlp-policy-hero.svg">
     <meta property="og:url" content="https://endlesstech.blog/posts/2026-08-27-dlp-microsoft-365-small-it-teams.html">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Data Loss Prevention in Microsoft 365: Policies That Work for Small IT Teams">
-    <meta name="twitter:description" content="How to implement DLP in Microsoft 365 without E5 — what Business Premium and E3 already cover, three starter policies, and the audit-first rollout that avoids blocking legitimate work.">
+    <meta name="twitter:description" content="How to implement DLP in Microsoft 365 without E5 — what E3-class licensing covers, where Teams message protection needs E5, and how to roll out safely.">
     <meta name="twitter:image" content="https://endlesstech.blog/assets/images/dlp-microsoft-365-smb/dlp-policy-hero.svg">
 
     <title>Data Loss Prevention in Microsoft 365: Policies That Work for Small IT Teams</title>
@@ -65,11 +65,11 @@
 
                     <p>DLP projects in small companies usually start the same way: something leaked, the owner asked what happened, and now someone has to "look into DLP" by Friday. That pressure produces the two classic mistakes — buying a licence tier you did not need, or switching a policy straight to block and spending the next week unblocking your own colleagues.</p>
 
-                    <p>You can do this properly with what you already own. Here is what Business Premium and E3 actually cover, three policies worth starting with, and the rollout order that keeps people working.</p>
+                    <p>You can start properly without buying the top tier first. Here is what your current SKU covers, where Teams message protection needs separate E5-class licensing, three policies worth starting with, and the rollout order that keeps people working.</p>
 
                     <div class="post-tldr">
                         <h2>In short</h2>
-                        <p>You do not need E5 to start. <strong>Business Premium and E3 include DLP for Exchange, SharePoint, OneDrive and Teams</strong> — which is where SMB data leaks actually happen. E5 adds <strong>endpoint DLP</strong> (USB sticks, local copies), trainable classifiers and Insider Risk. Start by classifying what matters, deploy two or three narrow policies in <strong>simulation mode</strong>, review the hits for two weeks, then enforce. Going straight to block is how DLP projects die.</p>
+                        <p>You do not need E5 to start. <strong>Business Premium and E3 cover DLP for Exchange, SharePoint and OneDrive, including files shared through Teams. Teams chat and channel-message DLP needs the appropriate E5 Compliance or E5-class entitlement.</strong> E5-class licensing also adds <strong>endpoint DLP</strong> (USB sticks, local copies), trainable classifiers and Insider Risk. Start by classifying what matters, deploy two or three narrow policies in <strong>simulation mode</strong>, review the hits for two weeks, then enforce. Going straight to block is how DLP projects die.</p>
                     </div>
 
                     <nav class="post-toc" aria-label="Table of contents">
@@ -91,7 +91,8 @@
                     <table class="post-table">
                         <thead><tr><th>Capability</th><th>Business Premium / E3</th><th>Needs E5 (or a Purview add-on)</th></tr></thead>
                         <tbody>
-                            <tr><td>DLP for Exchange, SharePoint, OneDrive, Teams</td><td>Included</td><td>&mdash;</td></tr>
+                            <tr><td>DLP for Exchange, SharePoint and OneDrive, including Teams files</td><td>Included</td><td>&mdash;</td></tr>
+                            <tr><td>DLP for Teams chat and channel messages</td><td>&mdash;</td><td>E5 Compliance / E5-class entitlement</td></tr>
                             <tr><td>Built-in sensitive info types (card numbers, IBAN, national IDs)</td><td>Included</td><td>&mdash;</td></tr>
                             <tr><td>Manual sensitivity labels</td><td>Included</td><td>&mdash;</td></tr>
                             <tr><td>Policy tips shown to users in Outlook and Office</td><td>Included</td><td>&mdash;</td></tr>
@@ -100,7 +101,7 @@
                             <tr><td>Insider Risk Management, Communication Compliance</td><td>&mdash;</td><td>E5 / E5 Compliance</td></tr>
                         </tbody>
                     </table>
-                    <p>Read that table again if you are about to buy E5 for DLP. The channels where SMB data actually leaves — someone emails a customer list, someone shares a SharePoint folder with "anyone with the link", someone pastes an IBAN into a Teams chat with an external guest — are all covered by the licence you already have. E5 becomes the right answer when you must control what happens on the endpoint itself, or when manual labelling has clearly hit its ceiling.</p>
+                    <p>Read that table again if you are about to buy E5 for DLP. Email, SharePoint, OneDrive and files shared through Teams are covered by E3-class licensing. A sensitive message pasted into a Teams chat is a separate E5-class licensing decision. E5 becomes the right answer when you need endpoint controls, Teams message DLP, or when manual labelling has clearly hit its ceiling. Always validate the exact SKU and service plan in the current Microsoft licensing comparison before rollout.</p>
 
                     <h2 id="start-with-data">Start with the data, not the policy</h2>
                     <p>The most common failure I see is someone opening the Purview portal and creating policies on day one. You end up protecting whatever Microsoft's templates happened to suggest, not what would actually hurt your business if it left.</p>
@@ -113,7 +114,7 @@
 
                     <h2 id="three-policies">Three starter policies that earn their keep</h2>
                     <p>Two or three narrow, well-understood policies beat fifteen broad ones nobody trusts. These three cover most SMB exposure:</p>
-                    <p><strong>1. Payment and banking data leaving the organisation.</strong> Built-in types for credit card numbers and IBAN, scoped to Exchange and Teams, triggering on external recipients. Start with a policy tip and an alert rather than a hard block &mdash; the tip alone stops most accidental sends, because people genuinely did not realise what was in the attachment.</p>
+                    <p><strong>1. Payment and banking data leaving the organisation.</strong> Built-in types for credit card numbers and IBAN, scoped to Exchange and SharePoint/OneDrive external sharing. Add Teams chat and channel messages only where the required E5-class entitlement is present. Start with a policy tip and an alert rather than a hard block &mdash; the tip alone stops most accidental sends, because people genuinely did not realise what was in the attachment.</p>
                     <p><strong>2. Bulk personal data.</strong> Same idea, but with a count threshold: flag when a message or file contains more than, say, ten records of national ID or health data. The threshold is what separates "an HR mail about one employee" from "someone just exported the personnel database". Under GDPR, the second one is the reportable event.</p>
                     <p><strong>3. Confidential-labelled content leaving the tenant.</strong> Publish a small sensitivity label set first (Public / Internal / Confidential is enough), then write one DLP rule: content labelled Confidential cannot be shared externally. This is the policy that scales, because the label travels with the file and users apply it where automated detection cannot reach. It pairs directly with <a href="2026-08-14-zero-trust-m365-data.html">the Data pillar of the Zero Trust series</a>.</p>
 
@@ -160,9 +161,9 @@
                     <section class="faq">
                     <h2 id="faq">Frequently Asked Questions</h2>
                     <h3>How do I implement DLP in Microsoft 365 without E5?</h3>
-                    <p>Business Premium and E3 already include DLP for Exchange, SharePoint, OneDrive and Teams, plus the built-in sensitive information types and manual sensitivity labels — which covers the channels most SMB data actually leaks through. Classify what matters first, then deploy two or three narrow policies in simulation mode, review the matches, and only then enforce. E5 is needed for endpoint DLP, automatic labelling and Insider Risk Management.</p>
+                    <p>Business Premium and E3 already include DLP for Exchange, SharePoint, OneDrive and Teams, plus the built-in sensitive information types and manual sensitivity labels — which covers the channels most SMB data actually leaks through. Classify what matters first, then deploy two or three narrow policies in simulation mode, review the matches, and only then enforce. E5-class licensing is needed for endpoint DLP, automatic labelling and Insider Risk Management.</p>
                     <h3>Which Microsoft 365 plan do I need for DLP?</h3>
-                    <p>For mail, SharePoint, OneDrive and Teams DLP: Business Premium or E3 is enough. You need E5 or an E5 Compliance add-on for endpoint DLP (USB, clipboard, local copies), trainable classifiers and automatic labelling, Insider Risk Management and Communication Compliance.</p>
+                    <p>For mail, SharePoint, OneDrive and files shared through Teams, Business Premium or E3 can be enough. Teams chat and channel-message DLP requires an E5 Compliance or E5-class entitlement. You need E5 or an E5 Compliance add-on for endpoint DLP (USB, clipboard, local copies), trainable classifiers and automatic labelling, Insider Risk Management and Communication Compliance.</p>
                     <h3>How do I set up DLP policies for a small IT team?</h3>
                     <p>Start with three: payment and banking data going to external recipients, bulk personal data above a record-count threshold, and content labelled Confidential being shared externally. Run each in simulation mode for two weeks, review and tune the false positives, switch on policy tips for another two weeks, then enforce — and announce the change before you do.</p>
                     <h3>Why did my DLP policy in Teams stop working?</h3>
@@ -243,7 +244,7 @@
       "name": "How do I implement DLP in Microsoft 365 without E5?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Business Premium and E3 already include DLP for Exchange, SharePoint, OneDrive and Teams, plus the built-in sensitive information types and manual sensitivity labels \u2014 which covers the channels most SMB data actually leaks through. Classify what matters first, then deploy two or three narrow policies in simulation mode, review the matches, and only then enforce. E5 is needed for endpoint DLP, automatic labelling and Insider Risk Management."
+        "text": "Business Premium and E3 already include DLP for Exchange, SharePoint, OneDrive and Teams, plus the built-in sensitive information types and manual sensitivity labels \u2014 which covers the channels most SMB data actually leaks through. Classify what matters first, then deploy two or three narrow policies in simulation mode, review the matches, and only then enforce. E5-class licensing is needed for endpoint DLP, automatic labelling and Insider Risk Management."
       }
     },
     {
@@ -251,7 +252,7 @@
       "name": "Which Microsoft 365 plan do I need for DLP?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "For mail, SharePoint, OneDrive and Teams DLP: Business Premium or E3 is enough. You need E5 or an E5 Compliance add-on for endpoint DLP (USB, clipboard, local copies), trainable classifiers and automatic labelling, Insider Risk Management and Communication Compliance."
+        "text": "For mail, SharePoint, OneDrive and files shared through Teams, Business Premium or E3 can be enough. Teams chat and channel-message DLP requires an E5 Compliance or E5-class entitlement. You need E5 or an E5 Compliance add-on for endpoint DLP (USB, clipboard, local copies), trainable classifiers and automatic labelling, Insider Risk Management and Communication Compliance."
       }
     },
     {

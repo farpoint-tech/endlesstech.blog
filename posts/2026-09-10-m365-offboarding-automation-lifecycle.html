@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
-    <meta name="robots" content="index,follow">
+    <meta name="robots" content="noindex,nofollow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Most M365 offboarding runs on scripts admins call mostly reliable. A complete offboarding sequence, an access audit method, and options without Entra ID Governance.">
     <meta name="author" content="Philipp Schmidt">
@@ -65,7 +65,7 @@
 
                     <p>Ask a sysadmin how offboarding works in their tenant and the honest answer is usually some version of "a couple of scripts, and it is mostly reliable." Not fully reliable. Mostly. That qualifier is doing a lot of work.</p>
 
-                    <p>Microsoft 365 does not ship a standardised offboarding process. What it ships is Entra ID Lifecycle Workflows &mdash; a genuinely automated joiner-mover-leaver engine &mdash; gated behind Entra ID Governance, an add-on most SMB tenants do not have and will not buy for this alone. Everyone else runs scripts, and scripts are only as reliable as the person who wrote and maintained them.</p>
+                    <p>Microsoft 365 does not ship a standardised offboarding process. What it ships is Entra ID Lifecycle Workflows &mdash; a genuinely automated joiner-mover-leaver engine &mdash; licensed through Microsoft Entra ID Governance or Entra Suite, which many SMB tenants do not have for this purpose alone. Everyone else runs scripts, and scripts are only as reliable as the person who wrote and maintained them.</p>
 
                     <div class="post-tldr">
                         <h2>In short</h2>
@@ -103,17 +103,17 @@
                     <h2 id="audit">Auditing what a departed employee still has</h2>
                     <p>If you are not confident the current process is complete, audit from the account outward rather than trusting the offboarding log:</p>
                     <ul>
-                        <li>Query group and role memberships directly via Graph (<code>/users/{id}/memberOf</code>) rather than relying on what the script claims to have removed</li>
-                        <li>Check owned objects specifically &mdash; app registrations, enterprise apps, groups, Teams &mdash; via <code>/users/{id}/ownedObjects</code></li>
+                        <li>Query direct group and role membership via Graph (<code>/users/{id}/memberOf</code>) and assess transitive or workload-specific access separately; it is not a complete entitlement view</li>
+                        <li>Use <code>/users/{id}/ownedObjects</code> as one discovery input for app registrations, groups and other directory objects, then confirm a named successor owner for each critical resource</li>
                         <li>Review sign-in logs for activity after the offboarding date, which flags both process failures and, occasionally, credential misuse</li>
-                        <li>Check SharePoint and OneDrive sharing links they created for external parties, since these persist independently of the account state</li>
+                        <li>Review SharePoint and OneDrive sharing links through the relevant workload reports and owner process; link enumeration and revocation are not a single per-user Graph sweep</li>
                     </ul>
 
                     <h2 id="access-reviews">Access reviews: a control only if someone actually reviews</h2>
                     <p>Access reviews exist to catch exactly the accumulation that offboarding gaps create. The recurring complaint is that managers asked to approve them click approve without checking, turning a governance control into a compliance artefact that proves a review happened rather than that anyone verified anything. There is no technical fix for a reviewer treating it as an inbox item. What helps: shorter review scopes &mdash; a specific resource, not "everything this person can touch" &mdash; and routing the review to someone closer to the resource than a general manager who does not know what the access is for.</p>
 
                     <h2 id="without-governance">What SMBs without Entra ID Governance can build</h2>
-                    <p>Lifecycle Workflows automate joiner-mover-leaver natively, but the licence puts it out of reach for many SMB tenants. The realistic alternative is a documented, versioned runbook &mdash; not a mental checklist &mdash; covering the six steps above, triggered by HR notification, with the audit queries run as a monthly spot-check against recent leavers rather than assumed to have worked. It is not automation. It is a process disciplined enough to behave like one.</p>
+                    <p>Lifecycle Workflows automate joiner-mover-leaver natively, but they require Microsoft Entra ID Governance or Entra Suite licensing, which puts them out of reach for many SMB tenants. The realistic alternative is a documented, versioned runbook &mdash; not a mental checklist &mdash; covering the six steps above, triggered by HR notification, with the audit queries run as a monthly spot-check against recent leavers rather than assumed to have worked. It is not automation. It is a process disciplined enough to behave like one.</p>
 
                     <h2 id="bottom-line">Bottom line</h2>
                     <p>"Mostly reliable" is an honest description of most offboarding processes, and not a status worth leaving alone. The gap is almost always owned resources and granted shares, not the basic disable step. Audit from the account outward periodically, regardless of how confident the script is meant to make you feel.</p>
@@ -131,7 +131,7 @@
                     <section class="faq">
                     <h2 id="faq">Frequently Asked Questions</h2>
                     <h3>How do I automate employee offboarding in Microsoft 365?</h3>
-                    <p>Entra ID Lifecycle Workflows automates the full joiner-mover-leaver process natively but requires Entra ID Governance or Microsoft 365 E5. Without it, a documented, versioned runbook covering sign-in block, mailbox conversion, resource transfer, group and role removal and shared-access revocation is the practical alternative.</p>
+                    <p>Entra ID Lifecycle Workflows automate the full joiner-mover-leaver process natively but require Microsoft Entra ID Governance or Entra Suite. Without it, a documented, versioned runbook covering sign-in block, mailbox conversion, resource transfer, group and role removal and shared-access revocation is the practical alternative.</p>
                     <h3>What access does a departed employee still have in my tenant?</h3>
                     <p>Check owned objects via Graph (/users/{id}/ownedObjects) for app registrations, groups and Teams they own, not just group memberships. Also review SharePoint and OneDrive sharing links they created, which persist independently of the account's disabled state.</p>
                     <h3>Are Entra ID access reviews actually useful or just theatre?</h3>
@@ -213,7 +213,7 @@
       "name": "How do I automate employee offboarding in Microsoft 365?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Entra ID Lifecycle Workflows automates the full joiner-mover-leaver process natively but requires Entra ID Governance or Microsoft 365 E5. Without it, a documented, versioned runbook covering sign-in block, mailbox conversion, resource transfer, group and role removal and shared-access revocation is the practical alternative."
+        "text": "Entra ID Lifecycle Workflows automate the full joiner-mover-leaver process natively but require Microsoft Entra ID Governance or Entra Suite. Without it, a documented, versioned runbook covering sign-in block, mailbox conversion, resource transfer, group and role removal and shared-access revocation is the practical alternative."
       }
     },
     {

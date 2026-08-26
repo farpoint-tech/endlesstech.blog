@@ -38,8 +38,15 @@ posts/
 1. Create `posts/YYYY-MM-DD-slug.html` following the HTML skeleton in `BLOG_GUIDELINES.md`
 2. Use CSS classes only — no inline `style=""` attributes
 3. Required structure: `.post-full` > `.post-full-header` + `.post-full-image` + `.post-full-content` > `.post-content` + `.author-bio`
-4. Add the post to the listing on `index.html`
-5. Commit, push to master
+4. On the release day, add the post to `index.html`, `sitemap.xml`, and `feed.xml` in the same change
+5. Commit and push to `master`
+
+## Scheduled posts
+
+- Do **not** commit future post HTML files to `master`; GitHub Pages publishes every file on that branch.
+- Keep planned posts on the `scheduled-posts` branch until their release date.
+- On release, merge or cherry-pick the post plus its `index.html`, `sitemap.xml`, and `feed.xml` entries together.
+- A `noindex` tag is a crawl-control fallback, not a confidentiality boundary.
 
 ## Design
 

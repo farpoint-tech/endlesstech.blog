@@ -3,23 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
-    <meta name="robots" content="index,follow">
+    <meta name="robots" content="noindex,nofollow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Intune policies fail silently more often than they throw an error. A troubleshooting order for policy conflicts, Entra sync lag, and App Protection failures.">
+    <meta name="description" content="A practical troubleshooting order for Intune policy applicability, conflicts, check-ins, registration state and App Protection failures.">
     <meta name="author" content="Philipp Schmidt">
     <meta name="keywords" content="Intune policy not applying, Intune silent failure, Intune app protection policy stopped working, Intune Entra sync licensing mismatch, Intune Autopilot lifecycle, Intune Richtlinie wird nicht angewendet, Intune Fehlersuche">
 
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="article">
     <meta property="og:title" content="Intune Policy Not Applying: Why Silent Failures Keep Coming Back">
-    <meta property="og:description" content="Intune policies fail silently more often than they throw an error. A troubleshooting order for policy conflicts, Entra sync lag, and App Protection failures.">
+    <meta property="og:description" content="A practical troubleshooting order for Intune policy applicability, conflicts, check-ins, registration state and App Protection failures.">
     <meta property="og:image" content="https://endlesstech.blog/assets/images/intune-policy-not-applying/intune-troubleshooting-hero.svg">
     <meta property="og:url" content="https://endlesstech.blog/posts/2026-09-08-intune-policy-not-applying-troubleshooting.html">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Intune Policy Not Applying: Why Silent Failures Keep Coming Back">
-    <meta name="twitter:description" content="Intune policies fail silently more often than they throw an error. A troubleshooting order for policy conflicts, Entra sync lag, and App Protection failures.">
+    <meta name="twitter:description" content="A practical troubleshooting order for Intune policy applicability, conflicts, check-ins, registration state and App Protection failures.">
     <meta name="twitter:image" content="https://endlesstech.blog/assets/images/intune-policy-not-applying/intune-troubleshooting-hero.svg">
 
     <title>Intune Policy Not Applying: Why Silent Failures Keep Coming Back</title>
@@ -69,7 +69,7 @@
 
                     <div class="post-tldr">
                         <h2>In short</h2>
-                        <p>Most "Intune is broken" tickets are not broken policies. They are <strong>policy conflicts</strong> where one silently wins, <strong>stale Entra ID license sync</strong> that makes Intune read the wrong entitlement, or a device that simply <strong>has not checked in yet</strong>. Work from the device outward &mdash; sync, conflicts, license state, registration state &mdash; and only then look at the policy itself. Four steps out of five resolve before you ever open the policy.</p>
+                        <p>Most "Intune is broken" tickets are not broken policies. They are assignment, applicability, check-in or registration problems, or a conflict that Intune reports at the individual-setting level. Work from the device outward &mdash; assignment, sync, per-setting reports, registration and then policy design &mdash; before changing a configuration at random.</p>
                     </div>
 
                     <nav class="post-toc" aria-label="Table of contents">
@@ -86,8 +86,8 @@
 
                     <h2 id="silent-failures">Where the silent failures come from</h2>
                     <p>Three sources account for most of the "it should be working" tickets.</p>
-                    <p><strong>Policy conflict, not policy failure.</strong> Two policies targeting the same device with contradictory settings do not produce an error. One silently wins, usually on precedence rules that are not visible from either policy's configuration screen. Check for overlapping assignments before assuming a policy is broken.</p>
-                    <p><strong>Entra ID sync lag surfacing as a licensing problem.</strong> Intune determines a lot of its behaviour &mdash; including which App Protection Policies apply &mdash; from license state synced out of Entra ID. When that sync lags or returns stale data, Intune behaves as if a user has different licensing than they do. The result looks like an Intune bug while the root cause sits in the identity layer.</p>
+                    <p><strong>Policy conflict, not policy failure.</strong> Intune handles conflicts by policy type. Compliance settings take precedence over matching configuration settings; multiple compliance policies use the most restrictive setting; conflicting configuration settings are shown as conflicts in Intune and require manual resolution. Inspect per-setting reports and every policy surface, including endpoint security and baselines, before changing a policy.</p>
+                    <p><strong>Assignment or applicability, not a mysterious sync fault.</strong> Confirm the target group, assignment filter, platform and OS support, licence prerequisites, and whether the setting applies to that device. Treat a suspected Entra or licensing-state problem as a case to verify with evidence, not as the default explanation.</p>
                     <p><strong>Device check-in timing.</strong> Policy changes apply on the next scheduled check-in, not immediately, and the default interval is long enough that "it is not working" is sometimes just "it has not checked in yet." Forcing a sync from the Company Portal confirms whether timing rather than configuration is the actual issue.</p>
 
                     <h2 id="app-protection">When App Protection stops being detected by Conditional Access</h2>
@@ -113,7 +113,7 @@
                     <section class="post-glossary">
                     <h2 id="glossary">Glossary</h2>
                     <dl>
-                        <dt>Policy conflict</dt><dd>Two Intune policies targeting the same device with contradictory settings. One silently wins on precedence rules — no error is raised.</dd>
+                        <dt>Policy conflict</dt><dd>Two or more Intune policies targeting the same setting. Resolution is policy-type specific: compliance settings can take precedence, while conflicting configuration settings are reported and require manual resolution.</dd>
                         <dt>Check-in cycle</dt><dd>The interval at which a managed device contacts Intune for policy. Changes do not apply until the next check-in unless a sync is forced.</dd>
                         <dt>App Protection Policy (MAM)</dt><dd>Policy that protects corporate data inside apps, on managed or unmanaged devices, without managing the whole device.</dd>
                         <dt>Device registration state</dt><dd>The device's identity record in Entra ID. A mismatch between this and Intune's reported compliance is the underlying cause of several Conditional Access rejections.</dd>
@@ -181,7 +181,7 @@
   "@context": "https://schema.org",
   "@type": "Article",
   "headline": "Intune Policy Not Applying: Why Silent Failures Keep Coming Back",
-  "description": "Intune policies fail silently more often than they throw an error. A troubleshooting order for policy conflicts, Entra sync lag, and App Protection failures.",
+  "description": "A practical troubleshooting order for Intune policy applicability, conflicts, check-ins, registration state and App Protection failures.",
   "image": "https://endlesstech.blog/assets/images/intune-policy-not-applying/intune-troubleshooting-hero.svg",
   "author": {
     "@type": "Person",

@@ -3,23 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
-    <meta name="robots" content="index,follow">
+    <meta name="robots" content="noindex,nofollow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A minimum viable Conditional Access baseline: six policies every tenant needs, why report-only mode stalls for years, and how to consolidate sprawl safely.">
+    <meta name="description" content="A decision-based Conditional Access baseline: core controls, report-only deadlines, and how to consolidate policy sprawl safely.">
     <meta name="author" content="Philipp Schmidt">
     <meta name="keywords" content="conditional access policy baseline, CA policy review cleanup, conditional access what-if tool, report only CA policy, minimum conditional access policies SMB, conditional access MFA stopped working, bedingter Zugriff Basisrichtlinien, CA Richtlinien aufraeumen">
 
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="article">
     <meta property="og:title" content="Conditional Access Policy Baseline: Cleaning Up 40 Policies Nobody Reviews">
-    <meta property="og:description" content="A minimum viable Conditional Access baseline: six policies every tenant needs, why report-only mode stalls for years, and how to consolidate sprawl safely.">
+    <meta property="og:description" content="A decision-based Conditional Access baseline: core controls, report-only deadlines, and how to consolidate policy sprawl safely.">
     <meta property="og:image" content="https://endlesstech.blog/assets/images/conditional-access-baseline/ca-baseline-hero.svg">
     <meta property="og:url" content="https://endlesstech.blog/posts/2026-09-05-conditional-access-policy-baseline.html">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Conditional Access Policy Baseline: Cleaning Up 40 Policies Nobody Reviews">
-    <meta name="twitter:description" content="A minimum viable Conditional Access baseline: six policies every tenant needs, why report-only mode stalls for years, and how to consolidate sprawl safely.">
+    <meta name="twitter:description" content="A decision-based Conditional Access baseline: core controls, report-only deadlines, and how to consolidate policy sprawl safely.">
     <meta name="twitter:image" content="https://endlesstech.blog/assets/images/conditional-access-baseline/ca-baseline-hero.svg">
 
     <title>Conditional Access Policy Baseline: Cleaning Up 40 Policies Nobody Reviews</title>
@@ -127,7 +127,7 @@
                     <section class="faq">
                     <h2 id="faq">Frequently Asked Questions</h2>
                     <h3>What are the minimum Conditional Access policies every tenant needs?</h3>
-                    <p>Six: MFA for all users, blocking legacy authentication, stricter MFA for admin roles, device compliance for sensitive apps, risk- or location-based restriction, and session controls for unmanaged devices. Anything beyond that should map to a specific named risk.</p>
+                    <p>There is no universal six-policy set. Start with MFA, legacy-auth blocking and separate protection for privileged roles. Add device compliance, unmanaged-browser session controls and risk-based controls only after checking licences, application architecture, enrolment flows, service accounts and emergency-access exclusions. Every policy should map to a named risk and a tested rollback path.</p>
                     <h3>How do I clean up and consolidate Conditional Access policies?</h3>
                     <p>Export the current set, group policies by the condition they actually test rather than their name, and merge duplicates that differ only by target app or group into one policy with broader scope. Enforce or delete every report-only policy older than a few weeks.</p>
                     <h3>How do I analyse Conditional Access report-only logs?</h3>
@@ -182,7 +182,7 @@
   "@context": "https://schema.org",
   "@type": "Article",
   "headline": "Conditional Access Policy Baseline: Cleaning Up 40 Policies Nobody Reviews",
-  "description": "A minimum viable Conditional Access baseline: six policies every tenant needs, why report-only mode stalls for years, and how to consolidate sprawl safely.",
+  "description": "A decision-based Conditional Access baseline: core controls, report-only deadlines, and how to consolidate policy sprawl safely.",
   "image": "https://endlesstech.blog/assets/images/conditional-access-baseline/ca-baseline-hero.svg",
   "author": {
     "@type": "Person",
@@ -209,7 +209,7 @@
       "name": "What are the minimum Conditional Access policies every tenant needs?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Six: MFA for all users, blocking legacy authentication, stricter MFA for admin roles, device compliance for sensitive apps, risk- or location-based restriction, and session controls for unmanaged devices. Anything beyond that should map to a specific named risk."
+        "text": "There is no universal six-policy set. Start with MFA, legacy-auth blocking and separate protection for privileged roles. Add device compliance, unmanaged-browser session controls and risk-based controls only after checking licences, application architecture, enrolment flows, service accounts and emergency-access exclusions. Every policy should map to a named risk and a tested rollback path."
       }
     },
     {

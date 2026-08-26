@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
-    <meta name="robots" content="index,follow">
+    <meta name="robots" content="noindex,nofollow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Most tenants do not know their real guest count. How to audit B2B Collaboration, Direct Connect and cross-tenant access, and clean up inactive guest accounts.">
     <meta name="author" content="Philipp Schmidt">
@@ -102,13 +102,13 @@
                     <p>The practical consequence: a complete external-access review needs to check cross-tenant access settings and Teams shared channel configuration separately, not just the guest user list.</p>
 
                     <h2 id="sharepoint">The SharePoint and OneDrive move to Entra B2B</h2>
-                    <p>Microsoft has been moving SharePoint and OneDrive external sharing onto the Entra B2B model rather than the older SharePoint-native mechanism. For tenants that built sharing policies around SharePoint's own settings, this changes where the controls actually live &mdash; behaviour increasingly depends on Entra external collaboration settings and cross-tenant access policies rather than the SharePoint admin center alone. If external sharing suddenly behaves differently, check the Entra external identities settings before assuming SharePoint configuration broke.</p>
+                    <p>SharePoint and OneDrive external sharing increasingly integrates with Entra B2B and cross-tenant controls, but SharePoint tenant and site sharing settings still matter. Treat the configuration as a layered model: verify SharePoint sharing settings, Entra external collaboration settings and cross-tenant access policies together before assuming one control plane explains the behaviour.</p>
 
                     <h2 id="cleanup">Cleaning up inactive guests without one-click automation</h2>
                     <p>There is no built-in "remove guests inactive for 90 days" toggle. The closest native tool is an access review scoped to a guest group with criteria set against last sign-in activity &mdash; which needs Entra ID Governance for the automated workflow, or a manual quarterly process built on the same <code>signInActivity</code> query without it. Either way the review needs an owner: guest cleanup not assigned to a specific person as a recurring task does not happen, for the same reason offboarding scripts drift.</p>
 
                     <h2 id="mfa-licensing">Do guest users need licensing for MFA?</h2>
-                    <p>Guests authenticate under your Conditional Access policies, including MFA requirements, without needing a licence assigned in your tenant for that purpose &mdash; MFA enforcement is a policy applied to the sign-in, not a licensed feature per guest. Where licensing does come in is Entra External ID's monthly active user billing for external identities beyond the free tier, which is a separate cost question. Confirming your billing model avoids both under- and over-provisioning against a bill that does not work like internal user licensing.</p>
+                    <p>Conditional Access can apply to B2B guest sign-ins, including MFA requirements, but the licensing and billing model depends on Entra External ID workforce/MAU rules and any premium features in use. Do not treat this as a blanket per-guest licence exemption: validate the tenant's entitlement, guest billing and Conditional Access design before rollout.</p>
 
                     <h2 id="bottom-line">Bottom line</h2>
                     <p>Guest access is invisible by default &mdash; not because anyone hid it, but because nothing surfaces it without a deliberate query. Three mechanisms grant external access with three different audit trails, and only one shows up in a standard guest list. Getting an accurate count should be routine, not a one-off project.</p>

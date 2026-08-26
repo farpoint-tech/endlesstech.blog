@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
-    <meta name="robots" content="index,follow">
+    <meta name="robots" content="noindex,nofollow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="When to use classic Autopilot versus Device Preparation, the full setup for both, the service principal that breaks most V2 rollouts, and the pitfalls that cost a provisioning day.">
     <meta name="author" content="Philipp Schmidt">
@@ -187,7 +187,6 @@ Get-WindowsAutopilotInfo.ps1 -OutputFile AutopilotHWHash.csv</code></pre>
                         <li><strong>Dynamic instead of static group</strong> &rarr; assignment fails; switching an existing group static&rarr;dynamic breaks it as well.</li>
                         <li><strong>Device still registered in classic Autopilot</strong> &rarr; the V2 policy silently never applies.</li>
                         <li><strong>Known issue &mdash; local admin:</strong> policy set to "standard user" combined with the Entra setting "registering user is added as local administrator" (Selected/None) causes provisioning to be skipped entirely.</li>
-                        <li><strong>Known issue &mdash; time zone:</strong> deployments have failed on devices not running UTC. Verify whether this is resolved before a rollout.</li>
                     </ul>
                     <p><strong>classic Autopilot:</strong></p>
                     <ul>
