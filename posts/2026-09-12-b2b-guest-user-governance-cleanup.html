@@ -90,7 +90,7 @@
                     <ul>
                         <li>Entra admin center &rarr; Users &rarr; filter by "Guest users" gives the current count and list directly</li>
                         <li>Microsoft Graph <code>/users?$filter=userType eq 'Guest'</code> for a scriptable version, useful for scheduled reporting</li>
-                        <li>Cross-reference <code>signInActivity</code> on the Graph user object (Entra ID P1 minimum) to separate active guests from accounts that have not authenticated in months</li>
+                        <li>Cross-reference <code>signInActivity</code> on the Graph user object (Entra ID P1 minimum) to separate active guests from accounts that have not authenticated in months. Read <code>lastSuccessfulSignInDateTime</code>, not <code>lastSignInDateTime</code> &mdash; the latter also counts failed interactive attempts, so a guest who has been failing to sign in for a year reads as active</li>
                     </ul>
                     <p>The count itself is usually the first surprise. The second is how many show a last sign-in from a year or more ago &mdash; access that was never revoked when the reason for it ended.</p>
 
@@ -102,13 +102,17 @@
                     <p>The practical consequence: a complete external-access review needs to check cross-tenant access settings and Teams shared channel configuration separately, not just the guest user list.</p>
 
                     <h2 id="sharepoint">The SharePoint and OneDrive move to Entra B2B</h2>
-                    <p>SharePoint and OneDrive external sharing increasingly integrates with Entra B2B and cross-tenant controls, but SharePoint tenant and site sharing settings still matter. Treat the configuration as a layered model: verify SharePoint sharing settings, Entra external collaboration settings and cross-tenant access policies together before assuming one control plane explains the behaviour.</p>
+                    <p>This is no longer a migration in progress. Tenants provisioned after June 2023 have the Entra B2B integration enabled by default, and from May 2026 Microsoft turns it on for all tenants regardless of the <code>EnableAzureADB2BIntegration</code> setting &mdash; the option to disable it goes away with it. Check where your tenant currently stands with <code>Get-SPOTenant</code> and read the <code>EnableAzureADB2BIntegration</code> property.</p>
+                    <p>Once it is on, SharePoint and OneDrive sharing is subject to the Entra organizational relationship settings, and Microsoft is explicit about which side wins: where an Entra setting is more restrictive than a SharePoint or OneDrive setting, the Entra setting prevails. So verify SharePoint sharing settings, Entra external collaboration settings and cross-tenant access policies together &mdash; but expect the answer to come from Entra. One operational note worth planning for: enabling the integration breaks previously shared one-time-passcode links, and those files, folders and sites have to be reshared.</p>
 
                     <h2 id="cleanup">Cleaning up inactive guests without one-click automation</h2>
-                    <p>There is no built-in "remove guests inactive for 90 days" toggle. The closest native tool is an access review scoped to a guest group with criteria set against last sign-in activity &mdash; which needs Entra ID Governance for the automated workflow, or a manual quarterly process built on the same <code>signInActivity</code> query without it. Either way the review needs an owner: guest cleanup not assigned to a specific person as a recurring task does not happen, for the same reason offboarding scripts drift.</p>
+                    <p>There is something close to that toggle now, and 90 days is literally the default. Start with the <strong>inactive guest insights</strong> report under <strong>ID Governance &rarr; Dashboard &rarr; Guest access governance &rarr; View inactive guests</strong>. It flags guests against a configurable inactivity threshold that ships set to 90 days, counts never-signed-in guests from their creation date instead, and exports up to a million rows. That sizes the problem before you touch anything.</p>
+                    <p>The cleanup half is an access review scoped to <strong>Guest users only</strong> with <strong>Inactive users (on tenant level) only</strong> and a day count, <em>Auto apply results to resource</em> switched on, <em>If reviewers don't respond</em> set to <strong>Remove access</strong>, and <em>Action to apply on denied guest users</em> set to <strong>Block user from signing in for 30 days, then remove user from the tenant</strong>. Guests who do not sign in within your window are disabled for 30 days and then deleted, restorable for another 30. That is not a one-click switch, but it is a configured, unattended cleanup rather than a manual project.</p>
+                    <p>Two licence facts belong together here, and the second one is the one that changes plans. First: plain access reviews run on Entra ID P2 <em>or</em> Entra ID Governance, but a review scoped to inactive users &mdash; the one that matters for guest cleanup &mdash; needs Entra ID Governance. Second: since <strong>January 2026</strong> Microsoft enforces the <em>Microsoft Entra ID Governance for Guests</em> add-on for guest-scoped governance. Without a tenant linked to an Azure subscription carrying that meter, you can no longer create an access review scoped to guests that uses the inactive-user or user-to-group-affiliation helpers. It is billed per guest actually included in a review, and unlike External ID's basic MAU model it has no free tier &mdash; the 50,000 free MAU do not apply to it.</p>
+                    <p>Without those licences, a manual quarterly process on the same <code>signInActivity</code> query covers the same ground with more effort. Either way the review needs an owner: guest cleanup not assigned to a specific person as a recurring task does not happen, for the same reason offboarding scripts drift.</p>
 
                     <h2 id="mfa-licensing">Do guest users need licensing for MFA?</h2>
-                    <p>Conditional Access can apply to B2B guest sign-ins, including MFA requirements, but the licensing and billing model depends on Entra External ID workforce/MAU rules and any premium features in use. Do not treat this as a blanket per-guest licence exemption: validate the tenant's entitlement, guest billing and Conditional Access design before rollout.</p>
+                    <p>Conditional Access applies to B2B guest sign-ins, MFA requirements included, and you do not buy a licence per guest to make that work. What you do get is a billing model: Entra External ID counts monthly active users &mdash; unique external users who authenticate in a calendar month, across everyone with <code>userType = Guest</code> &mdash; and the first 50,000 MAU can use MFA and other Premium P1 or P2 features free. Above that it is MAU-billed, still not per-guest licensed. The exception is premium add-ons such as ID Governance for guests, which carry no free allowance at all. So: MFA yes, through policy; cost through MAU; add-ons without a free tier. Validate the tenant's entitlement, guest billing and Conditional Access design together before rollout.</p>
 
                     <h2 id="bottom-line">Bottom line</h2>
                     <p>Guest access is invisible by default &mdash; not because anyone hid it, but because nothing surfaces it without a deliberate query. Three mechanisms grant external access with three different audit trails, and only one shows up in a standard guest list. Getting an accurate count should be routine, not a one-off project.</p>
@@ -120,7 +124,7 @@
                         <dt>B2B Direct Connect</dt><dd>Cross-tenant Teams shared-channel access where the external user authenticates in their own tenant and no guest object is created in yours.</dd>
                         <dt>Cross-tenant access settings</dt><dd>Entra policies governing inbound and outbound access with specific external tenants, sitting above both Collaboration and Direct Connect.</dd>
                         <dt>signInActivity</dt><dd>A Microsoft Graph property on the user object recording last sign-in — the key field for separating active guests from dormant ones. Requires Entra ID P1.</dd>
-                        <dt>MAU billing</dt><dd>Entra External ID's monthly-active-user pricing model for external identities beyond the free tier — distinct from internal user licensing.</dd>
+                        <dt>MAU billing</dt><dd>Entra External ID's monthly-active-user pricing model for external identities — the first 50,000 MAU are free, and it is distinct from internal user licensing. Premium add-ons such as ID Governance for guests have no free tier.</dd>
                     </dl>
                     </section>
 
@@ -129,13 +133,13 @@
                     <h3>How many guest users are in my Microsoft 365 tenant right now?</h3>
                     <p>Filter Users by "Guest users" in the Entra admin center for a quick count, or query /users?$filter=userType eq 'Guest' via Microsoft Graph for a repeatable version. Cross-reference signInActivity to see how many are actually active versus dormant.</p>
                     <h3>How do I automatically remove inactive B2B guests?</h3>
-                    <p>There is no native one-click automation. An access review scoped to a guest group using last sign-in as the criteria is the closest built-in option and requires Entra ID Governance. Without that licence, a manual quarterly review on the same data covers the same ground with more effort.</p>
+                    <p>The native path is an access review scoped to Guest users only and Inactive users (on tenant level) only, with auto-apply switched on and "Action to apply on denied guest users" set to block for 30 days and then delete. Pair it with the inactive guest insights report to size the problem first. It requires Microsoft Entra ID Governance — the inactive-user review type is not covered by Entra ID P2 alone — plus the ID Governance for Guests add-on, enforced since January 2026. Without those licences, a manual quarterly review on the same signInActivity data covers the same ground with more effort.</p>
                     <h3>What is the difference between B2B Collaboration, Direct Connect and cross-tenant access?</h3>
                     <p>B2B Collaboration creates a guest account in your tenant. Direct Connect grants scoped Teams shared-channel access without creating a guest object at all. Cross-tenant access settings govern both and can independently widen access for a specific external tenant. Standard guest queries only catch the first.</p>
                     <h3>Do I need to license guest users for MFA to apply to them?</h3>
-                    <p>No — MFA enforcement through Conditional Access applies to guest sign-ins as a policy, not a per-guest licence. Entra External ID's MAU-based billing beyond the free tier is a separate cost consideration, unrelated to whether MFA can be enforced.</p>
+                    <p>No — MFA enforcement through Conditional Access applies to guest sign-ins as a policy, not a per-guest licence. The first 50,000 monthly active users in Entra External ID can use MFA and other Premium P1 or P2 features free; beyond that it is MAU-billed, which is a cost consideration rather than a limit on whether MFA can be enforced. Premium add-ons such as ID Governance for guests are the exception: they have no free tier.</p>
                     <h3>How does SharePoint's move to Entra B2B change external sharing?</h3>
-                    <p>External sharing behaviour increasingly depends on Entra external collaboration and cross-tenant access settings rather than SharePoint's own configuration alone. If sharing changes unexpectedly, check Entra external identities settings before assuming SharePoint is misconfigured.</p>
+                    <p>With Entra B2B integration enabled — the default for tenants created after June 2023, and enabled for all tenants from May 2026 — SharePoint and OneDrive sharing is governed by Entra external collaboration and cross-tenant access settings, and the more restrictive Entra setting wins over the SharePoint one. If sharing suddenly stops working, check Entra external identities and cross-tenant access before assuming SharePoint is misconfigured, and confirm the integration state with Get-SPOTenant.</p>
                     </section>
 
                     <hr>
@@ -144,6 +148,9 @@
                         <li><a href="https://learn.microsoft.com/en-us/entra/external-id/what-is-b2b" target="_blank" rel="noopener noreferrer">Microsoft Learn: B2B collaboration overview</a></li>
                         <li><a href="https://learn.microsoft.com/en-us/entra/external-id/b2b-direct-connect-overview" target="_blank" rel="noopener noreferrer">Microsoft Learn: B2B direct connect overview</a></li>
                         <li><a href="https://learn.microsoft.com/en-us/entra/external-id/cross-tenant-access-overview" target="_blank" rel="noopener noreferrer">Microsoft Learn: Cross-tenant access settings</a></li>
+                        <li><a href="https://learn.microsoft.com/entra/identity/users/clean-up-stale-guest-accounts" target="_blank" rel="noopener noreferrer">Microsoft Learn: Monitor and clean up stale guest accounts using access reviews</a></li>
+                        <li><a href="https://learn.microsoft.com/sharepoint/sharepoint-azureb2b-integration" target="_blank" rel="noopener noreferrer">Microsoft Learn: SharePoint and OneDrive integration with Microsoft Entra B2B</a></li>
+                        <li><a href="https://learn.microsoft.com/entra/id-governance/microsoft-entra-id-governance-licensing-for-guest-users" target="_blank" rel="noopener noreferrer">Microsoft Learn: Entra ID Governance licensing for guest users</a></li>
                     </ol>
                 </div>
             </section>
@@ -219,7 +226,7 @@
       "name": "How do I automatically remove inactive B2B guests?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "There is no native one-click automation. An access review scoped to a guest group using last sign-in as the criteria is the closest built-in option and requires Entra ID Governance. Without that licence, a manual quarterly review on the same data covers the same ground with more effort."
+        "text": "The native path is an access review scoped to Guest users only and Inactive users (on tenant level) only, with auto-apply switched on and \"Action to apply on denied guest users\" set to block for 30 days and then delete. Pair it with the inactive guest insights report to size the problem first. It requires Microsoft Entra ID Governance — the inactive-user review type is not covered by Entra ID P2 alone — plus the ID Governance for Guests add-on, enforced since January 2026. Without those licences, a manual quarterly review on the same signInActivity data covers the same ground with more effort."
       }
     },
     {
@@ -235,7 +242,7 @@
       "name": "Do I need to license guest users for MFA to apply to them?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No \u2014 MFA enforcement through Conditional Access applies to guest sign-ins as a policy, not a per-guest licence. Entra External ID's MAU-based billing beyond the free tier is a separate cost consideration, unrelated to whether MFA can be enforced."
+        "text": "No \u2014 MFA enforcement through Conditional Access applies to guest sign-ins as a policy, not a per-guest licence. The first 50,000 monthly active users in Entra External ID can use MFA and other Premium P1 or P2 features free; beyond that it is MAU-billed, which is a cost consideration rather than a limit on whether MFA can be enforced. Premium add-ons such as ID Governance for guests are the exception: they have no free tier."
       }
     },
     {
@@ -243,7 +250,7 @@
       "name": "How does SharePoint's move to Entra B2B change external sharing?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "External sharing behaviour increasingly depends on Entra external collaboration and cross-tenant access settings rather than SharePoint's own configuration alone. If sharing changes unexpectedly, check Entra external identities settings before assuming SharePoint is misconfigured."
+        "text": "With Entra B2B integration enabled — the default for tenants created after June 2023, and enabled for all tenants from May 2026 — SharePoint and OneDrive sharing is governed by Entra external collaboration and cross-tenant access settings, and the more restrictive Entra setting wins over the SharePoint one. If sharing suddenly stops working, check Entra external identities and cross-tenant access before assuming SharePoint is misconfigured, and confirm the integration state with Get-SPOTenant."
       }
     }
   ]
