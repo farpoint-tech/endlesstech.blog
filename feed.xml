@@ -119,11 +119,11 @@
     </item>
 
     <item>
-      <title>AD CS ESC1: The Default Misconfiguration That Hands Attackers Domain Admin in Under Three Hours</title>
+      <title>AD CS ESC1: The Most Common Misconfiguration That Hands Attackers Domain Admin</title>
       <link>https://endlesstech.blog/posts/2026-06-22-ad-cs-esc1-default-misconfiguration-domain-admin.html</link>
       <guid>https://endlesstech.blog/posts/2026-06-22-ad-cs-esc1-default-misconfiguration-domain-admin.html</guid>
       <pubDate>Mon, 22 Jun 2026 00:00:00 +0000</pubDate>
-      <description>AD CS ESC1 is a default certificate template misconfiguration that lets attackers escalate to Domain Admin in under three hours. Learn how to audit and remediate ESC1 in your environment.</description>
+      <description>AD CS ESC1 is one of the most common certificate template misconfigurations. In one incident I analysed it was the direct path from a standard user to Domain Admin in 180 minutes. How to audit and remediate ESC1.</description>
     </item>
 
     <item>
@@ -143,27 +143,11 @@
     </item>
 
     <item>
-      <title>Microsoft Scout: Why the "Autopilot" for Your IT Is Brilliant—But Not Ready for You Yet</title>
-      <link>https://endlesstech.blog/posts/2026-06-08-microsoft-scout-autopilot-for-it.html</link>
-      <guid>https://endlesstech.blog/posts/2026-06-08-microsoft-scout-autopilot-for-it.html</guid>
-      <pubDate>Mon, 08 Jun 2026 00:00:00 +0000</pubDate>
-      <description>Microsoft Scout is an autonomous AI agent that runs shell commands on your devices. The Entra ID architecture is brilliant, but Purview DLP, audit trails, and EU Data Boundary compliance are missing. Here is the reality check.</description>
-    </item>
-
-    <item>
       <title>Your IT Security Is an Airport – And Everyone Is Sneaking Through the Emergency Exit</title>
       <link>https://endlesstech.blog/posts/2026-05-26-your-it-security-is-an-airport.html</link>
       <guid>https://endlesstech.blog/posts/2026-05-26-your-it-security-is-an-airport.html</guid>
       <pubDate>Tue, 26 May 2026 00:00:00 +0000</pubDate>
       <description>Zero Trust vs perimeter security, explained through an airport analogy — why "never trust, always verify" beats the old castle-and-moat model.</description>
-    </item>
-
-    <item>
-      <title>Ghost Hunting in the M365 Tenant: Cleaning Up Orphaned Teams Private Channel Sites with PowerShell</title>
-      <link>https://endlesstech.blog/posts/2026-05-21-ghost-hunting-m365-orphaned-teams-channel-sites.html</link>
-      <guid>https://endlesstech.blog/posts/2026-05-21-ghost-hunting-m365-orphaned-teams-channel-sites.html</guid>
-      <pubDate>Thu, 21 May 2026 00:00:00 +0000</pubDate>
-      <description>Orphaned Teams channel sites waste storage and break audits. PowerShell cleanup script using TEAMCHANNEL#1 filter and Graph API group validation.</description>
     </item>
 
     <item>
@@ -196,14 +180,6 @@
       <guid>https://endlesstech.blog/posts/2026-04-08-microsoft-365-vs-baramundi-the-real-story.html</guid>
       <pubDate>Wed, 08 Apr 2026 00:00:00 +0000</pubDate>
       <description>Microsoft 365 vs Baramundi is the wrong comparison. One is a productivity platform, the other an on-prem UEM. Here is how they differ and coexist.</description>
-    </item>
-
-    <item>
-      <title>Copilot ROI: Why Knowledge Management Is the Difference Between 1.4:1 and 5.4:1</title>
-      <link>https://endlesstech.blog/posts/2026-04-08-copilot-roi-knowledge-management-guide.html</link>
-      <guid>https://endlesstech.blog/posts/2026-04-08-copilot-roi-knowledge-management-guide.html</guid>
-      <pubDate>Wed, 08 Apr 2026 00:00:00 +0000</pubDate>
-      <description>Microsoft 365 Copilot ROI breakdown for 60 users: real cost analysis, 5.4:1 return, NIST AI RMF mapping, glossary, and a 10-point readiness checklist.</description>
     </item>
 
     <item>
@@ -244,14 +220,6 @@
       <guid>https://endlesstech.blog/posts/2026-02-25-the-golden-tenant-is-dead.html</guid>
       <pubDate>Wed, 25 Feb 2026 00:00:00 +0000</pubDate>
       <description>The Intune golden tenant model breaks as soon as Microsoft ships the next update. Why drift-aware automation replaces static reference tenants for MSPs.</description>
-    </item>
-
-    <item>
-      <title>The Future of SharePoint Archiving: File-Level is Coming</title>
-      <link>https://endlesstech.blog/posts/2026-02-25-cloudknox-sharepoint-file-level-archiving.html</link>
-      <guid>https://endlesstech.blog/posts/2026-02-25-cloudknox-sharepoint-file-level-archiving.html</guid>
-      <pubDate>Wed, 25 Feb 2026 00:00:00 +0000</pubDate>
-      <description>A deep dive into the upcoming file-level archiving in SharePoint with Microsoft 365 Archive, its costs, roadmap, and comparison with current third-party solutions.</description>
     </item>
 
     <item>
@@ -315,7 +283,7 @@
       <link>https://endlesstech.blog/posts/2025-12-18-beyond-the-basics-why-smart-m365-add-ons-are-your-best-investment.html</link>
       <guid>https://endlesstech.blog/posts/2025-12-18-beyond-the-basics-why-smart-m365-add-ons-are-your-best-investment.html</guid>
       <pubDate>Thu, 18 Dec 2025 00:00:00 +0000</pubDate>
-      <description>Why Microsoft 365 Business Premium is worth it for SMBs, and how E5 Security and Compliance add-ons deliver enterprise-grade protection at a fraction of the cost.</description>
+      <description>Why Microsoft 365 Business Premium is worth it for SMBs, and how the Microsoft Defender Suite for Business Premium and the Microsoft Purview Suite deliver enterprise-grade protection at a fraction of the cost.</description>
     </item>
 
     <item>
@@ -355,7 +323,7 @@
       <link>https://endlesstech.blog/posts/2025-10-24-getting-started-with-zero-trust.html</link>
       <guid>https://endlesstech.blog/posts/2025-10-24-getting-started-with-zero-trust.html</guid>
       <pubDate>Fri, 24 Oct 2025 00:00:00 +0000</pubDate>
-      <description>Zero Trust in Microsoft 365 means never trust, always verify. A comprehensive guide to implementing Zero Trust across all six pillars — Identity, Endpoints, Data, Apps, Infrastructure, and Network — with M365 as the control plane.</description>
+      <description>Zero Trust in Microsoft 365 means never trust, always verify. A comprehensive guide to implementing Zero Trust across Microsoft's seven technology pillars — Identity, Endpoints, Data, Apps, Infrastructure, Network, and SecOps — with M365 as the control plane.</description>
     </item>
   </channel>
 </rss>

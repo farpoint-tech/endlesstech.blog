@@ -142,7 +142,6 @@
                     <p>The textbook example: you block the Internet access target resource on non-compliant devices. Now a user whose device drifts out of compliance cannot reach the endpoints needed to bring it <em>back</em> into compliance. Dead end.</p>
 
                     <p>The mitigation is to add a custom bypass in the Internet access forwarding profile for the Microsoft Intune network endpoints, plus any destinations your custom compliance discovery scripts reach. Microsoft publishes a PowerShell sample that adds the Intune endpoints to that bypass policy — use it rather than typing the list by hand.</p>
-                    <!-- TODO Philipp: echtes Praxis-Detail/Projektbezug einsetzen (kein erfundener Kundenname/Zahl) -->
                     <p>In the Private Access rollouts I have worked on, the hardest part is rarely the technology — it is mapping which applications each role actually needs, so access stays least-privilege instead of quietly drifting back toward "everyone can reach everything." That discovery work is where a ZTNA project succeeds or stalls, and it is not optional: Quick Access wants the FQDNs and IP addresses of every private app you intend to publish. You cannot skip the inventory; the product asks for it.</p>
                 </section>
 
