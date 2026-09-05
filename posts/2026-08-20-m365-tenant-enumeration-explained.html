@@ -157,7 +157,7 @@ Content-Type: application/json
                         </tbody>
                     </table>
 
-                    <p>Microsoft has made incremental improvements &mdash; <strong>Smart Lockout</strong> keeps separate lockout counters for familiar and unfamiliar sign-in locations, so an attacker gets locked out while the genuine user keeps working, and Entra blocks sign-ins from IP addresses with known malicious activity by default, <strong>Conditional Access</strong> can block legacy auth (which closes the legacy enumeration vectors along with it), and some error messages have been obfuscated in certain flows. But the root cause stays open, because federation and B2B genuinely need to know whether a user exists.</p>
+                    <p>Microsoft has made incremental improvements &mdash; <strong>Smart Lockout</strong> keeps separate lockout counters for familiar and unfamiliar sign-in locations, so an attacker gets locked out while the genuine user keeps working, and Entra blocks sign-ins from IP addresses with known malicious activity by default, <strong>Conditional Access</strong> can block legacy auth (which closes basic-auth spray on those protocols, though not the unauthenticated responses they still give), and some error messages have been obfuscated in certain flows. But the root cause stays open, because federation and B2B genuinely need to know whether a user exists.</p>
 
                     <h2 id="what-you-can-do">What you can do as a defender</h2>
                     <p>You cannot delete the leak. What you can do is make the information it leaks worthless &mdash; a confirmed username is only dangerous if it leads somewhere. Layer the controls so it doesn't.</p>
