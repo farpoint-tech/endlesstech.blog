@@ -119,11 +119,11 @@
                     <p><strong>3. Confidential-labelled content leaving the tenant.</strong> Publish a small sensitivity label set first (Public / Internal / Confidential is enough), then write one DLP rule: content labelled Confidential cannot be shared externally. This is the policy that scales, because the label travels with the file and users apply it where automated detection cannot reach. It pairs directly with <a href="2026-08-14-zero-trust-m365-data.html">the Data pillar of the Zero Trust series</a>.</p>
 
                     <h2 id="rollout">The rollout: audit, review, enforce</h2>
-                    <p>Every DLP policy in Microsoft 365 can run in <strong>simulation mode</strong> (test with or without policy tips). Use it. The sequence that works:</p>
+                    <p>Every DLP policy in Microsoft 365 can run in <strong>simulation mode</strong> &mdash; either <em>Run the policy in simulation mode</em>, or <em>Run the policy in simulation mode and show policy tips</em>. These two states replaced the older <em>Test</em> and <em>Test with policy tips</em> states, and unlike them they report matches and alerts in their own dashboard, separate from enforced policies. A simulation run lasts up to 15 days and its results are kept for 30, so plan each phase inside that window and export what you need before it ages out. The sequence that works:</p>
                     <ol>
-                        <li><strong>Week 1&ndash;2 &mdash; simulation, no tips.</strong> The policy watches and logs, nobody is interrupted. You get the honest baseline of what your organisation actually does.</li>
+                        <li><strong>Days 1&ndash;14 &mdash; simulation, no tips.</strong> The policy watches and logs, nobody is interrupted. Read the baseline with one caveat: for SharePoint and OneDrive, simulation evaluates existing items as well as new ones, but for Exchange, Teams and Devices only items created during the run are evaluated &mdash; so a mail pattern that did not occur in those two weeks simply will not appear.</li>
                         <li><strong>Review the matches.</strong> This is the step people skip and the step that decides the project. Expect false positives &mdash; order numbers that look like card numbers, a support inbox forwarding customer data legitimately. Tune the sensitive info types and add the exceptions you found.</li>
-                        <li><strong>Week 3&ndash;4 &mdash; simulation with policy tips.</strong> Users start seeing the warning but nothing is blocked. Behaviour changes here already, and you find the remaining edge cases without generating a single support ticket.</li>
+                        <li><strong>Days 15&ndash;28 &mdash; a second simulation run, this time with policy tips.</strong> Users start seeing the warning. Note that a configured block does take effect here, with an override option, so this is not a zero-impact phase. Behaviour changes already, and you find the remaining edge cases without generating a pile of support tickets.</li>
                         <li><strong>Then enforce &mdash; and tell people first.</strong> A short "from Monday, mails containing card numbers to external recipients will be blocked, here is who to contact" costs one email and prevents the entire backlash.</li>
                     </ol>
                     <blockquote>A policy nobody trusts gets exceptions added until it protects nothing. The audit-first rollout is not caution &mdash; it is what keeps the policy alive six months later.</blockquote>
@@ -131,11 +131,11 @@
                     <h2 id="teams-trap">The Teams DLP trap</h2>
                     <p>"DLP in Teams randomly stopped working" is a recurring complaint, and it is usually not random. Three things to check before assuming a platform fault:</p>
                     <ul>
-                        <li><strong>Scope.</strong> Teams DLP covers chat and channel messages, but only for users explicitly in the policy's Teams location scope. Adding a user to a group does not always propagate the way people assume &mdash; verify against the policy, not the group.</li>
-                        <li><strong>Licensing per user.</strong> DLP for Teams chat requires the right licence on the <em>individual</em> user. One unlicensed account in a channel is enough to make the behaviour look inconsistent.</li>
-                        <li><strong>Private channels and guests.</strong> Coverage differs for private channel messages and external participants. If your test case was a guest in a private channel, you may be looking at a scope gap rather than a failure.</li>
+                        <li><strong>Scope.</strong> This is the one that catches most people, and the rule is the opposite of what you would guess. If the policy's Teams location is scoped to <em>individual user accounts</em>, it covers 1:1 and group chats but not standard, private or shared channel messages. Channel messages are only covered when the policy is scoped to a security group, distribution group, non-mail-enabled security group or Microsoft 365 group. So if channel messages are going unprotected, do not remove the group scoping &mdash; add it.</li>
+                        <li><strong>Licensing per user.</strong> DLP for Teams chat requires the right licence on the <em>individual</em> user, and the <strong>Microsoft Communications DLP</strong> service plan has to be enabled on that licence in the Microsoft 365 admin center. One unlicensed account in a channel is enough to make the behaviour look inconsistent.</li>
+                        <li><strong>Private and shared channels, and guests.</strong> Private channel messages are covered &mdash; the licensing note says so explicitly &mdash; provided the policy is scoped to a group rather than to individuals. Shared channels behave differently: because they run on Entra B2B direct connect, each participant's messages are evaluated against the DLP policies of their <em>own</em> home tenant, not yours. And for guests, deletion of a sensitive message only happens when your tenant initiated the chat or thread.</li>
                     </ul>
-                    <p>Check the policy's actual scope and the licence on the specific accounts involved before opening a support case. That is where the answer usually is.</p>
+                    <p>Check the policy's actual scope and the licence on the specific accounts involved before opening a support case. That is where the answer usually is. New Teams customers also get a default DLP policy created automatically in the Purview portal &mdash; check whether it exists before assuming nothing is configured.</p>
 
                     <h2 id="mistakes">Mistakes that sink DLP projects</h2>
                     <ul>
@@ -151,7 +151,7 @@
                     <dl>
                         <dt>DLP (Data Loss Prevention)</dt><dd>Policy-based detection and control of sensitive content leaving via email, Teams, SharePoint, OneDrive or the endpoint.</dd>
                         <dt>Sensitive information type</dt><dd>A built-in or custom pattern Microsoft Purview uses to recognise data such as credit card numbers, IBANs or national IDs, including checksum validation.</dd>
-                        <dt>Simulation mode</dt><dd>A DLP policy state where matches are logged (optionally with user-facing policy tips) but nothing is blocked — the safe way to baseline before enforcing.</dd>
+                        <dt>Simulation mode</dt><dd>A DLP policy state where matches are reported in a separate dashboard instead of being enforced. With policy tips switched off, a configured Block action is downgraded to Audit. With policy tips switched on, it becomes Block with override, so users do see a block they can push past — worth knowing before you call it a zero-impact phase.</dd>
                         <dt>Policy tip</dt><dd>The inline warning shown to a user in Outlook, Office or Teams when their content matches a DLP rule — often enough on its own to stop accidental sends.</dd>
                         <dt>Endpoint DLP</dt><dd>E5-tier DLP that extends control to the device itself: USB copies, printing, clipboard and local file operations.</dd>
                         <dt>Sensitivity label</dt><dd>A classification that travels with a file or mail and can carry encryption and access rules — the anchor for DLP rules that scale.</dd>
@@ -161,13 +161,13 @@
                     <section class="faq">
                     <h2 id="faq">Frequently Asked Questions</h2>
                     <h3>How do I implement DLP in Microsoft 365 without E5?</h3>
-                    <p>Business Premium and E3 already include DLP for Exchange, SharePoint, OneDrive and Teams, plus the built-in sensitive information types and manual sensitivity labels — which covers the channels most SMB data actually leaks through. Classify what matters first, then deploy two or three narrow policies in simulation mode, review the matches, and only then enforce. E5-class licensing is needed for endpoint DLP, automatic labelling and Insider Risk Management.</p>
+                    <p>Business Premium and E3 already include DLP for Exchange, SharePoint and OneDrive, including files shared through Teams, plus the built-in sensitive information types and manual sensitivity labels — which covers the channels most SMB data actually leaks through. Teams chat and channel messages are the exception and need an E5-class entitlement. Classify what matters first, then deploy two or three narrow policies in simulation mode, review the matches, and only then enforce. E5-class licensing is also needed for endpoint DLP, automatic labelling and Insider Risk Management.</p>
                     <h3>Which Microsoft 365 plan do I need for DLP?</h3>
                     <p>For mail, SharePoint, OneDrive and files shared through Teams, Business Premium or E3 can be enough. Teams chat and channel-message DLP requires an E5 Compliance or E5-class entitlement. You need E5 or an E5 Compliance add-on for endpoint DLP (USB, clipboard, local copies), trainable classifiers and automatic labelling, Insider Risk Management and Communication Compliance.</p>
                     <h3>How do I set up DLP policies for a small IT team?</h3>
                     <p>Start with three: payment and banking data going to external recipients, bulk personal data above a record-count threshold, and content labelled Confidential being shared externally. Run each in simulation mode for two weeks, review and tune the false positives, switch on policy tips for another two weeks, then enforce — and announce the change before you do.</p>
                     <h3>Why did my DLP policy in Teams stop working?</h3>
-                    <p>It is usually scope or licensing rather than a fault. Check that the affected users are actually in the policy's Teams location scope (group membership does not always propagate as expected), that each individual user holds the licence required for Teams chat DLP, and whether your test involved a private channel or an external guest, where coverage differs.</p>
+                    <p>It is usually scope or licensing rather than a fault. Check the shape of the Teams scope first: a policy scoped to individual user accounts covers chats but not standard, private or shared channel messages — channel coverage requires scoping to a group. Then check that each individual user holds an E5-class licence with the Microsoft Communications DLP service plan enabled, and whether your test involved a shared channel, where the sender's home-tenant policy applies rather than yours.</p>
                     </section>
 
                     <hr>
@@ -244,7 +244,7 @@
       "name": "How do I implement DLP in Microsoft 365 without E5?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Business Premium and E3 already include DLP for Exchange, SharePoint, OneDrive and Teams, plus the built-in sensitive information types and manual sensitivity labels \u2014 which covers the channels most SMB data actually leaks through. Classify what matters first, then deploy two or three narrow policies in simulation mode, review the matches, and only then enforce. E5-class licensing is needed for endpoint DLP, automatic labelling and Insider Risk Management."
+        "text": "Business Premium and E3 already include DLP for Exchange, SharePoint and OneDrive, including files shared through Teams, plus the built-in sensitive information types and manual sensitivity labels \u2014 which covers the channels most SMB data actually leaks through. Teams chat and channel messages are the exception and need an E5-class entitlement. Classify what matters first, then deploy two or three narrow policies in simulation mode, review the matches, and only then enforce. E5-class licensing is also needed for endpoint DLP, automatic labelling and Insider Risk Management."
       }
     },
     {
@@ -268,7 +268,7 @@
       "name": "Why did my DLP policy in Teams stop working?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "It is usually scope or licensing rather than a fault. Check that the affected users are actually in the policy's Teams location scope (group membership does not always propagate as expected), that each individual user holds the licence required for Teams chat DLP, and whether your test involved a private channel or an external guest, where coverage differs."
+        "text": "It is usually scope or licensing rather than a fault. Check the shape of the Teams scope first: a policy scoped to individual user accounts covers chats but not standard, private or shared channel messages \u2014 channel coverage requires scoping to a group. Then check that each individual user holds an E5-class licence with the Microsoft Communications DLP service plan enabled, and whether your test involved a shared channel, where the sender's home-tenant policy applies rather than yours."
       }
     }
   ]
