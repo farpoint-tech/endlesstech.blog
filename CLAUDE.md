@@ -110,3 +110,18 @@ thing without committing.
 ## Topics
 
 Microsoft 365, Security, Zero Trust, Cloud Solutions, Compliance (NIS2/GDPR), Intune, Automation.
+
+## Articles under review
+
+An article whose facts are in doubt stays reachable by URL but is pulled from
+every listing. Add to its `<head>`:
+
+```html
+<meta name="robots" content="noindex, follow">
+<meta name="endlesstech-status" content="under-review">
+```
+
+then run `python3 tools/site_index.py` — it parks the homepage card in
+`.scheduled/unlisted-cards/` and regenerates sitemap, feed and llms.txt.
+Remove both tags and run the same command to relist. `check-findability.py`
+fails if an article under review is still listed anywhere.

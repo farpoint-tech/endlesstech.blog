@@ -53,7 +53,15 @@ def check(root: str, strict: bool = False) -> list[str]:
 
     # retired URLs kept alive as redirects — never listed, but must resolve
     stubs = site_index.read_stubs(root)
-    posts = [f for f in files if f not in stubs]
+    review = site_index.read_under_review(root)
+    posts = [f for f in files if f not in stubs and f not in review]
+
+    # articles under review keep their URL but must be unlisted and noindex
+    for filename in sorted(review):
+        text = site_index.read(os.path.join(root, site_index.POSTS_DIR, filename))
+        if not site_index._ROBOTS_NOINDEX.search(text):
+            errors.append("posts/%s: marked under review but has no robots noindex"
+                          % filename)
 
     for filename, target in sorted(stubs.items()):
         pointee = site_index.stub_target_filename(target)
@@ -106,6 +114,9 @@ def check(root: str, strict: bool = False) -> list[str]:
     for filename in sorted(set(listing) & set(stubs)):
         errors.append("index.html: card for the redirect stub posts/%s — stubs "
                       "hold no content and must not be listed" % filename)
+    for filename in sorted(set(listing) & review):
+        errors.append("index.html: card for posts/%s, which is under review and "
+                      "must stay unlisted" % filename)
 
     # every posts/... reference anywhere in index.html (cards, hero, cornerstone
     # cards, JSON-LD) has to resolve to a real file
@@ -150,6 +161,9 @@ def check(root: str, strict: bool = False) -> list[str]:
         for filename in sorted(set(_collect(text)) & set(stubs)):
             errors.append("%s: lists the redirect stub posts/%s — stubs hold no "
                           "content and must not be listed" % (name, filename))
+        for filename in sorted(set(_collect(text)) & review):
+            errors.append("%s: lists posts/%s, which is under review and must "
+                          "stay unlisted" % (name, filename))
 
     # ------------------------------------------------------------- XML sanity
     for name in ("sitemap.xml", "feed.xml"):
@@ -205,9 +219,15 @@ def main() -> int:
 
     total = len(glob.glob(os.path.join(args.root, site_index.POSTS_DIR, "*.html")))
     stubs = len(site_index.read_stubs(args.root))
-    note = " (+ %d redirect stub%s, not listed)" % (stubs, "" if stubs == 1 else "s") if stubs else ""
+    review = len(site_index.read_under_review(args.root))
+    extras = []
+    if stubs:
+        extras.append("%d redirect stub%s, not listed" % (stubs, "" if stubs == 1 else "s"))
+    if review:
+        extras.append("%d article%s under review, unlisted" % (review, "" if review == 1 else "s"))
+    note = " (+ %s)" % "; ".join(extras) if extras else ""
     print("check-findability: OK — %d articles listed in index.html, "
-          "sitemap.xml, feed.xml and llms.txt%s" % (total - stubs, note))
+          "sitemap.xml, feed.xml and llms.txt%s" % (total - stubs - review, note))
     return 0
 
 

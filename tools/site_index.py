@@ -45,6 +45,13 @@ _META_REFRESH = re.compile(
 _ROBOTS_NOINDEX = re.compile(
     r'<meta[^>]+name=["\']?robots["\']?[^>]*content=["\'][^"\']*noindex', re.I)
 
+# An article under review stays reachable by URL but is pulled from every
+# listing (homepage, sitemap, feed, llms.txt) until its facts are settled.
+# Mark it with <meta name="endlesstech-status" content="under-review"> and a
+# robots noindex; remove both tags to relist it.
+_UNDER_REVIEW = re.compile(
+    r'<meta[^>]+name=["\']?endlesstech-status["\']?[^>]*content=["\']under-review', re.I)
+
 
 # --------------------------------------------------------------------------
 # small helpers
@@ -144,6 +151,19 @@ def read_stubs(root: str) -> dict:
     return stubs
 
 
+def is_under_review(text: str) -> bool:
+    return bool(_UNDER_REVIEW.search(text)) and redirect_target(text) is None
+
+
+def read_under_review(root: str) -> set:
+    """Filenames in posts/ that are marked under review (unlisted, noindex)."""
+    out = set()
+    for path in sorted(glob.glob(os.path.join(root, POSTS_DIR, "*.html"))):
+        if is_under_review(read(path)):
+            out.add(os.path.basename(path))
+    return out
+
+
 def read_post(root: str, filename: str) -> dict:
     relpath = "%s/%s" % (POSTS_DIR, filename)
     text = read(os.path.join(root, relpath))
@@ -186,11 +206,14 @@ def read_post(root: str, filename: str) -> dict:
 
 
 def read_posts(root: str) -> list[dict]:
-    """All listable posts/*.html, newest first. Redirect stubs are skipped."""
+    """All listable posts/*.html, newest first.
+
+    Redirect stubs and articles marked under review are skipped."""
     files = sorted(os.path.basename(p)
                    for p in glob.glob(os.path.join(root, POSTS_DIR, "*.html")))
     stubs = read_stubs(root)
-    posts = [read_post(root, f) for f in files if f not in stubs]
+    review = read_under_review(root)
+    posts = [read_post(root, f) for f in files if f not in stubs and f not in review]
     posts.sort(key=lambda p: (p["sort_key"], p["filename"]), reverse=True)
     return posts
 
@@ -390,3 +413,66 @@ def regenerate_indexes(root: str, posts: list[dict] | None = None) -> list[dict]
     llms_path = os.path.join(root, "llms.txt")
     write(llms_path, build_llms(posts, read(llms_path)))
     return posts
+
+
+def prune_unlisted_cards(root: str) -> list[str]:
+    """Drop homepage cards whose article is a redirect stub or under review.
+
+    Returns the filenames whose cards were removed. Cards for listable posts
+    are left exactly as they are."""
+    index_path = os.path.join(root, "index.html")
+    text = read(index_path)
+    _before, grid_inner, _after = split_grid(text)
+    unlisted = set(read_stubs(root)) | read_under_review(root)
+    cards = extract_cards(grid_inner)
+    keep, dropped = [], []
+    for card in cards:
+        target = card_target(card)
+        if target in unlisted:
+            dropped.append(target)
+            # park the card so relisting is a one-liner later
+            write(os.path.join(root, ".scheduled", "unlisted-cards",
+                               target.replace(".html", "") + ".html"), card.strip() + "\n")
+        else:
+            keep.append(card)
+    if dropped:
+        write(index_path, set_grid(text, keep, read_posts(root)))
+    return dropped
+
+
+def relist_cards(root: str) -> list[str]:
+    """Put parked cards back for articles that are listable again."""
+    folder = os.path.join(root, ".scheduled", "unlisted-cards")
+    if not os.path.isdir(folder):
+        return []
+    posts = read_posts(root)
+    listable = {p["filename"] for p in posts}
+    index_path = os.path.join(root, "index.html")
+    text = read(index_path)
+    restored = []
+    for path in sorted(glob.glob(os.path.join(folder, "*.html"))):
+        filename = os.path.basename(path)
+        if filename in listable:
+            text = insert_card(text, read(path).strip(), posts)
+            os.remove(path)
+            restored.append(filename)
+    if restored:
+        write(index_path, text)
+    return restored
+
+
+if __name__ == "__main__":
+    import argparse
+    parser = argparse.ArgumentParser(
+        description="Regenerate sitemap.xml, feed.xml, llms.txt from posts/ and "
+                    "prune homepage cards of unlisted articles.")
+    parser.add_argument("--root", default=os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    args = parser.parse_args()
+    restored = relist_cards(args.root)
+    dropped = prune_unlisted_cards(args.root)
+    posts = regenerate_indexes(args.root)
+    print("regenerated sitemap.xml, feed.xml, llms.txt for %d articles" % len(posts))
+    for f in restored:
+        print("restored homepage card: posts/%s" % f)
+    for f in dropped:
+        print("removed homepage card: posts/%s (parked in .scheduled/unlisted-cards/)" % f)
