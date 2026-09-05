@@ -13,14 +13,14 @@
     <meta property="og:type" content="article">
     <meta property="og:title" content="Windows 365 Cloud Apps: When Less is More">
     <meta property="og:description" content="Windows 365 Cloud Apps revolutionize application delivery. Discover how targeted app streaming reduces costs and increases efficiency for SMEs.">
-    <meta property="og:image" content="https://farpoint-tech.github.io/endlesstech.blog/assets/images/windows365_cloud_apps_title_en.png">
-    <meta property="og:url" content="https://farpoint-tech.github.io/endlesstech.blog/posts/2025-11-13-windows-365-cloud-apps-when-less-is-more.html">
+    <meta property="og:image" content="https://endlesstech.blog/assets/images/windows365_cloud_apps_title_en.png">
+    <meta property="og:url" content="https://endlesstech.blog/posts/2025-11-13-windows-365-cloud-apps-when-less-is-more.html">
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Windows 365 Cloud Apps: When Less is More">
     <meta name="twitter:description" content="Windows 365 Cloud Apps revolutionize application delivery. Discover how targeted app streaming reduces costs and increases efficiency for SMEs.">
-    <meta name="twitter:image" content="https://farpoint-tech.github.io/endlesstech.blog/assets/images/windows365_cloud_apps_title_en.png">
+    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/windows365_cloud_apps_title_en.png">
     
     <title>Windows 365 Cloud Apps: When Less is More - EndlessTech Blog</title>
     
@@ -30,7 +30,7 @@
     <link rel="stylesheet" href="../assets/css/blog-post.css">
     
     <!-- Google Fonts -->
-    <link rel="canonical" href="https://farpoint-tech.github.io/endlesstech.blog/posts/2025-11-13-windows-365-cloud-apps-when-less-is-more.html" />
+    <link rel="canonical" href="https://endlesstech.blog/posts/2025-11-13-windows-365-cloud-apps-when-less-is-more.html" />
 </head>
 <body>
     <!-- Header -->
@@ -75,7 +75,7 @@
             <div class="post-content">
                 <p>Imagine you're the quarterback of your company. Instead of running every play with the entire team, you can throw the perfect pass to the right receiver. That's exactly what Microsoft enables with <strong>Windows 365 Cloud Apps</strong> – precise application delivery without the unnecessary baggage.</p>
 
-                <p>The new feature, now in public preview, is revolutionizing how SMEs deploy their software. Instead of giving every employee a full virtual desktop, you stream only the apps they really need. The result? Less complexity, lower costs, and happier users.</p>
+                <p>Windows 365 Cloud Apps is generally available. Instead of giving every employee a full virtual desktop, you stream only the apps they really need. Two add-ons are still in public preview: Cloud App support for Autopilot device preparation, and the enhanced user experiences (Snap, full-screen, DPI handling, theming). The result? Less complexity, lower costs, and happier users.</p>
 
                 <h2>Understanding the Field: What are Windows 365 Cloud Apps?</h2>
 
@@ -86,11 +86,13 @@
                     <p class="image-caption">App Streaming from the Cloud</p>
                 </div>
 
-                <p>The technical foundation is provided by <strong>Windows 365 Frontline Cloud PCs</strong> in shared mode. This model is like a shift system in sports – different players use the same equipment at different times. Perfect for shift or part-time workers who only need specific applications like Outlook or Word.</p>
+                <p>The technical foundation is provided by <strong>Windows 365 Flex Cloud PCs</strong> (formerly Windows 365 Frontline) in Shared mode. The Microsoft Intune admin center may still show "Frontline" in some places while the rename works its way through. This model is like a shift system in sports – different players use the same equipment at different times. Shared mode is designed for customer-facing workers and external contractors who need a Cloud PC for short, specialised tasks and do not need data persistence. Shift workers and part-time staff who want their own personalised Cloud PC are the use case for <strong>Dedicated</strong> mode.</p>
 
-                <h2>The Offense: Windows 365 Frontline Licensing Model</h2>
+                <p>One caveat decides whether Shared mode fits at all: when a user signs out of a shared Cloud PC, all user data is deleted. Turn on User Experience Sync (UES) in the provisioning policy if app settings and Windows settings have to survive between sessions.</p>
 
-                <p>The <strong>Windows 365 Frontline licensing model</strong> is your strategic advantage. One license, unlimited users – but only one active session at a time. This flexibility makes it the ideal solution for industries with fluctuating staffing needs:</p>
+                <h2>The Offense: Windows 365 Flex Licensing Model</h2>
+
+                <p>The <strong>Windows 365 Flex licensing model</strong> is your strategic advantage — but read the maths before you plan capacity. In Shared mode one licence provisions <strong>one</strong> Cloud PC that a pool of users shares non-concurrently, and gives you <strong>one concurrent session</strong>. The maximum number of simultaneous sessions equals the number of Flex licences you allocate to that group: ten simultaneous users need ten licences, not one. Dedicated mode is the other model — one licence, up to three Cloud PCs assigned to three named users, still one active session. That flexibility makes it a good fit for industries with fluctuating staffing needs:</p>
 
                 <ul>
                     <li><strong>Retail:</strong> POS systems and inventory management</li>
@@ -98,7 +100,7 @@
                     <li><strong>Public Sector:</strong> Citizen services and administration</li>
                 </ul>
 
-                <p>The combination of Frontline and Cloud Apps offers a resource-optimized and scalable solution for modern work environments – like a perfectly coordinated team where every player is deployed exactly when needed.</p>
+                <p>The combination of Flex and Cloud Apps offers a resource-optimized and scalable solution for modern work environments – like a perfectly coordinated team where every player is deployed exactly when needed.</p>
 
                 <div class="post-image">
                     <img src="../assets/images/frontline_workers_cloud_apps_en.webp" alt="Frontline workers accessing Windows 365 Cloud Apps on shared devices in a retail and warehouse environment" loading="lazy" srcset="../assets/images/responsive/frontline_workers_cloud_apps_en-400w.webp 400w, ../assets/images/responsive/frontline_workers_cloud_apps_en-800w.webp 800w, ../assets/images/frontline_workers_cloud_apps_en.webp 1024w" sizes="(max-width: 800px) 100vw, 800px">
@@ -110,21 +112,19 @@
                     <p class="image-caption">Time-shifted Access to Cloud PC</p>
                 </div>
 
-                <h2>New Plays: Public Preview Enhancements</h2>
+                <h2>New Plays: Two Enhancements Worth Knowing</h2>
 
-                <p>Microsoft has listened to feedback from the private preview and implemented two crucial improvements:</p>
+                <p><strong>Automatic OneDrive Start:</strong> Cloud Apps launch OneDrive automatically – but only if the Cloud PC runs a supported build: Windows 11 Enterprise 24H2, or 22H2/23H2 with the 2024-07 cumulative update (KB5040442) or later. On older builds you do not get this, and users wonder why their files are missing.</p>
 
-                <p><strong>Automatic OneDrive Start:</strong> Seamless integration for better productivity – like an automatic handoff between players.</p>
+                <p><strong>Enhanced user experiences (public preview):</strong> Better Windows Snap and full-screen support, better DPI handling, and refined visuals – borders, shadows, and theme integration. This is the RemoteApp enhancements preview and has to be enabled explicitly.</p>
 
-                <p><strong>Windows 365 Filter:</strong> Simplified navigation in the Windows App – your digital playbook becomes clearer and more efficient.</p>
-
-                <p>These innovations are like an improved playbook – they make execution easier and more effective. Your employees can focus on what's important, while the technology works smoothly in the background.</p>
+                <p>These make execution easier and more effective. Your employees can focus on what's important, while the technology works smoothly in the background.</p>
 
                 <h2>The Game Plan: Integration with Intune</h2>
 
-                <p>Microsoft is planning its next strategic move: <strong>Microsoft Intune</strong> as the central command center. In the future, administrators will be able to publish Intune applications directly as Cloud Apps. This eliminates the outdated process of creating custom images – a real game-changer for modern app deployment.</p>
+                <p>That integration has shipped. You can build Cloud Apps from Intune-delivered applications by attaching a <strong>Windows Autopilot device preparation</strong> policy to the provisioning policy – this part is still public preview. And since July 2026 you can add a Cloud App manually <strong>from a file path</strong>, which covers legacy apps and apps that never show up in the Start Menu.</p>
 
-                <p>This integration with Intune Autopilot will enable a modern approach to app deployment and significantly simplify the management of line-of-business applications. Like an experienced coach who perfectly tailors his plays to the team.</p>
+                <p>Custom images have not gone away: they are still a supported and documented path for custom apps. Autopilot device preparation is the alternative to them, not their replacement. Pick whichever fits how your line-of-business apps are packaged. Like an experienced coach who perfectly tailors his plays to the team.</p>
 
                 <div class="post-image">
                     <img src="../assets/images/intune_integration_dashboard_en.webp" alt="Centralized Management with Microsoft Intune" loading="lazy" srcset="../assets/images/responsive/intune_integration_dashboard_en-400w.webp 400w, ../assets/images/responsive/intune_integration_dashboard_en-800w.webp 800w, ../assets/images/intune_integration_dashboard_en.webp 1024w" sizes="(max-width: 800px) 100vw, 800px">
@@ -133,25 +133,27 @@
 
                 <h2>Getting in the Game</h2>
 
-                <p>Getting started is simple and straightforward: you need a <strong>Windows 365 Frontline license</strong>. Then you create a deployment policy, select "Access only apps," and the Cloud Apps are available to your users via the Windows App.</p>
+                <p>You need a <strong>Windows 365 Flex license</strong>. Then you create a Windows 365 <strong>provisioning policy</strong> and, on the General tab, set Experience to "Access only apps." That selection automatically sets the License type to Flex and the mode to Shared – you cannot combine Cloud Apps with Enterprise licences or Dedicated mode. After that, the apps become available to your users through the Windows App.</p>
 
-                <p>Three simple steps to your success:</p>
+                <p>Four steps, and do not skip the last one:</p>
                 <ol>
-                    <li><strong>Activate License</strong> – Deploy Windows 365 Frontline</li>
-                    <li><strong>Configure Policy</strong> – Select "Access only apps"</li>
-                    <li><strong>Release Apps</strong> – Users can get started immediately</li>
+                    <li><strong>Activate License</strong> – Assign Windows 365 Flex</li>
+                    <li><strong>Configure Policy</strong> – Create a provisioning policy with Experience set to "Access only apps"</li>
+                    <li><strong>Wait for Provisioning</strong> – The Cloud PC provisions, and the apps found on its Start Menu appear in <em>All Cloud Apps</em> with the status "Ready to publish"</li>
+                    <li><strong>Publish Each App</strong> – Until you publish an app, it does not show up in the Windows App and your users see nothing</li>
                 </ol>
 
                 <h2>The Bottom Line: A Winning Move for Your Business</h2>
 
-                <p>Windows 365 Cloud Apps mark a paradigm shift in application delivery. Through targeted app streaming and the flexible Frontline licensing model, Microsoft offers a solution that is perfectly suited to the dynamic requirements of modern SMEs.</p>
+                <p>Windows 365 Cloud Apps mark a paradigm shift in application delivery. Through targeted app streaming and the flexible Flex licensing model, Microsoft offers a solution that is well suited to the dynamic requirements of modern SMEs.</p>
 
-                <p>The planned Intune integration promises further simplification – Microsoft is definitely playing in the Champions League of cloud solutions. For IT decision-makers, this means: less administrative effort, lower costs, and a future-proof infrastructure that grows with your business.</p>
+                <p>The Intune path is no longer a promise – it is there. For IT decision-makers, this means: less administrative effort, lower costs, and infrastructure that grows with your business. Just do the licence maths first: concurrent sessions equal allocated Flex licences, and in Shared mode user data is gone when the session ends unless you enable User Experience Sync.</p>
 
                 <h3>References</h3>
                 <ol>
                     <li><a href="https://techcommunity.microsoft.com/blog/windows-itpro-blog/windows-365-cloud-apps-are-now-in-public-preview/4453397" target="_blank" rel="noopener noreferrer">Windows 365 Cloud Apps are now in public preview - Microsoft Tech Community</a></li>
-                    <li><a href="https://learn.microsoft.com/en-us/windows-365/enterprise/cloud-apps" target="_blank" rel="noopener noreferrer">Windows 365 Cloud Apps (preview) - Microsoft Learn</a></li>
+                    <li><a href="https://learn.microsoft.com/en-us/windows-365/enterprise/cloud-apps" target="_blank" rel="noopener noreferrer">Windows 365 Cloud Apps - Microsoft Learn</a></li>
+                    <li><a href="https://learn.microsoft.com/en-us/windows-365/enterprise/introduction-windows-365-flex" target="_blank" rel="noopener noreferrer">What is Windows 365 Flex? - Microsoft Learn</a></li>
                 </ol>
 
                 <!-- Call to Action -->
@@ -168,7 +170,7 @@
                 <div class="post-author">
                     <strong>Author:</strong> Philipp Schmidt<br>
                     <strong>Version:</strong> Release 2.1<br>
-                    <strong>Last Updated:</strong> November 13, 2025
+                    <strong>Last Updated:</strong> September 2026
                 </div>
                 
                 <div class="post-navigation">
@@ -205,6 +207,7 @@
   "@type": "Article",
   "headline": "Windows 365 Cloud Apps: When Less is More",
   "datePublished": "2025-11-13",
+  "dateModified": "2026-09-05",
   "author": {
     "@type": "Person",
     "name": "Philipp Schmidt",
@@ -215,13 +218,13 @@
     "name": "Philipp Schmidt",
     "url": "https://easym365.de"
   },
-  "image": "https://farpoint-tech.github.io/endlesstech.blog/assets/images/windows365_cloud_apps_title_en.png",
-  "url": "https://farpoint-tech.github.io/endlesstech.blog/posts/2025-11-13-windows-365-cloud-apps-when-less-is-more.html",
+  "image": "https://endlesstech.blog/assets/images/windows365_cloud_apps_title_en.png",
+  "url": "https://endlesstech.blog/posts/2025-11-13-windows-365-cloud-apps-when-less-is-more.html",
   "description": "Discover how Windows 365 Cloud Apps revolutionize application delivery with targeted app streaming that reduces costs for SMEs.",
   "inLanguage": "en",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://farpoint-tech.github.io/endlesstech.blog/posts/2025-11-13-windows-365-cloud-apps-when-less-is-more.html"
+    "@id": "https://endlesstech.blog/posts/2025-11-13-windows-365-cloud-apps-when-less-is-more.html"
   }
 }
     </script>
