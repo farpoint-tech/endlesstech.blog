@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="robots" content="index,follow">
+    <meta name="robots" content="noindex, follow">
+    <meta name="endlesstech-status" content="under-review">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Microsoft 365 Copilot ROI breakdown for 60 users: real cost analysis, 5.4:1 return, NIST AI RMF mapping, glossary, and a 10-point readiness checklist.">
     <meta name="author" content="Philipp Schmidt">
@@ -106,7 +107,7 @@
                                 <td>$21,600</td>
                             </tr>
                             <tr>
-                                <td>M365 E5 Compliance (if not already licensed)</td>
+                                <td>Microsoft Purview Suite, formerly M365 E5 Compliance (if not already licensed)</td>
                                 <td>–</td>
                                 <td>+$1,200</td>
                                 <td>$14,400</td>
@@ -273,14 +274,14 @@
                     <h3>RAG (Retrieval-Augmented Generation)</h3>
                     <p>An AI technique where the language model retrieves relevant documents from your enterprise database before answering and uses them as context — referred to as "grounding." Without RAG, the AI invents answers. With RAG, you get fact-based responses with source citations. The practical difference: without RAG, ask Copilot for your return rate and it guesses. With RAG, it reads the current SharePoint dashboard and returns "Return rate Q1 2026: 3.2% (Source: Sales Report March 2026)."</p>
 
-                    <h3>Graph Connector</h3>
-                    <p>A translator that connects external systems — SAP, Salesforce, Confluence, ServiceNow — to Microsoft Graph, making them searchable by Copilot. Your knowledge does not only live in SharePoint. Graph Connectors extend Copilot's reach to all data sources. Ask Copilot for open support tickets for a specific customer and the Graph Connector retrieves them from ServiceNow, even though it is not a Microsoft system.</p>
+                    <h3>Copilot Connector (formerly Graph Connector)</h3>
+                    <p>A translator that connects external systems — SAP, Salesforce, Confluence, ServiceNow — to Microsoft Graph, making them searchable by Copilot. Your knowledge does not only live in SharePoint. Ask Copilot for open support tickets for a specific customer and the connector retrieves them from ServiceNow, even though it is not a Microsoft system. There are two kinds, and the choice matters for sensitive sources: <em>synced</em> connectors index the external content into Graph, while <em>federated</em> connectors retrieve it in real time without indexing it.</p>
 
                     <h3>Sensitivity Label</h3>
-                    <p>A digital classification stamp on documents — Public, Internal, Confidential, Highly Confidential — that determines who can access a document and whether Copilot is permitted to process it. This is the mechanism that prevents Copilot from accidentally including salary lists or M&A plans in a response to a general query. A document labelled Highly Confidential is shown only to those with the appropriate permissions — not to every licensed user who asks a broad question.</p>
+                    <p>A digital classification stamp on documents — Public, Internal, Confidential, Highly Confidential, Personal — that records how sensitive the content is and, where the label applies encryption, restricts what can be done with it. Be precise about what this does for Copilot, because this is where most people assume more protection than they have: a label on its own does not keep content out of a Copilot response. Copilot returns whatever the asking user already has permission to see. A label becomes a control in two cases — when it applies encryption, because Copilot then requires the user to hold both the VIEW and EXTRACT usage rights before it can summarise the content, or when a Purview DLP policy for the Microsoft 365 Copilot location explicitly names that label.</p>
 
                     <h3>DLP (Data Loss Prevention)</h3>
-                    <p>Automatic security rules that prevent sensitive data — credit card numbers, social security numbers, trade secrets — from being accidentally shared or processed by Copilot. This is where GDPR and NIS2 compliance becomes concrete. If Copilot accidentally includes personal data in a response, the regulatory exposure is significant. DLP blocks the retrieval before it happens. An employee asks Copilot to show customer data from a project containing GDPR-protected health data — DLP blocks the response before it is generated.</p>
+                    <p>Automatic rules that restrict what Copilot may process. In the Copilot context they work in two distinct ways, and neither is "scan the answer for sensitive data." A rule on <em>sensitive information types</em> inspects the text the user types into the prompt: if a credit card number or a social security number is in the prompt, Copilot refuses to answer and does not use that prompt for internal or web grounding. A rule on <em>sensitivity labels</em> inspects files and emails: an item carrying a named label is excluded from the response, although it can still appear in the citations. So the GDPR example works like this: label the health-data project files "Personal", then create a DLP policy for the Microsoft 365 Copilot and Copilot Chat location that excludes that label. Unlabelled files holding the same health data are not caught by this control.</p>
 
                     <h3>Grounding</h3>
                     <p>The process where Copilot combines retrieved enterprise documents (via RAG) with the user's prompt before the AI generates a response. Grounding is the operational difference between "AI guesses" and "AI cites your data." Without grounding, a query about 2025 revenue produces an invented figure. With grounding, Copilot reads the annual report PDF and returns the exact figure with a page reference.</p>
@@ -309,40 +310,34 @@
                                 <td><strong>GOVERN</strong></td>
                                 <td>Establish AI governance</td>
                                 <td>Copilot Studio: Agent Lifecycle Management; Entra ID: Role-based access control (RBAC); Purview Compliance Manager: Policy enforcement</td>
-                                <td><code>New-MgPolicyAuthorizationPolicy</code>; Copilot Studio Admin Center</td>
+                                <td>Microsoft 365 admin center (license assignment); Copilot Studio admin settings</td>
                             </tr>
                             <tr>
                                 <td><strong>MAP</strong></td>
                                 <td>Identify risks</td>
                                 <td>Microsoft Graph: Data flow visualisation; Purview Data Map: Which data does Copilot use?; Sensitivity Labels: Classify sensitive content</td>
-                                <td>Graph Explorer; <code>Get-MgInformationProtectionPolicy</code></td>
+                                <td>Graph Explorer; <code>Get-Label</code> and <code>Get-LabelPolicy</code> (Security &amp; Compliance PowerShell)</td>
                             </tr>
                             <tr>
                                 <td><strong>MEASURE</strong></td>
                                 <td>Measure performance and risks</td>
                                 <td>Purview Analytics: Copilot usage metrics; Viva Insights: Productivity impact; DLP Reports: Block rate of sensitive prompts</td>
-                                <td>Purview Compliance Portal; <code>Get-DlpDetailReport</code></td>
+                                <td>Microsoft Purview portal; <code>Export-ActivityExplorerData</code> or <code>Get-DlpDetectionsReport</code></td>
                             </tr>
                             <tr>
                                 <td><strong>MANAGE</strong></td>
                                 <td>Mitigate risks</td>
-                                <td>DLP Policies: Real-time blocking; Conditional Access: MFA + Device Compliance; Retention Policies: 7-year audit trail</td>
-                                <td><code>New-DlpCompliancePolicy</code>; <code>New-ConditionalAccessPolicy</code></td>
+                                <td>DLP Policies: Prompt and label-based blocking; Conditional Access: MFA + Device Compliance; Audit log retention: 180 days by default, one year with Audit (Premium)</td>
+                                <td><code>New-DlpCompliancePolicy</code>; <code>New-MgIdentityConditionalAccessPolicy</code></td>
                             </tr>
                         </tbody>
                     </table>
 
                     <h3>GOVERN in Practice: Restricting Copilot to a Pilot Group</h3>
 
-                    <p>The GOVERN function starts with access control. Before any user touches Copilot in a production environment, the scope needs to be defined. The following PowerShell snippet restricts Copilot usage to a specific Entra ID group — the standard starting point for any controlled rollout.</p>
+                    <p>The GOVERN function starts with access control. Before any user touches Copilot in a production environment, the scope needs to be defined. There is no PowerShell one-liner for this: Copilot access is not gated by an authorization policy. Scoping a pilot is two portal steps. First, assign the Copilot license only to the pilot group in the Microsoft 365 admin center — the license is the access control. Second, scope what that group can reach with SharePoint controls: Restricted Content Discovery per site (<code>Set-SPOSite -RestrictContentOrgWideSearch $true</code>, part of SharePoint Advanced Management). Restricted SharePoint Search is the older short-term option and is retiring — new enablement is blocked from July 31, 2026, and Microsoft directs customers to Restricted Content Discovery.</p>
 
-<pre><code class="language-powershell"># Restrict Copilot usage to specific Entra ID group
-New-MgPolicyAuthorizationPolicy -Id "CopilotAccess" `
-    -AllowedMemberTypes @("User") `
-    -AllowedResourceActions @("microsoft.graph/copilot/query") `
-    -PrincipalGroupIds @("12345-abcd-6789-efgh")  # Group "Copilot-Pilots"</code></pre>
-
-                    <p>Purview Compliance Manager automatically generates NIST AI RMF Assessment Reports, providing documented evidence of compliance posture — a requirement for any organisation operating under NIS2 or ISO 27001.</p>
+                    <p>Purview Compliance Manager ships a premium regulatory template for NIST AI RMF 1.0, alongside templates for the EU AI Act, ISO/IEC 23894:2023, and ISO/IEC 42001:2023. You build an assessment from that template and work through its improvement actions — the report is the output of that work, not something the tenant produces on its own. Using an AI regulation template consumes one of your purchased premium assessment licenses.</p>
 
                     <h2>Part 4: The Architecture — How Retrieval Actually Works</h2>
 
@@ -350,7 +345,7 @@ New-MgPolicyAuthorizationPolicy -Id "CopilotAccess" `
 
                     <h3>The RAG Pipeline</h3>
 
-                    <p>When a user submits a prompt, Copilot does not simply pass it to the language model. The orchestration layer intercepts the prompt and sends it to a Retrieval API that queries three parallel sources: the SharePoint and OneDrive index, any configured Graph Connectors, and Microsoft Teams. All three sources produce vector embeddings — mathematical representations of document content — from which the system selects the most relevant chunks. Those chunks are combined with the original prompt in a grounding step before the Azure OpenAI language model generates a response. The final output includes citations pointing back to the source documents.</p>
+                    <p>When a user submits a prompt, Copilot does not simply pass it to the language model. The orchestration layer intercepts the prompt and sends it to a Retrieval API that queries three parallel sources: the SharePoint and OneDrive index, any configured Graph Connectors, and Microsoft Teams. All three sources produce vector embeddings — mathematical representations of document content — from which the system selects the most relevant chunks. Those chunks are combined with the original prompt in a grounding step before the large language model generates a response. The final output includes citations pointing back to the source documents.</p>
 
                     <p>The critical implication: if the SharePoint index contains unstructured, unlabelled, or outdated content, the vector embeddings will reflect that chaos. Garbage in, hallucination out — even with a $30/month license.</p>
 
@@ -358,7 +353,11 @@ New-MgPolicyAuthorizationPolicy -Id "CopilotAccess" `
 
                     <p>External systems connect to Microsoft Graph through Graph Connectors, which feed into a hybrid index alongside SharePoint and OneDrive data. The Copilot Retrieval API queries this unified index. Two security controls operate at different points in this pipeline.</p>
 
-                    <p>Purview DLP validates retrieval results in real time — if a retrieved chunk contains content that matches a DLP policy (credit card numbers, health data, classified project information), the response is blocked before it reaches the user. Sensitivity Labels operate earlier in the pipeline, filtering during the indexing stage. Documents labelled Highly Confidential are not indexed for general retrieval; they are only accessible to users with the appropriate permissions. This is the Zero Trust Bullshit Wall in practice: the principle of least privilege applied to AI retrieval, not just file access.</p>
+                    <p>This is the part most write-ups get wrong, so read it slowly. Purview DLP for the Microsoft 365 Copilot location does <strong>not</strong> inspect retrieved content for sensitive information. Its two conditions work on different objects. <em>Sensitive information types</em> are evaluated only against the text a user types into the prompt: a match makes Copilot refuse to answer and blocks internal and web grounding for that prompt. <em>Sensitivity labels</em> are evaluated against files and emails: a match excludes that item's content from the response, though the item can still show up in the citations. There is no rule that scans a retrieved chunk for a credit card number — Microsoft states plainly that DLP cannot even scan the contents of a file uploaded into a prompt, only the typed prompt text.</p>
+
+                    <p>Sensitivity labels do not filter at the indexing stage either, and they do not remove documents from the index. Labelled content is indexed like everything else; enforcement happens per user at retrieval time, through permissions and — where the label applies encryption — the VIEW and EXTRACT usage rights. If the label grants no EXTRACT right, Copilot will not return the content. If it applies no encryption at all, a "Highly Confidential" file in a site the user can open is fair game. The controls that actually keep a site out of organisation-wide discovery are different features: <strong>Restricted Content Discovery</strong> (part of SharePoint Advanced Management), and even there Microsoft is explicit that it does not remove content from the search index and does not change permissions. <strong>Double Key Encryption</strong> is the one case where content genuinely cannot be reached by Copilot at all.</p>
+
+                    <p>The practical consequence: permissions are the control. Labels and DLP are a second layer on top of them, not a substitute for them. If an over-shared site is readable by everyone, no label taxonomy will fix that for Copilot.</p>
 
                     <h2>Part 5: The 10-Point Readiness Checklist</h2>
 
@@ -375,7 +374,7 @@ New-MgPolicyAuthorizationPolicy -Id "CopilotAccess" `
                         <tbody>
                             <tr>
                                 <td>1</td>
-                                <td><strong>Licensing secured:</strong> Microsoft 365 E3/E5 + Copilot licenses ordered</td>
+                                <td><strong>Licensing secured:</strong> an eligible base subscription plus a Microsoft Copilot license. The eligible list is much broader than E3/E5 — Microsoft 365 Business Basic, Standard and Premium, E3/E5/E7, F1/F3, A3/A5, Office 365 E1/E3/E5/F3 and Teams plans all qualify, and Business Premium is the realistic entry point for an SME. Hard blocker: the primary mailbox must be in Exchange Online. On-premises and hybrid mailboxes do not support mailbox grounding.</td>
                                 <td>IT Procurement</td>
                             </tr>
                             <tr>
@@ -494,6 +493,7 @@ New-MgPolicyAuthorizationPolicy -Id "CopilotAccess" `
   "@type": "Article",
   "headline": "Copilot ROI: Why Knowledge Management Is the Difference Between 1.4:1 and 5.4:1",
   "datePublished": "2026-04-08",
+  "dateModified": "2026-09-05",
   "author": {
     "@type": "Person",
     "name": "Philipp Schmidt",
@@ -505,12 +505,12 @@ New-MgPolicyAuthorizationPolicy -Id "CopilotAccess" `
     "url": "https://easym365.de"
   },
   "image": "https://endlesstech.blog/assets/images/copilot-mandate-hero.jpg",
-  "url": "https://farpoint-tech.github.io/endlesstech.blog/posts/2026-04-08-copilot-roi-knowledge-management-guide.html",
+  "url": "https://endlesstech.blog/posts/2026-04-08-copilot-roi-knowledge-management-guide.html",
   "description": "Microsoft 365 Copilot ROI breakdown for 60 users: real cost analysis, 5.4:1 return, NIST AI RMF mapping, glossary, and a 10-point readiness checklist.",
   "inLanguage": "en",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://farpoint-tech.github.io/endlesstech.blog/posts/2026-04-08-copilot-roi-knowledge-management-guide.html"
+    "@id": "https://endlesstech.blog/posts/2026-04-08-copilot-roi-knowledge-management-guide.html"
   }
 }
     </script>
