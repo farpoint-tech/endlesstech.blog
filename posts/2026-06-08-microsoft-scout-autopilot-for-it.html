@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
-    <meta name="robots" content="index,follow">
+    <meta name="robots" content="noindex, follow">
+    <meta name="endlesstech-status" content="under-review">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Microsoft Scout is an autonomous AI agent that runs shell commands on your devices. The Entra ID architecture is brilliant, but Purview DLP, audit trails, and EU Data Boundary compliance are missing. Here is the reality check.">
     <meta name="author" content="Philipp Schmidt">
@@ -71,7 +72,7 @@
 
                     <p>The reality is, if an AI agent can access your file system and execute commands without proper guardrails, you don't have an assistant; you have a massive security and compliance liability. If a process goes wrong or data is mishandled, the liability falls squarely on <strong>you</strong> as the CEO. You can't blame the AI when the auditors come knocking.</p>
 
-                    <p>Standard IT setups and basic Copilot licenses aren't enough for this new wave of autonomous agents. Scout isn't just a chat interface; it's built on <strong>OpenClaw</strong> and uses the <strong>GitHub Copilot SDK</strong> to perform local system operations. Relying on your existing security defaults or hoping that "it's Microsoft, so it must be secure" is a dangerous gamble, especially when features like Purview DLP real-time enforcement and EU Data Boundary compliance are not yet active in the preview.</p>
+                    <p>Standard IT setups and basic Copilot licenses aren't enough for this new wave of autonomous agents. Scout isn't just a chat interface; it ships a bundled <strong>GitHub Copilot component</strong> (<code>copilot.exe</code>) that runs on the device, and its <strong>model calls are routed through GitHub Copilot</strong>&mdash;which means prompts and content can leave the Microsoft 365 boundary. Relying on your existing security defaults or hoping that "it's Microsoft, so it must be secure" is a dangerous gamble, especially when features like Purview DLP real-time enforcement and EU Data Boundary compliance are not yet active in the preview.</p>
 
                     <p>The concept behind Scout is actually a paradigm shift. It uses a <strong>dedicated Entra identity for each agent</strong>, which cleanly solves the classic service account problem. It's a brilliant architectural move that ensures every action is tied to a specific, manageable identity. However, for regulated environments (like TISAX, ISO 27001, NIS2), it's simply not production-ready. You need a Zero Trust approach&mdash;no blind trust, even for Microsoft's latest AI.</p>
 
@@ -79,7 +80,7 @@
 
                     <h2>The Cost of Autonomy</h2>
 
-                    <p>First, let's talk budget. Scout requires a <strong>GitHub Copilot Business or Enterprise license</strong> in addition to the M365 Copilot license. Why? Because it uses the GitHub Copilot SDK as its engine for local system operations.</p>
+                    <p>First, let's talk budget. Scout requires a <strong>GitHub Copilot Business or Enterprise license</strong> in addition to the M365 Copilot license. Why? Because the model inference behind Scout runs through GitHub Copilot, not inside your Microsoft 365 tenant.</p>
 
                     <p>That's an extra <strong>~$19/user/month</strong> on top of the <strong>~$30/user/month</strong> for M365 Copilot. For a 50-user company, that's nearly $2,500/month in AI licensing alone. It's a significant investment, and you need to be sure the ROI is there before you commit.</p>
 
