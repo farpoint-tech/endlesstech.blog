@@ -88,7 +88,7 @@
 
                     <p><dfn><abbr title="Microsoft Intune – cloud-based endpoint management service for device and application security">Intune</abbr></dfn> Enrollment Restrictions are not just another policy; they are the control plane for your endpoint environment. While Microsoft clarifies that these are a "best-effort barrier for non-malicious users" and not a foolproof security feature, they are an indispensable first line of defense <a href="https://learn.microsoft.com/en-us/mem/intune/enrollment/enrollment-restrictions-set" target="_blank" rel="noopener noreferrer">[2]</a>.</p>
 
-                    <p>They are divided into two main types: <strong>Device Limit Restrictions</strong> (controlling how many devices a user can enroll) and <strong>Device Type Restrictions</strong> (controlling which platforms and ownership types can enroll). The single most critical setting for mitigating the local admin risk on Windows devices is found within the Device Type Restrictions: <strong>Block "Personally owned" for Windows (MDM)</strong>.</p>
+                    <p>They are divided into two types: <strong>device limit restrictions</strong> (how many devices a user can enroll — the limit runs from 1 to 15) and <strong>device platform restrictions</strong> (which platforms, OS versions, manufacturers and ownership types can enroll). Microsoft renamed the second type from "device type restrictions" to <strong>device platform restrictions</strong>, and moved it in the admin center. The single most critical setting for mitigating the local admin risk on Windows devices sits inside that policy: <strong>Block "Personally owned" for Windows</strong>.</p>
 
                     <table class="post-table">
                         <thead>
@@ -101,17 +101,17 @@
                         <tbody>
                             <tr>
                                 <td>Block Personally Owned</td>
-                                <td>Device Type Restrictions</td>
+                                <td>Device platform restriction (Personally owned devices setting)</td>
                                 <td>Enforces Corporate-Owned status for all managed Windows devices.</td>
                             </tr>
                             <tr>
                                 <td>Platform Blocking</td>
-                                <td>Device Type Restrictions</td>
+                                <td>Device platform restriction</td>
                                 <td>Prevents enrollment of unsupported or legacy OS platforms.</td>
                             </tr>
                             <tr>
                                 <td>Device Limit</td>
-                                <td>Device Limit Restrictions</td>
+                                <td>Device limit restriction (1 to 15 devices)</td>
                                 <td>Contains the attack surface by limiting endpoints per identity.</td>
                             </tr>
                         </tbody>
@@ -121,7 +121,7 @@
 
                     <h2>The Synergy with Endpoint Privilege Management (EPM)</h2>
 
-                    <p>Many organizations are rightly excited about the capabilities of Microsoft's <dfn><abbr title="Endpoint Privilege Management – controls local administrator rights on managed devices">EPM</abbr></dfn> and <dfn><abbr title="Local Administrator Password Solution – automatically manages and rotates local admin passwords">LAPS</abbr></dfn> solutions <a href="https://learn.microsoft.com/en-us/mem/intune/protect/epm-overview" target="_blank" rel="noopener noreferrer">[4]</a> <a href="https://learn.microsoft.com/en-us/mem/intune/protect/windows-laps-overview" target="_blank" rel="noopener noreferrer">[5]</a>. These tools are designed to manage and mitigate the risks of local administrator rights on your endpoints. However, their effectiveness is predicated on a critical assumption: that they are operating on trusted, corporate-owned devices.</p>
+                    <p>Many organizations are rightly excited about the capabilities of Microsoft's <dfn><abbr title="Endpoint Privilege Management – controls local administrator rights on managed devices">EPM</abbr></dfn> and <dfn><abbr title="Local Administrator Password Solution – automatically manages and rotates local admin passwords">LAPS</abbr></dfn> solutions <a href="https://learn.microsoft.com/en-us/mem/intune/protect/epm-overview" target="_blank" rel="noopener noreferrer">[4]</a> <a href="https://learn.microsoft.com/en-us/mem/intune/protect/windows-laps-overview" target="_blank" rel="noopener noreferrer">[5]</a>. These tools are designed to manage and mitigate the risks of local administrator rights on your endpoints. Budget for it before you plan with it: EPM is a paid Intune add-on, licensed standalone or as part of the Intune Suite, and its policies only apply to Windows devices. And their effectiveness is predicated on a critical assumption: that they are operating on trusted, corporate-owned devices.</p>
 
                     <p>When you allow personal devices to enroll, you create a fundamental misalignment. EPM is then forced to manage privileges on a device you don't own and can't fully control. This is an architectural anti-pattern. You're using a sophisticated tool to apply a security patch to a problem that should have been prevented at the source.</p>
 
@@ -158,7 +158,7 @@
                     <section class="faq">
                     <h2>Frequently Asked Questions</h2>
                     <h3>How do I block personal devices in Intune?</h3>
-                    <p>In the Intune admin center, go to Devices &gt; Enrollment &gt; Enrollment restrictions &gt; Device type restrictions, and set "Personally owned" to Block for Windows (MDM). Only devices registered as corporate-owned — via Windows Autopilot or the Corporate Device Identifiers list — can then enroll. This is the foundational control for keeping unmanaged devices off your management plane.</p>
+                    <p>In the Microsoft Intune admin center, go to Devices &gt; Device onboarding &gt; Enrollment &gt; Device platform restriction, edit the Windows policy and set "Personally owned" to Block. Only devices authorized for corporate enrollment can then enroll — Windows Autopilot, GPO or Configuration Manager co-management, a bulk provisioning package, or a device enrollment manager account. This is the foundational control for keeping unmanaged devices off your management plane.</p>
                     <h3>Are Intune enrollment restrictions a security feature?</h3>
                     <p>Microsoft describes enrollment restrictions as a "best-effort barrier for non-malicious users," not a foolproof security control. They are an essential first line of defense, but should be paired with Conditional Access to block unmanaged devices at access time, and EPM/LAPS for local admin management. Layer them — don't rely on one.</p>
                     <h3>What's the difference between blocking enrollment and Conditional Access?</h3>
@@ -225,7 +225,7 @@
       "author": { "@type": "Person", "name": "Philipp Schmidt", "url": "https://easym365.de" },
       "publisher": { "@type": "Organization", "name": "EndlessTech Blog" },
       "datePublished": "2026-01-06",
-      "dateModified": "2026-06-20",
+      "dateModified": "2026-09-05",
       "mainEntityOfPage": "https://endlesstech.blog/posts/2026-01-06-intune-enrollment-restrictions.html"
     }
     </script>
@@ -234,7 +234,7 @@
       "@context": "https://schema.org",
       "@type": "FAQPage",
       "mainEntity": [
-        { "@type": "Question", "name": "How do I block personal devices in Intune?", "acceptedAnswer": { "@type": "Answer", "text": "In the Intune admin center, go to Devices > Enrollment > Enrollment restrictions > Device type restrictions and set Personally owned to Block for Windows (MDM). Only corporate-owned devices (via Autopilot or Corporate Device Identifiers) can then enroll." } },
+        { "@type": "Question", "name": "How do I block personal devices in Intune?", "acceptedAnswer": { "@type": "Answer", "text": "In the Microsoft Intune admin center, go to Devices > Device onboarding > Enrollment > Device platform restriction, edit the Windows policy and set Personally owned to Block. Only enrollments authorized for corporate use can then proceed: Windows Autopilot, GPO or Configuration Manager co-management, a bulk provisioning package, or a device enrollment manager account." } },
         { "@type": "Question", "name": "Are Intune enrollment restrictions a security feature?", "acceptedAnswer": { "@type": "Answer", "text": "Microsoft describes them as a best-effort barrier for non-malicious users, not a foolproof control. They are an essential first line of defense and should be paired with Conditional Access and EPM/LAPS." } },
         { "@type": "Question", "name": "What's the difference between blocking enrollment and Conditional Access?", "acceptedAnswer": { "@type": "Answer", "text": "Enrollment restrictions decide whether a device can be managed by Intune at all. Conditional Access decides whether a known device can access resources now, based on compliance and risk. Together they form the enrollment funnel." } }
       ]
