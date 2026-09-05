@@ -73,7 +73,7 @@
 
                     <div class="post-tldr">
                         <h2>In short</h2>
-                        <p>Tenant enumeration lets an unauthenticated attacker confirm whether an email address is a real account in a Microsoft 365 tenant. Endpoints like <code>GetCredentialType</code> return a plain "exists / does not exist" flag, so the attacker validates targets first and only then sprays passwords &mdash; which is far harder to detect than brute-forcing blind. Microsoft can't fully close it because federation and B2B need to know if a user exists. You can't remove the leak, but you can make it useless: block legacy auth, enforce MFA, turn on Smart Lockout and password protection, and watch the sign-in logs.</p>
+                        <p>Tenant enumeration lets an unauthenticated attacker confirm whether an email address is a real account in a Microsoft 365 tenant. Endpoints like <code>GetCredentialType</code> return a plain "exists / does not exist" flag, so the attacker validates targets first and only then sprays passwords &mdash; which is far harder to detect than brute-forcing blind. Microsoft can't fully close it because federation and B2B need to know if a user exists. You can't remove the leak, but you can make it useless: block legacy auth, enforce MFA, tune Smart Lockout, add your own banned passwords, and watch the sign-in logs.</p>
                     </div>
 
                     <nav class="post-toc" aria-label="Table of contents">
@@ -103,7 +103,7 @@
                     </ul>
 
                     <h2 id="how-it-works">How enumeration works &mdash; the technical vectors</h2>
-                    <p>This is not one bug. It is a family of endpoints that each answer the same question in a slightly different dialect.</p>
+                    <p>This is not one bug. It is a family of endpoints that each answer the same question in a slightly different dialect. None of the behaviour below is documented by Microsoft &mdash; it is what I see when I test tenants, and Microsoft can change any of it without notice.</p>
 
                     <figure class="post-content-image">
                         <img src="../assets/images/m365-tenant-enumeration/enumeration-vectors.svg" alt="Six enumeration vectors radiating from a central M365 tenant: GetCredentialType, login timing and error codes, Autodiscover and OWA and EWS, B2B invitations, Teams external access, and OpenID Connect discovery" loading="lazy">
@@ -133,8 +133,8 @@ Content-Type: application/json
                         <li><code>/ews/</code>, <code>/owa/</code> and <code>/Microsoft-Server-ActiveSync</code> each give distinguishable responses for valid versus invalid accounts.</li>
                     </ul>
 
-                    <h3>4. Azure AD B2B invitation timing</h3>
-                    <p>The B2B invitation API (<code>/invitations</code>) behaves differently when the target already exists versus when it doesn't, which leaks existence at the tenant level as a side effect of how guest onboarding resolves an address.</p>
+                    <h3>4. Entra B2B guest invitations</h3>
+                    <p>The Graph invitation API (<code>/invitations</code>) resolves whether an address already exists in the directory, which leaks existence as a side effect of how guest onboarding works. Unlike the login endpoints this one is not unauthenticated: it requires <code>User.Invite.All</code>, <code>User.ReadWrite.All</code> or <code>Directory.ReadWrite.All</code>, so it only matters to an attacker who already holds a token in some tenant, or to a malicious insider.</p>
 
                     <h3>5. Teams external access</h3>
                     <p>Trying to start a chat with an external user can reveal whether that user exists. Teams has patched and re-broken this behaviour more than once, so treat it as a moving target rather than a closed door.</p>
@@ -157,7 +157,7 @@ Content-Type: application/json
                         </tbody>
                     </table>
 
-                    <p>Microsoft has made incremental improvements &mdash; <strong>Smart Lockout</strong> rate-limits per account and per IP to make spraying harder, <strong>Conditional Access</strong> can block legacy auth (which closes the legacy enumeration vectors along with it), and some error messages have been obfuscated in certain flows. But the root cause stays open, because federation and B2B genuinely need to know whether a user exists.</p>
+                    <p>Microsoft has made incremental improvements &mdash; <strong>Smart Lockout</strong> keeps separate lockout counters for familiar and unfamiliar sign-in locations, so an attacker gets locked out while the genuine user keeps working, and Entra blocks sign-ins from IP addresses with known malicious activity by default, <strong>Conditional Access</strong> can block legacy auth (which closes the legacy enumeration vectors along with it), and some error messages have been obfuscated in certain flows. But the root cause stays open, because federation and B2B genuinely need to know whether a user exists.</p>
 
                     <h2 id="what-you-can-do">What you can do as a defender</h2>
                     <p>You cannot delete the leak. What you can do is make the information it leaks worthless &mdash; a confirmed username is only dangerous if it leads somewhere. Layer the controls so it doesn't.</p>
@@ -169,17 +169,17 @@ Content-Type: application/json
 
                     <h3>Immediate, high impact</h3>
                     <ul>
-                        <li><strong>Block legacy authentication</strong> via <a href="2025-10-24-getting-started-with-zero-trust.html">Conditional Access</a>. This kills the Autodiscover, EWS and ActiveSync enumeration vectors at the same time as it closes basic-auth password spray.</li>
-                        <li><strong>Enable Smart Lockout</strong> with aggressive thresholds so validated accounts can't be sprayed at volume.</li>
-                        <li><strong>Turn on password protection</strong> &mdash; ban common and custom weak passwords so a spray of the usual suspects finds nothing.</li>
+                        <li><strong>Block legacy authentication</strong> via <a href="2025-10-24-getting-started-with-zero-trust.html">Conditional Access</a>. That closes basic-auth password spray on Autodiscover, EWS and ActiveSync. Be clear about what it does not do: a Conditional Access policy is evaluated at authentication, so it does not silence the unauthenticated responses those endpoints give. It removes the follow-on attack, not the reconnaissance.</li>
+                        <li><strong>Tune Smart Lockout.</strong> It is always on in every tenant, with a default of 10 failed attempts and a 60-second first lockout. Customising the threshold and the duration requires Microsoft Entra ID P1 or higher.</li>
+                        <li><strong>Add your own banned passwords.</strong> The global banned password list is already applied to every tenant and cannot be switched off; what you add is your own terms &mdash; company name, product names, the local football club &mdash; which requires Microsoft Entra ID P1 or P2, as does extending the protection to users synchronised from on-premises AD DS.</li>
                         <li><strong>Enforce MFA for all users.</strong> This is the one that matters most here: enumeration plus a correct password still fails without the second factor, so a valid UPN on its own is worthless.</li>
                     </ul>
 
                     <h3>Medium term</h3>
                     <ul>
-                        <li><strong>Monitor sign-in logs for enumeration patterns</strong> &mdash; high volumes of error <code>50126</code> (invalid username or password) or <code>50053</code> (account locked out) from a single IP are the fingerprint of a spray in progress.</li>
-                        <li><strong>Use Microsoft Entra ID Protection</strong> to detect leaked credentials, risky sign-ins and impossible travel, and feed that risk into Conditional Access.</li>
-                        <li><strong>Disable basic auth tenant-wide</strong> if you somehow still have it on. It is the single biggest open door for both enumeration and spraying.</li>
+                        <li><strong>Monitor sign-in logs for enumeration patterns</strong> &mdash; high volumes of error <code>50126</code> (invalid username or password) or <code>50053</code> from a single IP are the fingerprint of a spray in progress. <code>50053</code> has two causes &mdash; the account is locked after too many wrong-password attempts, or the sign-in was blocked because it came from an IP address with known malicious activity &mdash; so check the Failure reason column to tell them apart. During a spray you will often see the second.</li>
+                        <li><strong>Use Microsoft Entra ID Protection</strong> to detect leaked credentials, risky sign-ins, impossible travel and its own password spray detection, and feed that risk into Conditional Access. These detections are Premium &mdash; they need Microsoft Entra ID P2.</li>
+                        <li><strong>Check what is left of basic authentication.</strong> Microsoft has been permanently disabling it in Exchange Online for Outlook, EWS, POP, IMAP, ActiveSync and Remote PowerShell since October 2022, so in most tenants only SMTP AUTH &mdash; on its own retirement timeline &mdash; and non-Exchange legacy clients remain. Verify with the modern authentication settings in the Microsoft 365 admin center and <code>Get-AuthenticationPolicy</code> in Exchange Online PowerShell.</li>
                     </ul>
 
                     <h2 id="key-takeaways">Key takeaways</h2>
@@ -187,7 +187,7 @@ Content-Type: application/json
                         <li>Tenant enumeration confirms which accounts <strong>exist</strong> before any password is tried &mdash; it is reconnaissance, not an attack in itself.</li>
                         <li><code>GetCredentialType</code> and its <code>IfExistsResult</code> flag are the classic vector, but timing, legacy mail protocols, B2B, Teams and OIDC discovery all leak the same fact.</li>
                         <li>Microsoft can't fully close it &mdash; federation and B2B <em>need</em> to resolve whether a user exists.</li>
-                        <li>The defence is not to hide the username, but to make it useless: <strong>MFA, block legacy auth, Smart Lockout, password protection, and monitoring.</strong></li>
+                        <li>The defence is not to hide the username, but to make it useless: <strong>MFA, block legacy auth, tuned Smart Lockout, your own banned password list, and monitoring.</strong></li>
                     </ul>
 
                     <p>If you want to know how exposed your own tenant is &mdash; whether legacy auth is still open, whether your sign-in logs are already full of <code>50126</code> spikes, whether MFA actually covers everyone &mdash; that is exactly the kind of review I do. <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Get in touch.</a></p>
@@ -199,7 +199,7 @@ Content-Type: application/json
                         <dt>GetCredentialType</dt><dd>An unauthenticated Microsoft login endpoint that returns an <code>IfExistsResult</code> flag indicating whether an account exists; built for login-page UX, abused for enumeration.</dd>
                         <dt>Password spraying</dt><dd>Trying one or two common passwords across many accounts, rather than many passwords against one &mdash; low and slow, to stay under lockout thresholds.</dd>
                         <dt>Managed vs Federated domain</dt><dd>A managed domain authenticates directly against Entra ID; a federated domain redirects to an external IdP such as ADFS. OIDC discovery reveals which, guiding the attacker's next move.</dd>
-                        <dt>Smart Lockout</dt><dd>Entra ID's adaptive lockout that rate-limits sign-in attempts per account and per IP to blunt password spraying.</dd>
+                        <dt>Smart Lockout</dt><dd>Entra ID's adaptive lockout. It keeps separate lockout counters for familiar and unfamiliar sign-in locations, so an attacker gets locked out while the genuine user keeps working. Blocking by IP reputation is a separate, always-on Entra protection that also returns AADSTS50053.</dd>
                         <dt>Entra ID Protection</dt><dd>Microsoft's risk engine that flags leaked credentials, risky sign-ins and impossible travel, and can feed risk into Conditional Access.</dd>
                     </dl>
                     </section>
@@ -207,13 +207,13 @@ Content-Type: application/json
                     <section class="faq">
                     <h2 id="faq">Frequently Asked Questions</h2>
                     <h3>Can I stop Microsoft 365 tenant enumeration completely?</h3>
-                    <p>No. The leak is architectural &mdash; federation and B2B guest invitations both need to resolve whether a user exists, so endpoints like <code>GetCredentialType</code> and the login flow will keep answering that question. The realistic goal is to make a confirmed username worthless by layering MFA, blocking legacy authentication, enabling Smart Lockout and password protection, and monitoring the sign-in logs.</p>
+                    <p>No. The leak is architectural &mdash; federation and B2B guest invitations both need to resolve whether a user exists, so endpoints like <code>GetCredentialType</code> and the login flow will keep answering that question. The realistic goal is to make a confirmed username worthless by layering MFA, blocking legacy authentication, tuning Smart Lockout, adding your own banned passwords, and monitoring the sign-in logs.</p>
                     <h3>Is tenant enumeration illegal or an actual attack?</h3>
                     <p>On its own it is reconnaissance, not intrusion &mdash; no credentials are used and nothing is accessed. It is the step that comes <em>before</em> password spraying or phishing. That's exactly why it matters: stopping the follow-on attack is where your controls earn their keep.</p>
                     <h3>Does enforcing MFA make enumeration harmless?</h3>
                     <p>MFA is the single most important control here, because a valid username plus a correct password still fails without the second factor. It does not stop the enumeration itself, so pair it with blocking legacy authentication (which bypasses MFA) and Smart Lockout to cover the whole path.</p>
                     <h3>Which sign-in log signals point to an enumeration or spray attempt?</h3>
-                    <p>Watch for high volumes of error code <code>50126</code> (invalid username or password) and <code>50053</code> (account locked out) originating from a single IP or a small range, especially spread thinly across many accounts. Entra ID Protection's risky-sign-in and impossible-travel detections add another layer.</p>
+                    <p>Watch for high volumes of error code <code>50126</code> (invalid username or password) and <code>50053</code> originating from a single IP or a small range, especially spread thinly across many accounts. <code>50053</code> means either the account is locked out or the sign-in came from an IP address with known malicious activity, so read the Failure reason column before you draw a conclusion. Entra ID Protection's risky-sign-in and impossible-travel detections add another layer.</p>
                     </section>
 
                     <hr>
@@ -267,7 +267,7 @@ Content-Type: application/json
       "author": { "@type": "Person", "name": "Philipp Schmidt", "url": "https://easym365.de" },
       "publisher": { "@type": "Organization", "name": "EndlessTech Blog" },
       "datePublished": "2026-08-20",
-      "dateModified": "2026-08-20",
+      "dateModified": "2026-09-05",
       "inLanguage": "en",
       "mainEntityOfPage": "https://endlesstech.blog/posts/2026-08-20-m365-tenant-enumeration-explained.html"
     }
@@ -277,10 +277,10 @@ Content-Type: application/json
       "@context": "https://schema.org",
       "@type": "FAQPage",
       "mainEntity": [
-        { "@type": "Question", "name": "Can I stop Microsoft 365 tenant enumeration completely?", "acceptedAnswer": { "@type": "Answer", "text": "No. The leak is architectural — federation and B2B guest invitations both need to resolve whether a user exists, so endpoints like GetCredentialType and the login flow keep answering that question. The realistic goal is to make a confirmed username worthless: enforce MFA, block legacy authentication, enable Smart Lockout and password protection, and monitor the sign-in logs." } },
+        { "@type": "Question", "name": "Can I stop Microsoft 365 tenant enumeration completely?", "acceptedAnswer": { "@type": "Answer", "text": "No. The leak is architectural — federation and B2B guest invitations both need to resolve whether a user exists, so endpoints like GetCredentialType and the login flow keep answering that question. The realistic goal is to make a confirmed username worthless: enforce MFA, block legacy authentication, tune Smart Lockout, add your own banned passwords, and monitor the sign-in logs." } },
         { "@type": "Question", "name": "Is tenant enumeration illegal or an actual attack?", "acceptedAnswer": { "@type": "Answer", "text": "On its own it is reconnaissance, not intrusion — no credentials are used and nothing is accessed. It is the step before password spraying or phishing, which is why stopping the follow-on attack is where your controls matter." } },
         { "@type": "Question", "name": "Does enforcing MFA make enumeration harmless?", "acceptedAnswer": { "@type": "Answer", "text": "MFA is the most important control here because a valid username plus a correct password still fails without the second factor. It does not stop the enumeration itself, so pair it with blocking legacy authentication (which bypasses MFA) and Smart Lockout." } },
-        { "@type": "Question", "name": "Which sign-in log signals point to an enumeration or spray attempt?", "acceptedAnswer": { "@type": "Answer", "text": "High volumes of error code 50126 (invalid username or password) and 50053 (account locked out) from a single IP or small range, spread thinly across many accounts. Entra ID Protection risky-sign-in and impossible-travel detections add another layer." } }
+        { "@type": "Question", "name": "Which sign-in log signals point to an enumeration or spray attempt?", "acceptedAnswer": { "@type": "Answer", "text": "High volumes of error code 50126 (invalid username or password) and 50053 from a single IP or small range, spread thinly across many accounts. 50053 means either the account is locked out or the sign-in came from an IP address with known malicious activity, so read the Failure reason column before you draw a conclusion. Entra ID Protection risky-sign-in and impossible-travel detections add another layer." } }
       ]
     }
     </script>
