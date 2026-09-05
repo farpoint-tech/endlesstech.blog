@@ -110,10 +110,11 @@
                     <ul>
                     <li><strong>Entra ID</strong>: The primary perimeter &mdash; MFA, Conditional Access, authentication strength, identity governance, directory synchronization</li>
                     <li><strong>Microsoft Intune</strong>: Device compliance policies, <a href="https://docs.microsoft.com/en-us/mem/intune/protect/security-baselines">security baselines</a>, app protection</li>
-                    <li><strong>Exchange Online Protection</strong>: Anti-spam, anti-malware, safe attachments</li>
+                    <li><strong>Exchange Online Protection</strong>: Anti-spam, anti-malware and baseline anti-phishing</li>
+                    <li><strong>Defender for Office 365</strong>: Adds Safe Attachments and Safe Links on top of EOP</li>
                     <li><strong>Global Secure Access</strong>: Private and internet access for hybrid scenarios</li>
                     </ul>
-                    <p><strong>Practical Implementation:</strong> Your IT security foundation starts with <strong>identity</strong>: enforce multi-factor authentication for every user through <a href="https://docs.microsoft.com/en-us/entra/identity/conditional-access/">Conditional Access</a>, block legacy authentication protocols, and require phishing-resistant methods (Windows Hello for Business or FIDO2 keys) for privileged accounts. Only once identity is locked down do you layer on <a href="https://docs.microsoft.com/en-us/mem/intune/protect/device-compliance-get-started">Intune device compliance policies</a> that enforce Windows security baselines, require BitLocker encryption, and validate device health attestation &mdash; then feed that compliance signal back into Conditional Access, so an unhealthy device is blocked before it ever reaches your data. For hybrid environments, Global Secure Access with Kerberos trust enables Entra-joined devices to securely access on-premises applications without traditional VPN complexity.</p>
+                    <p><strong>Practical Implementation:</strong> Your IT security foundation starts with <strong>identity</strong>: enforce multi-factor authentication for every user through <a href="https://docs.microsoft.com/en-us/entra/identity/conditional-access/">Conditional Access</a>, block legacy authentication protocols, and require phishing-resistant methods (Windows Hello for Business or FIDO2 keys) for privileged accounts. Only once identity is locked down do you layer on <a href="https://docs.microsoft.com/en-us/mem/intune/protect/device-compliance-get-started">Intune device compliance policies</a> that enforce Windows security baselines, require BitLocker encryption, and validate device health attestation &mdash; then feed that compliance signal back into Conditional Access, so an unhealthy device is blocked before it ever reaches your data. For hybrid environments, <strong>Microsoft Entra Private Access</strong> publishes on-premises applications without a traditional VPN, while <strong>Windows Hello for Business cloud Kerberos trust</strong> gives Entra-joined devices single sign-on to on-premises Kerberos resources &mdash; two separate things that often get run together.</p>
                     <h3 id="information-security-microsoft-purview-and-data-governance">Information Security: Microsoft Purview and Data Governance</h3>
                     <p>Information security in M365 revolves around <strong>data discovery, classification, protection, and governance</strong> across your entire Microsoft 365 tenant and connected systems.</p>
                     <figure class="post-content-image">
@@ -122,10 +123,10 @@
                     </figure>
                     <p><strong>Core M365 Services:</strong></p>
                     <ul>
-                    <li><strong>Microsoft Purview Data Map</strong>: Automated data discovery and classification</li>
+                    <li><strong>Purview data classification</strong>: Content explorer and activity explorer, sensitive information types, and trainable classifiers</li>
                     <li><strong>Purview Information Protection</strong>: Sensitivity labels, DLP policies, encryption</li>
                     <li><strong>Purview Insider Risk Management</strong>: Behavioral analytics and risk detection</li>
-                    <li><strong>Purview eDiscovery</strong>: Legal hold, content search, and compliance workflows</li>
+                    <li><strong>Purview eDiscovery</strong>: Legal hold and compliance workflows &mdash; content search is no longer a separate solution, it is part of the eDiscovery search experience</li>
                     <li><strong>Entra ID Governance</strong>: Access reviews, entitlement management, lifecycle workflows</li>
                     </ul>
                     <p><strong>Practical Implementation:</strong> Start with <a href="https://docs.microsoft.com/en-us/microsoft-365/compliance/apply-sensitivity-label-automatically">Purview’s auto-labeling policies</a> to classify sensitive data across SharePoint, OneDrive, and Exchange. Implement <a href="https://docs.microsoft.com/en-us/microsoft-365/compliance/dlp-learn-about-dlp">DLP policies</a> that prevent sharing of credit card numbers or social security numbers outside your organization. Use <a href="https://docs.microsoft.com/en-us/microsoft-365/compliance/insider-risk-management">Insider Risk Management</a> to detect unusual file access patterns or potential data exfiltration. Establish regular <a href="https://docs.microsoft.com/en-us/azure/active-directory/governance/access-reviews-overview">access reviews in Entra ID Governance</a> to ensure users maintain appropriate permissions to sensitive SharePoint sites and Teams.</p>
@@ -158,7 +159,7 @@
                     <tr class="odd">
                     <td><strong>Primary Services</strong></td>
                     <td>Intune, Entra ID, Global Secure Access</td>
-                    <td>Purview (Data Map, DLP, Insider Risk), Entra ID Governance</td>
+                    <td>Purview (data classification, DLP, Insider Risk), Entra ID Governance</td>
                     <td>Defender XDR, Sentinel, Entra ID Protection</td>
                     </tr>
                     <tr class="even">
@@ -186,10 +187,10 @@
                     <h3 id="govern-identify">Govern &amp; Identify</h3>
                     <p><strong>Microsoft Purview Suite:</strong></p>
                     <ul>
-                    <li><strong>Data Map</strong>: Automated discovery of sensitive data across M365 and connected sources</li>
+                    <li><strong>Data classification</strong>: Content explorer, sensitive information types, named entities and trainable classifiers for finding sensitive data across M365</li>
                     <li><strong>Information Protection</strong>: Sensitivity labeling and classification policies</li>
                     <li><strong>Insider Risk Management</strong>: Behavioral analytics for insider threat detection</li>
-                    <li><strong>eDiscovery</strong>: Content search and legal hold capabilities</li>
+                    <li><strong>eDiscovery</strong>: Search and legal hold capabilities (content search is now part of eDiscovery)</li>
                     </ul>
                     <p><strong>Entra ID Governance:</strong></p>
                     <ul>
@@ -216,9 +217,9 @@
                     <p><strong>Microsoft Defender XDR:</strong></p>
                     <ul>
                     <li><strong>Defender for Endpoint</strong>: Advanced threat protection and endpoint detection/response</li>
-                    <li><strong>Defender for Identity</strong>: On-premises Active Directory threat detection</li>
+                    <li><strong>Defender for Identity</strong>: Identity threat detection and response across Active Directory and hybrid identity infrastructure</li>
                     <li><strong>Defender for Office 365</strong>: Email and collaboration threat protection</li>
-                    <li><strong>Defender for Cloud Apps</strong>: Cloud application security posture management</li>
+                    <li><strong>Defender for Cloud Apps</strong>: CASB &mdash; shadow IT discovery, OAuth app governance, and real-time session control</li>
                     </ul>
                     <p><strong>Microsoft Sentinel:</strong></p>
                     <ul>
@@ -229,50 +230,77 @@
                     <h3 id="recover">Recover</h3>
                     <p><strong>Business Continuity:</strong></p>
                     <ul>
-                    <li><strong>M365 Backup Policies</strong>: Automated backup for Exchange Online, SharePoint, and OneDrive</li>
+                    <li><strong>Microsoft 365 Backup</strong>: Automated backup for Exchange Online, SharePoint and OneDrive &mdash; a pay-as-you-go service at $0.15/GB/month that needs PAYG billing set up; it is not included in any M365 licence</li>
                     <li><strong>Exchange Online Protection</strong>: Anti-malware scanning and quarantine capabilities</li>
                     <li><strong>Immutable Retention</strong>: Litigation hold and compliance-driven data preservation</li>
                     <li><strong>Incident Response</strong>: Tested runbooks and tabletop exercises using M365 security tools</li>
                     </ul>
                     <h2 id="zero-trust-in-practice-conditional-access-deep-dive">Zero Trust in Practice: Conditional Access Deep Dive</h2>
+                    <p>Two rules before you build any of these. <strong>Every one of these policies must exclude your emergency access / break-glass accounts</strong> &mdash; Microsoft repeats that instruction in every single policy walkthrough, and it is the difference between tightening your tenant and locking yourself out of it. And create every policy in <strong>Report-only</strong> mode first, review the policy impact, and only then switch it to On. Note also that policies 3a and 3b require Microsoft Entra ID P2 (Identity Protection); policies 1, 2, 4 and 5a work with P1.</p>
                     <h3 id="policy-1-admin-mfa-enforcement">Policy 1: Admin MFA Enforcement</h3>
                     <pre><code>Users: All administrative roles (Global Admin, Security Admin, etc.)
+                    Exclude: Emergency access / break-glass accounts
                     Conditions: All cloud apps, any location
                     Controls: Require authentication strength (Phishing-resistant MFA)
                     Impact: High security, minimal user friction for admins already using modern auth</code></pre>
                     <h3 id="policy-2-legacy-authentication-block">Policy 2: Legacy Authentication Block</h3>
                     <pre><code>Users: All users
-                    Conditions: Exchange ActiveSync, IMAP, POP, SMTP AUTH
+                    Exclude: Emergency access / break-glass accounts
+                    Conditions: Client apps &gt; Exchange ActiveSync clients + Other clients
+                               (Other clients covers IMAP, POP and SMTP AUTH)
                     Controls: Block access
-                    Impact: Eliminates 99% of password spray attacks, requires modern mail clients</code></pre>
-                    <h3 id="policy-3-risk-based-step-up">Policy 3: Risk-Based Step-Up</h3>
+                    Impact: Closes the protocol family attackers reach for first, requires modern mail clients</code></pre>
+                    <p>Legacy authentication doesn't support MFA, which is precisely why it is the standard way to bypass it. Microsoft attributes stopping more than 99.9% of common identity attacks to the combination of MFA plus blocking legacy auth &mdash; both measures together, not legacy blocking on its own.</p>
+                    <h3 id="policy-3-risk-based-step-up">Policy 3a: Risky Sign-In Step-Up</h3>
                     <pre><code>Users: All users
-                    Conditions: Sign-in risk medium or high
-                    Controls: Require MFA and password change
+                    Exclude: Emergency access / break-glass accounts
+                    Conditions: Sign-in risk Medium or High
+                    Controls: Require authentication strength (Multifactor authentication)
+                              Session &gt; Sign-in frequency: Every time
+                    Licence: Microsoft Entra ID P2
                     Impact: Adaptive protection based on Microsoft's threat intelligence</code></pre>
+                    <h3 id="policy-3b-risky-user-remediation">Policy 3b: Risky User Remediation</h3>
+                    <pre><code>Users: All users
+                    Exclude: Emergency access / break-glass accounts
+                    Conditions: User risk High
+                    Controls: Require risk remediation
+                    Licence: Microsoft Entra ID P2
+                    Impact: Forces a secure password change and revokes sessions for passwordless users</code></pre>
+                    <p>Keep those two apart. The secure password change belongs to the <em>user</em> risk policy, not the sign-in risk policy &mdash; mixing them is the most common way this baseline gets built wrong.</p>
                     <h3 id="policy-4-device-compliance-gate">Policy 4: Device Compliance Gate</h3>
                     <pre><code>Users: All users
+                    Exclude: Emergency access / break-glass accounts
                     Conditions: Exchange Online, SharePoint Online
                     Controls: Require device to be marked as compliant
                     Impact: Ensures corporate data access only from managed, secure devices</code></pre>
-                    <h3 id="policy-5-session-controls-for-unmanaged-devices">Policy 5: Session Controls for Unmanaged Devices</h3>
+                    <h3 id="policy-5-session-controls-for-unmanaged-devices">Policy 5a: App-Enforced Restrictions for Unmanaged Devices</h3>
                     <pre><code>Users: All users
-                    Conditions: Unmanaged devices
-                    Controls: Use app enforced restrictions, block downloads
-                    Impact: Enables BYOD scenarios while protecting corporate data</code></pre>
+                    Exclude: Emergency access / break-glass accounts
+                    Conditions: Unmanaged devices (not compliant, not hybrid joined)
+                    Target: SharePoint Online and Exchange Online
+                    Controls: Session &gt; Use app enforced restrictions
+                    Impact: Browser-only, read-only access; enables BYOD without unmanaged local copies</code></pre>
+                    <p>App-enforced restrictions is a native Conditional Access session control, and it only works for the Office 365 services that enforce the restriction themselves &mdash; SharePoint/OneDrive and Exchange. Blocking downloads is a different product:</p>
+                    <h3 id="policy-5b-block-download-defender-for-cloud-apps">Policy 5b (optional): Block Download via Defender for Cloud Apps</h3>
+                    <pre><code>Route the session through Conditional Access App Control, then create a
+                    Defender for Cloud Apps session policy:
+                    Session control type: Control file download (with inspection)
+                    Action: Block
+                    Requires: Microsoft Defender for Cloud Apps, configured in the Defender portal
+                    Impact: Blocks downloads to unmanaged devices with content inspection</code></pre>
                     <h2 id="industry-specific-m365-implementations">Industry-Specific M365 Implementations</h2>
                     <h3 id="financial-services">Financial Services</h3>
                     <p><strong>Regulatory Focus</strong>: SOX, PCI DSS, FFIEC guidelines</p>
                     <ul>
                     <li><strong>Purview Communication Compliance</strong>: Monitor trader communications for regulatory violations</li>
                     <li><strong>Customer Lockbox</strong>: Ensure Microsoft support access requires explicit approval</li>
-                    <li><strong>Advanced eDiscovery</strong>: Meet legal discovery requirements with AI-powered content analysis</li>
+                    <li><strong>eDiscovery (Premium)</strong>: Custodians, legal hold notifications, review sets and predictive coding in the eDiscovery experience of the Microsoft Purview portal &mdash; the classic eDiscovery interfaces were retired on 31 August 2025</li>
                     <li><strong>Defender for Cloud Apps</strong>: Monitor third-party financial applications for anomalous access</li>
                     </ul>
                     <h3 id="healthcare">Healthcare</h3>
                     <p><strong>Regulatory Focus</strong>: HIPAA, HITECH, state privacy laws</p>
                     <ul>
-                    <li><strong>Purview Information Protection</strong>: Auto-classify PHI with medical entity recognition</li>
+                    <li><strong>Purview Information Protection</strong>: Auto-classify PHI using health-related sensitive information types, named entities and trainable classifiers</li>
                     <li><strong>Defender for Office 365</strong>: Protect against healthcare-targeted phishing campaigns</li>
                     <li><strong>Entra ID Governance</strong>: Implement break-glass access for emergency medical scenarios</li>
                     <li><strong>Microsoft Sentinel</strong>: Correlate security events with patient access patterns</li>
@@ -306,18 +334,19 @@
                     </ul>
                     <h2 id="the-business-case-m365-security-roi">The Business Case: M365 Security ROI</h2>
                     <h3 id="the-human-factor-reality">The Human Factor Reality</h3>
-                    <p>The human element remains the dominant factor: ~68% of breaches involve people (e.g., phishing, stolen creds, errors), per <a href="https://www.verizon.com/business/resources/reports/dbir/">Verizon’s 2024 Data Breach Investigations Report</a>. Build training and controls around the exact behaviors driving incidents in your environment. In M365, this means implementing Conditional Access policies that adapt to user risk, Purview Insider Risk Management to detect anomalous behavior, and comprehensive security awareness training integrated with Attack Simulation Training in Defender for Office 365.</p>
+                    <p>The human element remains the dominant factor: ~68% of breaches involve people (e.g., phishing, stolen creds, errors), per <a href="https://www.verizon.com/business/resources/reports/dbir/">Verizon’s 2024 Data Breach Investigations Report</a>. Build training and controls around the exact behaviors driving incidents in your environment. In M365, this means implementing Conditional Access policies that adapt to user risk, Purview Insider Risk Management to detect anomalous behavior, and comprehensive security awareness training integrated with Attack Simulation Training, which belongs to Defender for Office 365 Plan 2 rather than Plan 1.</p>
                     <h3 id="cost-avoidance">Cost Avoidance</h3>
                     <p>According to <a href="https://www.ibm.com/reports/data-breach">IBM’s 2025 Cost of a Data Breach Report</a>, the global average breach cost is $4.44M, a 9% decrease from 2024, largely due to faster detection and containment.</p>
                     <ul>
                     <li><strong>Breach Prevention</strong>: Average $4.44M cost avoidance per prevented breach</li>
                     <li><strong>Compliance Automation</strong>: 60-80% reduction in manual compliance tasks through Purview</li>
-                    <li><strong>VPN Replacement</strong>: $50-100 per user per month savings with Global Secure Access</li>
+                    <li><strong>VPN Replacement</strong>: $50-100 per user per month savings with Microsoft Entra Private Access</li>
                     </ul>
+                    <p>The last two figures are my own numbers from tenants I have reviewed, not vendor benchmarks &mdash; treat them as a starting point for your own calculation, not as a promise.</p>
                     <h3 id="operational-efficiency">Operational Efficiency</h3>
                     <ul>
                     <li><strong>Unified Management</strong>: Single pane of glass for security across M365 services</li>
-                    <li><strong>Automated Response</strong>: 70% reduction in security incident response time with Defender XDR</li>
+                    <li><strong>Automated Response</strong>: In my experience, roughly a 70% reduction in security incident response time with Defender XDR</li>
                     <li><strong>Self-Service Access</strong>: Reduced helpdesk tickets through Entra ID self-service capabilities</li>
                     </ul>
                     <h2 id="conclusion-your-m365-security-journey">Conclusion: Your M365 Security Journey</h2>
@@ -349,7 +378,7 @@
                     <h3 id="which-conditional-access-policies-should-i-deploy-first">Which Conditional Access policies should I deploy first?</h3>
                     <p>Start with admin MFA enforcement, blocking legacy authentication, risk-based step-up authentication, a device compliance gate for Exchange and SharePoint, and session controls for unmanaged devices.</p>
                     <h3 id="how-much-does-a-data-breach-actually-cost">How much does a data breach actually cost?</h3>
-                    <p>According to IBM’s 2025 Cost of a Data Breach Report, the global average is $4.44M, with human error involved in roughly 68% of incidents.</p>
+                    <p>According to IBM’s 2025 Cost of a Data Breach Report, the global average breach cost is $4.44M. The figure that roughly 68% of breaches involve a human element comes from Verizon’s 2024 Data Breach Investigations Report, not from the IBM report.</p>
                     <h2 id="sources-and-references">Sources and References</h2>
                     <p>[1] IBM. (2025). <a href="https://www.ibm.com/reports/data-breach"><em>Cost of a Data Breach Report 2025</em></a>. IBM Security.</p>
                     <p>[2] Verizon. (2024). <a href="https://www.verizon.com/business/resources/reports/dbir/"><em>2024 Data Breach Investigations Report</em></a>. Verizon Business.</p>
@@ -397,7 +426,7 @@
       "@type": "Article",
       "headline": "Microsoft 365 Security Best Practices",
       "datePublished": "2026-07-17",
-      "dateModified": "2026-07-17",
+      "dateModified": "2026-09-05",
       "author": {
         "@type": "Person",
         "name": "Philipp Schmidt",
@@ -445,7 +474,7 @@
           "name": "How much does a data breach actually cost?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "According to IBM's 2025 Cost of a Data Breach Report, the global average is $4.44M, with human error involved in roughly 68% of incidents."
+            "text": "According to IBM's 2025 Cost of a Data Breach Report, the global average breach cost is $4.44M. The figure that roughly 68% of breaches involve a human element comes from Verizon's 2024 Data Breach Investigations Report, not from the IBM report."
           }
         }
       ]
