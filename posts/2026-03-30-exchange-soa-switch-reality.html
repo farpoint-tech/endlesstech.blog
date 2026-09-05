@@ -75,21 +75,36 @@
 
             <section class="post-full-content">
                 <div class="post-content">
-                    <p>You have moved your emails to the cloud ages ago. Your users are happy, your storage costs are down, and yet... somewhere in the dark corner of your server room, an old Exchange server is still humming. Not because it routes a single email, but simply because it is the only "supported" way to manage a few email addresses in a hybrid setup. It is the ultimate zombie server.</p>
-                    
-                    <p>Recently, Microsoft introduced a feature that sounds like the silver bullet we have all been waiting for: the ability to switch the Source of Authority (SOA) for Exchange attributes directly to the cloud. The promise? Flip the switch, manage everything in Exchange Online, and finally pull the plug on that legacy server. But before you grab the champagne and a sledgehammer, let's take a closer look behind the Zero Trust Bullshit Wall.</p>
-                    
+                    <p>You have moved your emails to the cloud ages ago. Your users are happy, your storage costs are down, and yet... somewhere in the dark corner of your server room, an old Exchange server is still humming. Not because it routes a single email, but simply because it was for years the only supported way to manage a few email addresses in a hybrid setup. Microsoft calls this the last Exchange Server problem. It is the ultimate zombie server.</p>
+
+                    <p>One correction to the folklore before we start: since Exchange Server 2019 CU12 (April 2022), the Exchange Management Tools role has been a documented middle ground. Install the management-tools-only role on a domain-joined machine and you can <em>shut down</em> the last Exchange Server — but not uninstall it. The Exchange Active Directory configuration containers and security groups have to stay, and the source of authority for Exchange attributes still lives on-premises.</p>
+
+                    <p>Recently, Microsoft introduced a feature that sounds like the silver bullet we have all been waiting for: the ability to switch the Source of Authority (SOA) for Exchange attributes directly to the cloud. The switch itself is one cmdlet — <code>Set-Mailbox -Identity &lt;User&gt; -IsExchangeCloudManaged $true</code> — run as Exchange Administrator, Hybrid Identity Administrator, or Global Administrator, and it needs Entra Connect Sync 2.5.190.0 or higher. Older sync builds keep trying to push Exchange attributes for already-transferred mailboxes and fail. The promise? Flip the switch, manage everything in Exchange Online, and finally pull the plug on that legacy server. But before you grab the champagne and a sledgehammer, let's take a closer look behind the Zero Trust Bullshit Wall.</p>
+
                     <h2>The Reality of the Cloud Switch</h2>
-                    <p>In theory, moving the management authority to the cloud eliminates the need for on-premises infrastructure. In practice, it introduces a new set of edge cases that can turn a routine IT task into a support nightmare.</p>
+                    <p>Transferring Exchange-attribute SOA removes the need for the on-premises <em>Exchange Server</em> — not for on-premises infrastructure as such. Active Directory and directory synchronization stay, the user remains directory-synchronized, and shedding the AD dependency is a separate, later step: object-level SOA transfer for users, groups, and contacts. What the switch does introduce is a new set of edge cases that can turn a routine IT task into a support nightmare.</p>
+
+                    <p>It also covers less than the name suggests. Exchange-attribute SOA transfer applies <strong>only to user objects with mailboxes in Exchange Online</strong>. Mail-enabled groups and mail contacts are not included — those need the separate Group SOA transfer and Contact SOA transfer in Microsoft Entra. Skip them and the last Exchange Server stays necessary for exactly the objects you forgot.</p>
 
                     <h3>1. The Split Management Illusion</h3>
                     <p>You might think flipping the switch moves everything to the cloud. It doesn't. Crucial identity attributes, like the user's alias, remain anchored to your on-premises Active Directory. This means your IT team is now managing email addresses in the cloud, but still has to dig into local AD properties to change an alias. It is less of a "cloud migration" and more of a "cloud fragmentation."</p>
 
                     <h3>2. The Configuration Drift Trap</h3>
-                    <p>Here is where it gets spicy. When you update an attribute in the cloud, that change does not flow back to your local AD. Your on-premises directory becomes a museum of outdated information. If you ever need to reverse the process without a solid backup, the next sync cycle will happily overwrite your shiny new cloud settings with stale local data.</p>
+                    <p>Here is where it gets spicy — and where the feature has moved since launch. At launch, a change you made in the cloud did not flow back to your local AD at all. Phase 2 is now generally available: Exchange attribute writeback through Microsoft Entra Cloud Sync pushes designated attributes from Exchange Online back into on-premises Active Directory. The writeback set covers the ones that matter for mail routing: <code>proxyAddresses</code>, <code>mail</code> (via <code>WindowsEmailAddress</code>), <code>extensionAttribute1-15</code>, <code>msExchExtensionCustomAttribute1-5</code>, <code>msExchRecipientDisplayType</code>, and <code>msExchRecipientTypeDetails</code>. You configure it in the Microsoft Entra admin center under Entra Connect &gt; Cloud Sync &gt; New configuration &gt; EXO to AD attribute sync, with the Hybrid Identity Administrator role. It supports up to 600,000 cloud-managed mailboxes per tenant and needs the Cloud Sync provisioning agent 1.1.1107.0 or later — installed <em>alongside</em> Connect Sync, not instead of it. So yes: a second sync component on your servers, for a feature sold as removing on-premises dependency.</p>
 
-                    <h3>3. The Offboarding Black Hole</h3>
-                    <p>Standard procedure when an employee leaves: remove the license. In a traditional setup, the user retains their aliases. With the new cloud-managed switch, removing the Exchange Online license can wipe out the email addresses completely. Recovering from this requires a multi-step manual process that involves re-licensing, syncing, and crossing your fingers. A classic trap for any automated offboarding script.</p>
+                    <p>Configure it and your on-premises directory still drifts, just in a narrower band — and the band is still the majority of the attributes. <code>HiddenFromAddressListsEnabled</code>, forwarding, moderation, litigation hold, junk-mail settings, and the resource attributes are all marked "Writeback to On-prem: No". Set up writeback, then treat that remaining set as deliberately cloud-only and write it down, instead of assuming parity in either direction.</p>
+
+                    <p>The rollback stays as ugly as it was. Set <code>IsExchangeCloudManaged</code> back to <code>$false</code> and the next synchronization cycle overwrites your cloud values with the on-premises ones. Microsoft's own instruction is to back the values up first with <code>Get-Mailbox</code> and <code>Get-User</code> and restore them by hand afterwards.</p>
+
+                    <h3>3. The Offboarding Trap</h3>
+                    <p>Standard procedure when an employee leaves: remove the license. In tenants I have reviewed, that is where automated offboarding scripts break — not because addresses vanish into nothing, but because people assume the mailbox is still there and it is not. Here is what is actually documented, and it is what your runbook should be built on.</p>
+
+                    <p>Removing an Exchange Online license disconnects the mailbox immediately. The data is held for <strong>30 days</strong>; reassign a license inside that window and the mailbox becomes fully active again. After 30 days it is permanently deleted and unrecoverable. If you enable <strong>Exchange Online Delicensing Resiliency</strong>, you get a 30-day grace period on top — roughly 60 days in total — during which the mailbox keeps working despite showing as unlicensed, plus the cmdlets <code>Get-PendingDelicenseUser</code> and <code>Expedite-Delicensing</code> to see and force the state. That last one matters: with the feature on, you must run <code>Expedite-Delicensing</code> before you remove the object, or you leave stale entries behind.</p>
+
+                    <p>One more sequencing rule that has nothing to do with offboarding but bites the same scripts: after a <code>Set-RemoteMailbox</code> change or a mailbox move, wait a full sync cycle <em>plus 24 hours</em> before you flip SOA for that user. Flip it early and stale cloud recipient-type values overwrite the correct remote-mailbox values in Active Directory once writeback runs.</p>
+
+                    <h3>4. The Tenant-Wide Switch You Cannot Undo</h3>
+                    <p>There is a tenant-wide version of this, <code>Set-OrganizationConfig -ExchangeAttributesCloudManagedByDefault</code>, and it is the most dangerous button in the whole feature. Turn it on only after <em>every</em> mailbox is in Exchange Online and you have stopped creating on-premises Exchange recipients. Enabling it earlier is unsupported: a new on-premises recipient then syncs only its identity attributes, the cloud object is created as a regular Entra user instead of the expected MailUser, and onboarding that mailbox to Exchange Online cannot proceed. Disabling the setting afterwards changes the default for future users but does not clear the flag from the ones already affected, and there is no self-service way back — Microsoft's documented answer at that point is to contact Support.</p>
 
                     <h2>The Verdict: Proceed with Caution</h2>
                     <p>Is the SOA switch a bad idea? Not at all. It is a necessary step toward modernizing your IT infrastructure. However, treating it as a magic wand will inevitably lead to broken processes and frustrated support teams.</p>
@@ -133,6 +148,7 @@
   "@type": "Article",
   "headline": "The Final Exchange Server: Why the Cloud Switch Isn't a Magic Wand",
   "datePublished": "2026-03-30",
+  "dateModified": "2026-09-05",
   "author": {
     "@type": "Person",
     "name": "Philipp Schmidt",
@@ -144,12 +160,12 @@
     "url": "https://easym365.de"
   },
   "image": "https://endlesstech.blog/assets/images/exchange-soa-switch-hero.png",
-  "url": "https://farpoint-tech.github.io/endlesstech.blog/posts/2026-03-30-exchange-soa-switch-reality.html",
+  "url": "https://endlesstech.blog/posts/2026-03-30-exchange-soa-switch-reality.html",
   "description": "Microsoft's new Exchange SOA switch promises to let you shut down your last on-premises server. But edge cases like configuration drift can cause chaos.",
   "inLanguage": "en",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://farpoint-tech.github.io/endlesstech.blog/posts/2026-03-30-exchange-soa-switch-reality.html"
+    "@id": "https://endlesstech.blog/posts/2026-03-30-exchange-soa-switch-reality.html"
   }
 }
     </script>
