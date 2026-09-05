@@ -74,7 +74,12 @@
             <section class="post-full-content">
                 <div class="post-content">
                     <h2>CxO Executive Summary: What This Means for Your Business</h2>
-                    <p>Understanding MCP servers security risks is critical for any enterprise adopting AI-assisted workflows. The Model Context Protocol (MCP) represents a fundamental shift in how AI systems access enterprise data and tools. Introduced by Anthropic in November 2024 and now governed by the Linux Foundation's Agentic AI Foundation (as of December 2025), MCP has achieved rapid adoption: over 10,000 active public servers, integration with ChatGPT, Microsoft Copilot, Gemini, and 97 million monthly SDK downloads.</p>
+                    <p>Understanding MCP servers security risks is critical for any enterprise adopting AI-assisted workflows. The Model Context Protocol (MCP) represents a fundamental shift in how AI systems access enterprise data and tools. Introduced by Anthropic in November 2024 and, per Anthropic's own December 2025 announcement, donated to the Linux Foundation's Agentic AI Foundation, MCP has achieved rapid adoption: as of late 2025 the ecosystem counted over 10,000 active public servers and roughly 97 million monthly SDK downloads, with native support in ChatGPT, Microsoft Copilot and Gemini. Those adoption figures come from vendor and community sources rather than Microsoft documentation — treat them as a snapshot, not a current number.</p>
+
+                    <div class="post-tldr">
+                        <h2>What changed since this was written</h2>
+                        <p>This article was published in December 2025 and updated in September 2026. In between, Microsoft shipped the first-party controls it recommends building yourself: <strong>Microsoft Entra Agent ID</strong> for agent identities, <strong>Microsoft Agent 365</strong> as the control plane that allows or blocks individual MCP servers tenant-wide, and <strong>Defender for Endpoint local AI agent discovery</strong>, which finds local AI agents and their MCP server configurations on onboarded endpoints. The four threat vectors below have not changed. The tooling and the licensing have — the sections below reflect that.</p>
+                    </div>
 
                     <h3>Why CxOs Should Care</h3>
                     <p>MCP is becoming the "ODBC for AI"—a universal standard that eliminates fragmented custom integrations. For enterprises, this means faster AI deployment, lower integration costs, and broader vendor choice. However, the same capabilities that make MCP transformative also introduce systemic security risks: unauthorized data access, remote code execution vectors, and supply chain vulnerabilities. Microsoft's analysis confirms that "MCP can expose sensitive information to unverified context providers, creating data leaks, malicious agent chaining, and supply chain attacks".</p>
@@ -90,11 +95,11 @@
                         <tbody>
                             <tr>
                                 <td><strong>Opportunity</strong></td>
-                                <td>Organizations using MCP report 30% faster AI integration cycles and reduced vendor lock-in</td>
+                                <td>One standard instead of one connector per AI application, and less vendor lock-in. In the projects I have seen, the saving is in not rebuilding the same integration three times — I have no defensible number to put on it</td>
                             </tr>
                             <tr>
                                 <td><strong>Risk</strong></td>
-                                <td>The top 10 MCP servers (46% of usage) focus on automation and system access—creating concentrated attack surfaces</td>
+                                <td>Usage concentrates hard in a handful of servers focused on automation and system access — the September 2025 O'Reilly analysis put the top 10 at 46% of usage — which concentrates the attack surface too</td>
                             </tr>
                             <tr>
                                 <td><strong>Governance Signal</strong></td>
@@ -104,7 +109,7 @@
                     </table>
 
                     <h3>Compliance and Governance</h3>
-                    <p>MCP deployments intersect with SOC 2, ISO 27001, and GDPR requirements. Microsoft Defender for Cloud Apps now provides MCP server discovery and policy enforcement, enabling centralized governance across multi-cloud environments. For regulated industries (finance, healthcare), this visibility is non-negotiable before production deployment.</p>
+                    <p>MCP deployments intersect with SOC 2, ISO 27001, and GDPR requirements. Two Microsoft products give you the visibility that regulated industries need before production deployment, and it is worth knowing which does what. <strong>Microsoft Defender for Endpoint</strong> discovers supported local AI agents on onboarded Windows and macOS devices together with their local and remote <strong>MCP server configurations</strong>, and surfaces them in the Defender portal inventory, exposure map, and advanced hunting (this is in preview). <strong>Microsoft Agent 365</strong> is the control plane on top: admins allow or block individual MCP servers for the whole tenant from the Microsoft 365 admin center under <em>Agents and Tools</em>, and every tool call is traceable in Defender advanced hunting.</p>
 
                     <h3>Bottom Line for Leadership</h3>
                     <p>MCP is not optional—it's becoming foundational infrastructure for AI-driven operations. The strategic question is not whether to adopt MCP, but how to adopt it securely. Organizations that establish governance frameworks now will gain competitive advantage; those that delay risk both security incidents and missed AI opportunities.</p>
@@ -152,12 +157,20 @@
                     </ul>
 
                     <h3>Microsoft Entra ID Integration (Enterprise Authentication)</h3>
-                    <p>As of the June 2025 MCP specification update, servers can delegate authentication to OAuth 2.1 Resource Servers like Microsoft Entra ID. This enables:</p>
+                    <p>Get the roles the right way round, because this trips people up: your MCP server is the OAuth 2.0 <strong>protected resource</strong>, Microsoft Entra ID is the <strong>authorization server</strong> that issues the tokens, and the MCP client is the client. Microsoft now documents the whole flow in <em>Secure a Model Context Protocol (MCP) server with Microsoft Entra ID</em>. This enables:</p>
                     <ul>
                         <li>Centralized identity management (Entra ID user/group policies)</li>
                         <li>Conditional Access enforcement (MFA, device compliance, location-based policies)</li>
                         <li>Token-based authorization with Resource Indicators (RFC 8707) to prevent token misuse</li>
                     </ul>
+                    <p>Two implementation details that decide whether this works at all:</p>
+                    <ul>
+                        <li><strong>Publish Protected Resource Metadata.</strong> The spec requires every HTTP MCP server to publish OAuth 2.0 Protected Resource Metadata (RFC 9728) at <code>/.well-known/oauth-protected-resource</code> and to point at it from the <code>WWW-Authenticate</code> header of its 401 responses. That document is how clients discover Entra ID as the authorization server in the first place.</li>
+                        <li><strong>Set the access token version before the Application ID URI.</strong> In the app manifest, set <code>requestedAccessTokenVersion</code> to <code>2</code> <em>first</em>. On v1 tokens you cannot register an HTTPS Application ID URI that matches your server URL, and every client sending <code>resource=&lt;server URL&gt;</code> fails with <strong>AADSTS9010010</strong>. This is the single most common setup failure.</li>
+                    </ul>
+
+                    <h3>Give the Agent Its Own Identity</h3>
+                    <p>When the MCP client is an AI agent, do not hand it an embedded secret. Give it its own identity with <strong>Microsoft Entra Agent ID</strong>: the agent acquires a token for your MCP server and presents it on every call, so its access is governed, auditable, and revocable like any other identity. Entra Agent ID is available to all Microsoft Entra customers; extending Entra security features such as Conditional Access and Identity Protection <em>to</em> agents requires a Microsoft Agent 365 licence — see the licensing section below.</p>
 
                     <h3>Real-World Example</h3>
                     <p>A developer building an AI assistant for customer support can use a single MCP server to access Salesforce CRM data, query a PostgreSQL database, and send Slack notifications—without writing separate API integrations for each system. The MCP server handles authentication (via Entra ID), exposes standardized tools, and the AI assistant discovers these capabilities automatically.</p>
@@ -205,15 +218,16 @@
                     <ul>
                         <li><strong>Cloud Provider Support:</strong> AWS, Azure, Google Cloud, Cloudflare offer managed MCP hosting</li>
                         <li><strong>Platform Integration:</strong> ChatGPT, Microsoft Copilot, Gemini, VS Code natively support MCP</li>
-                        <li><strong>Governance Tooling:</strong> Microsoft Defender for Cloud Apps provides MCP server discovery, policy enforcement, and attack path analysis</li>
+                        <li><strong>Governance Tooling:</strong> Microsoft Agent 365 for tenant-wide allow/block of MCP servers, and Defender for Endpoint local AI agent discovery for finding what is already running on endpoints</li>
                     </ul>
 
-                    <h3>M365 Governance Perspective</h3>
-                    <p>Organizations using Microsoft 365 E5 can leverage:</p>
+                    <h3>M365 Governance Perspective — and the Licensing Trap</h3>
+                    <p>E5 is no longer the whole licensing story for agent governance, and this is the part worth reading twice before you budget:</p>
                     <ul>
-                        <li><strong>Defender for Cloud Apps:</strong> Discover shadow MCP deployments across SaaS apps</li>
-                        <li><strong>Entra ID Conditional Access:</strong> Enforce MFA and device compliance for MCP server access</li>
-                        <li><strong>Purview DLP:</strong> Monitor data exfiltration through MCP tool calls (future capability)</li>
+                        <li><strong>Defender for Endpoint:</strong> discovers local AI agents and their MCP server configurations on onboarded endpoints (preview). This — not Defender for Cloud Apps — is where MCP server discovery lives.</li>
+                        <li><strong>Entra ID Conditional Access:</strong> enforces MFA and device compliance for users accessing MCP servers. Extending Conditional Access and Identity Protection to <em>agent</em> identities is an Agent 365 capability, not a plain E5 one.</li>
+                        <li><strong>Purview DLP:</strong> can flag sensitive data in data flows associated with your agents today — but only where the workload is explicitly integrated with Purview. Microsoft's own caveat: coverage of arbitrary tool-call parameters is not automatic, it depends on your deployment architecture and which Purview connectors your workload uses. Verify your integration path before you rely on DLP for agent workloads.</li>
+                        <li><strong>Microsoft Agent 365:</strong> as of 1 July 2026, agent-level discovery, posture and threat detection for Copilot Studio and Foundry agents require an Agent 365 licence — they are no longer covered by Defender for Cloud Apps or Defender for Cloud. Agent 365 is included in Microsoft 365 E7 and available as an add-on to E5/A5/Business Premium (or Defender Suite plus Purview Suite). Defender CSPM still discovers Foundry accounts and projects; agent-level work needs the licence.</li>
                     </ul>
 
                     <hr>
@@ -230,18 +244,20 @@
                     <p><strong>Microsoft Defender Mitigation:</strong></p>
                     <ul>
                         <li>Endpoint Detection & Response (EDR): Detects unusual process execution from AI application contexts</li>
-                        <li>Application Control: Blocks unauthorized script interpreters via AppLocker/WDAC policies</li>
-                        <li>Attack Path Analysis: Defender for Cloud identifies MCP servers with RCE capabilities in exposed containers</li>
+                        <li>AI agent runtime protection: monitors activity inside the agentic loop and blocks malicious instructions before the agent acts on them — the control aimed squarely at this scenario</li>
+                        <li>Application Control: Blocks unauthorized script interpreters via App Control for Business (formerly Windows Defender Application Control) or AppLocker policies</li>
+                        <li>Attack Path Analysis: Defender for Cloud's attack path analysis and AI security posture management cover AI <em>workloads</em> and the AI Bill of Materials (Azure OpenAI, Foundry, Azure ML, Bedrock, Vertex AI) and highlight externally reachable AI endpoints. Microsoft does not document MCP-server-specific RCE detection there — do not plan around it</li>
                     </ul>
+                    <p>On the prompt-injection vector itself, Microsoft names <strong>Azure AI Content Safety Prompt Shields</strong>: inspect content entering the agent's context — including tool descriptions and tool outputs — for injection attempts. That matters most when tool metadata is loaded dynamically, which is the normal MCP case.</p>
 
                     <h3>Threat Vector 2: Unauthorized Data Access</h3>
                     <p><strong>The Risk:</strong> MCP servers connecting to databases (23.1% of usage) can inadvertently expose sensitive data if permissions are misconfigured. The distributed nature of MCP architectures creates gaps in access control oversight.</p>
-                    <p><strong>Real-World Incident:</strong> The Asana MCP server was taken offline after leaking customer data. This demonstrates that even well-intentioned implementations can fail when security controls are insufficient.</p>
+                    <p><strong>Reported incident:</strong> the Asana MCP server was reported taken offline in 2025 after a data exposure affecting customers. That report comes from vendor and press coverage, not from Microsoft documentation — the point stands regardless: even well-intentioned implementations fail when the controls around them are thin.</p>
                     <p><strong>M365 Governance Controls:</strong></p>
                     <ul>
-                        <li>Entra ID RBAC: Granular permissions scoped to specific MCP server resources</li>
+                        <li>Delegated OAuth scopes and app roles: scope access per tool, not per directory role (see Layer 2)</li>
                         <li>Conditional Access: Enforce device compliance before allowing MCP server connections</li>
-                        <li>Defender for Cloud Apps: Monitor data access patterns and flag anomalies (e.g., bulk database queries)</li>
+                        <li>Agent 365: block the server tenant-wide if it should not be reachable at all, and trace every tool call in Defender advanced hunting</li>
                     </ul>
 
                     <h3>Threat Vector 3: Supply Chain Vulnerabilities</h3>
@@ -271,23 +287,24 @@
                     <h3>Layer 1: Establish a Trusted MCP Server Registry</h3>
                     <p><strong>Objective:</strong> Prevent deployment of unvetted or malicious MCP servers.</p>
                     <p><strong>Implementation Steps:</strong></p>
+                    <p>Build your own catalogue only where a first-party one is missing. In order of preference: use the <strong>Agent 365 Agent Registry</strong> if it is available to you; if not, use <strong>Microsoft Entra Agent ID</strong> as the authoritative source for agent identities and ownership; fall back to manual tracking only in small, early-adoption environments. The steps below are that fallback.</p>
                     <ol>
-                        <li><strong>Create Internal Catalog</strong> - Host approved MCP servers in a private registry (Azure Container Registry, AWS ECR, or internal Git repository). Require formal security review before adding new servers (code audit, dependency scan, penetration test).</li>
+                        <li><strong>Create Internal Catalog</strong> - Host approved MCP servers in a private registry (Azure Container Registry, AWS ECR, an internal Git repository, or Azure API Center as a known-good baseline of registered endpoints). Require formal security review before adding new servers (code audit, dependency scan, penetration test).</li>
                         <li><strong>Version Control and Pinning</strong> - Pin MCP server versions to prevent automatic updates that bypass review. Maintain changelog of approved versions with security justification.</li>
                         <li><strong>Supply Chain Monitoring</strong> - Subscribe to security advisories for approved MCP servers (GitHub Dependabot, Snyk alerts). Implement automated vulnerability scanning in CI/CD pipeline.</li>
                     </ol>
                     <p><strong>Microsoft 365 Integration:</strong></p>
                     <ul>
-                        <li>Use Defender for Cloud Apps to discover shadow MCP deployments across SaaS applications</li>
-                        <li>Block unapproved MCP servers via Conditional Access policies (require app registration in Entra ID)</li>
+                        <li>Use Defender for Endpoint local AI agent discovery to find the AI agents and MCP server configurations already running on your endpoints — that is where shadow MCP actually lives, on developer machines, not in your SaaS catalogue</li>
+                        <li>Block unapproved MCP servers in the Microsoft 365 admin center under <em>Agents and Tools</em> (Agent 365). A blocked server is blocked for every user and every agent, and each MCP server maps to a permission on the Agent 365 application, so an agent reaches a server only after admin consent</li>
                     </ul>
 
                     <h3>Layer 2: Implement Granular Access Controls</h3>
                     <p><strong>Objective:</strong> Apply least privilege principles across MCP server interactions.</p>
                     <p><strong>Implementation Steps:</strong></p>
                     <ol>
-                        <li><strong>Entra ID OAuth 2.1 Integration</strong> - Configure MCP servers as OAuth Resource Servers with Entra ID as Authorization Server. Use Resource Indicators (RFC 8707) to scope tokens to specific MCP servers (prevents token reuse).</li>
-                        <li><strong>Role-Based Access Control (RBAC)</strong> - Define Entra ID roles for MCP server access (e.g., MCP-Database-Reader, MCP-FileSystem-Admin). Assign roles based on job function (developers vs. support agents vs. executives).</li>
+                        <li><strong>Entra ID OAuth 2.1 Integration</strong> - Register the MCP server as the protected resource, with Entra ID as the authorization server. Use Resource Indicators (RFC 8707) to scope tokens to specific MCP servers (prevents token reuse).</li>
+                        <li><strong>Scopes and app roles, not directory roles</strong> - Use the two mechanisms the MCP guidance actually names. <em>Delegated OAuth scopes</em> (Expose an API &gt; Add a scope, e.g. <code>tool.read</code>, <code>tool.execute</code>) for clients acting on behalf of a signed-in user, and <em>app roles</em> assigned to the agent identity for client-credentials calls; the server checks the <code>roles</code> claim before it runs a tool. Generic Entra directory roles are not the control surface here — a role named "MCP-Database-Reader" in the directory buys you nothing unless the server validates a scope or role claim.</li>
                         <li><strong>Conditional Access Policies</strong> - Require MFA for MCP servers accessing sensitive data (databases, file systems). Enforce device compliance (managed by Intune) before allowing MCP connections. Implement location-based restrictions (block MCP access from non-corporate networks).</li>
                     </ol>
                     <p><strong>Example Conditional Access Policy:</strong></p>
@@ -305,7 +322,7 @@
                             </tr>
                             <tr>
                                 <td>Users</td>
-                                <td>MCP-Database-Reader role</td>
+                                <td>Members of the security group assigned the <code>tool.read</code> scope</td>
                             </tr>
                             <tr>
                                 <td>Cloud Apps</td>
@@ -322,7 +339,7 @@
                         </tbody>
                     </table>
                     <blockquote>
-                        <p><strong>Real-World Caveat (In-the-Trenches Experience):</strong> stdio transport MCP servers bypass network monitoring. Many popular MCP servers use stdio (local process communication) instead of HTTP transport. This means traditional network security tools (firewalls, proxies, DLP) cannot inspect traffic. For high-security environments, mandate HTTP/SSE transport for all MCP servers to enable centralized logging and inspection.</p>
+                        <p><strong>Real-World Caveat (In-the-Trenches Experience):</strong> stdio transport MCP servers bypass network monitoring. Many popular MCP servers use stdio (local process communication) instead of HTTP transport, so traditional network security tools — firewalls, proxies, network DLP — cannot inspect that traffic. That half still holds; stdio never crosses a firewall. What has changed since I first wrote this is that you are no longer blind to it. Defender for Endpoint discovers local AI agents (Claude Code, Codex, Cursor, ChatGPT Desktop, VS Code extensions and more) <em>and their local MCP server configurations</em> on onboarded endpoints, and AI agent runtime protection blocks malicious instructions inside the agentic loop before the agent acts. Endpoint-side telemetry is the practical answer now — forcing every server onto HTTP transport is not.</p>
                     </blockquote>
 
                     <h3>Layer 3: Deploy Advanced Monitoring and Protection</h3>
@@ -331,8 +348,8 @@
                     <ol>
                         <li><strong>Baseline Normal Behavior</strong> - Log all MCP tool calls, resource access, and data volumes for 30 days. Establish baseline patterns (typical query frequency, data volume, time-of-day usage).</li>
                         <li><strong>Anomaly Detection</strong> - Alert on unusual patterns: Bulk database queries (>1000 records in single call), Off-hours MCP server access, Access to MCP servers not previously used by the user, Rapid-fire tool calls (potential automated attack).</li>
-                        <li><strong>Microsoft Defender Integration</strong> - Defender for Cloud: Identify MCP servers in containers with vulnerable libraries. Defender for Cloud Apps: Policy-based blocking of risky MCP server usage. Defender for Endpoint: Detect process injection or unusual child processes from AI applications.</li>
-                        <li><strong>Audit Logging</strong> - Retain 90 days of MCP activity logs (compliance requirement for SOC 2/ISO 27001). Include: User identity, MCP server accessed, tool invoked, data returned, timestamp. Export logs to Azure Sentinel or SIEM for correlation with other security events.</li>
+                        <li><strong>Microsoft Defender Integration</strong> - Defender for Endpoint: discover local AI agents and their MCP server configurations, detect process injection or unusual child processes from AI applications, and enable AI agent runtime protection. Agent 365: block risky MCP servers tenant-wide and inspect tool-call traces in Defender advanced hunting — which tool was invoked, with which parameters, and what came back. Defender for Cloud: posture for the AI workloads behind your agents.</li>
+                        <li><strong>Audit Logging</strong> - Retain MCP activity logs long enough to investigate; 90 days is my working default, not a figure SOC 2 or ISO 27001 prescribes — both ask you to define and justify a retention period, so pick yours deliberately. Include: user identity, MCP server accessed, tool invoked, data returned, timestamp. Export logs to <strong>Microsoft Sentinel</strong> or your SIEM for correlation with other security events.</li>
                     </ol>
                     <p><strong>Example Alert Rule:</strong></p>
                     <table>
@@ -363,7 +380,7 @@
                     <p><strong>Implementation Steps:</strong></p>
                     <ol>
                         <li><strong>Network Segmentation</strong> - Deploy MCP servers in dedicated VNets/subnets (Azure) or VPCs (AWS). Use Network Security Groups (NSGs) to restrict inbound/outbound traffic. Implement Private Endpoints for MCP servers accessing Azure services (Storage, SQL).</li>
-                        <li><strong>Transport Security</strong> - Mandate TLS 1.3 for all HTTP/SSE transport MCP servers. Use Azure Front Door or API Management as reverse proxy (adds WAF, DDoS protection, rate limiting).</li>
+                        <li><strong>Transport Security</strong> - Require TLS 1.2 or later, TLS 1.3 preferred, for all HTTP transport MCP servers; Microsoft's requirement is an HTTPS endpoint, the 1.3 floor is my own recommendation. Verify the server's TLS certificate and fail closed on certificate errors rather than warning past them. Use Azure Front Door or API Management as a reverse proxy (adds WAF, DDoS protection, rate limiting, and lets the gateway validate Entra ID tokens before requests reach the server).</li>
                         <li><strong>Endpoint Protection</strong> - Deploy Defender for Endpoint on all systems hosting MCP servers. Enable Attack Surface Reduction (ASR) rules to block script execution from untrusted paths.</li>
                         <li><strong>Secrets Management</strong> - Store MCP server credentials in Azure Key Vault (never hardcode in config files). Use Managed Identities for MCP servers accessing Azure resources (eliminates static credentials).</li>
                     </ol>
@@ -402,18 +419,19 @@
                     </table>
 
                     <h3>The Microsoft 365 Advantage</h3>
-                    <p>Organizations with Microsoft 365 E5 or Defender for Cloud are uniquely positioned to adopt MCP securely:</p>
+                    <p>Organizations already on Microsoft 365 have a head start, provided they buy the right thing:</p>
                     <ul>
-                        <li><strong>Entra ID</strong> provides enterprise-grade authentication and conditional access</li>
-                        <li><strong>Defender for Cloud Apps</strong> offers MCP server discovery and policy enforcement</li>
-                        <li><strong>Defender for Endpoint</strong> detects exploitation attempts at the endpoint layer</li>
-                        <li><strong>Azure infrastructure</strong> (Key Vault, Private Link, NSGs) enables defense-in-depth</li>
+                        <li><strong>Entra ID</strong> provides enterprise-grade authentication and Conditional Access; <strong>Entra Agent ID</strong> gives each agent its own identity, available to all Entra customers</li>
+                        <li><strong>Defender for Endpoint</strong> discovers local AI agents and their MCP server configurations, and detects exploitation attempts at the endpoint layer</li>
+                        <li><strong>Microsoft Agent 365</strong> is the control plane: allow or block MCP servers tenant-wide, scoped permissions per agent, and full tool-call tracing. Since 1 July 2026 it is also the licence that agent-level discovery, posture and threat detection depend on</li>
+                        <li><strong>Azure infrastructure</strong> (Key Vault, Private Link, NSGs, API Management) enables defense-in-depth</li>
                     </ul>
 
                     <h3>Next Steps for IT Leaders</h3>
                     <p><strong>Immediate Actions (30 days):</strong></p>
                     <ol>
-                        <li>Inventory existing MCP usage with Defender for Cloud Apps discovery</li>
+                        <li>Inventory what is already running: Defender for Endpoint local AI agent discovery on onboarded devices, plus the Agent 365 registry in the Microsoft 365 admin center if you have it</li>
+                        <li>Check your licence position for agent governance before you plan anything — Agent 365 is the gate as of 1 July 2026</li>
                         <li>Establish governance committee (Security, IT, Legal, Business Units)</li>
                         <li>Define approved MCP server catalog (start with 3-5 low-risk servers)</li>
                     </ol>
@@ -431,8 +449,8 @@
                     </ol>
 
                     <h3>The Bottom Line</h3>
-                    <p>MCP is not a question of "if" but "when" and "how." The security challenges outlined in this analysis are real and documented—from the Asana data leak to active malicious servers in the wild. However, these challenges are solvable through disciplined security engineering, leveraging existing M365/Azure capabilities, and learning from the enterprise security community.</p>
-                    <p><strong>Part 2 Preview:</strong> In the next article, we'll dive deeper into hands-on implementation: step-by-step Entra ID OAuth configuration, PowerShell scripts for MCP server deployment, Defender for Cloud policy templates, and real-world case studies from early enterprise adopters.</p>
+                    <p>MCP is not a question of "if" but "when" and "how." The security challenges outlined in this analysis are real — from reported data exposure at MCP server operators to malicious servers circulating in the wild. They are solvable through disciplined security engineering, the first-party controls Microsoft has since shipped, and learning from the enterprise security community.</p>
+                    <p><strong>Part 2:</strong> the step-by-step Entra ID OAuth configuration I originally planned to write is now documented by Microsoft itself in <em>Secure a Model Context Protocol (MCP) server with Microsoft Entra ID</em> — start there rather than with a blog post. What that guide does not cover is the operating model: how you run the approval process, who owns the registry entry, and how you roll out Agent 365 without blocking the developers who are already using MCP daily. That is what Part 2 will be about.</p>
 
                     <p>If you are building out your security posture alongside MCP adoption, the <a href="2025-12-18-zero-trust-microsoft-entra-suite.html">Microsoft Entra Suite Zero Trust guide</a> covers the identity infrastructure that underpins every Conditional Access policy referenced above. For a broader baseline assessment, start with <a href="2025-11-15-boost-your-cyber-defense-microsoft-secure-score-for-smbs.html">Microsoft Secure Score</a>.</p>
 
@@ -442,7 +460,7 @@
                     <p>MCP servers can be used safely in production when deployed with proper governance — a vetted server registry, Entra ID OAuth integration, network segmentation, and monitoring through Microsoft Defender. Without these controls, the same capabilities that make MCP useful also make it a high-value target for prompt injection, supply chain attacks, and unauthorized data access.</p>
 
                     <h3>How do I detect rogue MCP servers in my environment?</h3>
-                    <p>Microsoft Defender for Cloud Apps provides MCP server discovery across SaaS applications. For on-premises or self-hosted deployments, network traffic analysis combined with Defender for Endpoint process monitoring will flag unauthorized MCP server processes. Establishing a trusted internal registry and blocking all unlisted servers is the most effective prevention strategy.</p>
+                    <p>Use <strong>Microsoft Defender for Endpoint local AI agent discovery</strong> (preview): it finds supported local AI agents on onboarded Windows and macOS devices together with their local and remote MCP server configurations, and surfaces them in the Defender portal inventory, exposure map, and advanced hunting. Note that this is a different product from Defender for Cloud Apps, which discovers generative-AI SaaS apps through its cloud app catalog — useful, but not the same thing as finding MCP servers. On top of discovery, <strong>Microsoft Agent 365</strong> lets you block specific MCP servers for the whole tenant from the Microsoft 365 admin center, which is the most effective prevention: an agent reaches a server only after an admin has consented to the matching permission.</p>
 
                     <h3>Does MCP replace existing API integrations?</h3>
                     <p>MCP complements rather than replaces traditional REST or GraphQL APIs. It standardizes how AI applications discover and invoke tools, but the underlying data access still flows through your existing APIs and databases. The difference is that MCP adds a layer of AI-specific capabilities — tool discovery, prompt templates, and resource management — on top of those integrations.</p>
@@ -457,6 +475,12 @@
                         <li><a href="https://techcommunity.microsoft.com/blog/microsoftdefendercloudblog/plug-play-and-prey-the-security-risks-of-the-model-context-protocol/4410829" target="_blank" rel="noopener noreferrer">Microsoft TechCommunity: Plug, Play, and Prey: The security risks of the Model Context Protocol (Jan 2025)</a></li>
                         <li><a href="https://techcommunity.microsoft.com/blog/microsoft-security-blog/understanding-and-mitigating-security-risks-in-mcp-implementations/4404667" target="_blank" rel="noopener noreferrer">Microsoft TechCommunity: Understanding and mitigating security risks in MCP implementations (Dec 2024)</a></li>
                         <li><a href="https://learn.microsoft.com/en-us/azure/app-service/configure-authentication-mcp-server-vscode" target="_blank" rel="noopener noreferrer">Microsoft Learn: Secure MCP servers with Microsoft Entra authentication (2025)</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/entra/agent-id/secure-mcp-server-with-entra-id" target="_blank" rel="noopener noreferrer">Microsoft Learn: Secure a Model Context Protocol (MCP) server with Microsoft Entra ID</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/entra/agent-id/what-is-microsoft-entra-agent-id" target="_blank" rel="noopener noreferrer">Microsoft Learn: What is Microsoft Entra Agent ID?</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/microsoft-agent-365/tooling-servers-overview" target="_blank" rel="noopener noreferrer">Microsoft Learn: Agent 365 MCP servers — security and compliance</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/defender-endpoint/local-agent-discovery-overview" target="_blank" rel="noopener noreferrer">Microsoft Learn: Local AI agent discovery with Microsoft Defender for Endpoint</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/azure/developer/azure-mcp-server/security" target="_blank" rel="noopener noreferrer">Microsoft Learn: Secure your Azure MCP Server deployment</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/defender-xdr/security-for-ai/transition-agent-security-to-agent-365" target="_blank" rel="noopener noreferrer">Microsoft Learn: Transition Copilot Studio and Foundry agent security capabilities to Microsoft Agent 365</a></li>
                         <li><a href="https://blogs.windows.com/windowsexperience/2025/05/19/securing-the-model-context-protocol-building-a-safer-agentic-future-on-windows/" target="_blank" rel="noopener noreferrer">Windows Experience Blog: Securing the Model Context Protocol: Building a safer agentic future on Windows (May 2025)</a></li>
                     </ul>
 
@@ -525,7 +549,7 @@
       "@type": "Article",
       "headline": "MCP Servers Security Risks: The Double-Edged Sword",
       "datePublished": "2025-12-17",
-      "dateModified": "2026-06-20",
+      "dateModified": "2026-09-05",
       "author": {
         "@type": "Person",
         "name": "Philipp Schmidt",
@@ -565,7 +589,7 @@
           "name": "How do I detect rogue MCP servers in my environment?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Microsoft Defender for Cloud Apps provides MCP server discovery across SaaS applications. For on-premises deployments, network traffic analysis combined with Defender for Endpoint process monitoring will flag unauthorized MCP server processes."
+            "text": "Use Microsoft Defender for Endpoint local AI agent discovery (preview): it finds supported local AI agents on onboarded Windows and macOS devices together with their local and remote MCP server configurations, and surfaces them in the Defender portal inventory, exposure map and advanced hunting. That is a different product from Defender for Cloud Apps, which discovers generative-AI SaaS apps. Microsoft Agent 365 then lets admins block specific MCP servers tenant-wide from the Microsoft 365 admin center."
           }
         },
         {
