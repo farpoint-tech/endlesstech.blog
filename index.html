@@ -57,7 +57,7 @@
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <h1>Welcome to EndlessTech Blog</h1>
-            <p>Your trusted source for <dfn>Microsoft 365</dfn>, <a href="posts/2025-10-24-getting-started-with-zero-trust.html" style="color: white; text-decoration: underline; text-underline-offset: 3px;">Zero Trust Security</a>, and Cloud Solutions</p>
+            <p>Your trusted source for <dfn>Microsoft 365</dfn>, <a href="posts/2025-10-24-getting-started-with-zero-trust.html" class="hero-inline-link">Zero Trust Security</a>, and Cloud Solutions</p>
             <a href="#blog" class="hero-cta">Explore Latest Posts</a>
         </div>
     </section>
@@ -66,7 +66,7 @@
     <main class="container">
         <section id="blog">
             <h2 class="text-center">Latest Blog Posts</h2>
-            <p class="text-center" style="color: var(--color-text-light); max-width: 720px; margin: 0 auto var(--spacing-lg);">
+            <p class="text-center section-intro">
                 EndlessTech is a practical, vendor-neutral blog on Microsoft 365 security for IT professionals, MSP technicians, and SMBs. Expect hands-on guides on Zero Trust, Conditional Access, Intune, Entra ID, Purview, and Defender &mdash; each grounded in real tenant work, not marketing.
             </p>
 
@@ -89,6 +89,22 @@
             <div class="posts-grid">
                 <!-- SERIES-RELEASE-SLOT -->
 
+                <article class="post-card" data-category="iam-entraid security-defender m365">
+                    <img src="assets/images/enterprise-app-lifecycle/signin-vs-dataflow-hero.svg" alt="Two paths into Microsoft 365 data: a delegated path where a user signs in and the sign-in is logged, and an app-only path with a nightly job that reads every mailbox and records no sign-in at all" class="post-card-image" loading="lazy">
+                    <div class="post-card-content">
+                        <h3 class="post-card-title">
+                            <a href="posts/2026-08-26-enterprise-apps-sign-in-vs-data-flow.html">Unused Enterprise Apps: Why Last Sign-In Lies</a>
+                        </h3>
+                        <div class="post-card-meta">
+                            August 2026 &bull; By Philipp Schmidt
+                        </div>
+                        <p class="post-card-excerpt">
+                            An Entra app with zero user sign-ins can still read every mailbox every night. How to separate delegated logins from app-only data flows before you clean up.
+                        </p>
+                        <a href="posts/2026-08-26-enterprise-apps-sign-in-vs-data-flow.html" class="post-card-link">Read More &rarr;</a>
+                    </div>
+                </article>
+
                 <article class="post-card" data-category="security-defender m365 best-practices">
                     <img src="assets/images/defender-office365-smb/defender-plans-hero.svg" alt="Three layered Defender for Office 365 tiers shown as shields — EOP, Plan 1 and Plan 2 — with a phishing mail probing them" class="post-card-image" loading="lazy">
                     <div class="post-card-content">
@@ -99,6 +115,72 @@
                     </div>
                 </article>
 
+                <article class="post-card" data-category="security-defender iam-entraid m365">
+                    <img src="assets/images/m365-tenant-enumeration/tenant-enumeration-hero.svg" alt="An unauthenticated attacker posts a username to the Microsoft 365 login endpoint and gets a green valid-user response for one address and a red user-not-found response for another, then sprays only the confirmed accounts" class="post-card-image" loading="lazy">
+                    <div class="post-card-content">
+                        <h3 class="post-card-title">
+                            <a href="posts/2026-08-20-m365-tenant-enumeration-explained.html">M365 Tenant Enumeration: The Identity Leak Microsoft Won't Fully Close</a>
+                        </h3>
+                        <div class="post-card-meta">
+                            August 2026 &bull; By Philipp Schmidt
+                        </div>
+                        <p class="post-card-excerpt">
+                            M365 tenant enumeration lets an unauthenticated attacker confirm which accounts exist before ever guessing a password. The technical vectors, why Microsoft can't fully fix it, and how to make the leak useless.
+                        </p>
+                        <a href="posts/2026-08-20-m365-tenant-enumeration-explained.html" class="post-card-link">Read More &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="post-card" data-category="zero-trust m365 best-practices">
+                    <img src="assets/images/zero-trust-m365-series/data-hero.svg" alt="Zero Trust for Microsoft 365 series, Part 4: Securing Data — the four pillars with Data highlighted" class="post-card-image" loading="lazy">
+                    <div class="post-card-content">
+                        <h3 class="post-card-title"><a href="posts/2026-08-14-zero-trust-m365-data.html">Zero Trust for M365, Part 4: Securing Data</a></h3>
+                        <div class="post-card-meta">August 2026 &bull; By Philipp Schmidt</div>
+                        <p class="post-card-excerpt">The pillar everything else protects. Purview sensitivity labels, DLP, auto-labeling, and DSPM for AI for Copilot readiness.</p>
+                        <a href="posts/2026-08-14-zero-trust-m365-data.html" class="post-card-link">Read More &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="post-card" data-category="zero-trust m365 security-defender">
+                    <img src="assets/images/zero-trust-m365-series/apps-hero.svg" alt="Zero Trust for Microsoft 365 series, Part 3: Securing Apps — the four pillars with Apps highlighted" class="post-card-image" loading="lazy">
+                    <div class="post-card-content">
+                        <h3 class="post-card-title"><a href="posts/2026-08-13-zero-trust-m365-apps.html">Zero Trust for M365, Part 3: Securing Apps</a></h3>
+                        <div class="post-card-meta">August 2026 &bull; By Philipp Schmidt</div>
+                        <p class="post-card-excerpt">Bring shadow IT and SaaS under control. Defender for Cloud Apps, OAuth consent governance, and Conditional Access App Control.</p>
+                        <a href="posts/2026-08-13-zero-trust-m365-apps.html" class="post-card-link">Read More &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="post-card" data-category="zero-trust device-management-intune security-defender">
+                    <img src="assets/images/zero-trust-m365-series/devices-hero.svg" alt="Zero Trust for Microsoft 365 series, Part 2: Securing Devices — the four pillars with Devices highlighted" class="post-card-image" loading="lazy">
+                    <div class="post-card-content">
+                        <h3 class="post-card-title"><a href="posts/2026-08-12-zero-trust-m365-devices.html">Zero Trust for M365, Part 2: Securing Devices</a></h3>
+                        <div class="post-card-meta">August 2026 &bull; By Philipp Schmidt</div>
+                        <p class="post-card-excerpt">Turn every endpoint into a policy gate. Intune compliance, security baselines, Autopilot, and Defender for Endpoint feeding back into Conditional Access.</p>
+                        <a href="posts/2026-08-12-zero-trust-m365-devices.html" class="post-card-link">Read More &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="post-card" data-category="zero-trust iam-entraid security-defender">
+                    <img src="assets/images/zero-trust-m365-series/identity-hero.svg" alt="Zero Trust for Microsoft 365 series, Part 1: Securing Identity — the four pillars with Identity highlighted" class="post-card-image" loading="lazy">
+                    <div class="post-card-content">
+                        <h3 class="post-card-title"><a href="posts/2026-08-11-zero-trust-m365-identity.html">Zero Trust for M365, Part 1: Securing Identity</a></h3>
+                        <div class="post-card-meta">August 2026 &bull; By Philipp Schmidt</div>
+                        <p class="post-card-excerpt">Identity is the first pillar and the highest-impact category in Secure Score. MFA, Conditional Access, phishing-resistant sign-in, and Privileged Identity Management.</p>
+                        <a href="posts/2026-08-11-zero-trust-m365-identity.html" class="post-card-link">Read More &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="post-card" data-category="zero-trust m365 security-defender">
+                    <img src="assets/images/zero-trust-m365-series/series-hero.svg" alt="Zero Trust for Microsoft 365 series introduction — the four pillars Identity, Devices, Apps, and Data" class="post-card-image" loading="lazy">
+                    <div class="post-card-content">
+                        <h3 class="post-card-title"><a href="posts/2026-08-10-zero-trust-m365-series.html">Zero Trust for Microsoft 365: A New 4-Part Series, One Pillar at a Time</a></h3>
+                        <div class="post-card-meta">August 2026 &bull; By Philipp Schmidt</div>
+                        <p class="post-card-excerpt">A new four-part series maps Zero Trust for Microsoft 365 to the four pillars Secure Score actually measures — Identity, Devices, Apps, and Data. Here is what each part covers.</p>
+                        <a href="posts/2026-08-10-zero-trust-m365-series.html" class="post-card-link">Read More &rarr;</a>
+                    </div>
+                </article>
+
                 <article class="post-card" data-category="ai-copilot others">
                     <img src="assets/images/cloud-vs-local-ai/cloud-vs-local-hero.svg" alt="Balance scale weighing a cloud AI API against a local GPU with hardware, energy and personnel costs" class="post-card-image" loading="lazy">
                     <div class="post-card-content">
@@ -106,6 +188,86 @@
                         <div class="post-card-meta">August 2026 &bull; By Philipp Schmidt</div>
                         <p class="post-card-excerpt">Pay per token or buy the GPU? The honest cost-of-ownership and security math — why utilization, not technology, decides the price, and why local deployment shifts risk rather than removing it.</p>
                         <a href="posts/2026-08-06-cloud-api-vs-local-ai-tco-security.html" class="post-card-link">Read More &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="post-card" data-category="security-defender m365 best-practices">
+                    <img src="assets/images/defender-m365-first/defender-unused-hero.svg" alt="A security control panel where most capability toggles are switched off, beside an invoice marked paid in full" class="post-card-image" loading="lazy">
+                    <div class="post-card-content">
+                        <h3 class="post-card-title">
+                            <a href="posts/2026-07-18-defender-capabilities-m365-first-companies.html">You Already Paid for This: Defender in M365-First Companies</a>
+                        </h3>
+                        <div class="post-card-meta">
+                            July 2026 &bull; By Philipp Schmidt
+                        </div>
+                        <p class="post-card-excerpt">
+                            Most M365-first companies pay for endpoint security they never switched on. Why the platform you already own beats adding another tool — a leadership perspective.
+                        </p>
+                        <a href="posts/2026-07-18-defender-capabilities-m365-first-companies.html" class="post-card-link">Read More &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="post-card" data-category="m365 best-practices others">
+                    <img src="assets/images/optimize-sharepoint-online-storage/sharepoint-storage-hero.svg" alt="Overflowing digital storage vault in neon cyan and pink, stacks of duplicate file versions and hidden archive boxes piling up behind a SharePoint tenant dashboard showing a storage quota bar at 97 percent, futuristic tech aesthetic" class="post-card-image" loading="lazy">
+                    <div class="post-card-content">
+                        <h3 class="post-card-title">
+                            <a href="posts/2026-07-17-optimize-sharepoint-online-storage.html">Optimize SharePoint Online Storage Before You Pay For It</a>
+                        </h3>
+                        <div class="post-card-meta">
+                            July 2026 &bull; By Philipp Schmidt
+                        </div>
+                        <p class="post-card-excerpt">
+                            SharePoint Online storage rarely grows because of new files. Version history, recycle bins, and the Preservation Hold Library do the damage. Here is how to reclaim it.
+                        </p>
+                        <a href="posts/2026-07-17-optimize-sharepoint-online-storage.html" class="post-card-link">Read More &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="post-card" data-category="m365 best-practices security-defender">
+                    <img src="assets/images/microsoft-365-security-best-practices/m365-security-best-practices-hero.webp" alt="Integrated Microsoft 365 Security Architecture showing three interconnected domains: IT Security with Intune and device management, Information Security with Purview data governance, and Cybersecurity with Defender threat protection, all unified under Zero Trust principles" class="post-card-image" loading="lazy">
+                    <div class="post-card-content">
+                        <h3 class="post-card-title">
+                            <a href="posts/2026-07-17-microsoft-365-security-best-practices.html">Microsoft 365 Security Best Practices</a>
+                        </h3>
+                        <div class="post-card-meta">
+                            July 2026 &bull; By Philipp Schmidt
+                        </div>
+                        <p class="post-card-excerpt">
+                            Essential security configurations and best practices to secure your Microsoft 365 tenant — mapping IT security, information security, and cybersecurity to Intune, Purview, and Defender XDR with practical Zero Trust implementation steps and NIST CSF 2.0 alignment.
+                        </p>
+                        <a href="posts/2026-07-17-microsoft-365-security-best-practices.html" class="post-card-link">Read More &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="post-card" data-category="m365 powershell best-practices others">
+                    <img src="assets/images/graph-api-hero.webp" alt="Microsoft Graph API architecture overview showing JSON response structure and request flow from Graph Explorer through app registration to M365 services" class="post-card-image" loading="lazy">
+                    <div class="post-card-content">
+                        <h3 class="post-card-title">
+                            <a href="posts/2026-06-22-demystifying-microsoft-graph-api-practical-guide.html">Demystifying the Microsoft Graph API: A Practical Guide</a>
+                        </h3>
+                        <div class="post-card-meta">
+                            June 2026 &bull; By Philipp Schmidt
+                        </div>
+                        <p class="post-card-excerpt">
+                            A practical guide to the Microsoft Graph API for IT practitioners managing M365 tenants. Tools, authentication, query patterns, and real automation use cases.
+                        </p>
+                        <a href="posts/2026-06-22-demystifying-microsoft-graph-api-practical-guide.html" class="post-card-link">Read More &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="post-card" data-category="security-defender active-directory-legacy best-practices">
+                    <img src="assets/images/ad-cs-esc1-hero.webp" alt="Infographic showing a ransomware attack chain: email bombing then Teams social engineering then DLL side-loading then ESC1 certificate abuse then Domain Admin in 180 minutes then interrupted NTDS.dit exfiltration" class="post-card-image" loading="lazy">
+                    <div class="post-card-content">
+                        <h3 class="post-card-title">
+                            <a href="posts/2026-06-22-ad-cs-esc1-default-misconfiguration-domain-admin.html">AD CS ESC1: The Default Misconfiguration That Hands Attackers Domain Admin in Under Three Hours</a>
+                        </h3>
+                        <div class="post-card-meta">
+                            June 2026 &bull; By Philipp Schmidt
+                        </div>
+                        <p class="post-card-excerpt">
+                            AD CS ESC1 is a default certificate template misconfiguration that lets attackers escalate to Domain Admin in under three hours. Learn how to audit and remediate ESC1 in your environment.
+                        </p>
+                        <a href="posts/2026-06-22-ad-cs-esc1-default-misconfiguration-domain-admin.html" class="post-card-link">Read More &rarr;</a>
                     </div>
                 </article>
 
@@ -189,7 +351,38 @@
                     </div>
                 </article>
 
-                <!-- Taming the SharePoint Permission Nightmare: The New Copilot Readiness Tool -->
+                <article class="post-card" data-category="ai-copilot others">
+                    <img src="assets/images/context-engineering-architecture-hero.webp" alt="Technical visualization of two distinct workflow pipelines converging into a central context engine node" class="post-card-image" loading="lazy" srcset="assets/images/responsive/context-engineering-architecture-hero-400w.webp 400w, assets/images/responsive/context-engineering-architecture-hero-800w.webp 800w, assets/images/context-engineering-architecture-hero.webp 1200w" sizes="(max-width: 800px) 100vw, 800px">
+                    <div class="post-card-content">
+                        <h3 class="post-card-title">
+                            <a href="posts/context-engineering-architecture.html">From Theory to Implementation: How Context Engineering Technically Works</a>
+                        </h3>
+                        <div class="post-card-meta">
+                            By Philipp Schmidt
+                        </div>
+                        <p class="post-card-excerpt">
+                            From theory to implementation: Discover the technical reality behind a productive Context Engineering system. Learn how functional separation, prompt architecture, and clear ownership drive AI success.
+                        </p>
+                        <a href="posts/context-engineering-architecture.html" class="post-card-link">Read More &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="post-card" data-category="zero-trust security-defender best-practices">
+                    <img src="assets/images/security-obscurity-hero.webp" alt="A sysadmin proudly pointing to a cardboard box server while a hacker logs in behind them — the absurdity of Security by Obscurity" class="post-card-image" loading="lazy" srcset="assets/images/responsive/security-obscurity-hero-400w.webp 400w, assets/images/responsive/security-obscurity-hero-800w.webp 800w, assets/images/security-obscurity-hero.webp 1200w" sizes="(max-width: 800px) 100vw, 800px">
+                    <div class="post-card-content">
+                        <h3 class="post-card-title">
+                            <a href="posts/2026-05-01-security-obscurity-is-dead.html">Security by Obscurity is Dead — Build Real Defense in Depth</a>
+                        </h3>
+                        <div class="post-card-meta">
+                            May 2026 &bull; By Philipp Schmidt
+                        </div>
+                        <p class="post-card-excerpt">
+                            Security by Obscurity is a dangerous illusion. Learn how Defense in Depth, Least Privilege, and Zero Trust build real enterprise security with Microsoft 365.
+                        </p>
+                        <a href="posts/2026-05-01-security-obscurity-is-dead.html" class="post-card-link">Read More &rarr;</a>
+                    </div>
+                </article>
+
                 <article class="post-card" data-category="m365 zero-trust ai-copilot others">
                     <img src="assets/images/sharepoint-permissions-hero.svg" alt="Tangled SharePoint permission connections scanned by a Copilot readiness tool, with over-shared files flagged in red" class="post-card-image" loading="lazy">
                     <div class="post-card-content">
@@ -206,41 +399,6 @@
                     </div>
                 </article>
 
-                <!-- Copilot ROI: Why Knowledge Management Is the Difference Between 1.4:1 and 5.4:1 -->
-                <article class="post-card" data-category="m365 best-practices">
-                    <img src="assets/images/copilot-mandate-hero.jpg" alt="Microsoft 365 Copilot ROI dashboard showing knowledge management impact" class="post-card-image" loading="lazy">
-                    <div class="post-card-content">
-                        <h3 class="post-card-title">
-                            <a href="posts/2026-04-08-copilot-roi-knowledge-management-guide.html">Copilot ROI: Why Knowledge Management Is the Difference Between 1.4:1 and 5.4:1</a>
-                        </h3>
-                        <div class="post-card-meta">
-                            By Philipp Schmidt
-                        </div>
-                        <p class="post-card-excerpt">
-                            Real cost model for 60 users, a 7-term glossary, NIST AI RMF mapping, and a 10-point readiness checklist. The $195,000 gap between a poor and a proper Copilot rollout starts with knowledge management.
-                        </p>
-                        <a href="posts/2026-04-08-copilot-roi-knowledge-management-guide.html" class="post-card-link">Read More &rarr;</a>
-                    </div>
-                </article>
-
-                <!-- Exchange SOA Switch: Why the Cloud Switch Isn't a Magic Wand -->
-                <article class="post-card" data-category="m365 best-practices">
-                    <img src="assets/images/exchange-soa-switch-hero.webp" alt="An old dusty server rack connected to a glowing modern cloud via a giant rusty switch" class="post-card-image" loading="lazy" srcset="assets/images/responsive/exchange-soa-switch-hero-400w.webp 400w, assets/images/responsive/exchange-soa-switch-hero-800w.webp 800w, assets/images/exchange-soa-switch-hero.webp 1200w" sizes="(max-width: 800px) 100vw, 800px">
-                    <div class="post-card-content">
-                        <h3 class="post-card-title">
-                            <a href="posts/2026-03-30-exchange-soa-switch-reality.html">The Final Exchange Server: Why the Cloud Switch Isn't a Magic Wand</a>
-                        </h3>
-                        <div class="post-card-meta">
-                            By Philipp Schmidt
-                        </div>
-                        <p class="post-card-excerpt">
-                            Microsoft's new Exchange SOA switch promises to let you shut down your last on-premises server. But configuration drift, split management, and a nasty offboarding trap say otherwise.
-                        </p>
-                        <a href="posts/2026-03-30-exchange-soa-switch-reality.html" class="post-card-link">Read More &rarr;</a>
-                    </div>
-                </article>
-
-                <!-- Microsoft 365 vs. Baramundi: The Real Story -->
                 <article class="post-card" data-category="m365 device-management-intune">
                     <img src="assets/images/m365-vs-baramundi-hero.webp" alt="Microsoft 365 cloud productivity platform connected to Baramundi on-premises endpoint management" class="post-card-image" loading="lazy" srcset="assets/images/responsive/m365-vs-baramundi-hero-400w.webp 400w, assets/images/responsive/m365-vs-baramundi-hero-800w.webp 800w, assets/images/m365-vs-baramundi-hero.webp 1200w" sizes="(max-width: 800px) 100vw, 800px">
                     <div class="post-card-content">
@@ -257,7 +415,38 @@
                     </div>
                 </article>
 
-                <!-- Windows Autopilot: Stop the Setup Chaos -->
+                <article class="post-card" data-category="m365 best-practices">
+                    <img src="assets/images/copilot-mandate-hero.jpg" alt="Microsoft 365 Copilot ROI dashboard showing knowledge management impact" class="post-card-image" loading="lazy">
+                    <div class="post-card-content">
+                        <h3 class="post-card-title">
+                            <a href="posts/2026-04-08-copilot-roi-knowledge-management-guide.html">Copilot ROI: Why Knowledge Management Is the Difference Between 1.4:1 and 5.4:1</a>
+                        </h3>
+                        <div class="post-card-meta">
+                            By Philipp Schmidt
+                        </div>
+                        <p class="post-card-excerpt">
+                            Real cost model for 60 users, a 7-term glossary, NIST AI RMF mapping, and a 10-point readiness checklist. The $195,000 gap between a poor and a proper Copilot rollout starts with knowledge management.
+                        </p>
+                        <a href="posts/2026-04-08-copilot-roi-knowledge-management-guide.html" class="post-card-link">Read More &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="post-card" data-category="m365 best-practices">
+                    <img src="assets/images/exchange-soa-switch-hero.webp" alt="An old dusty server rack connected to a glowing modern cloud via a giant rusty switch" class="post-card-image" loading="lazy" srcset="assets/images/responsive/exchange-soa-switch-hero-400w.webp 400w, assets/images/responsive/exchange-soa-switch-hero-800w.webp 800w, assets/images/exchange-soa-switch-hero.webp 1200w" sizes="(max-width: 800px) 100vw, 800px">
+                    <div class="post-card-content">
+                        <h3 class="post-card-title">
+                            <a href="posts/2026-03-30-exchange-soa-switch-reality.html">The Final Exchange Server: Why the Cloud Switch Isn't a Magic Wand</a>
+                        </h3>
+                        <div class="post-card-meta">
+                            By Philipp Schmidt
+                        </div>
+                        <p class="post-card-excerpt">
+                            Microsoft's new Exchange SOA switch promises to let you shut down your last on-premises server. But configuration drift, split management, and a nasty offboarding trap say otherwise.
+                        </p>
+                        <a href="posts/2026-03-30-exchange-soa-switch-reality.html" class="post-card-link">Read More &rarr;</a>
+                    </div>
+                </article>
+
                 <article class="post-card" data-category="device-management-intune best-practices">
                     <img src="assets/images/autopilot-hero.webp" alt="IT admin overwhelmed by laptop boxes vs. relaxed employee with self-configured laptop" class="post-card-image" loading="lazy" srcset="assets/images/responsive/autopilot-hero-400w.webp 400w, assets/images/responsive/autopilot-hero-800w.webp 800w, assets/images/autopilot-hero.webp 1200w" sizes="(max-width: 800px) 100vw, 800px">
                     <div class="post-card-content">
@@ -274,7 +463,22 @@
                     </div>
                 </article>
 
-                <!-- From NT to M365 – A Personal Journey -->
+                <article class="post-card" data-category="security-defender iam-entraid powershell others">
+                    <img src="assets/images/aadsts650052-hero.svg" alt="Diagram of the AADSTS650052 error: a missing WindowsDefenderATP service principal blocking consent in a Microsoft Entra tenant" class="post-card-image" loading="lazy">
+                    <div class="post-card-content">
+                        <h3 class="post-card-title">
+                            <a href="posts/2026-03-26-aadsts650052-windowsdefenderatp-service-principal-missing.html">AADSTS650052: WindowsDefenderATP Service Principal Missing – Cause & Fix</a>
+                        </h3>
+                        <div class="post-card-meta">
+                            March 2026 &bull; By Philipp Schmidt
+                        </div>
+                        <p class="post-card-excerpt">
+                            Fix the AADSTS650052 error: WindowsDefenderATP Service Principal missing. Learn the cause, pitfalls with E5 Dev Tenants, and the PowerShell solution.
+                        </p>
+                        <a href="posts/2026-03-26-aadsts650052-windowsdefenderatp-service-principal-missing.html" class="post-card-link">Read More &rarr;</a>
+                    </div>
+                </article>
+
                 <article class="post-card" data-category="offtopic active-directory-legacy">
                     <img src="assets/images/nt-to-m365-journey-hero.webp" alt="Calm workspace with laptop and notebook in natural daylight representing a reflective IT career journey from Windows NT to Microsoft 365" class="post-card-image" loading="lazy" srcset="assets/images/responsive/nt-to-m365-journey-hero-400w.webp 400w, assets/images/responsive/nt-to-m365-journey-hero-800w.webp 800w, assets/images/nt-to-m365-journey-hero.webp 1024w" sizes="(max-width: 800px) 100vw, 800px">
                     <div class="post-card-content">
@@ -355,22 +559,6 @@
                     </div>
                 </article>
 
-                <article class="post-card" data-category="ai-copilot m365">
-                    <img src="assets/images/copilot-mandate-hero.webp" alt="Microsoft Copilot interface overlaid with digital sovereignty and cloud governance compliance symbols" class="post-card-image" loading="lazy" srcset="assets/images/responsive/copilot-mandate-hero-400w.webp 400w, assets/images/responsive/copilot-mandate-hero-800w.webp 800w, assets/images/copilot-mandate-hero.webp 1280w" sizes="(max-width: 800px) 100vw, 800px">
-                    <div class="post-card-content">
-                        <h3 class="post-card-title">
-                            <a href="posts/cloudknox-the-copilot-mandate.html">The Copilot "Mandate" - A Fact-Check on Digital Sovereignty and Cloud Governance</a>
-                        </h3>
-                        <div class="post-card-meta">
-                            By Philipp Schmidt
-                        </div>
-                        <p class="post-card-excerpt">
-                            A fact-check on the Swiss Parliament's Microsoft Copilot incident, exploring digital sovereignty, cloud governance, and the shared responsibility model in the AI era.
-                        </p>
-                        <a href="posts/cloudknox-the-copilot-mandate.html" class="post-card-link">Read More →</a>
-                    </div>
-                </article>
-
                 <article class="post-card" data-category="device-management-intune security-defender">
                     <img src="assets/images/intune-enrollment-hero.webp" alt="Digital security gateway blocking unauthorized personal devices from Intune MDM enrollment" class="post-card-image" loading="lazy" srcset="assets/images/responsive/intune-enrollment-hero-400w.webp 400w, assets/images/responsive/intune-enrollment-hero-800w.webp 800w, assets/images/intune-enrollment-hero.webp 1344w" sizes="(max-width: 800px) 100vw, 800px">
                     <div class="post-card-content">
@@ -403,6 +591,38 @@
                     </div>
                 </article>
 
+                <article class="post-card" data-category="ai-copilot m365">
+                    <img src="assets/images/copilot-mandate-hero.webp" alt="Microsoft Copilot interface overlaid with digital sovereignty and cloud governance compliance symbols" class="post-card-image" loading="lazy" srcset="assets/images/responsive/copilot-mandate-hero-400w.webp 400w, assets/images/responsive/copilot-mandate-hero-800w.webp 800w, assets/images/copilot-mandate-hero.webp 1280w" sizes="(max-width: 800px) 100vw, 800px">
+                    <div class="post-card-content">
+                        <h3 class="post-card-title">
+                            <a href="posts/cloudknox-the-copilot-mandate.html">The Copilot "Mandate" - A Fact-Check on Digital Sovereignty and Cloud Governance</a>
+                        </h3>
+                        <div class="post-card-meta">
+                            By Philipp Schmidt
+                        </div>
+                        <p class="post-card-excerpt">
+                            A fact-check on the Swiss Parliament's Microsoft Copilot incident, exploring digital sovereignty, cloud governance, and the shared responsibility model in the AI era.
+                        </p>
+                        <a href="posts/cloudknox-the-copilot-mandate.html" class="post-card-link">Read More →</a>
+                    </div>
+                </article>
+
+                <article class="post-card" data-category="zero-trust iam-entraid">
+                    <img src="assets/images/zero-trust-entra/hero-zero-trust.webp" alt="Zero Trust security architecture diagram with Microsoft Entra Suite identity verification layers" class="post-card-image" loading="lazy" srcset="assets/images/zero-trust-entra/responsive/hero-zero-trust-400w.webp 400w, assets/images/zero-trust-entra/responsive/hero-zero-trust-800w.webp 800w, assets/images/zero-trust-entra/hero-zero-trust.webp 1344w" sizes="(max-width: 800px) 100vw, 800px">
+                    <div class="post-card-content">
+                        <h3 class="post-card-title">
+                            <a href="posts/2025-12-18-zero-trust-microsoft-entra-suite.html">Unlocking Zero Trust: Mastering Identity and Network Security with Microsoft Entra Suite</a>
+                        </h3>
+                        <div class="post-card-meta">
+                            December 2025 • By Philipp Schmidt
+                        </div>
+                        <p class="post-card-excerpt">
+                            A deep dive into the Microsoft Entra Suite and how it enables a Zero Trust security model for modern organizations.
+                        </p>
+                        <a href="posts/2025-12-18-zero-trust-microsoft-entra-suite.html" class="post-card-link">Read More →</a>
+                    </div>
+                </article>
+
                 <article class="post-card" data-category="others">
                     <img src="assets/images/hardware-lifecycle-hero.webp" alt="Transition from aging office hardware to modern Windows 11 devices with TPM 2.0 security chips" class="post-card-image" loading="lazy" srcset="assets/images/responsive/hardware-lifecycle-hero-400w.webp 400w, assets/images/hardware-lifecycle-hero.webp 800w" sizes="(max-width: 800px) 100vw, 800px">
                     <div class="post-card-content">
@@ -432,22 +652,6 @@
                             Learn why Business Premium is essential for SMBs and how E5 Security and Compliance add-ons deliver enterprise-grade protection at a fraction of the cost.
                         </p>
                         <a href="posts/2025-12-18-beyond-the-basics-why-smart-m365-add-ons-are-your-best-investment.html" class="post-card-link">Read More →</a>
-                    </div>
-                </article>
-
-                <article class="post-card" data-category="zero-trust iam-entraid">
-                    <img src="assets/images/zero-trust-entra/hero-zero-trust.webp" alt="Zero Trust security architecture diagram with Microsoft Entra Suite identity verification layers" class="post-card-image" loading="lazy" srcset="assets/images/zero-trust-entra/responsive/hero-zero-trust-400w.webp 400w, assets/images/zero-trust-entra/responsive/hero-zero-trust-800w.webp 800w, assets/images/zero-trust-entra/hero-zero-trust.webp 1344w" sizes="(max-width: 800px) 100vw, 800px">
-                    <div class="post-card-content">
-                        <h3 class="post-card-title">
-                            <a href="posts/2025-12-18-zero-trust-microsoft-entra-suite.html">Unlocking Zero Trust: Mastering Identity and Network Security with Microsoft Entra Suite</a>
-                        </h3>
-                        <div class="post-card-meta">
-                            December 2025 • By Philipp Schmidt
-                        </div>
-                        <p class="post-card-excerpt">
-                            A deep dive into the Microsoft Entra Suite and how it enables a Zero Trust security model for modern organizations.
-                        </p>
-                        <a href="posts/2025-12-18-zero-trust-microsoft-entra-suite.html" class="post-card-link">Read More →</a>
                     </div>
                 </article>
 
@@ -499,22 +703,6 @@
                     </div>
                 </article>
 
-                <article class="post-card" data-category="zero-trust best-practices">
-                    <img src="assets/images/knox-hawk.webp" alt="Knox and Hawk mascots guarding a Zero Trust security perimeter with identity verification checkpoints" class="post-card-image" loading="lazy" srcset="assets/images/responsive/knox-hawk-400w.webp 400w, assets/images/responsive/knox-hawk-800w.webp 800w, assets/images/knox-hawk.webp 1344w" sizes="(max-width: 800px) 100vw, 800px">
-                    <div class="post-card-content">
-                        <h3 class="post-card-title">
-                            <a href="posts/2025-10-24-getting-started-with-zero-trust.html">Zero Trust with Microsoft 365: The Complete Pillar-by-Pillar Guide</a>
-                        </h3>
-                        <div class="post-card-meta">
-                            Updated June 2026 &bull; By Philipp Schmidt
-                        </div>
-                        <p class="post-card-excerpt">
-                            The complete guide to implementing Zero Trust across all six pillars&mdash;Identity, Endpoints, Data, Apps, Infrastructure, and Network&mdash;with M365 as the control plane. Licensing, deployment sequence, and maturity metrics included.
-                        </p>
-                        <a href="posts/2025-10-24-getting-started-with-zero-trust.html" class="post-card-link">Read More →</a>
-                    </div>
-                </article>
-
                 <article class="post-card" data-category="device-management-intune security-defender">
                     <img src="assets/images/mobile_app_management_main.webp" alt="Smartphone with Microsoft Intune MAM policy shield protecting corporate data on a personal BYOD device" class="post-card-image" loading="lazy" srcset="assets/images/responsive/mobile_app_management_main-400w.webp 400w, assets/images/responsive/mobile_app_management_main-800w.webp 800w, assets/images/mobile_app_management_main.webp 1344w" sizes="(max-width: 800px) 100vw, 800px">
                     <div class="post-card-content">
@@ -531,73 +719,32 @@
                     </div>
                 </article>
 
+                <article class="post-card" data-category="zero-trust best-practices">
+                    <img src="assets/images/knox-hawk.webp" alt="Knox and Hawk mascots guarding a Zero Trust security perimeter with identity verification checkpoints" class="post-card-image" loading="lazy" srcset="assets/images/responsive/knox-hawk-400w.webp 400w, assets/images/responsive/knox-hawk-800w.webp 800w, assets/images/knox-hawk.webp 1344w" sizes="(max-width: 800px) 100vw, 800px">
+                    <div class="post-card-content">
+                        <h3 class="post-card-title">
+                            <a href="posts/2025-10-24-getting-started-with-zero-trust.html">Zero Trust with Microsoft 365: The Complete Pillar-by-Pillar Guide</a>
+                        </h3>
+                        <div class="post-card-meta">
+                            Updated June 2026 &bull; By Philipp Schmidt
+                        </div>
+                        <p class="post-card-excerpt">
+                            The complete guide to implementing Zero Trust across all six pillars&mdash;Identity, Endpoints, Data, Apps, Infrastructure, and Network&mdash;with M365 as the control plane. Licensing, deployment sequence, and maturity metrics included.
+                        </p>
+                        <a href="posts/2025-10-24-getting-started-with-zero-trust.html" class="post-card-link">Read More →</a>
+                    </div>
+                </article>
+
+
             </div>
         </section>
 
-        <!-- Coming Soon Section -->
-        <section id="coming-soon" class="mt-xxl">
-            <h2 class="text-center">Coming Soon</h2>
-            <p class="text-center" style="color: var(--color-text-light); margin-bottom: var(--spacing-lg);">
-                A preview of posts currently in the works
-            </p>
-
-            <div class="coming-soon-grid">
-                <article class="post-card" data-category="security active-directory-legacy best-practices">
-                    <img src="assets/images/ad-cs-esc1-hero.webp" alt="Infographic showing a ransomware attack chain: email bombing then Teams social engineering then DLL side-loading then ESC1 certificate abuse then Domain Admin in 180 minutes then interrupted NTDS.dit exfiltration" class="post-card-image" loading="lazy">
-                    <div class="post-card-content">
-                        <h3 class="post-card-title">
-                            <a href="#">AD CS ESC1: The Default Misconfiguration That Hands Attackers Domain Admin</a>
-                        </h3>
-                        <div class="post-card-meta">
-                            Coming Soon &bull; By Philipp Schmidt
-                        </div>
-                        <p class="post-card-excerpt">
-                            A misconfigured AD CS certificate template gives any user with local admin the ability to impersonate Domain Admins. Here's how to find and fix the ESC1 flaw before attackers do.
-                        </p>
-                        <a href="#" class="post-card-link">Coming Soon &rarr;</a>
-                    </div>
-                </article>
-
-                <article class="post-card" data-category="m365 powershell best-practices others">
-                    <img src="assets/images/graph-api-hero.webp" alt="Microsoft Graph API architecture overview showing JSON response structure and request flow from Graph Explorer through app registration to M365 services" class="post-card-image" loading="lazy">
-                    <div class="post-card-content">
-                        <h3 class="post-card-title">
-                            <a href="#">Demystifying the Microsoft Graph API: A Practical Guide</a>
-                        </h3>
-                        <div class="post-card-meta">
-                            Coming Soon &bull; By Philipp Schmidt
-                        </div>
-                        <p class="post-card-excerpt">
-                            Every click in Intune, Entra, or SharePoint is an API call. This guide covers the tools, auth concepts, and query patterns IT practitioners actually need to automate M365 at scale.
-                        </p>
-                        <a href="#" class="post-card-link">Coming Soon &rarr;</a>
-                    </div>
-                </article>
-
-                <article class="post-card" data-category="m365 best-practices security-defender">
-                    <img src="assets/images/knox-infinity.webp" alt="Knox mascot reviewing Microsoft 365 security best practices checklist on a holographic display" class="post-card-image" loading="lazy" srcset="assets/images/responsive/knox-infinity-400w.webp 400w, assets/images/responsive/knox-infinity-800w.webp 800w, assets/images/knox-infinity.webp 1344w" sizes="(max-width: 800px) 100vw, 800px">
-                    <div class="post-card-content">
-                        <h3 class="post-card-title">
-                            <a href="#">Microsoft 365 Security Best Practices</a>
-                        </h3>
-                        <div class="post-card-meta">
-                            Coming Soon &bull; By Philipp Schmidt
-                        </div>
-                        <p class="post-card-excerpt">
-                            Learn essential security configurations and best practices to secure your Microsoft 365 tenant against cyber threats.
-                        </p>
-                        <a href="#" class="post-card-link">Coming Soon &rarr;</a>
-                    </div>
-                </article>
-
-            </div>
-        </section>
 
         <!-- About Section -->
         <section class="mt-xxl">
             <div class="content">
                 <h2 class="text-center">About EndlessTech Blog</h2>
-                <p class="text-center" style="max-width: 700px; margin: 0 auto var(--spacing-lg);">
+                <p class="text-center section-lead">
                     EndlessTech Blog is your go-to resource for practical insights on <dfn><abbr title="Microsoft 365 – Microsoft's cloud-based productivity and security suite including Exchange Online, SharePoint, Teams, Intune, and Entra ID">M365</abbr></dfn>,
                     <a href="posts/2025-11-15-boost-your-cyber-defense-microsoft-secure-score-for-smbs.html">cybersecurity</a>,
                     and <a href="posts/2025-12-18-zero-trust-microsoft-entra-suite.html"><dfn>Zero Trust</dfn></a> cloud solutions. Written by Philipp Schmidt, an experienced IT consultant specializing in
@@ -633,8 +780,8 @@
                 </div>
 
                 <!-- Zero Trust Pillars -->
-                <div class="text-center" style="margin-top: var(--spacing-xl);">
-                    <img src="assets/images/zero-trust-pillars.webp" alt="Zero Trust Pillars - Verify Explicitly, Use Least Privilege Access, Assume Breach" loading="lazy" style="max-width: 500px; width: 100%; border-radius: var(--border-radius); box-shadow: var(--shadow-md);" srcset="assets/images/responsive/zero-trust-pillars-400w.webp 400w, assets/images/responsive/zero-trust-pillars-800w.webp 800w, assets/images/zero-trust-pillars.webp 1200w" sizes="(max-width: 800px) 100vw, 800px">
+                <div class="text-center pillars-figure">
+                    <img src="assets/images/zero-trust-pillars.webp" alt="Zero Trust Pillars - Verify Explicitly, Use Least Privilege Access, Assume Breach" loading="lazy" srcset="assets/images/responsive/zero-trust-pillars-400w.webp 400w, assets/images/responsive/zero-trust-pillars-800w.webp 800w, assets/images/zero-trust-pillars.webp 1200w" sizes="(max-width: 800px) 100vw, 800px">
                 </div>
             </div>
         </section>
@@ -650,11 +797,11 @@
                 <a href="https://www.linkedin.com/in/pschmidt3010" target="_blank" rel="noopener noreferrer">LinkedIn</a> • 
                 <a href="https://github.com/farpoint-tech" target="_blank" rel="noopener noreferrer">GitHub</a>
             </p>
-            <p style="margin-top: var(--spacing-md); font-size: 0.875rem; color: var(--color-text-light);">
+            <p class="footer-copyright">
                 © 2026 Philipp Schmidt. All rights reserved.
             </p>
         </div>
-        <p style="margin-top: var(--spacing-sm); font-size: 0.875rem;"><a href="https://farpoint.tech/impressum" target="_blank" rel="noopener noreferrer">Impressum</a></p>
+        <p class="footer-legal"><a href="https://farpoint.tech/impressum" target="_blank" rel="noopener noreferrer">Impressum</a></p>
     </footer>
 
     <!-- Schema.org JSON-LD -->
