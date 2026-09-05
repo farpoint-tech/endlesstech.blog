@@ -65,7 +65,9 @@
 
                     <p>Ask a sysadmin how offboarding works in their tenant and the honest answer is usually some version of "a couple of scripts, and it is mostly reliable." Not fully reliable. Mostly. That qualifier is doing a lot of work.</p>
 
-                    <p>Microsoft 365 does not ship a standardised offboarding process. What it ships is Entra ID Lifecycle Workflows &mdash; a genuinely automated joiner-mover-leaver engine &mdash; licensed through Microsoft Entra ID Governance or Entra Suite, which many SMB tenants do not have for this purpose alone. Everyone else runs scripts, and scripts are only as reliable as the person who wrote and maintained them.</p>
+                    <p>Microsoft does document a standardised offboarding process. <em>Remove a former employee and secure data</em> walks through seven steps: block sign-in, save the mailbox contents, wipe and block the mobile device, forward the mail or convert the mailbox to shared, hand OneDrive and Outlook data to a successor, remove the licence, then delete the account. What that sequence does not cover is the part this article is about &mdash; resources the leaver owned, and access they granted to other people. Microsoft ships the account-centric half; the ownership half is still yours to build.</p>
+
+                    <p>What it also ships is Entra ID Lifecycle Workflows &mdash; a genuinely automated joiner-mover-leaver engine &mdash; licensed through Microsoft Entra ID Governance or Entra Suite, which many SMB tenants do not have for this purpose alone. Everyone else runs scripts, and scripts are only as reliable as the person who wrote and maintained them.</p>
 
                     <div class="post-tldr">
                         <h2>In short</h2>
@@ -91,8 +93,8 @@
                     <h2 id="sequence">What actually needs to happen, in order</h2>
                     <p>A defensible sequence covers more ground than "disable the account":</p>
                     <ol>
-                        <li><strong>Block sign-in and revoke sessions immediately</strong> &mdash; this is the step that actually stops active access; everything else can follow</li>
-                        <li><strong>Convert the mailbox</strong> to shared or set forwarding as the business requires, then remove the licence once conversion is done</li>
+                        <li><strong>Block sign-in and revoke sessions first</strong> &mdash; this is the step that stops active access, though not instantly. An access token is good for about an hour, so a signed-out user can stay in a page they already have open until it expires. The documented delays differ by where you do it: the Exchange admin center or PowerShell lands within roughly 30 minutes, the Microsoft Entra admin center around 60, an on-premises change three hours or more through Entra Connect. Reset the password, run <code>Revoke-MgUserSignInSession</code>, and in hybrid tenants make the change on-premises as well, or Entra Connect writes it back</li>
+                        <li><strong>Convert the mailbox</strong> to shared or set forwarding as the business requires. You can then drop the licence &mdash; but only if the mailbox is under 50 GB; above that it stays licensed. And do not delete the account afterwards: both a shared mailbox and a forwarding rule need the user object as an anchor, which is exactly the step a tidy-minded offboarding script tends to get wrong</li>
                         <li><strong>Transfer or reassign owned resources</strong> &mdash; OneDrive content, Teams and group ownership, app registrations they solely owned, Power Automate flows and Power Apps they built</li>
                         <li><strong>Remove group and role memberships</strong>, including PIM-eligible assignments, not just active ones</li>
                         <li><strong>Revoke access they granted to others</strong> &mdash; a departing employee's sharing links do not disappear when their account does</li>
@@ -110,7 +112,8 @@
                     </ul>
 
                     <h2 id="access-reviews">Access reviews: a control only if someone actually reviews</h2>
-                    <p>Access reviews exist to catch exactly the accumulation that offboarding gaps create. The recurring complaint is that managers asked to approve them click approve without checking, turning a governance control into a compliance artefact that proves a review happened rather than that anyone verified anything. There is no technical fix for a reviewer treating it as an inbox item. What helps: shorter review scopes &mdash; a specific resource, not "everything this person can touch" &mdash; and routing the review to someone closer to the resource than a general manager who does not know what the access is for.</p>
+                    <p>Access reviews exist to catch exactly the accumulation that offboarding gaps create. The recurring complaint is that managers asked to approve them click approve without checking, turning a governance control into a compliance artefact that proves a review happened rather than that anyone verified anything.</p>
+                    <p>There are partial technical fixes for that, and most tenants have them switched off. Access reviews can hand the reviewer a recommendation instead of a blank decision: <em>No sign-in within 30 days</em> marks inactive users for denial and shows the last sign-in date, and <em>User-to-Group Affiliation</em> flags users who sit far from the rest of the group in the reporting structure. <em>Justification required</em> forces a written reason for every decision. And <em>If reviewers don't respond</em>, set to <strong>Remove access</strong> or <strong>Take recommendations</strong>, means silence removes access instead of preserving it &mdash; which turns the click-approve reflex into the expensive option. None of that makes a reviewer think, but it changes what happens when they do not. Beyond the settings, shorter review scopes still help &mdash; a specific resource, not "everything this person can touch" &mdash; and so does routing the review to someone closer to the resource than a general manager who does not know what the access is for.</p>
 
                     <h2 id="without-governance">What SMBs without Entra ID Governance can build</h2>
                     <p>Lifecycle Workflows automate joiner-mover-leaver natively, but they require Microsoft Entra ID Governance or Entra Suite licensing, which puts them out of reach for many SMB tenants. The realistic alternative is a documented, versioned runbook &mdash; not a mental checklist &mdash; covering the six steps above, triggered by HR notification, with the audit queries run as a monthly spot-check against recent leavers rather than assumed to have worked. It is not automation. It is a process disciplined enough to behave like one.</p>
@@ -121,10 +124,10 @@
                     <section class="post-glossary">
                     <h2 id="glossary">Glossary</h2>
                     <dl>
-                        <dt>Lifecycle Workflows</dt><dd>Entra ID Governance capability that automates joiner-mover-leaver tasks natively. Requires Entra ID Governance or Microsoft 365 E5.</dd>
+                        <dt>Lifecycle Workflows</dt><dd>Entra ID Governance capability that automates joiner-mover-leaver tasks natively. Requires Microsoft Entra ID Governance or Microsoft Entra Suite licences. Microsoft 365 E5 and Entra ID P2 on their own do <em>not</em> include it; Microsoft 365 E7 does, because it carries the Entra Suite.</dd>
                         <dt>Owned objects</dt><dd>Directory objects where a user is listed as owner — app registrations, groups, Teams. These survive account disablement and are the most commonly missed offboarding item.</dd>
-                        <dt>Access review</dt><dd>A scheduled attestation asking a reviewer to confirm whether specific access is still needed. Only a real control if the reviewer actually checks.</dd>
-                        <dt>Session revocation</dt><dd>Invalidating a user's existing refresh tokens so active sessions stop working immediately, rather than persisting until natural expiry.</dd>
+                        <dt>Access review</dt><dd>A scheduled attestation asking a reviewer to confirm whether specific access is still needed. How much of a control it is depends on the settings: decision helpers, required justification, and what happens when a reviewer does not respond.</dd>
+                        <dt>Session revocation</dt><dd>Invalidating a user's existing refresh tokens so active sessions stop working at the next token request rather than persisting until natural expiry. The already-issued access token stays valid for up to an hour, so revocation is fast, not instant.</dd>
                     </dl>
                     </section>
 
@@ -135,7 +138,7 @@
                     <h3>What access does a departed employee still have in my tenant?</h3>
                     <p>Check owned objects via Graph (/users/{id}/ownedObjects) for app registrations, groups and Teams they own, not just group memberships. Also review SharePoint and OneDrive sharing links they created, which persist independently of the account's disabled state.</p>
                     <h3>Are Entra ID access reviews actually useful or just theatre?</h3>
-                    <p>They are only as useful as the reviewer's diligence — a manager approving without checking turns the review into a compliance artefact. Scoping reviews narrowly to a specific resource, and routing them to someone close to that resource, improves the odds the review is real.</p>
+                    <p>They are as useful as the settings you enable. Turn on the decision helpers (No sign-in within 30 days, User-to-Group Affiliation), require a written justification, and set "If reviewers don't respond" to Remove access — then an unchecked review defaults to removal rather than renewal. Scoping reviews narrowly to a specific resource and routing them to someone close to that resource still improves the odds the decision is real.</p>
                     <h3>How do I audit ex-employee access across Microsoft 365?</h3>
                     <p>Query group and role membership plus owned objects via Microsoft Graph directly rather than trusting the offboarding log, check sign-in logs for post-departure activity, and review external sharing links the user created.</p>
                     </section>
@@ -146,6 +149,9 @@
                         <li><a href="https://learn.microsoft.com/en-us/entra/id-governance/what-are-lifecycle-workflows" target="_blank" rel="noopener noreferrer">Microsoft Learn: What are lifecycle workflows?</a></li>
                         <li><a href="https://learn.microsoft.com/en-us/entra/id-governance/access-reviews-overview" target="_blank" rel="noopener noreferrer">Microsoft Learn: What are access reviews?</a></li>
                         <li><a href="https://learn.microsoft.com/en-us/graph/api/user-list-ownedobjects" target="_blank" rel="noopener noreferrer">Microsoft Graph: List ownedObjects</a></li>
+                        <li><a href="https://learn.microsoft.com/microsoft-365/admin/add-users/remove-former-employee" target="_blank" rel="noopener noreferrer">Microsoft Learn: Remove a former employee and secure data</a></li>
+                        <li><a href="https://learn.microsoft.com/microsoft-365/admin/email/convert-user-mailbox-to-shared-mailbox" target="_blank" rel="noopener noreferrer">Microsoft Learn: Convert a user mailbox to a shared mailbox</a></li>
+                        <li><a href="https://learn.microsoft.com/entra/id-governance/review-recommendations-access-reviews" target="_blank" rel="noopener noreferrer">Microsoft Learn: Review recommendations for access reviews</a></li>
                     </ol>
                 </div>
             </section>
@@ -229,7 +235,7 @@
       "name": "Are Entra ID access reviews actually useful or just theatre?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "They are only as useful as the reviewer's diligence \u2014 a manager approving without checking turns the review into a compliance artefact. Scoping reviews narrowly to a specific resource, and routing them to someone close to that resource, improves the odds the review is real."
+        "text": "They are as useful as the settings you enable. Turn on the decision helpers (No sign-in within 30 days, User-to-Group Affiliation), require a written justification, and set \"If reviewers don't respond\" to Remove access \u2014 then an unchecked review defaults to removal rather than renewal. Scoping reviews narrowly to a specific resource and routing them to someone close to that resource still improves the odds the decision is real."
       }
     },
     {
