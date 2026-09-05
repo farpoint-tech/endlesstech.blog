@@ -35,6 +35,16 @@ RFC822_DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 
 _DATE_PREFIX = re.compile(r"^(\d{4})-(\d{2})-(\d{2})-")
 
+# A redirect stub is a retired URL kept alive: it forwards to the article that
+# replaced it and asks robots not to index it. Stubs are content-free, so they
+# are never listed in index.html, sitemap.xml, feed.xml or llms.txt — but the
+# URL they forward to has to exist.
+_META_REFRESH = re.compile(
+    r'<meta[^>]+http-equiv=["\']?refresh["\']?[^>]*content=["\'][^"\']*'
+    r'url=\s*([^"\';\s]+)', re.I)
+_ROBOTS_NOINDEX = re.compile(
+    r'<meta[^>]+name=["\']?robots["\']?[^>]*content=["\'][^"\']*noindex', re.I)
+
 
 # --------------------------------------------------------------------------
 # small helpers
@@ -100,6 +110,40 @@ def _git_added_date(root: str, relpath: str) -> str | None:
 # post metadata
 # --------------------------------------------------------------------------
 
+def redirect_target(text: str) -> str | None:
+    """The article a redirect stub forwards to, or None if it is a real post.
+
+    A file counts as a stub only when it both meta-refreshes somewhere and
+    carries a noindex robots directive — a real article never does both.
+    """
+    refresh = _META_REFRESH.search(text)
+    if not refresh or not _ROBOTS_NOINDEX.search(text):
+        return None
+    return refresh.group(1).strip()
+
+
+def stub_target_filename(target: str) -> str | None:
+    """posts/<file>.html the stub points at, or None if it leaves the blog."""
+    if target.startswith(("http://", "https://")):
+        if not target.startswith(SITE_URL + "/"):
+            return None
+        target = target[len(SITE_URL) + 1:]
+    target = target.split("#")[0].split("?")[0].lstrip("/")
+    if target.startswith(POSTS_DIR + "/"):
+        return target[len(POSTS_DIR) + 1:]
+    return None
+
+
+def read_stubs(root: str) -> dict:
+    """{filename: redirect target} for every redirect stub in posts/."""
+    stubs = {}
+    for path in sorted(glob.glob(os.path.join(root, POSTS_DIR, "*.html"))):
+        target = redirect_target(read(path))
+        if target is not None:
+            stubs[os.path.basename(path)] = target
+    return stubs
+
+
 def read_post(root: str, filename: str) -> dict:
     relpath = "%s/%s" % (POSTS_DIR, filename)
     text = read(os.path.join(root, relpath))
@@ -142,10 +186,11 @@ def read_post(root: str, filename: str) -> dict:
 
 
 def read_posts(root: str) -> list[dict]:
-    """All posts/*.html, newest first."""
+    """All listable posts/*.html, newest first. Redirect stubs are skipped."""
     files = sorted(os.path.basename(p)
                    for p in glob.glob(os.path.join(root, POSTS_DIR, "*.html")))
-    posts = [read_post(root, f) for f in files]
+    stubs = read_stubs(root)
+    posts = [read_post(root, f) for f in files if f not in stubs]
     posts.sort(key=lambda p: (p["sort_key"], p["filename"]), reverse=True)
     return posts
 

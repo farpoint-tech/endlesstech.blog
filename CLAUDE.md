@@ -42,6 +42,19 @@ posts/
 5. Run `python3 tools/check-findability.py` — it must be green
 6. Commit and push to `master`
 
+### Renaming a post
+
+Never just delete the old file — that turns every existing inbound link into a
+404. Leave a **redirect stub** at the old path: a minimal page with a
+`<meta http-equiv="refresh">` to the new URL, a `<link rel="canonical">`, and
+`<meta name="robots" content="noindex, follow">`. See
+`posts/2026-07-19-zero-trust-m365-*.html`.
+
+A file with both a meta refresh and a `noindex` robots directive is treated as a
+stub: it is deliberately kept out of `index.html`, `sitemap.xml`, `feed.xml` and
+`llms.txt`, and `tools/check-findability.py` does not report it as missing — but
+it does fail if the stub's target no longer exists or if a stub gets listed.
+
 ## Scheduled posts
 
 **Never commit article HTML to `master` before its release date.** GitHub Pages

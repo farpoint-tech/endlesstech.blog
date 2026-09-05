@@ -9,6 +9,11 @@ Verifies that every article in posts/ is reachable:
   * index.html no longer advertises "Coming Soon"
   * sitemap.xml and feed.xml are well-formed XML
 
+Redirect stubs are the exception. A file in posts/ that both meta-refreshes
+elsewhere and carries a noindex robots directive is a retired URL kept alive
+for old inbound links; it holds no content, so it must NOT be listed anywhere
+and is not reported as missing. Its redirect target does have to exist.
+
 Exit code 0 when everything is green, 1 with a readable list of problems.
 
     python3 tools/check-findability.py [--root .] [--strict]
@@ -40,11 +45,27 @@ def _collect(text: str) -> list[str]:
 def check(root: str, strict: bool = False) -> list[str]:
     errors: list[str] = []
 
-    posts = sorted(os.path.basename(p)
+    files = sorted(os.path.basename(p)
                    for p in glob.glob(os.path.join(root, site_index.POSTS_DIR, "*.html")))
-    if not posts:
+    if not files:
         return ["posts/: no article found"]
-    known = set(posts)
+    known = set(files)
+
+    # retired URLs kept alive as redirects — never listed, but must resolve
+    stubs = site_index.read_stubs(root)
+    posts = [f for f in files if f not in stubs]
+
+    for filename, target in sorted(stubs.items()):
+        pointee = site_index.stub_target_filename(target)
+        if pointee is None:
+            errors.append("posts/%s: redirect stub points outside posts/ (%s)"
+                          % (filename, target))
+        elif pointee not in known:
+            errors.append("posts/%s: redirect stub points at missing file posts/%s"
+                          % (filename, pointee))
+        elif pointee in stubs:
+            errors.append("posts/%s: redirect stub points at another stub posts/%s"
+                          % (filename, pointee))
 
     # ---------------------------------------------------------------- index
     index_path = os.path.join(root, "index.html")
@@ -82,6 +103,9 @@ def check(root: str, strict: bool = False) -> list[str]:
                           % (count, filename))
     for filename in sorted(set(listing) - known):
         errors.append("index.html: card links to missing file posts/%s" % filename)
+    for filename in sorted(set(listing) & set(stubs)):
+        errors.append("index.html: card for the redirect stub posts/%s — stubs "
+                      "hold no content and must not be listed" % filename)
 
     # every posts/... reference anywhere in index.html (cards, hero, cornerstone
     # cards, JSON-LD) has to resolve to a real file
@@ -123,6 +147,9 @@ def check(root: str, strict: bool = False) -> list[str]:
             errors.append("%s: reference to missing file posts/%s" % (name, filename))
         for filename in sorted(set(_collect(text)) - known):
             errors.append("%s: reference to missing file posts/%s" % (name, filename))
+        for filename in sorted(set(_collect(text)) & set(stubs)):
+            errors.append("%s: lists the redirect stub posts/%s — stubs hold no "
+                          "content and must not be listed" % (name, filename))
 
     # ------------------------------------------------------------- XML sanity
     for name in ("sitemap.xml", "feed.xml"):
@@ -176,9 +203,11 @@ def main() -> int:
             print("  - %s" % line)
         return 1
 
-    count = len(glob.glob(os.path.join(args.root, site_index.POSTS_DIR, "*.html")))
+    total = len(glob.glob(os.path.join(args.root, site_index.POSTS_DIR, "*.html")))
+    stubs = len(site_index.read_stubs(args.root))
+    note = " (+ %d redirect stub%s, not listed)" % (stubs, "" if stubs == 1 else "s") if stubs else ""
     print("check-findability: OK — %d articles listed in index.html, "
-          "sitemap.xml, feed.xml and llms.txt" % count)
+          "sitemap.xml, feed.xml and llms.txt%s" % (total - stubs, note))
     return 0
 
 
