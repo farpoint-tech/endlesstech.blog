@@ -96,10 +96,14 @@
                     <p>For most SMEs, it is rarely an "either-or" decision. The choice depends entirely on your existing infrastructure and specific needs.</p>
                     
                     <p>If you want full cloud productivity combined with integrated device management, <strong>Microsoft 365 Business Premium</strong> (which includes Intune) is often the most streamlined and cost-effective path.</p>
-                    
-                    <p>However, if you manage complex on-premises infrastructures, require detailed IT Asset Management, or have strict European data sovereignty requirements, Baramundi is an excellent choice. But remember: you will still need M365 (or a similar suite) for your daily productivity tasks.</p>
-                    
-                    <p>Interestingly, the two platforms can work together harmoniously. Since the 2024 R2 release, the Baramundi Management Suite officially supports <strong>Intune Co-Management</strong>, allowing IT admins to leverage the cloud strengths of Intune alongside the unified endpoint management power of Baramundi.</p>
+
+                    <p>Two limits on that sentence, because they decide the cost comparison. Business Premium includes <strong>Microsoft Intune Plan 1</strong> — not the Intune Suite. The capabilities that sit closest to a specialist UEM suite (Endpoint Privilege Management, Remote Help, Advanced Endpoint Analytics, Microsoft Cloud PKI, Enterprise App Management) live in Intune Plan 2 and the Intune Suite add-ons and are licensed separately. And Business Premium is capped at <strong>300 users</strong>. Above that line you are comparing E3 or E5 plus Intune add-ons, and the arithmetic changes completely.</p>
+
+                    <p>However, if you manage complex on-premises infrastructures, require detailed IT Asset Management, or need management data to stay on your own premises, Baramundi is an excellent choice. But remember: you will still need M365 (or a similar suite) for your daily productivity tasks.</p>
+
+                    <p>One argument to retire while we are here: "European data sovereignty" on its own is not a reason to rule out Intune. Microsoft operates an Intune Europe region whose datacenters sit solely inside the EU Data Boundary — the EU and EFTA — plus local geographies including Switzerland, and the tenant's geography is fixed at provisioning from the country value in the Microsoft Entra directory. The real distinction is on-premises versus cloud, not EU versus non-EU. That matters, because sovereignty is the argument most often used incorrectly in these comparisons.</p>
+
+                    <p>The two platforms can also run alongside each other. Baramundi has stated since its 2024 R2 release that its Management Suite integrates with Intune (verify the current state and the exact feature set against baramundi's own documentation — release numbers and features change faster than blog posts age). One term needs care here, though: in Microsoft's vocabulary, <em>co-management</em> means one specific thing — managing a Windows device concurrently with <strong>Configuration Manager and Intune</strong>, with Configuration Manager policy deciding which of seven defined workloads is handed to Intune. Managing a device with Configuration Manager and a third-party MDM is called <strong>coexistence</strong>, and Microsoft is explicit that the workload balancing does not exist there. So do not expect the co-management dashboard and workload switching from a third-party suite. What you get is two management authorities on one device, which is workable but has to be orchestrated by hand.</p>
                     
                     <h2>Conclusion: Stop Comparing Apples to Oranges</h2>
                     <p>Cost comparisons that pit Baramundi directly against Microsoft 365 are inherently flawed. Baramundi only appears cheaper if you ignore the cost of the productivity tools you must purchase separately to complete your IT stack.</p>
@@ -111,13 +115,13 @@
                     <h2>Frequently Asked Questions</h2>
 
                     <h3>Is Baramundi cheaper than Microsoft 365?</h3>
-                    <p>Not when you compare total cost. Baramundi licenses cover endpoint management only. You still need a separate productivity suite — typically Microsoft 365 — for email, collaboration, and identity. When you add both costs together, Baramundi-plus-M365 is almost always more expensive than M365 Business Premium alone, which bundles Intune, Entra ID P1, and the full Office suite in a single SKU.</p>
+                    <p>Not when you compare total cost. Baramundi licenses cover endpoint management only. You still need a separate productivity suite — typically Microsoft 365 — for email, collaboration, and identity. When you add both costs together, Baramundi-plus-M365 is almost always more expensive than M365 Business Premium alone, which bundles Intune Plan 1, Entra ID P1, Defender for Business, Defender for Office 365 Plan 1, Purview Information Protection and DLP, and the full Office suite in a single SKU — up to 300 users.</p>
 
                     <h3>Can Baramundi and Intune run side by side?</h3>
-                    <p>Yes. Since the 2024 R2 release, Baramundi officially supports Intune co-management. This allows you to keep Baramundi for on-premises tasks like OS deployment and patch management while using Intune for cloud-native policies, Conditional Access, and compliance reporting. The co-management model is particularly useful during migration periods.</p>
+                    <p>Yes — but not as Microsoft co-management. Baramundi states that its suite integrates with Intune from the 2024 R2 release onward; check the current scope against baramundi's own documentation. In Microsoft's terminology, co-management means Configuration Manager plus Intune with workload switching between them. Configuration Manager alongside a third-party MDM is called coexistence, and Microsoft is explicit that the workload orchestration does not exist there. In practice you keep Baramundi for on-premises tasks like OS deployment and patch management while using Intune for cloud-native configuration and compliance policies, and Microsoft Entra ID for Conditional Access — Conditional Access is an Entra ID P1/P2 feature, not an Intune one; Intune supplies the device compliance state that a Conditional Access policy then evaluates. The arrangement is particularly useful during migration periods.</p>
 
                     <h3>When does Baramundi make sense over Intune alone?</h3>
-                    <p>Baramundi excels when you manage complex on-premises infrastructure — BIOS updates, driver management, OS imaging for air-gapped environments, or detailed IT asset tracking with hardware inventory. It also appeals to organizations with strict European data sovereignty requirements that prefer all management data to remain on-premises. For cloud-first environments without these constraints, Intune alone is usually sufficient.</p>
+                    <p>Baramundi's own pitch is complex on-premises infrastructure — BIOS updates, driver management, OS imaging for air-gapped environments, and detailed IT asset tracking with hardware inventory. Check the first two against the Microsoft side before you treat them as a differentiator: Intune has DFCI profiles for UEFI/BIOS settings (on Autopilot-registered devices from an OEM or CSP partner) and Windows driver update policies. The genuine differentiator is where the management plane lives — organizations that need all management data on their own premises. For cloud-first environments without that constraint, Intune alone is usually sufficient.</p>
 
                     <hr>
                     <h3>References</h3>
@@ -169,7 +173,7 @@
       "@type": "Article",
       "headline": "Microsoft 365 vs Baramundi: The Real Story",
       "datePublished": "2026-04-08",
-      "dateModified": "2026-06-20",
+      "dateModified": "2026-09-05",
       "author": {
         "@type": "Person",
         "name": "Philipp Schmidt",
@@ -201,7 +205,7 @@
           "name": "Is Baramundi cheaper than Microsoft 365?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Not when you compare total cost. Baramundi covers endpoint management only — you still need a separate productivity suite. M365 Business Premium bundles Intune, Entra ID P1, and the full Office suite in a single SKU, making it almost always cheaper overall."
+            "text": "Not when you compare total cost. Baramundi covers endpoint management only — you still need a separate productivity suite. M365 Business Premium bundles Intune Plan 1, Entra ID P1, Defender for Business and the full Office suite in a single SKU for up to 300 users, making it almost always cheaper overall."
           }
         },
         {
@@ -209,7 +213,7 @@
           "name": "Can Baramundi and Intune run side by side?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. Since the 2024 R2 release, Baramundi officially supports Intune co-management. This allows you to keep Baramundi for on-premises tasks while using Intune for cloud-native policies and Conditional Access."
+            "text": "Yes, but not as Microsoft co-management. In Microsoft terminology co-management means Configuration Manager plus Intune with workload switching; Configuration Manager alongside a third-party MDM is called coexistence and has no workload orchestration. In practice you keep Baramundi for on-premises tasks while using Intune for cloud-native configuration and compliance policies, and Microsoft Entra ID for Conditional Access."
           }
         },
         {
@@ -217,7 +221,7 @@
           "name": "When does Baramundi make sense over Intune alone?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Baramundi excels when you manage complex on-premises infrastructure — BIOS updates, OS imaging for air-gapped environments, or detailed IT asset tracking. It also appeals to organizations with strict European data sovereignty requirements."
+            "text": "Baramundi targets complex on-premises infrastructure — OS imaging for air-gapped environments and detailed IT asset tracking. Note that Intune covers UEFI/BIOS settings via DFCI profiles and has Windows driver update policies. The genuine differentiator is organizations that need all management data to stay on their own premises."
           }
         }
       ]
