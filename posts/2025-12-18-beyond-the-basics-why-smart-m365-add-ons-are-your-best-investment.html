@@ -5,21 +5,21 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
     <meta name="robots" content="index,follow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Why Microsoft 365 Business Premium is worth it for SMBs, and how E5 Security and Compliance add-ons deliver enterprise-grade protection at a fraction of the cost.">
+    <meta name="description" content="Why Microsoft 365 Business Premium is worth it for SMBs, and how the Microsoft Defender Suite for Business Premium and the Microsoft Purview Suite deliver enterprise-grade protection at a fraction of the cost.">
     <meta name="author" content="Philipp Schmidt">
     <meta name="keywords" content="Microsoft 365 security add-ons, M365 Business Premium worth it, Intune EMS E3 vs E5 pricing, Intune included in Microsoft 365, E5 Security, E5 Compliance, Defender for Business">
     
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="article">
     <meta property="og:title" content="Microsoft 365 Add-Ons: Is Business Premium Worth It?">
-    <meta property="og:description" content="Why Microsoft 365 Business Premium is worth it for SMBs, and how E5 Security and Compliance add-ons deliver enterprise-grade protection at a fraction of the cost.">
+    <meta property="og:description" content="Why Microsoft 365 Business Premium is worth it for SMBs, and how the Microsoft Defender Suite for Business Premium and the Microsoft Purview Suite deliver enterprise-grade protection at a fraction of the cost.">
     <meta property="og:image" content="https://endlesstech.blog/assets/images/m365-addons-hero.webp">
     <meta property="og:url" content="https://endlesstech.blog/posts/2025-12-18-beyond-the-basics-why-smart-m365-add-ons-are-your-best-investment.html">
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Microsoft 365 Add-Ons: Is Business Premium Worth It?">
-    <meta name="twitter:description" content="Why Microsoft 365 Business Premium is worth it for SMBs, and how E5 Security and Compliance add-ons deliver enterprise-grade protection at a fraction of the cost.">
+    <meta name="twitter:description" content="Why Microsoft 365 Business Premium is worth it for SMBs, and how the Microsoft Defender Suite for Business Premium and the Microsoft Purview Suite deliver enterprise-grade protection at a fraction of the cost.">
     <meta name="twitter:image" content="https://endlesstech.blog/assets/images/m365-addons-hero.webp">
     
     <title>Microsoft 365 Add-Ons: Is Business Premium Worth It?</title>
@@ -78,15 +78,15 @@
                         <img src="../assets/images/m365-business-standard-trap.webp" alt="House of cards collapsing to illustrate the security gaps of relying solely on Microsoft 365 Business Standard" style="max-width: 800px; max-height: 400px; width: 100%; object-fit: cover; border-radius: 12px; display: block;" loading="lazy" srcset="../assets/images/responsive/m365-business-standard-trap-400w.webp 400w, ../assets/images/responsive/m365-business-standard-trap-800w.webp 800w, ../assets/images/m365-business-standard-trap.webp 1344w" sizes="(max-width: 800px) 100vw, 800px">
                     </div>
                     
-                    <p>Microsoft 365 Business Standard is a popular entry point for many businesses. It offers the familiar Office suite, email, and basic collaboration tools at a competitive price point of $12.50 per user per month <sup><a href="#ref1">[1]</a></sup>. However, for any organization looking to truly leverage the power of the cloud, it falls critically short in two key areas: <strong>device management</strong> and <strong>security</strong>.</p>
+                    <p>Microsoft 365 Business Standard is a popular entry point for many businesses. It includes the <strong>desktop</strong> versions of Outlook, Word, Excel, PowerPoint and OneNote (plus Access and Publisher on PC), licensed for five PCs or Macs, five tablets and five mobile devices per user, along with hosted email and Teams. Web- and mobile-only is Business Basic, not Standard — get that right before you quote it to anyone. Where Standard falls short is elsewhere: <strong>device management</strong> and <strong>security</strong>. Check current list prices on Microsoft's pricing page rather than any figure in a blog post <sup><a href="#ref1">[1]</a></sup>; they have moved more than once.</p>
 
-                    <p>Without robust device management, you have no central control over the computers and mobile devices accessing your company data. This means you cannot enforce security policies, remotely wipe a lost or stolen device, or ensure that all endpoints are up-to-date with the latest security patches. In today's world of remote work and ever-present cyber threats, this is a gaping security hole that no business can afford.</p>
+                    <p>Standard is not empty on device management either, and it pays to know exactly where the line runs. Every Microsoft 365 for business subscription includes <strong>Basic Mobility and Security</strong>, a free MDM subset of Intune: it enrols iOS/iPadOS, Android, Samsung Knox and Windows devices, applies device policies, can <em>remove company resources (retire)</em>, and can <em>factory reset (full wipe)</em> a device. So yes, you can wipe a lost phone on Standard. What you cannot do is MAM for BYOD, app deployment, macOS management, Autopilot, BitLocker key recovery, remote lock, or locating a lost device — and device compliance, Conditional Access and device configuration are all marked "limited". That is where Intune Plan 1 in Business Premium begins, and for a company with laptops and remote work, that gap is the whole game.</p>
 
                     <p>Similarly, the security features in Business Standard are rudimentary at best. You get basic email filtering, but you lack the advanced threat protection needed to defend against sophisticated phishing attacks, ransomware, and zero-day exploits. In essence, Business Standard leaves your digital front door unlocked and unguarded.</p>
 
                     <div class="management-summary">
                         <h3>Management Summary</h3>
-                        <p>Business Standard provides essential productivity tools but lacks critical security and device management capabilities. For organizations planning to migrate to the cloud and embrace remote work, this plan is insufficient as a long-term solution.</p>
+                        <p>Business Standard provides the full desktop Office apps and basic MDM through Basic Mobility and Security, but lacks Intune Plan 1, Defender for Business, Entra ID P1 and Defender for Office 365 Plan 1. For organizations planning to migrate to the cloud and embrace remote work, that is insufficient as a long-term solution.</p>
                     </div>
                 </section>
 
@@ -96,7 +96,7 @@
                         <img src="../assets/images/m365-business-premium-launchpad.webp" alt="Rocket on launchpad symbolizing Microsoft 365 Business Premium as a secure foundation for SMB growth" style="max-width: 800px; max-height: 400px; width: 100%; object-fit: cover; border-radius: 12px; display: block;" loading="lazy" srcset="../assets/images/responsive/m365-business-premium-launchpad-400w.webp 400w, ../assets/images/responsive/m365-business-premium-launchpad-800w.webp 800w, ../assets/images/m365-business-premium-launchpad.webp 1344w" sizes="(max-width: 800px) 100vw, 800px">
                     </div>
                     
-                    <p>This is where Microsoft 365 Business Premium shines. At $22.00 per user per month <sup><a href="#ref1">[1]</a></sup>, it represents a modest increase in price compared to Business Standard, yet it delivers a comprehensive solution that addresses the critical shortcomings of the basic plan. Business Premium includes everything in Business Standard, plus:</p>
+                    <p>This is where Microsoft 365 Business Premium shines. It is a modest step up in price from Business Standard <sup><a href="#ref1">[1]</a></sup>, yet it closes every gap listed above. Business Premium includes everything in Business Standard, plus:</p>
 
                     <p><strong>Microsoft Intune</strong> — included in Microsoft 365 Business Premium — provides mobile device management (MDM) and <a href="2025-11-10-mobile-application-management-your-quarterback-for-mobile-security.html">mobile application management (MAM)</a> capabilities, giving you granular control over all your devices. You can enforce security policies, manage app deployments, and ensure compliance across your entire device fleet.</p>
 
@@ -104,7 +104,9 @@
 
                     <p><strong>Microsoft Entra ID P1</strong> is a robust identity and access management solution that enables features like Conditional Access. Wondering <a href="2026-06-09-is-microsoft-entra-id-free-pricing-guide.html">is Microsoft Entra ID free</a>? The free tier covers basic identity, but P1 — included in Business Premium — unlocks Conditional Access, allowing you to enforce granular access policies based on user, device, and location, ensuring that only authorized users can access sensitive data.</p>
 
-                    <p><strong>Microsoft Purview Information Protection</strong> is a data governance and compliance solution that helps you classify and protect your sensitive data. You can apply encryption and access controls to ensure that your most valuable information remains secure.</p>
+                    <p><strong>Microsoft Defender for Office 365 Plan 1</strong> is the one people forget when they compare plans. It adds Safe Links (email, Office apps and Teams), Safe Attachments (email plus files in SharePoint, OneDrive and Teams), impersonation protection and anti-phishing thresholds — on top of the anti-spam, anti-malware and spoof protection that every cloud mailbox already has.</p>
+
+                    <p><strong>Microsoft Purview Information Protection</strong> is a data governance and compliance solution that helps you classify and protect your sensitive data. You can apply encryption and access controls to ensure that your most valuable information remains secure. Business Premium also includes <strong>data loss prevention for email and files</strong> — worth naming, because most comparisons quietly leave it out and it is one of the stronger arguments for the plan.</p>
 
                     <p>With Business Premium, you have a solid foundation for a secure and well-managed cloud environment. You can confidently embrace remote work, knowing that your data is protected and your devices are under control.</p>
 
@@ -125,54 +127,56 @@
                         <img src="../assets/images/m365-power-of-addons.webp" alt="Interlocking gears illustrating how Microsoft 365 E5 Security and Compliance add-ons extend Business Premium protection" style="max-width: 800px; max-height: 400px; width: 100%; object-fit: cover; border-radius: 12px; display: block;" loading="lazy" srcset="../assets/images/responsive/m365-power-of-addons-400w.webp 400w, ../assets/images/responsive/m365-power-of-addons-800w.webp 800w, ../assets/images/m365-power-of-addons.webp 1344w" sizes="(max-width: 800px) 100vw, 800px">
                     </div>
                     
-                    <p>While Business Premium is an excellent starting point, it is not the end of the story. For businesses with specific security or compliance needs, Microsoft offers a range of powerful add-ons that can further enhance your M365 environment. Two of the most valuable add-ons are the <strong>Microsoft 365 E5 Security</strong> and <strong>Microsoft 365 E5 Compliance</strong> packages.</p>
+                    <p>While Business Premium is an excellent starting point, it is not the end of the story. For businesses with specific security or compliance needs, Microsoft offers add-ons that build directly on it. The two that matter here are the <strong>Microsoft Defender Suite for Business Premium</strong> and the <strong>Microsoft Purview Suite</strong> (formerly known as Microsoft 365 E5 Compliance). Both were previously marketed as "E5 Security" and "E5 Compliance" — if you are working from an older quote, those are the same things under their old names.</p>
 
-                    <h3>The E5 Security Add-On: Your Digital Bodyguard</h3>
-                    <p>The E5 Security add-on provides a suite of enterprise-grade security features that can be added to your Business Premium plan. For approximately $12 per user per month <sup><a href="#ref2">[2]</a></sup>, you get:</p>
+                    <h3>The Microsoft Defender Suite for Business Premium: Your Digital Bodyguard</h3>
+                    <p>This add-on layers enterprise-grade security onto Business Premium <sup><a href="#ref2">[2]</a></sup>. You get:</p>
 
-                    <p><strong>Microsoft Defender for Identity</strong> helps you identify and investigate advanced threats, compromised identities, and malicious insider actions on-premises. This tool uses behavioral analytics to detect suspicious activities that might indicate a compromised account.</p>
+                    <p><strong>Microsoft Entra ID P2</strong> is the component most SMB comparisons miss, and for my money the most valuable one. It adds Microsoft Entra ID Protection — risk-based Conditional Access, the thing Business Premium's P1 cannot do — and Microsoft Entra ID Governance. If you have ever been told "just turn on risk-based policies" while sitting on Business Premium, this is the add-on that makes that sentence true.</p>
 
-                    <p><strong>Microsoft Defender for Endpoint P2</strong> provides advanced post-breach detection, investigation, and response capabilities. If a threat does manage to penetrate your initial defenses, this tool helps you detect it quickly and respond effectively.</p>
+                    <p><strong>Microsoft Defender for Identity</strong> is an identity threat detection and response (ITDR) solution that secures identity monitoring across your organization — cloud and on-premises, not on-premises only. It uses behavioral analytics to detect activity that indicates a compromised account.</p>
+
+                    <p><strong>Microsoft Defender for Endpoint Plan 2</strong> adds threat hunting, live response, six months of data retention on the device, and endpoint security for IoT devices on top of what Defender for Business already gives you.</p>
 
                     <p><strong>Microsoft Defender for Office 365 P2</strong> offers advanced protection against phishing, malware, and business email compromise (BEC) attacks. Email remains one of the most common attack vectors, and this tool provides sophisticated protection against evolving threats.</p>
 
                     <p><strong>Microsoft Defender for Cloud Apps</strong> gives you visibility and control over your cloud apps and services. You can monitor user activities, detect anomalous behavior, and enforce data protection policies across all your cloud applications.</p>
 
-                    <p>For a small investment, the E5 Security add-on provides a level of protection that was previously only available to large enterprises. It represents a cost-effective way to achieve enterprise-grade security without the enterprise-grade price tag.</p>
+                    <p>For a small per-user investment, this add-on provides a level of protection that was previously only available to large enterprises — and, through Entra ID P2, closes the one licensing gap that otherwise forces SMBs to jump all the way to E5.</p>
 
                     <div class="management-summary">
                         <h3>Management Summary</h3>
-                        <p>The E5 Security add-on extends Business Premium's security capabilities to include advanced threat detection, identity protection, and cloud app security—all for approximately $12 per user per month.</p>
+                        <p>The Microsoft Defender Suite for Business Premium extends Business Premium with Entra ID P2 (risk-based Conditional Access and identity governance), Defender for Identity, Defender for Endpoint Plan 2, Defender for Office 365 Plan 2, and Defender for Cloud Apps.</p>
                     </div>
 
                     <div class="technical-description">
                         <h3>Technical Description</h3>
-                        <p>The E5 Security add-on layers multiple detection and response capabilities: identity-based threat detection (Defender for Identity), endpoint-level detection and response (Defender for Endpoint P2), email threat protection (Defender for Office 365 P2), and cloud application monitoring (Defender for Cloud Apps). This multi-layered approach ensures that threats are detected and addressed at every level of your IT infrastructure.</p>
+                        <p>The add-on layers detection and response across every plane: identity risk and governance (Entra ID P2), identity threat detection (Defender for Identity), endpoint detection and response with hunting and six-month retention (Defender for Endpoint Plan 2), email threat protection with automated investigation and attack simulation (Defender for Office 365 Plan 2), and SaaS visibility and shadow IT control (Defender for Cloud Apps).</p>
                     </div>
                 </section>
 
                 <section>
-                    <h2>The E5 Compliance Add-On: Your No-Brainer for Regulatory Peace of Mind</h2>
-                    <p>For businesses in regulated industries like finance, healthcare, or law, the E5 Compliance add-on is an absolute must-have. For a similar price to the security add-on, it provides a comprehensive suite of compliance features, including:</p>
+                    <h2>The Microsoft Purview Suite: Your No-Brainer for Regulatory Peace of Mind</h2>
+                    <p>For businesses in regulated industries like finance, healthcare, or law, the Microsoft Purview Suite (formerly Microsoft 365 E5 Compliance) is an absolute must-have. What it adds — and, just as important, what you already have without it:</p>
 
-                    <p><strong>Advanced Data Loss Prevention (DLP)</strong> helps you prevent the accidental or malicious sharing of sensitive data. You can define policies that detect and block the transmission of sensitive information, such as credit card numbers, social security numbers, or confidential business data.</p>
+                    <p><strong>Advanced Data Loss Prevention (DLP).</strong> Business Premium already gives you DLP for email and files. What this add-on brings on top is endpoint DLP (controlling copy-to-USB and print), DLP for Teams chat and channel messages, and the advanced classifiers. So the question is not "do I have DLP" but "do I need it where the data actually leaks".</p>
 
-                    <p><strong>Advanced eDiscovery</strong> provides a powerful tool for finding and preserving electronically stored information (ESI) for legal and regulatory purposes. If your organization is involved in litigation or a regulatory investigation, this tool helps you efficiently locate and manage relevant data.</p>
+                    <p><strong>eDiscovery (Premium).</strong> Same caveat: basic eDiscovery — search, cases, legal hold, export — is available at the E3/Standard tier. What the Suite adds is the premium set: custodian management, legal hold notifications, advanced indexing, review sets, tagging, analytics and predictive coding. Note also that Microsoft <strong>retired all classic eDiscovery experiences on 31 August 2025</strong>, including classic Content Search and classic eDiscovery (Standard and Premium) — if your runbook still points at the classic UI, it is out of date.</p>
 
-                    <p><strong>Compliance Manager</strong> helps you manage your compliance activities and assess your compliance posture against a wide range of regulations, including GDPR, HIPAA, and SOC 2. This tool provides a centralized dashboard for tracking your compliance efforts and identifying areas where you need to improve.</p>
+                    <p><strong>Compliance Manager premium assessment templates.</strong> Compliance Manager itself is broadly available; what depends on licensing is the premium assessment templates and the scope of assessments you can run against regulations like GDPR, HIPAA and SOC 2.</p>
 
                     <p><strong>Records Management</strong> enables you to manage your organization's records and ensure that they are retained and disposed of in accordance with your policies. This is essential for meeting regulatory requirements and managing your data lifecycle.</p>
 
-                    <p>If compliance is a priority for your business, the E5 Compliance add-on is a no-brainer. It can save you countless hours of manual work and help you avoid costly fines and penalties.</p>
+                    <p>If compliance is a priority for your business, the Purview Suite is a straightforward decision. It can save you a lot of manual work and help you avoid costly fines and penalties.</p>
 
                     <div class="management-summary">
                         <h3>Management Summary</h3>
-                        <p>The E5 Compliance add-on provides advanced compliance and data governance capabilities, including DLP, eDiscovery, Compliance Manager, and Records Management. For regulated industries, this add-on is essential.</p>
+                        <p>The Microsoft Purview Suite adds the advanced tier of compliance and data governance: endpoint and Teams DLP with advanced classifiers, eDiscovery (Premium), premium Compliance Manager assessment templates, and Records Management. The basic tiers of DLP, eDiscovery and Compliance Manager are already covered below the add-on.</p>
                     </div>
 
                     <div class="technical-description">
                         <h3>Technical Description</h3>
-                        <p>The E5 Compliance add-on implements a comprehensive compliance framework that includes data classification and protection (DLP), legal hold and discovery capabilities (Advanced eDiscovery), compliance assessment and reporting (Compliance Manager), and retention and disposal management (Records Management). Together, these tools create a complete compliance management system.</p>
+                        <p>The Suite implements the advanced layer of a compliance framework: data classification and protection beyond email and files (endpoint DLP, Teams DLP, advanced classifiers), premium discovery capabilities (review sets, tagging, analytics, predictive coding on top of basic legal hold and export), premium compliance assessment templates, and retention and disposal management (Records Management).</p>
                     </div>
                 </section>
 
@@ -184,15 +188,15 @@
                     
                     <p>It is easy to look at the cost of add-ons and see them as an unnecessary expense. However, this is a shortsighted view. The reality is that the cost of a security breach or compliance failure can be far greater than the cost of these add-ons.</p>
 
-                    <p>Consider this: the average cost of a data breach for a small business can range from $120,000 to over a million dollars <sup><a href="#ref3">[3]</a></sup>. For just a few dollars more per user per month, you can significantly reduce your risk of a breach and protect your business from financial and reputational damage.</p>
+                    <p>Estimates for what a breach costs a small business vary widely by source and methodology — one industry estimate puts the range from roughly six figures to over a million dollars <sup><a href="#ref3">[3]</a></sup>. Treat any single number with suspicion; the point is only that the range starts well above what licensing costs.</p>
 
-                    <p>Let us break this down with a practical example. For a 50-person SMB, the annual cost of Business Premium is $13,200 ($22 × 50 × 12). Adding the E5 Security add-on would cost an additional $7,200 per year ($12 × 50 × 12). The total investment is $20,400 per year, or approximately $408 per employee per year. If this investment helps you avoid even a single data breach, the ROI is enormous.</p>
+                    <p>So do the arithmetic yourself rather than trusting a figure from a blog post. Take the current per-user list price of Business Premium, multiply by your headcount and by twelve, then add the same calculation for the Defender Suite for Business Premium. For a 50-person company that lands in the low tens of thousands per year, a few hundred euros per employee. Compare that against your own downtime cost per day — that is the number that actually decides this, and it is the one only you have.</p>
 
-                    <p>When you look at it this way, the ROI is clear. Investing in the right M365 plan and add-ons is not just a good idea – it is a smart business decision.</p>
+                    <p>Investing in the right M365 plan and add-ons is not a leap of faith. It is a calculation you can run in five minutes with real prices.</p>
 
                     <div class="management-summary">
                         <h3>Management Summary</h3>
-                        <p>The cost of a data breach ($120,000–$1,000,000+) far exceeds the cost of Business Premium plus E5 add-ons ($408 per employee per year). The ROI of investing in proper security and compliance is substantial.</p>
+                        <p>Run the numbers with current list prices and your own headcount and downtime cost. Licensing lands in the low hundreds per employee per year; breach cost estimates start an order of magnitude higher. Do not quote a per-user price you have not checked this quarter.</p>
                     </div>
                 </section>
 
@@ -205,21 +209,18 @@
                                     <th>Feature</th>
                                     <th>Business Standard</th>
                                     <th>Business Premium</th>
-                                    <th>+ E5 Security</th>
-                                    <th>+ E5 Compliance</th>
+                                    <th>+ Defender Suite for Business Premium</th>
+                                    <th>+ Purview Suite</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td><strong>Price per user/month</strong></td>
-                                    <td>$12.50</td>
-                                    <td>$22.00</td>
-                                    <td>+$12.00</td>
-                                    <td>+$12.00</td>
+                                    <td colspan="4">Check Microsoft's current pricing page — list prices have changed since this article was first published</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Office Apps</strong></td>
-                                    <td>Web/Mobile</td>
+                                    <td>Desktop</td>
                                     <td>Desktop</td>
                                     <td>Desktop</td>
                                     <td>Desktop</td>
@@ -232,7 +233,14 @@
                                     <td>Yes</td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Intune (Device Management)</strong></td>
+                                    <td><strong>Basic Mobility and Security (MDM)</strong></td>
+                                    <td>Yes</td>
+                                    <td>Yes</td>
+                                    <td>Yes</td>
+                                    <td>Yes</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Microsoft Intune Plan 1 (MDM <em>and</em> MAM)</strong></td>
                                     <td>No</td>
                                     <td>Yes</td>
                                     <td>Yes</td>
@@ -246,11 +254,32 @@
                                     <td>Yes</td>
                                 </tr>
                                 <tr>
+                                    <td><strong>Defender for Office 365 Plan 1</strong></td>
+                                    <td>No</td>
+                                    <td>Yes</td>
+                                    <td>Yes</td>
+                                    <td>Yes</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>DLP for email and files</strong></td>
+                                    <td>No</td>
+                                    <td>Yes</td>
+                                    <td>Yes</td>
+                                    <td>Yes</td>
+                                </tr>
+                                <tr>
                                     <td><strong>Entra ID P1</strong></td>
                                     <td>No</td>
                                     <td>Yes</td>
                                     <td>Yes</td>
                                     <td>Yes</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Entra ID P2 (risk-based Conditional Access)</strong></td>
+                                    <td>No</td>
+                                    <td>No</td>
+                                    <td>Yes</td>
+                                    <td>No</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Defender for Identity</strong></td>
@@ -274,21 +303,21 @@
                                     <td>No</td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Advanced DLP</strong></td>
+                                    <td><strong>Advanced DLP</strong> (endpoint DLP, Teams DLP, advanced classifiers)</td>
                                     <td>No</td>
                                     <td>No</td>
                                     <td>No</td>
                                     <td>Yes</td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Advanced eDiscovery</strong></td>
+                                    <td><strong>eDiscovery (Premium)</strong> — review sets, tagging, analytics, predictive coding</td>
                                     <td>No</td>
                                     <td>No</td>
                                     <td>No</td>
                                     <td>Yes</td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Compliance Manager</strong></td>
+                                    <td><strong>Compliance Manager premium assessment templates</strong></td>
                                     <td>No</td>
                                     <td>No</td>
                                     <td>No</td>
@@ -308,9 +337,11 @@
 
                 <section>
                     <h2>Conclusion</h2>
-                    <p>Your journey to the cloud is too important to be built on a shaky foundation. By starting with Microsoft 365 Business Premium and strategically investing in add-ons like E5 Security and E5 Compliance, you can build a secure, compliant, and productive cloud environment — grounded in a <a href="2025-10-24-getting-started-with-zero-trust.html">Zero Trust approach to Microsoft 365</a> — that will support your business for years to come.</p>
+                    <p>Your journey to the cloud is too important to be built on a shaky foundation. By starting with Microsoft 365 Business Premium and adding the Microsoft Defender Suite for Business Premium or the Microsoft Purview Suite where your risk actually sits, you can build a secure, compliant, and productive cloud environment — grounded in a <a href="2025-10-24-getting-started-with-zero-trust.html">Zero Trust approach to Microsoft 365</a> — that will support your business for years to come.</p>
 
-                    <p>The choice is clear: invest a few euros per user per month now, or risk far greater costs later. Do not let budget constraints stand in the way of your long-term success. Your data, your compliance, and your business depend on making the right choice today.</p>
+                    <p>One note on the tier above: Microsoft 365 E7 now sits over E5 and bundles the Microsoft Entra Suite and Microsoft Agent 365. For an SMB between 1 and 300 users it is rarely the answer, but if someone quotes it to you, that is what it is.</p>
+
+                    <p>The choice is a calculation, not a leap of faith: run the numbers with current list prices and your own downtime cost. Do not let a stale price sheet decide it for you.</p>
 
                     <p><strong>Ready to build a secure and compliant M365 environment? Start with Business Premium and evaluate which add-ons best fit your organization's needs.</strong></p>
                 </section>
@@ -319,8 +350,10 @@
                     <h2>References</h2>
                     <ol>
                         <li id="ref1">Microsoft. (2025). <em>Microsoft 365 Business Plans and Pricing</em>. Retrieved from <a href="https://www.microsoft.com/en-us/microsoft-365/business/microsoft-365-plans-and-pricing" target="_blank" rel="noopener noreferrer">https://www.microsoft.com/en-us/microsoft-365/business/microsoft-365-plans-and-pricing</a></li>
-                        <li id="ref2">Microsoft. (2025). <em>Microsoft 365 E5 Security & Compliance Add-Ons</em>. Retrieved from <a href="https://www.hbs.net/blog/microsoft-365-e5-security-and-compliance-add-ons" target="_blank" rel="noopener noreferrer">https://www.hbs.net/blog/microsoft-365-e5-security-and-compliance-add-ons</a></li>
-                        <li id="ref3">PurpleSec. (2025). <em>The True Cost Of A Data Breach To Small Business</em>. Retrieved from <a href="https://purplesec.us/learn/data-breach-cost-for-small-businesses/" target="_blank" rel="noopener noreferrer">https://purplesec.us/learn/data-breach-cost-for-small-businesses/</a></li>
+                        <li id="ref2">Microsoft Learn. <em>Add Microsoft Defender Suite for Business Premium to your subscription</em>. Retrieved from <a href="https://learn.microsoft.com/microsoft-365/admin/security-and-compliance/add-defender-suite-business-premium" target="_blank" rel="noopener noreferrer">https://learn.microsoft.com/microsoft-365/admin/security-and-compliance/add-defender-suite-business-premium</a></li>
+                        <li id="ref3">PurpleSec. (2025). <em>The True Cost Of A Data Breach To Small Business</em>. Retrieved from <a href="https://purplesec.us/learn/data-breach-cost-for-small-businesses/" target="_blank" rel="noopener noreferrer">https://purplesec.us/learn/data-breach-cost-for-small-businesses/</a> (industry estimate, not a Microsoft figure)</li>
+                        <li id="ref4">Microsoft Learn. <em>Overview of Basic Mobility and Security in Microsoft 365 for business</em>. Retrieved from <a href="https://learn.microsoft.com/microsoft-365/admin/security-and-compliance/m365b-devices-basic-mobility-security-overview" target="_blank" rel="noopener noreferrer">https://learn.microsoft.com/microsoft-365/admin/security-and-compliance/m365b-devices-basic-mobility-security-overview</a></li>
+                        <li id="ref5">Microsoft Learn. <em>What is Microsoft 365 for business</em> (plan contents). Retrieved from <a href="https://learn.microsoft.com/microsoft-365/admin/admin-overview/what-is-microsoft-365-for-business" target="_blank" rel="noopener noreferrer">https://learn.microsoft.com/microsoft-365/admin/admin-overview/what-is-microsoft-365-for-business</a></li>
                     </ol>
                 </section>
 
@@ -335,11 +368,11 @@
             <section class="faq">
               <h2>Frequently Asked Questions</h2>
               <h3>Is Intune included in Microsoft 365?</h3>
-              <p>Intune is included in Microsoft 365 Business Premium, E3, E5, and the EMS plans — but not in Business Basic or Business Standard. If you're on Standard and need device management, Business Premium is the upgrade that adds Intune, Defender for Business, and Entra ID P1.</p>
+              <p>Microsoft Intune Plan 1 is included in Microsoft 365 Business Premium, E3, E5, and the EMS plans — but not in Business Basic or Business Standard. Basic Mobility and Security, a free MDM subset of Intune, <em>is</em> included in every Microsoft 365 for business subscription: it enrols devices, applies policies, and can retire or fully wipe a device. What it cannot do is MAM for BYOD, app deployment, macOS, Autopilot, remote lock, or BitLocker key recovery. If you're on Standard and need real device management, Business Premium is the upgrade that adds Intune Plan 1, Defender for Business, Defender for Office 365 Plan 1, and Entra ID P1.</p>
               <h3>Is Microsoft 365 Business Premium worth it?</h3>
-              <p>For most SMBs, yes. At around $22/user/month it adds Intune (device management), Defender for Business (endpoint protection), and Entra ID P1 (Conditional Access) on top of Business Standard's apps. That security and management layer is hard to match by buying the pieces separately.</p>
-              <h3>What's the difference between the E5 Security and E5 Compliance add-ons?</h3>
-              <p>The E5 Security add-on adds advanced threat protection (Defender for Identity, Endpoint P2, Office 365 P2, Cloud Apps). The E5 Compliance add-on adds data governance (advanced DLP, eDiscovery, Compliance Manager, Records Management). Security defends against attacks; Compliance helps meet regulations like GDPR and ISO 27001.</p>
+              <p>For most SMBs, yes. On top of Business Standard — which already includes the desktop Office apps — it adds Intune Plan 1 (MDM and MAM), Defender for Business (endpoint protection with EDR), Defender for Office 365 Plan 1 (Safe Links, Safe Attachments, impersonation protection), DLP for email and files, and Entra ID P1 (Conditional Access). That layer is hard to match by buying the pieces separately. Check current per-user pricing on Microsoft's site rather than any figure quoted in an article.</p>
+              <h3>What's the difference between the Defender Suite for Business Premium and the Purview Suite?</h3>
+              <p>These are the add-ons previously marketed as E5 Security and E5 Compliance. The <strong>Microsoft Defender Suite for Business Premium</strong> adds Entra ID P2 (risk-based Conditional Access and identity governance), Defender for Identity, Defender for Endpoint Plan 2, Defender for Office 365 Plan 2, and Defender for Cloud Apps. The <strong>Microsoft Purview Suite</strong> adds the advanced compliance tier: endpoint and Teams DLP with advanced classifiers, eDiscovery (Premium), premium Compliance Manager assessment templates, and Records Management. Defender defends against attacks; Purview helps meet regulations like GDPR and ISO 27001.</p>
             </section>
         </article>
 
@@ -404,12 +437,12 @@
   "@context": "https://schema.org",
   "@type": "Article",
   "headline": "Microsoft 365 Add-Ons: Is Business Premium Worth It?",
-  "description": "Why Microsoft 365 Business Premium is worth it for SMBs, and how E5 Security and Compliance add-ons deliver enterprise-grade protection affordably.",
+  "description": "Why Microsoft 365 Business Premium is worth it for SMBs, and how the Microsoft Defender Suite for Business Premium and the Microsoft Purview Suite deliver enterprise-grade protection affordably.",
   "image": "https://endlesstech.blog/assets/images/m365-addons-hero.webp",
   "author": { "@type": "Person", "name": "Philipp Schmidt", "url": "https://easym365.de" },
   "publisher": { "@type": "Organization", "name": "EndlessTech Blog" },
   "datePublished": "2025-12-18",
-  "dateModified": "2026-06-20",
+  "dateModified": "2026-09-05",
   "mainEntityOfPage": "https://endlesstech.blog/posts/2025-12-18-beyond-the-basics-why-smart-m365-add-ons-are-your-best-investment.html"
 }
     </script>
@@ -418,9 +451,9 @@
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
-    { "@type": "Question", "name": "Is Intune included in Microsoft 365?", "acceptedAnswer": { "@type": "Answer", "text": "Intune is included in Microsoft 365 Business Premium, E3, E5, and EMS plans, but not in Business Basic or Standard. Business Premium adds Intune, Defender for Business, and Entra ID P1." } },
-    { "@type": "Question", "name": "Is Microsoft 365 Business Premium worth it?", "acceptedAnswer": { "@type": "Answer", "text": "For most SMBs, yes. At around $22/user/month it adds Intune, Defender for Business, and Entra ID P1 (Conditional Access) on top of Business Standard — a security layer hard to match by buying pieces separately." } },
-    { "@type": "Question", "name": "What's the difference between the E5 Security and E5 Compliance add-ons?", "acceptedAnswer": { "@type": "Answer", "text": "E5 Security adds advanced threat protection (Defender for Identity, Endpoint P2, Office 365 P2, Cloud Apps). E5 Compliance adds data governance (advanced DLP, eDiscovery, Compliance Manager, Records Management)." } }
+    { "@type": "Question", "name": "Is Intune included in Microsoft 365?", "acceptedAnswer": { "@type": "Answer", "text": "Microsoft Intune Plan 1 is included in Microsoft 365 Business Premium, E3, E5, and EMS plans, but not in Business Basic or Standard. Basic Mobility and Security, a free MDM subset of Intune, is included in every Microsoft 365 for business subscription and can enrol devices, apply policies, retire and fully wipe a device — but not MAM for BYOD, app deployment, macOS, Autopilot or remote lock. Business Premium adds Intune Plan 1, Defender for Business, Defender for Office 365 Plan 1 and Entra ID P1." } },
+    { "@type": "Question", "name": "Is Microsoft 365 Business Premium worth it?", "acceptedAnswer": { "@type": "Answer", "text": "For most SMBs, yes. On top of Business Standard — which already includes the desktop Office apps — it adds Intune Plan 1, Defender for Business, Defender for Office 365 Plan 1, DLP for email and files, and Entra ID P1 (Conditional Access). Check current per-user pricing on Microsoft's site rather than a figure quoted in an article." } },
+    { "@type": "Question", "name": "What's the difference between the Defender Suite for Business Premium and the Purview Suite?", "acceptedAnswer": { "@type": "Answer", "text": "These are the add-ons previously marketed as E5 Security and E5 Compliance. The Microsoft Defender Suite for Business Premium adds Entra ID P2 (risk-based Conditional Access and identity governance), Defender for Identity, Defender for Endpoint Plan 2, Defender for Office 365 Plan 2 and Defender for Cloud Apps. The Microsoft Purview Suite adds endpoint and Teams DLP with advanced classifiers, eDiscovery (Premium), premium Compliance Manager assessment templates and Records Management." } }
   ]
 }
     </script>
