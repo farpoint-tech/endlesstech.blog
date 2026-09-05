@@ -111,7 +111,7 @@
 <h2 id="the-controls">The Controls That Matter</h2>
 <p><strong>Defender for Cloud Apps (the CASB).</strong> This is the core of the pillar. It discovers shadow IT by analysing traffic &mdash; often straight from the Defender for Endpoint agent, no log upload needed &mdash; and scores thousands of apps, including a growing catalogue of generative-AI tools. From there you sanction, monitor, or block.</p>
 <p><strong>OAuth and enterprise app governance.</strong> The consent screen is the new phishing lure. Restrict user consent to verified publishers, require admin consent for anything broader, and review existing grants &mdash; revoke the over-permissioned and the unrecognised. This starts in the Identity pillar and pays off here.</p>
-<p><strong>Conditional Access App Control.</strong> Session-level enforcement that proxies traffic through Defender for Cloud Apps. Block download of a labelled document to an unmanaged browser, prevent copy-paste, watermark what is viewed in-session &mdash; real-time control over what a sanctioned app is allowed to do.</p>
+<p><strong>Conditional Access App Control.</strong> Session-level enforcement that proxies traffic through Defender for Cloud Apps. Block download of a labelled document to an unmanaged browser, block activities such as printing and copy-paste, or let a download through but have the file labelled and encrypted on the way out &mdash; real-time control over what a sanctioned app is allowed to do. Watermarking is not one of these session controls: content marking is a property of a Purview sensitivity label applied to the document, not something the proxy paints onto a live session.</p>
 <p><strong>App protection for the data inside apps.</strong> The Devices pillar's app protection policies matter here too: they keep corporate data from leaking out of sanctioned mobile apps into personal ones.</p>
 
 <h2 id="implementation">How to Roll It Out</h2>
@@ -130,7 +130,7 @@
                         <dt>Defender for Cloud Apps (CASB)</dt><dd>A Cloud Access Security Broker that discovers shadow IT, scores SaaS apps, and lets you sanction, monitor, or block them.</dd>
                         <dt>Shadow IT</dt><dd>SaaS applications in use across the organisation that IT never approved or, often, ever knew about.</dd>
                         <dt>OAuth consent</dt><dd>The screen where a user grants a third-party app token-based access to their Microsoft 365 data &mdash; a common, password-free attack vector when left unrestricted.</dd>
-                        <dt>Conditional Access App Control</dt><dd>Session-level enforcement that proxies app traffic through Defender for Cloud Apps to block downloads, copy-paste, or apply watermarks in real time.</dd>
+                        <dt>Conditional Access App Control</dt><dd>Session-level enforcement that proxies app traffic through Defender for Cloud Apps to block downloads, block activities such as printing and copy-paste, or label and encrypt files on download in real time.</dd>
                         <dt>Enterprise app governance</dt><dd>Reviewing and controlling which third-party applications hold permissions against your tenant, and revoking the over-permissioned ones.</dd>
                     </dl>
                     </section>
@@ -142,7 +142,7 @@
                     <h3>Why is OAuth consent a security risk?</h3>
                     <p>When a user accepts an OAuth consent screen, a third-party app receives a token that can read mail or files without a password or device check. Left unrestricted, a malicious app can phish that consent and hold quiet, persistent access. Restricting consent to verified publishers closes the gap.</p>
                     <h3>Do I need E5 for the Apps pillar?</h3>
-                    <p>Basic OAuth consent restrictions and enterprise app governance come with Entra ID P1. The full Defender for Cloud Apps CASB &mdash; discovery, session control, and anomaly detection &mdash; requires E5 or a standalone Defender for Cloud Apps licence.</p>
+                    <p>No. User consent restrictions and the admin consent workflow are configured in Entra ID and need no Premium licence at all &mdash; every tenant has them; what you need is the right admin role. App governance is not an Entra ID feature: it belongs to Microsoft Defender for Cloud Apps and needs a valid Defender for Cloud Apps licence. The full CASB &mdash; discovery, session control, and anomaly detection &mdash; comes with a standalone Defender for Cloud Apps licence or one of the suites that include it: Enterprise Mobility + Security E5, Microsoft 365 E5/A5/G5, the Defender Suite, or the Purview Suite. Conditional Access App Control on top of that also needs Entra ID P1.</p>
                     </section>
 
                 </div>
@@ -196,7 +196,7 @@
     "name": "EndlessTech Blog"
   },
   "datePublished": "2026-08-13",
-  "dateModified": "2026-08-13",
+  "dateModified": "2026-09-05",
   "isPartOf": {
     "@type": "CreativeWorkSeries",
     "name": "Zero Trust for Microsoft 365"
@@ -230,7 +230,7 @@
       "name": "Do I need E5 for the Apps pillar?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Basic OAuth consent restrictions and enterprise app governance come with Entra ID P1. The full Defender for Cloud Apps CASB \u2014 discovery, session control, and anomaly detection \u2014 requires E5 or a standalone Defender for Cloud Apps licence."
+        "text": "No. User consent restrictions and the admin consent workflow are configured in Entra ID and need no Premium licence at all \u2014 every tenant has them; what you need is the right admin role. App governance is not an Entra ID feature: it belongs to Microsoft Defender for Cloud Apps and needs a valid Defender for Cloud Apps licence. The full CASB \u2014 discovery, session control, and anomaly detection \u2014 comes with a standalone Defender for Cloud Apps licence or one of the suites that include it: Enterprise Mobility + Security E5, Microsoft 365 E5/A5/G5, the Defender Suite, or the Purview Suite. Conditional Access App Control on top of that also needs Entra ID P1."
       }
     }
   ]
