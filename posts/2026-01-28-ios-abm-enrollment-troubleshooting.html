@@ -77,8 +77,8 @@ permalink: /posts/2026-01-28-ios-abm-enrollment-troubleshooting.html
                     <h3>Business Impact</h3>
 
                     <ul>
-                        <li><strong>Security Gaps:</strong> Unsupervised devices cannot enforce critical security policies, such as mandatory encryption, app restrictions, and data loss prevention, leaving corporate data vulnerable.</li>
-                        <li><strong>Compliance Risks:</strong> Devices showing a "Not Contacted" status are not managed, leading to audit failures for frameworks like the CIS Benchmark, NIST 800-171, or GDPR Article 32.</li>
+                        <li><strong>Security Gaps:</strong> Unsupervised devices support a smaller set of controls. A long list of Intune device restrictions is marked <em>supervised only</em> — blocking the App Store, blocking the camera, Safari password domains and similar — while passcode and encryption settings, compliance policies and app protection policies (MAM data loss prevention) also apply to unsupervised and even unenrolled devices. Supervision widens the control surface; it is not the on/off switch for security.</li>
+                        <li><strong>Compliance Risks:</strong> Devices showing a "Not Contacted" status are not managed, which can create gaps in your device-hardening evidence when an audit asks for it.</li>
                         <li><strong>Operational Overhead:</strong> IT teams waste valuable hours troubleshooting individual enrollment issues instead of focusing on strategic initiatives.</li>
                         <li><strong>User Productivity Loss:</strong> Employees cannot access corporate resources like email, apps, and files until their device enrollment is successfully resolved.</li>
                     </ul>
@@ -95,7 +95,7 @@ permalink: /posts/2026-01-28-ios-abm-enrollment-troubleshooting.html
 
                     <h3>ROI Context</h3>
 
-                    <p>The return on investment is clear. Manual troubleshooting for a single device can take 2-4 hours of an IT administrator's time. A properly configured automated ABM setup takes approximately 15 minutes per device. For a fleet of 100 devices, this translates to <strong>200-400 hours of saved IT labor</strong>.</p>
+                    <p>These are my own numbers from the field, not a Microsoft figure. In the tenants I have worked in, manual troubleshooting for a single device takes two to four hours of an administrator's time, while a properly configured automated ABM setup takes roughly 15 minutes per device. For a fleet of 100 devices, that is <strong>200 to 400 hours</strong> — measure it in your own environment before you put it in a business case.</p>
 
                     <hr>
 
@@ -146,7 +146,7 @@ permalink: /posts/2026-01-28-ios-abm-enrollment-troubleshooting.html
 
                     <h3>Critical Observation</h3>
 
-                    <p>Despite verifying that the enrollment profile in Intune is correctly configured and assigned, the device never retrieves this profile during the Setup Assistant. This is the central clue to understanding the root cause.</p>
+                    <p>Despite verifying that the enrollment policy in Intune is correctly configured and assigned, the device never retrieves it during the Setup Assistant. This is the central clue to understanding the root cause.</p>
 
                     <hr>
 
@@ -181,7 +181,7 @@ permalink: /posts/2026-01-28-ios-abm-enrollment-troubleshooting.html
                         <li><strong>If not found (or if already activated)</strong>, it skips this check and proceeds with a standard consumer setup. No supervision is applied.</li>
                     </ul>
 
-                    <p>When you add a device to ABM with Apple Configurator <em>after</em> it has been activated, the device's activation record is already "sealed" on Apple's servers. It will not re-check for an ABM profile on subsequent reboots. <strong>A factory reset is the only way to force this check to happen again.</strong></p>
+                    <p>When you add a device to ABM with Apple Configurator <em>after</em> it has been activated, the device does not run the ADE check again on subsequent reboots — in the tenants I have worked in, the activation record behaves as if it were sealed once Setup Assistant has completed. Microsoft states the consequence plainly: a device that is already activated has to be wiped before it can enroll with automated device enrollment. <strong>A factory reset is the only way to make Setup Assistant, and with it the ABM check, run again.</strong></p>
 
                     <hr>
 
@@ -200,15 +200,15 @@ permalink: /posts/2026-01-28-ios-abm-enrollment-troubleshooting.html
 
                     <ul>
                         <li><strong>User Data Backup:</strong> Instruct the user to back up all important data to iCloud or a computer.</li>
-                        <li><strong>Intune Configuration Verified:</strong> Double-check that the enrollment profile is assigned to the device in Intune and that the ABM token has recently synced.</li>
+                        <li><strong>Intune Configuration Verified:</strong> Double-check that the enrollment policy is assigned to the device in Intune and that the ABM token has recently synced.</li>
                         <li><strong>ABM Assignment Verified:</strong> Confirm in the ABM portal that the device is assigned to your Intune MDM server, not "Apple Configurator."</li>
                     </ul>
 
                     <h3>Step-by-Step Resolution</h3>
 
                     <ol>
-                        <li><strong>Prepare Intune:</strong> Manually sync your ABM token in Intune (<strong>Devices > iOS/iPadOS enrollment > Enrollment program tokens > Sync</strong>) and verify the device has the correct profile assigned.</li>
-                        <li><strong>Factory Reset the Device:</strong> On the iOS/iPadOS device, go to <strong>Settings > General > Transfer or Reset > Erase All Content and Settings</strong>. This is non-negotiable; a simple settings reset will not work.</li>
+                        <li><strong>Prepare Intune:</strong> Manually sync your ABM token: in the Microsoft Intune admin center go to <strong>Devices > Device onboarding > Enrollment</strong>, select the <strong>Apple mobile</strong> tab, choose <strong>Enrollment program tokens</strong>, select your token, then <strong>Devices > Sync</strong>. Then verify the device has the correct enrollment policy assigned under <strong>Enrollment program tokens > Enrollment policies</strong>. The older <strong>Profiles</strong> experience still exists, but it receives no new features and will be retired, so create new policies under Enrollment policies.</li>
+                        <li><strong>Factory Reset the Device:</strong> On the iOS/iPadOS device, use Apple's erase path — <strong>Settings > General > Transfer or Reset > Erase All Content and Settings</strong>. You can also wipe the device from the Intune admin center. Either way it has to be a full erase; a simple settings reset will not work.</li>
                         <li><strong>Re-run Setup Assistant:</strong> Proceed through the initial setup screens (Language, Region). When you connect to Wi-Fi, the device will contact Apple's servers.</li>
                         <li><strong>The Critical Moment:</strong> The "Remote Management" screen will appear, indicating that the device has successfully found its assignment in ABM. Proceed with the on-screen instructions to authenticate with Microsoft Entra ID.</li>
                         <li><strong>Verify Success:</strong> Once setup is complete, check the device's status in Intune. It should now show as <strong>Supervised</strong> and <strong>Managed</strong>, with a recent contact time.</li>
@@ -260,7 +260,7 @@ permalink: /posts/2026-01-28-ios-abm-enrollment-troubleshooting.html
                       <h3>Can Intune manage Apple devices?</h3>
                       <p>Yes. Microsoft Intune manages iPhones and iPads (iOS/iPadOS) and Macs (macOS). For corporate Apple devices, you enroll them through Apple Business Manager (ABM) with Automated Device Enrollment, which applies supervision and management automatically — enabling Conditional Access, compliance, and app management across the Apple fleet.</p>
                       <h3>Why does my iPad show "Not Contacted" in Intune?</h3>
-                      <p>"Not Contacted" usually means the device was activated before it was added to Apple Business Manager, so it never pulled the ABM enrollment profile. Apple seals the activation record on first boot. The fix is a factory reset (Erase All Content and Settings) so the device re-checks ABM during Setup Assistant.</p>
+                      <p>"Not Contacted" usually means the device was activated before it was added to Apple Business Manager, so it never pulled the ABM enrollment profile. A device that has already completed Setup Assistant does not run the ADE check again — Microsoft's own guidance is that an already-activated device has to be wiped before it can enroll through automated device enrollment. The fix is a full erase (Erase All Content and Settings, or a wipe from Intune) so the device re-checks ABM during Setup Assistant.</p>
                       <h3>How do I prevent ABM enrollment issues?</h3>
                       <p>Buy Apple devices through Apple or an authorized reseller and provide your ABM/reseller ID, so devices land in ABM before shipping. Add Intune enrollment restrictions to block personally owned Apple devices, and require compliant devices via Conditional Access. That makes zero-touch enrollment the default.</p>
                     </section>
@@ -317,7 +317,7 @@ permalink: /posts/2026-01-28-ios-abm-enrollment-troubleshooting.html
       "author": { "@type": "Person", "name": "Philipp Schmidt", "url": "https://easym365.de" },
       "publisher": { "@type": "Organization", "name": "EndlessTech Blog" },
       "datePublished": "2026-01-28",
-      "dateModified": "2026-06-20",
+      "dateModified": "2026-09-05",
       "mainEntityOfPage": "https://endlesstech.blog/posts/2026-01-28-ios-abm-enrollment-troubleshooting.html"
     }
     </script>
@@ -327,7 +327,7 @@ permalink: /posts/2026-01-28-ios-abm-enrollment-troubleshooting.html
       "@type": "FAQPage",
       "mainEntity": [
         { "@type": "Question", "name": "Can Intune manage Apple devices?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Intune manages iOS/iPadOS and macOS. Corporate Apple devices enroll via Apple Business Manager (ABM) with Automated Device Enrollment, applying supervision and enabling Conditional Access, compliance, and app management." } },
-        { "@type": "Question", "name": "Why does my iPad show Not Contacted in Intune?", "acceptedAnswer": { "@type": "Answer", "text": "It usually means the device was activated before being added to ABM, so it never pulled the enrollment profile. Apple seals the activation record on first boot. A factory reset forces the device to re-check ABM during Setup Assistant." } },
+        { "@type": "Question", "name": "Why does my iPad show Not Contacted in Intune?", "acceptedAnswer": { "@type": "Answer", "text": "It usually means the device was activated before being added to ABM, so it never pulled the enrollment profile. A device that has already completed Setup Assistant does not run the ADE check again; Microsoft states that an already-activated device must be wiped before it can enroll through automated device enrollment. A full erase forces the device to re-check ABM during Setup Assistant." } },
         { "@type": "Question", "name": "How do I prevent ABM enrollment issues?", "acceptedAnswer": { "@type": "Answer", "text": "Buy Apple devices through Apple or an authorized reseller with your ABM/reseller ID so they land in ABM before shipping. Add Intune enrollment restrictions and require compliant devices via Conditional Access for zero-touch enrollment." } }
       ]
     }
