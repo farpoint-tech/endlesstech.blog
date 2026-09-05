@@ -5,21 +5,21 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
     <meta name="robots" content="index,follow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Copilot surfaces years of SharePoint oversharing in seconds. The oversharing report, minimum sensitivity labels, and a real readiness checklist before rollout.">
+    <meta name="description" content="Copilot surfaces years of SharePoint oversharing in seconds. The data access governance reports, minimum sensitivity labels, and a real readiness checklist before rollout.">
     <meta name="author" content="Philipp Schmidt">
     <meta name="keywords" content="Copilot oversharing SharePoint permissions, M365 Copilot sensitivity labels, SharePoint Advanced Management, permission sprawl remediation, Copilot readiness assessment, Copilot Datenschutz SharePoint, Berechtigungen vor Copilot pruefen">
 
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="article">
     <meta property="og:title" content="Copilot Oversharing: What Your SharePoint Permissions Look Like Before You Deploy AI">
-    <meta property="og:description" content="Copilot surfaces years of SharePoint oversharing in seconds. The oversharing report, minimum sensitivity labels, and a real readiness checklist before rollout.">
+    <meta property="og:description" content="Copilot surfaces years of SharePoint oversharing in seconds. The data access governance reports, minimum sensitivity labels, and a real readiness checklist before rollout.">
     <meta property="og:image" content="https://endlesstech.blog/assets/images/copilot-oversharing-sharepoint/copilot-oversharing-hero.svg">
     <meta property="og:url" content="https://endlesstech.blog/posts/2026-09-17-copilot-oversharing-sharepoint-permissions.html">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Copilot Oversharing: What Your SharePoint Permissions Look Like Before You Deploy AI">
-    <meta name="twitter:description" content="Copilot surfaces years of SharePoint oversharing in seconds. The oversharing report, minimum sensitivity labels, and a real readiness checklist before rollout.">
+    <meta name="twitter:description" content="Copilot surfaces years of SharePoint oversharing in seconds. The data access governance reports, minimum sensitivity labels, and a real readiness checklist before rollout.">
     <meta name="twitter:image" content="https://endlesstech.blog/assets/images/copilot-oversharing-sharepoint/copilot-oversharing-hero.svg">
 
     <title>Copilot Oversharing: What Your SharePoint Permissions Look Like Before You Deploy AI</title>
@@ -69,7 +69,7 @@
 
                     <div class="post-tldr">
                         <h2>In short</h2>
-                        <p>Copilot operates within the querying user's own permissions &mdash; it has no separate elevated access. That is the correct design, and exactly why oversharing matters: an existing attack surface becomes <strong>practically usable at scale</strong> for the first time. Run the SharePoint Advanced Management oversharing report, deploy a minimum three-tier sensitivity label set over HR, finance and legal content, and pilot before tenant-wide rollout. Copilot readiness is a permissions and labelling project wearing an AI deployment's name.</p>
+                        <p>Copilot operates within the querying user's own permissions &mdash; it has no separate elevated access. That is the correct design, and exactly why oversharing matters: an existing attack surface becomes <strong>practically usable at scale</strong> for the first time. Run the data access governance reports in the SharePoint admin center &mdash; if your licence gets you them &mdash; deploy a minimum three-tier sensitivity label set over HR, finance and legal content, and pilot before tenant-wide rollout. Copilot readiness is a permissions and labelling project wearing an AI deployment's name.</p>
                     </div>
 
                     <nav class="post-toc" aria-label="Table of contents">
@@ -90,28 +90,29 @@
                     <p>The risk is not a new attack surface Copilot introduces. It is an existing attack surface Copilot makes practically usable at scale for the first time.</p>
 
                     <h2 id="checking">Checking what is actually overshared</h2>
-                    <p>Microsoft ships a SharePoint Advanced Management oversharing report specifically for this, identifying sites with broad or unusual sharing that Copilot could realistically surface. Most tenants have never opened it. Before enabling or expanding Copilot:</p>
+                    <p>Microsoft ships a set of data access governance reports for exactly this, in the SharePoint admin center under <strong>Reports &gt; Data access governance</strong>: a site permissions snapshot report, a "Sensitivity label applied to files" report, and activity reports for sharing links and for content shared with "Everyone except external users". SharePoint Advanced Management adds the Content management assessment on top, which surfaces oversized audiences, EEEU usage and broken inheritance in one place. Most tenants have never opened any of it. Before enabling or expanding Copilot:</p>
                     <ul>
-                        <li>Run the site access review / oversharing report and treat any site flagged as "everyone" or "everyone except external users" as a finding requiring a decision, not a default to leave alone</li>
+                        <li>Run the data access governance reports and treat any site flagged as "everyone" or "everyone except external users" as a finding requiring a decision, not a default to leave alone. Where a site needs its owner's judgement rather than yours, send a site access review to delegate that decision to them</li>
                         <li>Cross-reference sites holding sensitive content &mdash; HR, finance, legal, exec communications &mdash; against their actual sharing scope, since these disproportionately carry legacy broad grants</li>
                         <li>Check site-level sharing settings against your intended baseline; many tenants are more permissive at site level than the tenant default suggests, because site owners have their own controls</li>
                     </ul>
                     <p>The same groundwork applies whether or not Copilot is in play &mdash; see <a href="2026-04-17-sharepoint-permission-auditing-copilot.html">the SharePoint permission audit</a> for the mechanics.</p>
 
                     <h2 id="labels">Why sensitivity labels are the real prerequisite</h2>
-                    <p>Copilot respects the protections a sensitivity label is configured to apply, but a label does not automatically repair an overbroad SharePoint permission grant. Encryption, site or container labels, DLP and related controls must be configured deliberately. Without those controls, Copilot still evaluates the querying user's underlying access, which is exactly the layer most likely to be wrong after years of ad hoc sharing.</p>
+                    <p>Copilot respects the protections a sensitivity label is configured to apply, but a label does not automatically repair an overbroad SharePoint permission grant. Encryption, site or container labels, DLP and related controls must be configured deliberately. Before any of that takes effect, enable sensitivity labels for Office files in SharePoint and OneDrive &mdash; until that switch is on, encrypted files are only handled while in use in the Office apps. Without those controls, Copilot still evaluates the querying user's underlying access, which is exactly the layer most likely to be wrong after years of ad hoc sharing.</p>
                     <p>Almost no SMB tenant has a working label taxonomy before considering Copilot, which means the real readiness gap is usually not licensing or technical configuration. It is a labelling project that has to happen first for Copilot's access decisions to be trustworthy rather than merely inherited.</p>
-                    <p>A minimum viable set does not need to be exhaustive: General, Confidential and Highly Confidential, applied at minimum to the libraries and sites holding HR, finance and legal content, covers the highest-risk exposure without a full enterprise taxonomy project.</p>
+                    <p>A minimum viable set does not need to be exhaustive: General, Confidential and Highly Confidential, applied at minimum to the libraries holding HR, finance and legal content, covers the highest-risk exposure without a full enterprise taxonomy project. Labelling the SharePoint sites themselves &mdash; container labels &mdash; is an E5 capability, so on E3 or Business Premium plan for file-level labels plus site-level sharing settings instead.</p>
 
                     <h2 id="advanced-management">How to use SharePoint Advanced Management as a control layer</h2>
-                    <p>SharePoint Advanced Management availability is licence- and feature-dependent. Check the current prerequisites and the features actually enabled in the tenant instead of inferring availability from a Copilot rollout or a portal change. Data Access Governance reports are useful, but they are one layer alongside permissions, labels, DLP and site access reviews.</p>
+                    <p>SharePoint Advanced Management needs a qualifying base subscription &mdash; Office 365 E3/E5/A5, Microsoft 365 E1/E3/E5/A5, or a government plan &mdash; plus either at least one assigned Microsoft Copilot licence in the tenant, or the SharePoint Advanced Management Plan 1 add-on on a SharePoint K/P1/P2 subscription. <strong>Microsoft 365 Business Basic, Standard and Premium are not on that base-subscription list</strong>, which is exactly the gap most SMB tenants hit. Microsoft 365 E5 without SAM still reaches the data access governance activity reports, but without snapshot reports, without remedial actions, and capped at 10,000 sites.</p>
+                    <p>Without SharePoint Advanced Management &mdash; the position most Business Premium tenants are in &mdash; you still have the SharePoint admin center's sharing settings, the Active sites list with its sharing column, per-site permission review, and Business Premium sensitivity labels. What you do not get is the tenant-wide oversharing reporting, so the review has to be scoped by hand to the sites that actually hold sensitive content. Data access governance reports are useful where you have them, but they are one layer alongside permissions, labels, DLP and site access reviews.</p>
 
                     <h2 id="checklist">A readiness checklist that is actually specific</h2>
                     <ol>
-                        <li>Run and review the oversharing report &mdash; resolve or consciously accept every flagged site</li>
+                        <li>Run and review the data access governance reports &mdash; start with the site permissions report and the "Shared with Everyone except external users" report &mdash; and resolve or consciously accept every flagged site</li>
                         <li>Deploy a minimum sensitivity label set covering HR, finance and legal content specifically, with the protection settings needed for those labels to matter</li>
-                        <li>Confirm Purview DLP policies apply to Copilot interactions, not just mail and file sharing &mdash; Copilot-specific DLP scope is a separate configuration</li>
-                        <li>Audit current SharePoint Advanced Management availability and configuration directly, including Data Access Governance reports, site access reviews and Restricted Content Discovery where appropriate</li>
+                        <li>Confirm Purview DLP scope covers Copilot interactions &mdash; the policy location is called <em>Microsoft 365 Copilot and Copilot Chat</em>, and it is a separate configuration from mail and file DLP. Check the licence first: DLP that stops Copilot from processing labelled files and emails requires Microsoft 365 E5/A5 or a Purview Suite plan and is not included in Business Premium or E3; only the prompt-level controls are available on every plan</li>
+                        <li>Audit current SharePoint Advanced Management availability and configuration directly, including data access governance reports, site access reviews and Restricted Content Discovery where appropriate</li>
                         <li>Pilot with a small group before tenant-wide rollout, specifically to catch access patterns the report did not flag</li>
                     </ol>
 
@@ -121,9 +122,9 @@
                     <section class="post-glossary">
                     <h2 id="glossary">Glossary</h2>
                     <dl>
-                        <dt>Oversharing report</dt><dd>A SharePoint Advanced Management report identifying sites with broad or unusual sharing scope that an AI assistant could surface at scale.</dd>
-                        <dt>Sensitivity label</dt><dd>A Purview classification that travels with a file and carries encryption and access rules. Copilot honours labels, which is why they outrank raw permissions as a control.</dd>
-                        <dt>SharePoint Advanced Management</dt><dd>A licence- and feature-dependent set of SharePoint governance controls, including Data Access Governance reports and site access reviews.</dd>
+                        <dt>Data access governance (DAG) reports</dt><dd>SharePoint admin center reports under Reports &gt; Data access governance that identify sites with broad or unusual sharing scope, including sharing links and content shared with "Everyone except external users".</dd>
+                        <dt>Sensitivity label</dt><dd>A Purview classification that travels with a file and can carry encryption and usage rights. Copilot honours labels as a second layer on top of permissions: permissions decide whether the user reaches the file at all, and the label's encryption then decides whether Copilot may extract from it.</dd>
+                        <dt>SharePoint Advanced Management</dt><dd>A licence-dependent set of SharePoint governance controls, including data access governance reports and site access reviews. Included with an assigned Microsoft Copilot licence, or available as the SAM Plan 1 add-on.</dd>
                         <dt>Permission sprawl</dt><dd>The accumulation of broad or forgotten access grants over years of ad hoc sharing decisions — invisible until something makes it searchable.</dd>
                     </dl>
                     </section>
@@ -131,15 +132,15 @@
                     <section class="faq">
                     <h2 id="faq">Frequently Asked Questions</h2>
                     <h3>What files can Copilot see in my SharePoint right now?</h3>
-                    <p>Whatever the querying user's own account has permission to read — Copilot has no separate elevated access. Run the SharePoint Advanced Management oversharing report to see which sites have broader access than intended before assuming the answer is only what it should be.</p>
+                    <p>Whatever the querying user's own account has permission to read — Copilot has no separate elevated access. Run the data access governance reports in the SharePoint admin center to see which sites have broader access than intended before assuming the answer is only what it should be.</p>
                     <h3>How do I fix permission sprawl before deploying Copilot?</h3>
-                    <p>Start with the oversharing report to find sites with everyone or overly broad sharing, prioritise HR, finance and legal content specifically, and resolve each flagged site deliberately rather than leaving legacy grants unreviewed.</p>
+                    <p>Start with the data access governance reports in the SharePoint admin center — the site permissions report and the "Shared with Everyone except external users" report — prioritise HR, finance and legal content specifically, and resolve each flagged site deliberately rather than leaving legacy grants unreviewed.</p>
                     <h3>What is the minimum sensitivity label configuration for Copilot?</h3>
-                    <p>A basic three-tier set — General, Confidential, Highly Confidential — applied at minimum to SharePoint libraries containing HR, finance and legal content covers the highest-risk exposure without requiring a full enterprise taxonomy first.</p>
+                    <p>A basic three-tier set — General, Confidential, Highly Confidential — applied at minimum to SharePoint libraries containing HR, finance and legal content covers the highest-risk exposure without requiring a full enterprise taxonomy first. Labelling the sites themselves is an E5 capability.</p>
                     <h3>How should I use SharePoint Advanced Management before Copilot rollout?</h3>
-                    <p>Check the current SharePoint Advanced Management prerequisites and features enabled in the tenant. Use its Data Access Governance reports and site access reviews alongside permissions, labels and DLP; availability is licence- and feature-dependent.</p>
+                    <p>Check the prerequisites first: SAM needs an Office 365 E3/E5/A5, Microsoft 365 E1/E3/E5/A5 or government base subscription plus a Copilot licence or the SAM Plan 1 add-on, so Business Premium tenants do not have it. Where you do, use its data access governance reports and site access reviews alongside permissions, labels and DLP.</p>
                     <h3>What does a real Copilot readiness checklist for an SMB look like?</h3>
-                    <p>Run the oversharing report, deploy minimum sensitivity labels for sensitive content, confirm Purview DLP scope covers Copilot interactions, audit Advanced Management settings, and pilot with a small group before full rollout.</p>
+                    <p>Run the data access governance reports if your licence includes them, deploy minimum sensitivity labels for sensitive content, confirm Purview DLP scope covers Copilot interactions, audit Advanced Management settings, and pilot with a small group before full rollout.</p>
                     </section>
 
                     <hr>
@@ -188,7 +189,7 @@
   "@context": "https://schema.org",
   "@type": "Article",
   "headline": "Copilot Oversharing: What Your SharePoint Permissions Look Like Before You Deploy AI",
-  "description": "Copilot surfaces years of SharePoint oversharing in seconds. The oversharing report, minimum sensitivity labels, and a real readiness checklist before rollout.",
+  "description": "Copilot surfaces years of SharePoint oversharing in seconds. The data access governance reports, minimum sensitivity labels, and a real readiness checklist before rollout.",
   "image": "https://endlesstech.blog/assets/images/copilot-oversharing-sharepoint/copilot-oversharing-hero.svg",
   "author": {
     "@type": "Person",
@@ -215,7 +216,7 @@
       "name": "What files can Copilot see in my SharePoint right now?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Whatever the querying user's own account has permission to read \u2014 Copilot has no separate elevated access. Run the SharePoint Advanced Management oversharing report to see which sites have broader access than intended before assuming the answer is only what it should be."
+        "text": "Whatever the querying user's own account has permission to read \u2014 Copilot has no separate elevated access. Run the data access governance reports in the SharePoint admin center to see which sites have broader access than intended before assuming the answer is only what it should be."
       }
     },
     {
@@ -223,7 +224,7 @@
       "name": "How do I fix permission sprawl before deploying Copilot?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Start with the oversharing report to find sites with everyone or overly broad sharing, prioritise HR, finance and legal content specifically, and resolve each flagged site deliberately rather than leaving legacy grants unreviewed."
+        "text": "Start with the data access governance reports in the SharePoint admin center \u2014 the site permissions report and the 'Shared with Everyone except external users' report \u2014 prioritise HR, finance and legal content specifically, and resolve each flagged site deliberately rather than leaving legacy grants unreviewed."
       }
     },
     {
@@ -231,7 +232,7 @@
       "name": "What is the minimum sensitivity label configuration for Copilot?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "A basic three-tier set \u2014 General, Confidential, Highly Confidential \u2014 applied at minimum to SharePoint libraries containing HR, finance and legal content covers the highest-risk exposure without requiring a full enterprise taxonomy first."
+        "text": "A basic three-tier set \u2014 General, Confidential, Highly Confidential \u2014 applied at minimum to SharePoint libraries containing HR, finance and legal content covers the highest-risk exposure without requiring a full enterprise taxonomy first. Labelling the sites themselves is an E5 capability."
       }
     },
     {
@@ -239,7 +240,7 @@
       "name": "How should I use SharePoint Advanced Management before Copilot rollout?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Check the current SharePoint Advanced Management prerequisites and features enabled in the tenant. Use its Data Access Governance reports and site access reviews alongside permissions, labels and DLP; availability is licence- and feature-dependent."
+        "text": "Check the prerequisites first: SAM needs an Office 365 E3/E5/A5, Microsoft 365 E1/E3/E5/A5 or government base subscription plus a Copilot licence or the SAM Plan 1 add-on, so Business Premium tenants do not have it. Where you do, use its data access governance reports and site access reviews alongside permissions, labels and DLP."
       }
     },
     {
@@ -247,7 +248,7 @@
       "name": "What does a real Copilot readiness checklist for an SMB look like?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Run the oversharing report, deploy minimum sensitivity labels for sensitive content, confirm Purview DLP scope covers Copilot interactions, audit Advanced Management settings, and pilot with a small group before full rollout."
+        "text": "Run the data access governance reports if your licence includes them, deploy minimum sensitivity labels for sensitive content, confirm Purview DLP scope covers Copilot interactions, audit Advanced Management settings, and pilot with a small group before full rollout."
       }
     }
   ]
