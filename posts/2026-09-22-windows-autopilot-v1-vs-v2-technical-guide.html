@@ -69,7 +69,7 @@
 
                     <div class="post-tldr">
                         <h2>In short</h2>
-                        <p><strong>Hybrid Join, self-deploying or kiosk &rarr; classic Autopilot.</strong> There is no alternative. <strong>Cloud-only, Entra Join, user-driven &rarr; Device Preparation.</strong> <strong>Windows 365 &rarr; Device Preparation in Automatic Mode.</strong> The decision is made per customer and documented, not defaulted across a fleet. The single most common V2 failure: the <em>Intune Provisioning Client</em> service principal is not an owner of the enrollment-time group, so the policy will not save. And a device already registered in classic Autopilot ignores every Device Preparation policy &mdash; classic wins.</p>
+                        <p><strong>Hybrid Join, self-deploying or kiosk &rarr; classic Autopilot.</strong> There is no alternative. <strong>Cloud-only, Entra Join, user-driven &rarr; Device Preparation.</strong> <strong>Windows 365 &rarr; Device Preparation in Automatic Mode.</strong> The decision is made per customer and documented, not defaulted across a fleet. The single most common V2 failure: the <em>Intune Provisioning Client</em> service principal is not an owner of the enrollment-time group, so devices never join it and everything targeted at that group misses the deployment. And on a device already registered in classic Autopilot, what decides is the association state &mdash; unassociated means the classic profile wins.</p>
                     </div>
 
                     <nav class="post-toc" aria-label="Table of contents">
@@ -101,19 +101,21 @@
                         <li><strong>Windows 365 Cloud PCs</strong> &rarr; Device Preparation, Automatic Mode.</li>
                     </ul>
                     <p>Mixed fleets are legitimate. What is not legitimate is picking one as a house default and applying it to every tenant without checking the join type first.</p>
-                    <blockquote>A device already registered as a classic Autopilot device ignores any Device Preparation policy &mdash; the classic profile takes precedence. Before a V2 rollout on existing or second-hand hardware, always check registration status and deregister where needed. This is the failure that looks like "the policy just does not apply."</blockquote>
+                    <blockquote>A device already registered in classic Autopilot does not automatically ignore a Device Preparation policy. What decides is the device's <strong>association state</strong>: if the device is not associated with the tenant, the classic Autopilot profile takes precedence; if it is associated, device association wins and the Device Preparation deployment runs. So before a V2 rollout on existing or second-hand hardware you have two routes &mdash; associate the device, or deregister it from classic Autopilot. Doing neither is what produces the failure that looks like "the policy just does not apply."</blockquote>
 
                     <h2 id="v1">classic Autopilot (V1) end to end</h2>
                     <h3>Getting hardware hashes</h3>
                     <p>The standard path is the only one that scales: build the OEM or distributor relationship, register your tenant ID at purchase, and hashes get uploaded into the tenant before the hardware ships. Dell, HP, Lenovo and the large distributors all support this.</p>
                     <p>The exception path &mdash; lab work, a one-off device &mdash; is running the script locally as administrator:</p>
-<pre><code>md C:\HWHash
-Set-Location C:\HWHash
-Get-WindowsAutopilotInfo.ps1 -OutputFile AutopilotHWHash.csv</code></pre>
-                    <p>Manual extraction is error-prone and should never become the routine process. If you find yourself doing this at volume, the procurement channel is the actual problem.</p>
+<pre><code>[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned
+Install-Script -Name Get-WindowsAutopilotInfo -Force
+Get-WindowsAutopilotInfo -Online</code></pre>
+                    <p>The first three lines are the part people skip and then wonder why nothing runs on a fresh device: the script is not installed and the execution policy blocks it. <code>-Online</code> uploads the hash directly and prompts for a sign-in with at least Intune Administrator rights. Drop <code>-Online</code> if you want a CSV instead; the file lands in <code>C:\HWID\AutopilotHWID.csv</code>.</p>
+                    <p>Manual extraction is error-prone and should never become the routine process. Microsoft says the same in stronger terms: registration via the 4K hardware hash is recommended "only for testing or other limited scenarios", partly because the hash carries sensitive information, and points at the Partner Center for the normal case. If you find yourself doing this at volume, the procurement channel is the actual problem.</p>
 
                     <h3>Import and profile</h3>
-                    <p>Import under <strong>Devices &rarr; Enrollment &rarr; Windows Autopilot Devices &rarr; Import</strong>. Allow up to fifteen minutes and refresh before assuming the upload failed.</p>
+                    <p>Import under <strong>Devices &rarr; Enrollment &rarr; Windows Autopilot Devices &rarr; Import</strong>. The import itself takes several minutes; then run <strong>Sync</strong> and refresh until the devices appear, rather than assuming the upload failed. Three things about the CSV: at most 500 devices per file, plain ANSI text with no quotation marks, and never edited in Excel &mdash; Excel does not produce a file Intune can import.</p>
                     <p>Then <strong>Deployment Profiles &rarr; Create profile</strong>, with the settings that matter:</p>
                     <ul>
                         <li><strong>Deployment mode:</strong> user-driven (standard) or self-deploying for kiosk and shared devices</li>
@@ -140,14 +142,14 @@ Get-WindowsAutopilotInfo.ps1 -OutputFile AutopilotHWHash.csv</code></pre>
                     <h3>Enrollment Time Grouping &mdash; and the service principal</h3>
                     <p>Device Preparation writes the device into a <strong>static security group</strong> during enrollment. Two things about that group cause most of the support tickets:</p>
                     <ul>
-                        <li>It must be <strong>static</strong>, not dynamic. A dynamic group fails assignment, and converting an existing group from static to dynamic afterwards breaks it too.</li>
-                        <li>The service principal <strong>Intune Provisioning Client</strong> (AppId <code>f1346770-5b25-470b-88bd-d5744ab7952c</code>) must be an <strong>owner</strong> of that group. If it is not, the policy will not save at all.</li>
+                        <li>It must be <strong>static</strong> &mdash; Membership type <strong>Assigned</strong>, one group per enrollment policy. A dynamic group does not work here.</li>
+                        <li>The service principal <strong>Intune Provisioning Client</strong> (AppId <code>f1346770-5b25-470b-88bd-d5744ab7952c</code>) must be an <strong>owner</strong> of that group. In some tenants the same service principal is called <strong>Intune Autopilot ConfidentialClient</strong> &mdash; the AppId is what identifies it. To set the owner you need the Microsoft Entra Group Administrator role or <code>microsoft.directory/groups/owners/update</code>, or you must already own the group.</li>
                     </ul>
-                    <p>That second point is, by a wide margin, the most common cause of a failed V2 setup. If the policy refuses to save and the error is unhelpful, check the group owner first.</p>
+                    <p>That second point is, by a wide margin, the most common cause of a failed V2 setup, and it does not announce itself. The device never becomes a member of the group, so every app, script and policy targeted at that group misses the deployment. Microsoft documents the symptom rather than an error at save time: <strong>Devices &rarr; Monitor &rarr; Enrollment time grouping failures</strong> lists exactly the devices that failed to join their static group. Watch that report continuously &mdash; a device that misses the group can lose configuration again after enrollment.</p>
 
                     <h3>Limits and identifiers</h3>
                     <ul>
-                        <li><strong>Maximum 10 apps and 10 PowerShell scripts</strong> are tracked during setup. Anything beyond that installs afterwards, outside the provisioning experience &mdash; so put the day-one essentials inside the limit and let the rest follow.</li>
+                        <li><strong>Up to 25 apps and 10 PowerShell scripts</strong> are tracked during setup. Microsoft raised the app limit from 10 to 25 in January 2026, for user-driven and automatic mode alike &mdash; and flagged the catch in the same breath: review your deployment timeout, because 25 blocking apps take longer than 10. Anything beyond the limit installs afterwards, outside the provisioning experience.</li>
                         <li>Upload <strong>corporate identifiers</strong> (manufacturer, model, serial number) when enrollment restrictions block personal devices. Recommendation: do it always, not only when required &mdash; it costs nothing and prevents a class of enrollment rejection that is tedious to diagnose.</li>
                     </ul>
 
@@ -172,7 +174,7 @@ Get-WindowsAutopilotInfo.ps1 -OutputFile AutopilotHWHash.csv</code></pre>
                     <ul>
                         <li>OOBE completes without manual intervention beyond entering credentials</li>
                         <li>The device appears under <strong>Devices &rarr; All devices</strong> as a corporate device with the correct name</li>
-                        <li>V1: the Enrollment Status Page runs to completion. V2: the deployment report shows every app and script as <em>Succeeded</em></li>
+                        <li>V1: the Enrollment Status Page runs to completion. V2: the deployment report shows every app and script as <strong>Installed</strong>. The other three statuses are the diagnosis &mdash; <em>In progress</em>, <em>Failed</em>, and <em>Skipped</em>, where <em>Skipped</em> almost always means the app or script was picked in the policy but never assigned to the device group named in that same policy</li>
                         <li>V2: the device landed automatically in the enrollment-time group</li>
                         <li>Assigned apps are installed &mdash; status messages may lag behind reality</li>
                         <li>The device evaluates as compliant and Conditional Access applies correctly</li>
@@ -183,9 +185,9 @@ Get-WindowsAutopilotInfo.ps1 -OutputFile AutopilotHWHash.csv</code></pre>
                     <h2 id="pitfalls">Pitfalls that actually cost you a day</h2>
                     <p><strong>Device Preparation:</strong></p>
                     <ul>
-                        <li><strong>Missing service principal owner</strong> &rarr; the policy will not save and the device never joins the group. Check this first, always.</li>
-                        <li><strong>Dynamic instead of static group</strong> &rarr; assignment fails; switching an existing group static&rarr;dynamic breaks it as well.</li>
-                        <li><strong>Device still registered in classic Autopilot</strong> &rarr; the V2 policy silently never applies.</li>
+                        <li><strong>Missing service principal owner</strong> &rarr; the device never joins the group, and everything targeted at that group misses the deployment. Check this first, always, and watch <strong>Devices &rarr; Monitor &rarr; Enrollment time grouping failures</strong>.</li>
+                        <li><strong>Dynamic instead of static group</strong> &rarr; the group has to be Membership type <strong>Assigned</strong>.</li>
+                        <li><strong>Device registered in classic Autopilot and not associated with the tenant</strong> &rarr; the classic profile wins and the V2 policy never applies. Associate the device or deregister it. A quick tell during OOBE: if the Enrollment Status Page appears at all, the device is running classic Autopilot &mdash; Device Preparation does not use the ESP.</li>
                         <li><strong>Known issue &mdash; local admin:</strong> policy set to "standard user" combined with the Entra setting "registering user is added as local administrator" (Selected/None) causes provisioning to be skipped entirely.</li>
                     </ul>
                     <p><strong>classic Autopilot:</strong></p>
@@ -196,7 +198,7 @@ Get-WindowsAutopilotInfo.ps1 -OutputFile AutopilotHWHash.csv</code></pre>
                     </ul>
                     <p><strong>Both:</strong></p>
                     <ul>
-                        <li><strong>Apps assigned to the wrong group type</strong> (device instead of user, or vice versa) &rarr; the status page waits forever.</li>
+                        <li><strong>Apps assigned to the wrong target</strong> &rarr; in Device Preparation they do not hang, they show as <em>Skipped</em> in the deployment report, because the app was named in the policy but not assigned to the policy's device group. Check the assignment target and whether the app or script installs in the <strong>System</strong> context &mdash; during OOBE no user is signed in.</li>
                         <li><strong>A Conditional Access policy blocking enrollment</strong> &mdash; "device compliance required" collides with the moment the device cannot yet be compliant.</li>
                         <li><strong>No internet on first boot</strong> &rarr; provisioning simply stops.</li>
                         <li><strong>The visibility gap:</strong> customers consistently overestimate how many of the devices touching company data are actually managed. Inventory before the rollout instead of assuming full coverage.</li>
@@ -204,7 +206,7 @@ Get-WindowsAutopilotInfo.ps1 -OutputFile AutopilotHWHash.csv</code></pre>
                     </ul>
 
                     <h2 id="bottom-line">Bottom line</h2>
-                    <p>Device Preparation removes the part of Autopilot that was hardest to operate at scale: knowing every device before it ships. That makes retail and user-purchased hardware viable for the first time. It does not remove hybrid join constraints, it does not cover self-deploying scenarios, and it introduces its own single point of failure in the enrollment-time group. Pick per customer, check the group owner before anything else, and confirm no device is still sitting in classic Autopilot registration.</p>
+                    <p>Device Preparation removes the part of Autopilot that was hardest to operate at scale: knowing every device before it ships. That makes retail and user-purchased hardware viable for the first time. It does not remove hybrid join constraints, it does not cover self-deploying scenarios, and it introduces its own single point of failure in the enrollment-time group. Pick per customer, check the group owner before anything else, and for any device still carrying a classic Autopilot registration, decide deliberately whether to associate it or deregister it.</p>
 
                     <section class="post-glossary">
                     <h2 id="glossary">Glossary</h2>
@@ -213,7 +215,7 @@ Get-WindowsAutopilotInfo.ps1 -OutputFile AutopilotHWHash.csv</code></pre>
                         <dt>Windows Autopilot device preparation ("V2")</dt><dd>The newer model requiring no pre-registration or hardware hash. Cloud-only and Entra Join, with enforcement applied after enrollment.</dd>
                         <dt>Hardware hash</dt><dd>A device-unique identifier collected from firmware and uploaded to the tenant so classic Autopilot can recognise the device before first boot.</dd>
                         <dt>Enrollment Time Grouping</dt><dd>The static security group Device Preparation writes the device into during enrollment. Must be static, and must have the Intune Provisioning Client service principal as owner.</dd>
-                        <dt>Intune Provisioning Client</dt><dd>The service principal (AppId f1346770-5b25-470b-88bd-d5744ab7952c) that must own the enrollment-time group. Missing ownership prevents the policy from saving.</dd>
+                        <dt>Intune Provisioning Client</dt><dd>The service principal (AppId f1346770-5b25-470b-88bd-d5744ab7952c) that must own the enrollment-time group; in some tenants it is named Intune Autopilot ConfidentialClient. Without that ownership the device never joins the group, and the failures show up under Devices &rarr; Monitor &rarr; Enrollment time grouping failures.</dd>
                         <dt>Enrollment Status Page (ESP)</dt><dd>The classic-Autopilot screen that blocks sign-in until specified apps and policies have applied, with configurable timeout and failure behaviour.</dd>
                         <dt>Corporate identifiers</dt><dd>Manufacturer, model and serial number uploaded to Intune so enrollment restrictions can distinguish corporate hardware from personal devices.</dd>
                         <dt>Group tag</dt><dd>A label on a classic Autopilot device record used to target different deployment profiles at segments of a fleet.</dd>
@@ -223,15 +225,15 @@ Get-WindowsAutopilotInfo.ps1 -OutputFile AutopilotHWHash.csv</code></pre>
                     <section class="faq">
                     <h2 id="faq">Frequently Asked Questions</h2>
                     <h3>What is the difference between Autopilot V1 and V2?</h3>
-                    <p>classic Autopilot (V1) requires the device's hardware hash to be registered in the tenant before provisioning and supports hybrid join, self-deploying and kiosk scenarios. Device Preparation (V2) needs no pre-registration or hash, works only cloud-only with Entra Join and user-driven provisioning, and applies enforcement after enrollment rather than before.</p>
+                    <p>classic Autopilot (V1) requires the device's hardware hash to be registered in the tenant before provisioning and supports hybrid join, self-deploying and kiosk scenarios. Device Preparation (V2) needs no pre-registration or hash, supports Microsoft Entra join only, and covers two flows: user-driven for physical devices and automatic mode for Windows 365 Cloud PCs. It applies enforcement after enrollment rather than before.</p>
                     <h3>When must I still use classic Autopilot?</h3>
                     <p>Whenever Hybrid Entra Join is required, because Device Preparation does not support hybrid join at all, and for self-deploying, kiosk or shared-device scenarios with no user assignment. These are hard constraints, not preferences.</p>
-                    <h3>Why will my Device Preparation policy not save?</h3>
-                    <p>Almost always because the Intune Provisioning Client service principal (AppId f1346770-5b25-470b-88bd-d5744ab7952c) is not an owner of the enrollment-time security group. Add it as an owner, and confirm the group is static rather than dynamic.</p>
+                    <h3>Why do devices never land in my Device Preparation enrollment-time group?</h3>
+                    <p>Almost always because the Intune Provisioning Client service principal (AppId f1346770-5b25-470b-88bd-d5744ab7952c) is not an owner of the enrollment-time security group. Add it as an owner, and confirm the group is static rather than dynamic. Devices &gt; Monitor &gt; Enrollment time grouping failures lists the devices that failed to join.</p>
                     <h3>Why is my Device Preparation policy not applying to a device?</h3>
-                    <p>Check whether the device is still registered as a classic Autopilot device — the classic profile takes precedence and the Device Preparation policy will silently never apply. Deregister it from Autopilot first. Also verify the build: Windows 11 24H2, or 22H2/23H2 with KB5035942.</p>
+                    <p>Check whether the device is registered in classic Autopilot and not associated with the tenant — in that state the classic profile takes precedence and the Device Preparation policy never applies. Associate the device, or deregister it from Autopilot. Also verify the build: Windows 11 24H2, or 22H2/23H2 with KB5035942.</p>
                     <h3>How many apps can Device Preparation install during setup?</h3>
-                    <p>A maximum of 10 apps and 10 PowerShell scripts are tracked during the provisioning experience. Anything beyond that installs afterwards, so put only day-one essentials inside the limit.</p>
+                    <p>Up to 25 apps and 10 PowerShell scripts are tracked during the provisioning experience — Microsoft raised the app limit from 10 to 25 in January 2026. Anything beyond that installs afterwards, so put day-one essentials inside the limit and review your deployment timeout, because 25 blocking apps take longer than 10.</p>
                     <h3>Do I need hardware hashes for Windows Autopilot device preparation?</h3>
                     <p>No. Device Preparation requires no hardware hash and no pre-registration, which is what makes retail and user-purchased devices viable. Corporate identifiers are still recommended where enrollment restrictions block personal devices.</p>
                     </section>
@@ -244,6 +246,9 @@ Get-WindowsAutopilotInfo.ps1 -OutputFile AutopilotHWHash.csv</code></pre>
                         <li><a href="https://learn.microsoft.com/en-us/autopilot/device-preparation/troubleshooting-faq" target="_blank" rel="noopener noreferrer">Microsoft Learn: Device preparation troubleshooting FAQ</a></li>
                         <li><a href="https://learn.microsoft.com/en-us/autopilot/device-preparation/known-issues" target="_blank" rel="noopener noreferrer">Microsoft Learn: Windows Autopilot device preparation known issues</a></li>
                         <li><a href="https://learn.microsoft.com/en-us/autopilot/windows-autopilot" target="_blank" rel="noopener noreferrer">Microsoft Learn: Windows Autopilot overview</a></li>
+                        <li><a href="https://learn.microsoft.com/autopilot/device-preparation/compare" target="_blank" rel="noopener noreferrer">Microsoft Learn: Compare Windows Autopilot device preparation and Windows Autopilot</a></li>
+                        <li><a href="https://learn.microsoft.com/intune/intune-service/enrollment/enrollment-time-grouping" target="_blank" rel="noopener noreferrer">Microsoft Learn: Enrollment time grouping in Microsoft Intune</a></li>
+                        <li><a href="https://learn.microsoft.com/autopilot/add-devices" target="_blank" rel="noopener noreferrer">Microsoft Learn: Manually register devices with Windows Autopilot</a></li>
                     </ol>
                 </div>
             </section>
@@ -311,7 +316,7 @@ Get-WindowsAutopilotInfo.ps1 -OutputFile AutopilotHWHash.csv</code></pre>
       "name": "What is the difference between Autopilot V1 and V2?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "classic Autopilot (V1) requires the device's hardware hash to be registered in the tenant before provisioning and supports hybrid join, self-deploying and kiosk scenarios. Device Preparation (V2) needs no pre-registration or hash, works only cloud-only with Entra Join and user-driven provisioning, and applies enforcement after enrollment rather than before."
+        "text": "classic Autopilot (V1) requires the device's hardware hash to be registered in the tenant before provisioning and supports hybrid join, self-deploying and kiosk scenarios. Device Preparation (V2) needs no pre-registration or hash, supports Microsoft Entra join only, and covers two flows: user-driven for physical devices and automatic mode for Windows 365 Cloud PCs. It applies enforcement after enrollment rather than before."
       }
     },
     {
@@ -324,10 +329,10 @@ Get-WindowsAutopilotInfo.ps1 -OutputFile AutopilotHWHash.csv</code></pre>
     },
     {
       "@type": "Question",
-      "name": "Why will my Device Preparation policy not save?",
+      "name": "Why do devices never land in my Device Preparation enrollment-time group?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Almost always because the Intune Provisioning Client service principal (AppId f1346770-5b25-470b-88bd-d5744ab7952c) is not an owner of the enrollment-time security group. Add it as an owner, and confirm the group is static rather than dynamic."
+        "text": "Almost always because the Intune Provisioning Client service principal (AppId f1346770-5b25-470b-88bd-d5744ab7952c) is not an owner of the enrollment-time security group. Add it as an owner, and confirm the group is static rather than dynamic. Devices > Monitor > Enrollment time grouping failures lists the devices that failed to join."
       }
     },
     {
@@ -335,7 +340,7 @@ Get-WindowsAutopilotInfo.ps1 -OutputFile AutopilotHWHash.csv</code></pre>
       "name": "Why is my Device Preparation policy not applying to a device?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Check whether the device is still registered as a classic Autopilot device \u2014 the classic profile takes precedence and the Device Preparation policy will silently never apply. Deregister it from Autopilot first. Also verify the build: Windows 11 24H2, or 22H2/23H2 with KB5035942."
+        "text": "Check whether the device is registered in classic Autopilot and not associated with the tenant \u2014 in that state the classic profile takes precedence and the Device Preparation policy never applies. Associate the device, or deregister it from Autopilot. Also verify the build: Windows 11 24H2, or 22H2/23H2 with KB5035942."
       }
     },
     {
@@ -343,7 +348,7 @@ Get-WindowsAutopilotInfo.ps1 -OutputFile AutopilotHWHash.csv</code></pre>
       "name": "How many apps can Device Preparation install during setup?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "A maximum of 10 apps and 10 PowerShell scripts are tracked during the provisioning experience. Anything beyond that installs afterwards, so put only day-one essentials inside the limit."
+        "text": "Up to 25 apps and 10 PowerShell scripts are tracked during the provisioning experience — Microsoft raised the app limit from 10 to 25 in January 2026. Anything beyond that installs afterwards, so put day-one essentials inside the limit and review your deployment timeout, because 25 blocking apps take longer than 10."
       }
     },
     {
