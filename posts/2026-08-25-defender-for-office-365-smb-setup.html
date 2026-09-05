@@ -69,7 +69,7 @@
 
                     <div class="post-tldr">
                         <h2>In short</h2>
-                        <p>Exchange Online Protection (EOP) comes with every mailbox and handles spam and known malware. <strong>Plan 1</strong> — included in Business Premium — adds Safe Links, Safe Attachments and real impersonation protection. <strong>Plan 2</strong> adds hunting, attack simulation and automated investigation, and is mostly for teams with someone to actually use it. For most SMBs the win is not buying more: it is turning on the <strong>Standard preset security policy</strong>, fixing SPF/DKIM/DMARC, and restricting OAuth consent.</p>
+                        <p>Exchange Online Protection (EOP) comes with every mailbox and handles spam and known malware. <strong>Plan 1</strong> — included in Business Premium and, since 1 July 2026, in Office 365 E3 and Microsoft 365 E3 — adds Safe Links, Safe Attachments and real impersonation protection. <strong>Plan 2</strong> adds hunting, attack simulation and automated investigation, and is mostly for teams with someone to actually use it. For most SMBs the win is not buying more: it is turning on the <strong>Standard preset security policy</strong>, fixing SPF/DKIM/DMARC, and restricting OAuth consent.</p>
                     </div>
 
                     <nav class="post-toc" aria-label="Table of contents">
@@ -87,16 +87,16 @@
                     </nav>
 
                     <h2 id="what-you-already-have">What you already have: Exchange Online Protection</h2>
-                    <p>Every mailbox in Microsoft 365 sits behind EOP whether you configured it or not. It handles connection filtering, anti-spam, anti-malware based on known signatures, and outbound spam control. It is genuinely decent at the bulk problem: the obvious spam, the mass-mailed malware, the stuff with a bad reputation attached.</p>
+                    <p>Every mailbox in Microsoft 365 sits behind the built-in security features for cloud mailboxes — the layer still widely known as Exchange Online Protection, EOP — whether you configured it or not. It handles connection filtering, anti-spam, anti-malware based on known signatures, and outbound spam control. It is genuinely decent at the bulk problem: the obvious spam, the mass-mailed malware, the stuff with a bad reputation attached.</p>
                     <p>What EOP does not do is judge intent. A clean, well-written mail from a freshly registered domain, with no attachment and one link that only turns malicious an hour after delivery, looks fine to a signature-based filter. That is the gap the paid tiers exist to close.</p>
 
                     <h2 id="plan-1">What Plan 1 adds</h2>
-                    <p>Plan 1 is the tier most SMBs already own without knowing it — it is included in <strong>Microsoft 365 Business Premium</strong>. Four things matter:</p>
+                    <p>Plan 1 is the tier most SMBs already own without knowing it. It is included in <strong>Microsoft 365 Business Premium</strong> and — effective 1 July 2026 — in <strong>Office 365 E3 and Microsoft 365 E3</strong> as well. Four things matter:</p>
                     <ul>
-                        <li><strong>Safe Links</strong> rewrites URLs and checks them at click time, not delivery time. This is what catches the link that was clean when it arrived and weaponised afterwards.</li>
+                        <li><strong>Safe Links</strong> rewrites URLs in inbound mail and re-checks them at click time. The URLs are scanned before delivery too; the point of the click-time check is that a link's reputation can change between delivery and the click. This is what catches the link that was clean when it arrived and weaponised afterwards.</li>
                         <li><strong>Safe Attachments</strong> detonates attachments in a sandbox before delivery, which catches malware that has no signature yet.</li>
                         <li><strong>Anti-phishing with impersonation protection</strong> — the one that actually earns its keep. You list your executives and your own domain, and Defender flags mail that pretends to be them. Without this, a display-name spoof of your CEO sails straight through.</li>
-                        <li><strong>Real-time reports</strong> so you can see what was blocked and why.</li>
+                        <li><strong>Real-time detections</strong> — Microsoft's name for the Plan 1 investigation report. Its presence in the portal is the quickest way to tell Plan 1 from Plan 2.</li>
                     </ul>
                     <p>If you have Business Premium and have not configured impersonation protection, you own a lock you never fitted to the door.</p>
 
@@ -115,7 +115,7 @@
                     <ol>
                         <li><strong>Turn on the Standard preset security policy</strong> in the Defender portal and scope it to all users. Microsoft maintains the settings; you stop hand-tuning spam thresholds forever. Use Strict for executives and finance. This single step closes most of the gap in most tenants.</li>
                         <li><strong>Configure impersonation protection</strong> — add your own domain and your handful of high-risk users (CEO, CFO, whoever signs payments). Preset policies do not know who your executives are; you have to tell them.</li>
-                        <li><strong>Fix SPF, DKIM and DMARC on your own domains.</strong> Publish SPF, enable DKIM signing for every sending domain, then move DMARC from <code>p=none</code> to <code>p=quarantine</code> once your reports are clean. This stops other people being phished in your name — and it is what makes your mail trusted elsewhere.</li>
+                        <li><strong>Fix SPF, DKIM and DMARC on your own domains.</strong> Publish SPF, enable DKIM signing for every sending domain, then move DMARC from <code>p=none</code> to <code>p=quarantine</code> once your reports are clean, and on to <code>p=reject</code> after that. Microsoft's documented goal is <code>p=reject</code> for every custom domain and subdomain; quarantine is the staging post, not the destination. This stops other people being phished in your name — and it is what makes your mail trusted elsewhere.</li>
                         <li><strong>Deploy the Report Phishing button</strong> and tell people to use it. User reports are the only detection layer that scales to intent, and in Plan 2 they feed AIR directly.</li>
                         <li><strong>Restrict OAuth app consent</strong> to verified publishers, with an admin consent workflow. Cheapest high-value change on this list.</li>
                         <li><strong>Review quarantine weekly</strong> for the first month. You will find both the false positives and the pattern of what is actually targeting you.</li>
@@ -130,11 +130,11 @@
                     <h2 id="glossary">Glossary</h2>
                     <dl>
                         <dt>EOP (Exchange Online Protection)</dt><dd>The baseline mail filtering included with every Microsoft 365 mailbox: connection filtering, anti-spam and signature-based anti-malware.</dd>
-                        <dt>Safe Links</dt><dd>Rewrites URLs in mail and Teams and checks them at click time, catching links that turn malicious after delivery.</dd>
+                        <dt>Safe Links</dt><dd>Rewrites URLs in mail and re-checks them at click time, catching links that turn malicious after delivery. In Microsoft Teams, links are checked at click time but are not rewritten.</dd>
                         <dt>Safe Attachments</dt><dd>Detonates attachments in an isolated sandbox before delivery to catch malware with no known signature.</dd>
                         <dt>Impersonation protection</dt><dd>Anti-phishing rules that flag mail pretending to be your own domain or named users — you must configure the protected users yourself.</dd>
                         <dt>Preset security policy</dt><dd>Microsoft-maintained Standard and Strict policy bundles that apply recommended Defender settings without manual tuning.</dd>
-                        <dt>DMARC</dt><dd>A DNS policy telling receivers what to do with mail that fails SPF and DKIM — moving from p=none to p=quarantine is what actually stops spoofing of your domain.</dd>
+                        <dt>DMARC</dt><dd>A DNS policy telling receivers what to do with mail that fails SPF and DKIM. Move from p=none through p=quarantine to p=reject; p=reject is the state that actually stops spoofing of your domain.</dd>
                         <dt>AIR (Automated Investigation and Response)</dt><dd>Plan 2 automation that investigates alerts and proposes or applies remediation without an analyst starting the work.</dd>
                     </dl>
                     </section>
@@ -142,7 +142,7 @@
                     <section class="faq">
                     <h2 id="faq">Frequently Asked Questions</h2>
                     <h3>Is Microsoft Defender for Office 365 included in Business Premium?</h3>
-                    <p>Yes — Microsoft 365 Business Premium includes Defender for Office 365 <strong>Plan 1</strong>, which gives you Safe Links, Safe Attachments, anti-phishing with impersonation protection and real-time reports. Plan 2 (hunting, attack simulation, automated investigation) is included in E5 or bought as an add-on. Most SMBs already own Plan 1 and simply have not enabled the preset policies.</p>
+                    <p>Yes — Microsoft 365 Business Premium includes Defender for Office 365 <strong>Plan 1</strong>, which gives you Safe Links, Safe Attachments, anti-phishing with impersonation protection and real-time detections. Effective 1 July 2026, Plan 1 is also included in Office 365 E3 and Microsoft 365 E3. Plan 2 (hunting, attack simulation, automated investigation) is included in E5 or bought as an add-on. Most SMBs already own Plan 1 and simply have not enabled the preset policies.</p>
                     <h3>Do I need Defender for Office 365 Plan 2?</h3>
                     <p>Only if someone will use it. Plan 2 adds Threat Explorer, hunting, campaign views and automated investigation — valuable when you have a person whose job includes looking at them. If nobody in the tenant hunts threats, you get more security per euro by finishing your Plan 1 configuration. The one broadly useful exception is Attack Simulation Training when you need documented user-awareness training.</p>
                     <h3>Why do phishing emails keep getting through Microsoft Defender?</h3>
@@ -210,7 +210,7 @@
     "name": "EndlessTech Blog"
   },
   "datePublished": "2026-08-25",
-  "dateModified": "2026-08-25",
+  "dateModified": "2026-09-05",
   "inLanguage": "en",
   "mainEntityOfPage": "https://endlesstech.blog/posts/2026-08-25-defender-for-office-365-smb-setup.html"
 }
@@ -225,7 +225,7 @@
       "name": "Is Microsoft Defender for Office 365 included in Business Premium?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes \u2014 Microsoft 365 Business Premium includes Defender for Office 365 Plan 1, which gives you Safe Links, Safe Attachments, anti-phishing with impersonation protection and real-time reports. Plan 2 (hunting, attack simulation, automated investigation) is included in E5 or bought as an add-on. Most SMBs already own Plan 1 and simply have not enabled the preset policies."
+        "text": "Yes \u2014 Microsoft 365 Business Premium includes Defender for Office 365 Plan 1, which gives you Safe Links, Safe Attachments, anti-phishing with impersonation protection and real-time detections. Effective 1 July 2026, Plan 1 is also included in Office 365 E3 and Microsoft 365 E3. Plan 2 (hunting, attack simulation, automated investigation) is included in E5 or bought as an add-on. Most SMBs already own Plan 1 and simply have not enabled the preset policies."
       }
     },
     {
