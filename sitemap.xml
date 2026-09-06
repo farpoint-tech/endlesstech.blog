@@ -91,8 +91,18 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://endlesstech.blog/posts/2026-06-08-microsoft-scout-autopilot-for-it.html</loc>
+    <lastmod>2026-09-06</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://endlesstech.blog/posts/2026-05-26-your-it-security-is-an-airport.html</loc>
     <lastmod>2026-09-05</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://endlesstech.blog/posts/2026-05-21-ghost-hunting-m365-orphaned-teams-channel-sites.html</loc>
+    <lastmod>2026-09-06</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -113,6 +123,11 @@
   <url>
     <loc>https://endlesstech.blog/posts/2026-04-08-microsoft-365-vs-baramundi-the-real-story.html</loc>
     <lastmod>2026-09-05</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://endlesstech.blog/posts/2026-04-08-copilot-roi-knowledge-management-guide.html</loc>
+    <lastmod>2026-09-06</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -138,6 +153,11 @@
   <url>
     <loc>https://endlesstech.blog/posts/2026-02-25-the-golden-tenant-is-dead.html</loc>
     <lastmod>2026-09-05</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://endlesstech.blog/posts/2026-02-25-cloudknox-sharepoint-file-level-archiving.html</loc>
+    <lastmod>2026-09-06</lastmod>
     <priority>0.8</priority>
   </url>
   <url>

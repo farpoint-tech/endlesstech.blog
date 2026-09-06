@@ -143,11 +143,27 @@
     </item>
 
     <item>
+      <title>Microsoft Scout Runs Under Your Identity, Not Its Own</title>
+      <link>https://endlesstech.blog/posts/2026-06-08-microsoft-scout-autopilot-for-it.html</link>
+      <guid>https://endlesstech.blog/posts/2026-06-08-microsoft-scout-autopilot-for-it.html</guid>
+      <pubDate>Mon, 08 Jun 2026 00:00:00 +0000</pubDate>
+      <description>Microsoft Scout has no identity of its own: it signs in with your Microsoft 365 credentials and acts with your permissions, so its actions are recorded as yours.</description>
+    </item>
+
+    <item>
       <title>Your IT Security Is an Airport – And Everyone Is Sneaking Through the Emergency Exit</title>
       <link>https://endlesstech.blog/posts/2026-05-26-your-it-security-is-an-airport.html</link>
       <guid>https://endlesstech.blog/posts/2026-05-26-your-it-security-is-an-airport.html</guid>
       <pubDate>Tue, 26 May 2026 00:00:00 +0000</pubDate>
       <description>Zero Trust vs perimeter security, explained through an airport analogy — why "never trust, always verify" beats the old castle-and-moat model.</description>
+    </item>
+
+    <item>
+      <title>Orphaned Teams Channel Sites: Report Before You Delete Anything</title>
+      <link>https://endlesstech.blog/posts/2026-05-21-ghost-hunting-m365-orphaned-teams-channel-sites.html</link>
+      <guid>https://endlesstech.blog/posts/2026-05-21-ghost-hunting-m365-orphaned-teams-channel-sites.html</guid>
+      <pubDate>Thu, 21 May 2026 00:00:00 +0000</pubDate>
+      <description>Microsoft documents that Teams channel sites die with their team. When one survives, deleting it is the last step, not the first. How to find them safely.</description>
     </item>
 
     <item>
@@ -180,6 +196,14 @@
       <guid>https://endlesstech.blog/posts/2026-04-08-microsoft-365-vs-baramundi-the-real-story.html</guid>
       <pubDate>Wed, 08 Apr 2026 00:00:00 +0000</pubDate>
       <description>Microsoft 365 vs Baramundi is the wrong comparison. One is a productivity platform, the other an on-prem UEM. Here is how they differ and coexist.</description>
+    </item>
+
+    <item>
+      <title>Copilot ROI: A 60-User Model You Can Recalculate</title>
+      <link>https://endlesstech.blog/posts/2026-04-08-copilot-roi-knowledge-management-guide.html</link>
+      <guid>https://endlesstech.blog/posts/2026-04-08-copilot-roi-knowledge-management-guide.html</guid>
+      <pubDate>Wed, 08 Apr 2026 00:00:00 +0000</pubDate>
+      <description>A Microsoft 365 Copilot business case for 60 users built from Microsoft's own published numbers: every input named, every subtotal shown, and the two levers that move the result.</description>
     </item>
 
     <item>
@@ -220,6 +244,14 @@
       <guid>https://endlesstech.blog/posts/2026-02-25-the-golden-tenant-is-dead.html</guid>
       <pubDate>Wed, 25 Feb 2026 00:00:00 +0000</pubDate>
       <description>The Intune golden tenant model breaks as soon as Microsoft ships the next update. Why drift-aware automation replaces static reference tenants for MSPs.</description>
+    </item>
+
+    <item>
+      <title>Microsoft 365 Archive: File-Level Archiving Is Here</title>
+      <link>https://endlesstech.blog/posts/2026-02-25-cloudknox-sharepoint-file-level-archiving.html</link>
+      <guid>https://endlesstech.blog/posts/2026-02-25-cloudknox-sharepoint-file-level-archiving.html</guid>
+      <pubDate>Wed, 25 Feb 2026 00:00:00 +0000</pubDate>
+      <description>File-level archiving in Microsoft 365 Archive has shipped. What it does, how the billing works, where the limits are, and when a third-party tool still earns its place.</description>
     </item>
 
     <item>
