@@ -25,7 +25,7 @@
     <text x="250" y="72" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" fill="#9db8ff">no hash, no pre-registration</text>
     <g font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#c7d6ff">
       <rect x="34" y="100" width="432" height="52" rx="9" fill="#12213f" stroke="#00D9FF" stroke-width="1.5"/><text x="54" y="132">1 · Static group + service principal owner</text>
-      <rect x="34" y="164" width="432" height="52" rx="9" fill="#12213f" stroke="#00D9FF" stroke-width="1.5"/><text x="54" y="196">2 · Policy: max 10 apps + 10 scripts</text>
+      <rect x="34" y="164" width="432" height="52" rx="9" fill="#12213f" stroke="#00D9FF" stroke-width="1.5"/><text x="54" y="196">2 · Policy: max 25 apps + 10 scripts</text>
       <rect x="34" y="228" width="432" height="52" rx="9" fill="#12213f" stroke="#00D9FF" stroke-width="1.5"/><text x="54" y="260">3 · User signs in — device joins group</text>
       <rect x="34" y="292" width="432" height="52" rx="9" fill="#12213f" stroke="#00D9FF" stroke-width="1.5"/><text x="54" y="324">4 · Enforcement AFTER enrollment</text>
     </g>

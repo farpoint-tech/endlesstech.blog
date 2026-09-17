@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" role="img" aria-label="The four prerequisites for enrollment time grouping in a chain, followed by the failure report that must be monitored continuously">
+  <defs><linearGradient id="etg-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#071633"/><stop offset="1" stop-color="#002863"/></linearGradient></defs>
+  <rect width="1200" height="560" fill="url(#etg-bg)"/>
+  <g stroke="#3366FF" stroke-opacity="0.08" stroke-width="1"><path d="M0 140H1200M0 280H1200M0 420H1200"/><path d="M400 0V560M800 0V560"/></g>
+  <text x="600" y="64" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="2" fill="#00D9FF">ENROLLMENT TIME GROUPING — ALL FOUR, OR NONE</text>
+
+  <g font-family="Segoe UI, Arial, sans-serif">
+    <rect x="50" y="110" width="245" height="130" rx="14" fill="#0d2a5c" stroke="#00D9FF" stroke-width="2"/>
+    <text x="172" y="150" text-anchor="middle" font-size="16" font-weight="700" fill="#00D9FF">1 · Static group</text>
+    <text x="172" y="180" text-anchor="middle" font-size="13" fill="#c7d6ff">Membership type</text>
+    <text x="172" y="202" text-anchor="middle" font-size="13" fill="#c7d6ff">must be Assigned.</text>
+    <text x="172" y="224" text-anchor="middle" font-size="13" fill="#c7d6ff">Dynamic is rejected.</text>
+
+    <rect x="318" y="110" width="245" height="130" rx="14" fill="#0d2a5c" stroke="#00D9FF" stroke-width="2"/>
+    <text x="440" y="150" text-anchor="middle" font-size="16" font-weight="700" fill="#00D9FF">2 · Group owner</text>
+    <text x="440" y="180" text-anchor="middle" font-size="13" fill="#c7d6ff">Intune Provisioning Client</text>
+    <text x="440" y="202" text-anchor="middle" font-size="12" fill="#7f97d6">f1346770-5b25-470b-</text>
+    <text x="440" y="222" text-anchor="middle" font-size="12" fill="#7f97d6">88bd-d5744ab7952c</text>
+
+    <rect x="586" y="110" width="245" height="130" rx="14" fill="#0d2a5c" stroke="#00D9FF" stroke-width="2"/>
+    <text x="708" y="150" text-anchor="middle" font-size="16" font-weight="700" fill="#00D9FF">3 · Custom RBAC role</text>
+    <text x="708" y="180" text-anchor="middle" font-size="13" fill="#c7d6ff">enrollment time device</text>
+    <text x="708" y="202" text-anchor="middle" font-size="13" fill="#c7d6ff">membership assignment</text>
+    <text x="708" y="224" text-anchor="middle" font-size="12" fill="#7f97d6">No built-in role carries it</text>
+
+    <rect x="854" y="110" width="245" height="130" rx="14" fill="#0d2a5c" stroke="#00D9FF" stroke-width="2"/>
+    <text x="976" y="150" text-anchor="middle" font-size="16" font-weight="700" fill="#00D9FF">4 · Commercial cloud</text>
+    <text x="976" y="180" text-anchor="middle" font-size="13" fill="#c7d6ff">Not available in</text>
+    <text x="976" y="202" text-anchor="middle" font-size="13" fill="#c7d6ff">Azure Government</text>
+    <text x="976" y="224" text-anchor="middle" font-size="13" fill="#c7d6ff">or 21Vianet</text>
+
+    <g stroke="#00D9FF" stroke-width="2" fill="none" marker-end="url(#arrow)">
+      <path d="M295 175H316"/><path d="M563 175H584"/><path d="M831 175H852"/>
+    </g>
+    <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#00D9FF"/></marker></defs>
+
+    <rect x="50" y="300" width="1049" height="200" rx="16" fill="#2a1408" stroke="#E8804D" stroke-width="2.5"/>
+    <text x="574" y="345" text-anchor="middle" font-size="19" font-weight="800" fill="#FFB84D">The part that is not optional</text>
+    <text x="574" y="385" text-anchor="middle" font-size="15" fill="#f0c9a8">Devices &#8594; Monitor &#8594; Enrollment time grouping failures</text>
+    <text x="574" y="420" text-anchor="middle" font-size="15" fill="#c7d6ff">A failed group join can change or remove configuration that was already on the device.</text>
+    <text x="574" y="447" text-anchor="middle" font-size="15" fill="#c7d6ff">The report shows failures only, with up to 20 minutes of delay.</text>
+    <text x="574" y="480" text-anchor="middle" font-size="15" font-weight="700" fill="#ECC23B">Turning ETG on means taking this report on. There is no alert, only the list.</text>
+  </g>
+</svg>
