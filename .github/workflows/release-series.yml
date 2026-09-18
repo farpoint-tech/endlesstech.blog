@@ -1,12 +1,25 @@
 name: Release scheduled post
 
-# 05:50 UTC = 07:50 Europe/Berlin (CEST), every day. The release calendar in
-# .scheduled/releases.json decides whether anything is actually due, so an
-# idle run is a green run. Entries that were missed — a failed run, a day
-# GitHub skipped the cron — are caught up on the next run.
+# GitHub's scheduler runs this job late, consistently: every run between
+# 2026-09-09 and 2026-09-18 started 3h46m to 5h09m after its cron time. A
+# 05:50 UTC cron therefore landed around 12:20 Europe/Berlin, and the
+# announcement post for a release goes out at 08:18 Europe/Berlin — it would
+# have linked to a 404 for four hours.
+#
+# So the cron sits at 00:50 UTC, which leaves 5h28m of headroom before 06:18
+# UTC (08:18 CEST) and 6h28m before 07:18 UTC (08:18 CET). 00:50 UTC is the
+# same Europe/Berlin calendar day in both CET and CEST, so the "today" the
+# script resolves never drifts across a DST boundary. The 03:50 UTC run is a
+# catch-up for a cron GitHub skips entirely; the script is idempotent, so it
+# is a green no-op whenever the first run did the work.
+#
+# The release calendar in .scheduled/releases.json decides whether anything is
+# actually due, so an idle run is a green run. Entries that were missed are
+# caught up on the next run.
 on:
   schedule:
-    - cron: "50 5 * * *"
+    - cron: "50 0 * * *"
+    - cron: "50 3 * * *"
   workflow_dispatch:
     inputs:
       date:
