@@ -145,6 +145,9 @@ Get-WindowsAutopilotInfo.ps1 -OutputFile AutopilotHWHash.csv</code></pre>
                     </ul>
                     <p>That second point is, by a wide margin, the most common cause of a failed V2 setup. If the policy refuses to save and the error is unhelpful, check the group owner first.</p>
 
+                    <h3>No Enrollment Status Page in V2</h3>
+                    <p>Device Preparation does not use the Enrollment Status Page at all. Microsoft states this plainly: if the ESP shows up during what you believe is a Device Preparation deployment, the device is not running one &mdash; it is almost certainly still registered in classic Autopilot with a profile assigned, and a classic profile takes precedence over a Device Preparation policy. The practical consequence is that every piece of ESP advice &mdash; blocking apps, timeout, failure behaviour, the diagnostics page &mdash; applies to V1 only. In V2 you watch the deployment report instead. The upside: without the ESP, V2 tolerates mixing line-of-business and Win32 apps, which the ESP does not.</p>
+
                     <h3>Limits and identifiers</h3>
                     <ul>
                         <li><strong>Maximum 10 apps and 10 PowerShell scripts</strong> are tracked during setup. Anything beyond that installs afterwards, outside the provisioning experience &mdash; so put the day-one essentials inside the limit and let the rest follow.</li>
@@ -162,7 +165,7 @@ Get-WindowsAutopilotInfo.ps1 -OutputFile AutopilotHWHash.csv</code></pre>
                         <li>Join type: Entra Joined or Hybrid (V1 only)</li>
                         <li>Device naming convention</li>
                         <li>Group tag strategy for segmented rollouts (V1)</li>
-                        <li>Enrollment Status Page and timeout configuration</li>
+                        <li>Enrollment Status Page and timeout configuration (V1 only &mdash; Device Preparation does not use the ESP)</li>
                         <li>App and policy baseline for day one</li>
                         <li>Any exceptions granted for local administrator rights</li>
                     </ul>
@@ -186,14 +189,15 @@ Get-WindowsAutopilotInfo.ps1 -OutputFile AutopilotHWHash.csv</code></pre>
                         <li><strong>Missing service principal owner</strong> &rarr; the policy will not save and the device never joins the group. Check this first, always.</li>
                         <li><strong>Dynamic instead of static group</strong> &rarr; assignment fails; switching an existing group static&rarr;dynamic breaks it as well.</li>
                         <li><strong>Device still registered in classic Autopilot</strong> &rarr; the V2 policy silently never applies.</li>
-                        <li><strong>Known issue &mdash; local admin:</strong> policy set to "standard user" combined with the Entra setting "registering user is added as local administrator" (Selected/None) causes provisioning to be skipped entirely.</li>
-                        <li><strong>Known issue &mdash; time zone:</strong> deployments have failed on devices not running UTC. Verify whether this is resolved before a rollout.</li>
+                        <li><strong>Local admin, field-observed:</strong> a policy set to "standard user" combined with the Entra device-registration setting that adds the registering user as local administrator (Selected/None) has caused provisioning to be skipped entirely. Microsoft does not document this, and it is not on the Autopilot known-issues page &mdash; treat it as an unverified field observation and test it in your own tenant before you build a rollout around it.</li>
+                        <li><strong>Time zone, field-observed:</strong> deployments have failed on devices whose clock is significantly off. Microsoft documents the adjacent case &mdash; a real-time clock off by minutes or more causing TPM attestation errors and ESP timeouts, fixed with <code>w32tm /resync /force</code> at the start of OOBE &mdash; but not a UTC requirement as such. Verify before a rollout.</li>
                     </ul>
                     <p><strong>classic Autopilot:</strong></p>
                     <ul>
                         <li><strong>Missing profile assignment</strong> &rarr; provisioning fails. Check before the device ships, not after it arrives.</li>
                         <li><strong>Manual hash extraction as the routine process</strong> &rarr; does not scale, high error rate.</li>
                         <li><strong>A "dirty" tenant</strong> &mdash; stale registrations, duplicate hashes. Audit tenant state before a batch onboarding.</li>
+                        <li><strong>Admin rights silently not granted (hybrid join)</strong> &mdash; documented by Microsoft: in user-driven hybrid Entra join, the user does not get administrator rights even when the Autopilot profile says so, if another account on the device already holds them. A PowerShell script or policy that creates a second local admin account during provisioning is enough to trigger it. Do not create that account until Autopilot has finished.</li>
                     </ul>
                     <p><strong>Both:</strong></p>
                     <ul>
