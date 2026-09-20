@@ -164,7 +164,7 @@ Get-WindowsAutopilotInfo -Online</code></pre>
                         <li>Join type: Entra Joined or Hybrid (V1 only)</li>
                         <li>Device naming convention</li>
                         <li>Group tag strategy for segmented rollouts (V1)</li>
-                        <li>Enrollment Status Page and timeout configuration</li>
+                        <li>Enrollment Status Page and timeout configuration (V1 only &mdash; Device Preparation does not use the ESP)</li>
                         <li>App and policy baseline for day one</li>
                         <li>Any exceptions granted for local administrator rights</li>
                     </ul>
@@ -188,12 +188,13 @@ Get-WindowsAutopilotInfo -Online</code></pre>
                         <li><strong>Missing service principal owner</strong> &rarr; the device never joins the group, and everything targeted at that group misses the deployment. Check this first, always, and watch <strong>Devices &rarr; Monitor &rarr; Enrollment time grouping failures</strong>.</li>
                         <li><strong>Dynamic instead of static group</strong> &rarr; the group has to be Membership type <strong>Assigned</strong>.</li>
                         <li><strong>Device registered in classic Autopilot and not associated with the tenant</strong> &rarr; the classic profile wins and the V2 policy never applies. Associate the device or deregister it. A quick tell during OOBE: if the Enrollment Status Page appears at all, the device is running classic Autopilot. Device Preparation does not use the ESP.</li>
-                        <li><strong>Known issue &mdash; local admin:</strong> policy set to "standard user" combined with the Entra setting "registering user is added as local administrator" (Selected/None) causes provisioning to be skipped entirely.</li>
+                        <li><strong>Known issue &mdash; local admin:</strong> policy set to <strong>Standard user</strong> combined with the Entra <strong>Local administrator settings</strong> option "Registering user is added as local administrator on the device during Microsoft Entra join" set to <strong>Selected</strong> or <strong>None</strong> causes provisioning to be skipped entirely. Users reach the desktop without the apps. The documented fix is counter-intuitive: of the three combinations Microsoft lists that leave the user a standard non-administrator, two require the policy's <strong>User account type</strong> to be set to <strong>Administrator</strong>, and only the third (Entra set to <strong>All</strong>) uses <strong>Standard user</strong>. Read both settings before you decide which one to change.</li>
                     </ul>
                     <p><strong>classic Autopilot:</strong></p>
                     <ul>
                         <li><strong>Missing profile assignment</strong> &rarr; the device still runs Autopilot, on the default profile, and lands in a configuration nobody chose. Check the assignment before the device ships.</li>
                         <li><strong>Manual hash extraction as the routine process</strong> &rarr; does not scale, high error rate.</li>
+                        <li><strong>Admin rights silently not granted on hybrid join</strong> &rarr; in user-driven hybrid Entra join the user does not become a local administrator even when the Autopilot profile says so, if another account on the device already holds admin rights. A script or policy that creates a second local admin account during provisioning is enough to trigger it, so do not create that account until Autopilot has finished.</li>
                         <li><strong>A "dirty" tenant</strong>: stale registrations, duplicate hashes. Audit tenant state before a batch onboarding.</li>
                     </ul>
                     <p><strong>Both:</strong></p>
@@ -253,6 +254,7 @@ Get-WindowsAutopilotInfo -Online</code></pre>
                         <li><a href="https://learn.microsoft.com/en-us/autopilot/device-preparation/troubleshooting-faq" target="_blank" rel="noopener noreferrer">Microsoft Learn: Device preparation troubleshooting FAQ</a></li>
                         <li><a href="https://learn.microsoft.com/en-us/autopilot/device-preparation/known-issues" target="_blank" rel="noopener noreferrer">Microsoft Learn: Windows Autopilot device preparation known issues</a></li>
                         <li><a href="https://learn.microsoft.com/en-us/autopilot/windows-autopilot" target="_blank" rel="noopener noreferrer">Microsoft Learn: Windows Autopilot overview</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/autopilot/known-issues" target="_blank" rel="noopener noreferrer">Microsoft Learn: Windows Autopilot known issues</a></li>
                         <li><a href="https://learn.microsoft.com/autopilot/device-preparation/compare" target="_blank" rel="noopener noreferrer">Microsoft Learn: Compare Windows Autopilot device preparation and Windows Autopilot</a></li>
                         <li><a href="https://learn.microsoft.com/intune/intune-service/enrollment/enrollment-time-grouping" target="_blank" rel="noopener noreferrer">Microsoft Learn: Enrollment time grouping in Microsoft Intune</a></li>
                         <li><a href="https://learn.microsoft.com/autopilot/add-devices" target="_blank" rel="noopener noreferrer">Microsoft Learn: Manually register devices with Windows Autopilot</a></li>
