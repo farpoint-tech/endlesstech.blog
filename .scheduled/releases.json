@@ -1,0 +1,66 @@
+{
+  "timezone": "Europe/Berlin",
+  "source_branch": "scheduled-posts",
+  "releases": [
+    {
+      "date": "2026-09-21",
+      "slug": "2026-09-08-intune-apple-enrollment-policies-ade",
+      "card": ".scheduled/cards/2026-09-08-intune-apple-enrollment-policies-ade.html"
+    },
+    {
+      "date": "2026-09-21",
+      "slug": "2026-09-22-windows-autopilot-v1-vs-v2-technical-guide",
+      "card": ".scheduled/cards/2026-09-22-windows-autopilot-v1-vs-v2-technical-guide.html"
+    },
+    {
+      "date": "2026-09-23",
+      "slug": "2026-09-03-entra-pim-authentication-context",
+      "card": ".scheduled/cards/2026-09-03-entra-pim-authentication-context.html"
+    },
+    {
+      "date": "2026-09-29",
+      "slug": "2026-09-05-conditional-access-policy-baseline",
+      "card": ".scheduled/cards/2026-09-05-conditional-access-policy-baseline.html"
+    },
+    {
+      "date": "2026-10-01",
+      "slug": "2026-09-08-intune-policy-not-applying-troubleshooting",
+      "card": ".scheduled/cards/2026-09-08-intune-policy-not-applying-troubleshooting.html"
+    },
+    {
+      "date": "2026-10-06",
+      "slug": "2026-09-10-m365-offboarding-automation-lifecycle",
+      "card": ".scheduled/cards/2026-09-10-m365-offboarding-automation-lifecycle.html"
+    },
+    {
+      "date": "2026-10-08",
+      "slug": "2026-09-12-b2b-guest-user-governance-cleanup",
+      "card": ".scheduled/cards/2026-09-12-b2b-guest-user-governance-cleanup.html"
+    },
+    {
+      "date": "2026-10-13",
+      "slug": "2026-09-15-entra-identity-protection-false-positives",
+      "card": ".scheduled/cards/2026-09-15-entra-identity-protection-false-positives.html"
+    },
+    {
+      "date": "2026-10-15",
+      "slug": "2026-09-17-copilot-oversharing-sharepoint-permissions",
+      "card": ".scheduled/cards/2026-09-17-copilot-oversharing-sharepoint-permissions.html"
+    },
+    {
+      "date": "2026-10-20",
+      "slug": "2026-09-19-gdap-msp-circular-dependency",
+      "card": ".scheduled/cards/2026-09-19-gdap-msp-circular-dependency.html"
+    },
+    {
+      "date": "2026-10-22",
+      "slug": "2026-08-27-dlp-microsoft-365-small-it-teams",
+      "card": ".scheduled/cards/2026-08-27-dlp-microsoft-365-small-it-teams.html"
+    },
+    {
+      "date": "2026-10-27",
+      "slug": "2026-09-01-microsoft-365-compliance-smb-gdpr-audit-logs",
+      "card": ".scheduled/cards/2026-09-01-microsoft-365-compliance-smb-gdpr-audit-logs.html"
+    }
+  ]
+}

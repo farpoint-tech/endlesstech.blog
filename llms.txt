@@ -7,20 +7,20 @@
 
 ## Start here
 
-- [Zero Trust for Microsoft 365: A New 4-Part Series, One Pillar at a Time](https://endlesstech.blog/posts/2026-08-10-zero-trust-m365-series.html)
-- [Microsoft 365 Security Best Practices](https://endlesstech.blog/posts/2026-07-17-microsoft-365-security-best-practices.html)
-- [Is Microsoft Entra ID Free? Pricing Guide for Small Businesses](https://endlesstech.blog/posts/2026-06-09-is-microsoft-entra-id-free-pricing-guide.html)
-- [M365 Tenant Enumeration: The Identity Leak Microsoft Won't Fully Close](https://endlesstech.blog/posts/2026-08-20-m365-tenant-enumeration-explained.html)
-- [Boost Your Cyber Defense: Microsoft Secure Score for SMBs](https://endlesstech.blog/posts/2025-11-15-boost-your-cyber-defense-microsoft-secure-score-for-smbs.html)
+- [Zero Trust for Microsoft 365: A New 4-Part Series, One Pillar at a Time](https://endlesstech.blog/posts/2026-08-10-zero-trust-m365-series.html) — A new four-part series maps Zero Trust for Microsoft 365 to the four pillars Secure Score actually measures — Identity, Devices, Apps, and Data.
+- [Microsoft 365 Security Best Practices](https://endlesstech.blog/posts/2026-07-17-microsoft-365-security-best-practices.html) — Essential security configurations and best practices to secure your Microsoft 365 tenant — mapping IT security, information security, and cybersecurity to…
+- [Is Microsoft Entra ID Free? Pricing Guide for Small Businesses](https://endlesstech.blog/posts/2026-06-09-is-microsoft-entra-id-free-pricing-guide.html) — Is Microsoft Entra ID free? Yes — and here's exactly what the free tier includes, what paid plans cost, and when small businesses actually need to upgrade.
+- [M365 Tenant Enumeration: The Identity Leak Microsoft Won't Fully Close](https://endlesstech.blog/posts/2026-08-20-m365-tenant-enumeration-explained.html) — M365 tenant enumeration lets an unauthenticated attacker confirm which accounts exist before ever guessing a password.
+- [Boost Your Cyber Defense: Microsoft Secure Score for SMBs](https://endlesstech.blog/posts/2025-11-15-boost-your-cyber-defense-microsoft-secure-score-for-smbs.html) — Microsoft Secure Score for SMBs: how to read the dashboard, which quick wins raise your score fastest, and realistic benchmarks for small businesses.
 
 ## Zero Trust for Microsoft 365 (4-part series)
 
 The model Microsoft Secure Score actually measures: Identity, Devices, Apps, Data.
 
-- [Zero Trust for Microsoft 365, Part 1: Securing Identity](https://endlesstech.blog/posts/2026-08-11-zero-trust-m365-identity.html)
-- [Zero Trust for Microsoft 365, Part 2: Securing Devices](https://endlesstech.blog/posts/2026-08-12-zero-trust-m365-devices.html)
-- [Zero Trust for Microsoft 365, Part 3: Securing Apps](https://endlesstech.blog/posts/2026-08-13-zero-trust-m365-apps.html)
-- [Zero Trust for Microsoft 365, Part 4: Securing Data](https://endlesstech.blog/posts/2026-08-14-zero-trust-m365-data.html)
+- [Zero Trust for Microsoft 365, Part 1: Securing Identity](https://endlesstech.blog/posts/2026-08-11-zero-trust-m365-identity.html) — Identity is the first pillar of Zero Trust for Microsoft 365 and the highest-impact category in Secure Score.
+- [Zero Trust for Microsoft 365, Part 2: Securing Devices](https://endlesstech.blog/posts/2026-08-12-zero-trust-m365-devices.html) — Devices are the second Zero Trust pillar for Microsoft 365.
+- [Zero Trust for Microsoft 365, Part 3: Securing Apps](https://endlesstech.blog/posts/2026-08-13-zero-trust-m365-apps.html) — Apps are the third Zero Trust pillar for Microsoft 365.
+- [Zero Trust for Microsoft 365, Part 4: Securing Data](https://endlesstech.blog/posts/2026-08-14-zero-trust-m365-data.html) — Data is the fourth Zero Trust pillar for Microsoft 365 and the one the other three exist to protect.
 
 ## Topics
 
@@ -30,33 +30,40 @@ Teams · Compliance (GDPR, NIS2)
 
 ## All articles
 
-- [Cloud API vs. Local AI Models: The Honest TCO and Security Analysis No One Wants to Write](https://endlesstech.blog/posts/2026-08-06-cloud-api-vs-local-ai-tco-security.html)
-- [Optimize SharePoint Online Storage Before You Pay For It](https://endlesstech.blog/posts/2026-07-17-optimize-sharepoint-online-storage.html)
-- [Demystifying the Microsoft Graph API: A Practical Guide](https://endlesstech.blog/posts/2026-06-22-demystifying-microsoft-graph-api-practical-guide.html)
-- [AD CS ESC1: The Default Misconfiguration That Hands Attackers Domain Admin in Under Three Hours](https://endlesstech.blog/posts/2026-06-22-ad-cs-esc1-default-misconfiguration-domain-admin.html)
-- [Digital Sovereignty: Why Europe Lost the Cloud Race — And Why That's Okay](https://endlesstech.blog/posts/2026-06-10-digital-sovereignty-why-europe-lost-the-cloud-race.html)
-- [Microsoft Scout: Why the "Autopilot" for Your IT Is Brilliant—But Not Ready for You Yet](https://endlesstech.blog/posts/2026-06-08-microsoft-scout-autopilot-for-it.html)
-- [Your IT Security Is an Airport &ndash; And Everyone Is Sneaking Through the Emergency Exit](https://endlesstech.blog/posts/2026-05-26-your-it-security-is-an-airport.html)
-- [Ghost Hunting in the M365 Tenant: Cleaning Up Orphaned Teams Private Channel Sites with PowerShell](https://endlesstech.blog/posts/2026-05-21-ghost-hunting-m365-orphaned-teams-channel-sites.html)
-- [Security by Obscurity is Dead — Build Real Defense in Depth](https://endlesstech.blog/posts/2026-05-01-security-obscurity-is-dead.html)
-- [Taming the SharePoint Permission Nightmare: The New Copilot Readiness Tool](https://endlesstech.blog/posts/2026-04-17-sharepoint-permission-auditing-copilot.html)
-- [Microsoft 365 vs. Baramundi: The Real Story](https://endlesstech.blog/posts/2026-04-08-microsoft-365-vs-baramundi-the-real-story.html)
-- [The Final Exchange Server: Why the Cloud Switch Isn't a Magic Wand](https://endlesstech.blog/posts/2026-03-30-exchange-soa-switch-reality.html)
-- [Stop the Setup Chaos: How Windows Autopilot Deploys Hundreds of Devices Without Breaking a Sweat](https://endlesstech.blog/posts/2026-03-27-windows-autopilot-end-the-setup-chaos.html)
-- [AADSTS650052: WindowsDefenderATP Service Principal Missing – Cause & Fix](https://endlesstech.blog/posts/2026-03-26-aadsts650052-windowsdefenderatp-service-principal-missing.html)
-- [From NT to M365 – A Journey Through Tech, Decisions, and the People Behind Them](https://endlesstech.blog/posts/2026-03-16-from-nt-to-m365-a-journey-through-tech-decisions-and-people.html)
-- [The Golden Tenant Is Dead. Here's What Replaces It.](https://endlesstech.blog/posts/2026-02-25-the-golden-tenant-is-dead.html)
-- [The Future of SharePoint Archiving: File-Level is Coming](https://endlesstech.blog/posts/2026-02-25-cloudknox-sharepoint-file-level-archiving.html)
-- [You Don't Have to Love Microsoft – But You Should Understand Its Dominance (Pragmatism Over Ideology)](https://endlesstech.blog/posts/2026-02-01-microsoft-dominanz-pragmatismus-alternativen.html)
-- [Intune Enrollment Restrictions: Your Foundational Control Against Local Admin Risk](https://endlesstech.blog/posts/2026-01-06-intune-enrollment-restrictions.html)
-- [Windows 11 and Hardware Lifecycles: Why the Debate is Bigger Than Microsoft](https://endlesstech.blog/posts/2025-12-18-windows-11-hardware-lifecycle.html)
-- [MCP Servers Part 1: Understanding the Double-Edged Sword of AI Tooling](https://endlesstech.blog/posts/2025-12-17-cloudknox-mcp-servers-understanding-the-double-edged-sword-of-ai-tooling.html)
-- [Mobile Application Management: Your Quarterback for Mobile Security](https://endlesstech.blog/posts/2025-11-10-mobile-application-management-your-quarterback-for-mobile-security.html)
-- [Zero Trust with Microsoft 365: The Complete Pillar-by-Pillar Guide](https://endlesstech.blog/posts/2025-10-24-getting-started-with-zero-trust.html)
-- [From Theory to Implementation: How Context Engineering Technically Works](https://endlesstech.blog/posts/context-engineering-architecture.html)
-- [The Copilot "Mandate" - A Fact-Check on Digital Sovereignty and Cloud Governance](https://endlesstech.blog/posts/cloudknox-the-copilot-mandate.html)
-- [Copilot ROI: Why Knowledge Management Is the Difference Between 1.4:1 and 5.4:1](https://endlesstech.blog/posts/2026-04-08-copilot-roi-knowledge-management-guide.html)
-- [iOS/iPadOS ABM Enrollment Troubleshooting: The 'Not Contacted' Nightmare](https://endlesstech.blog/posts/2026-01-28-ios-abm-enrollment-troubleshooting.html)
+- [Unused Enterprise Apps: Why Last Sign-In Lies](https://endlesstech.blog/posts/2026-08-26-enterprise-apps-sign-in-vs-data-flow.html) — An Entra app with zero user sign-ins can still read every mailbox every night.
+- [Microsoft Defender for Office 365: Plans, Features, and a Sane SMB Setup](https://endlesstech.blog/posts/2026-08-25-defender-for-office-365-smb-setup.html) — EOP vs Defender Plan 1 vs Plan 2 explained without the licensing fog, plus the preset policy setup that stops most phishing in a Microsoft 365 tenant you…
+- [Cloud API vs. Local AI Models: The Honest TCO and Security Analysis No One Wants to Write](https://endlesstech.blog/posts/2026-08-06-cloud-api-vs-local-ai-tco-security.html) — Cloud AI APIs vs local models: the honest total cost of ownership and security analysis.
+- [You Already Paid for This: Defender in M365-First Companies](https://endlesstech.blog/posts/2026-07-18-defender-capabilities-m365-first-companies.html) — Most M365-first companies pay for endpoint security they never switched on.
+- [Optimize SharePoint Online Storage Before You Pay For It](https://endlesstech.blog/posts/2026-07-17-optimize-sharepoint-online-storage.html) — SharePoint Online storage rarely grows because of new files.
+- [Demystifying the Microsoft Graph API: A Practical Guide](https://endlesstech.blog/posts/2026-06-22-demystifying-microsoft-graph-api-practical-guide.html) — A practical guide to the Microsoft Graph API for IT practitioners managing M365 tenants.
+- [AD CS ESC1: The Most Common Misconfiguration That Hands Attackers Domain Admin](https://endlesstech.blog/posts/2026-06-22-ad-cs-esc1-default-misconfiguration-domain-admin.html) — AD CS ESC1 is one of the most common certificate template misconfigurations.
+- [Digital Sovereignty: Why Europe Lost the Cloud Race — And Why That's Okay](https://endlesstech.blog/posts/2026-06-10-digital-sovereignty-why-europe-lost-the-cloud-race.html) — Europe lost the cloud race to the US — and that's okay.
+- [Microsoft Scout Runs Under Your Identity, Not Its Own](https://endlesstech.blog/posts/2026-06-08-microsoft-scout-autopilot-for-it.html) — Microsoft Scout has no identity of its own: it signs in with your Microsoft 365 credentials and acts with your permissions, so its actions are recorded as…
+- [Your IT Security Is an Airport – And Everyone Is Sneaking Through the Emergency Exit](https://endlesstech.blog/posts/2026-05-26-your-it-security-is-an-airport.html) — Zero Trust vs perimeter security, explained through an airport analogy — why "never trust, always verify" beats the old castle-and-moat model.
+- [Orphaned Teams Channel Sites: Report Before You Delete Anything](https://endlesstech.blog/posts/2026-05-21-ghost-hunting-m365-orphaned-teams-channel-sites.html) — Microsoft documents that Teams channel sites die with their team.
+- [From Theory to Implementation: How Context Engineering Technically Works](https://endlesstech.blog/posts/context-engineering-architecture.html) — From theory to implementation: Discover the technical reality behind a productive Context Engineering system.
+- [Security by Obscurity is Dead — Build Real Defense in Depth](https://endlesstech.blog/posts/2026-05-01-security-obscurity-is-dead.html) — Security by Obscurity is a dangerous illusion.
+- [Taming the SharePoint Permission Nightmare: The New Copilot Readiness Tool](https://endlesstech.blog/posts/2026-04-17-sharepoint-permission-auditing-copilot.html) — SharePoint permission audit for Copilot readiness: use the Data Access Governance report to find overshared sites before Copilot surfaces them.
+- [Microsoft 365 vs. Baramundi: The Real Story](https://endlesstech.blog/posts/2026-04-08-microsoft-365-vs-baramundi-the-real-story.html) — Microsoft 365 vs Baramundi is the wrong comparison.
+- [Copilot ROI: A 60-User Model You Can Recalculate](https://endlesstech.blog/posts/2026-04-08-copilot-roi-knowledge-management-guide.html) — A Microsoft 365 Copilot business case for 60 users built from Microsoft's own published numbers: every input named, every subtotal shown, and the two…
+- [The Final Exchange Server: Why the Cloud Switch Isn't a Magic Wand](https://endlesstech.blog/posts/2026-03-30-exchange-soa-switch-reality.html) — Microsoft's new Exchange SOA switch promises to let you shut down your last on-premises server.
+- [Stop the Setup Chaos: How Windows Autopilot Deploys Hundreds of Devices Without Breaking a Sweat](https://endlesstech.blog/posts/2026-03-27-windows-autopilot-end-the-setup-chaos.html) — How Windows Autopilot deployment works — v1 vs v2, user-driven vs self-deploying mode.
+- [AADSTS650052: WindowsDefenderATP Service Principal Missing – Cause & Fix](https://endlesstech.blog/posts/2026-03-26-aadsts650052-windowsdefenderatp-service-principal-missing.html) — Fix the AADSTS650052 error: WindowsDefenderATP Service Principal missing.
+- [From NT to M365 – A Journey Through Tech, Decisions, and the People Behind Them](https://endlesstech.blog/posts/2026-03-16-from-nt-to-m365-a-journey-through-tech-decisions-and-people.html) — A personal reflection on 15+ years in IT consulting – from Windows NT and Active Directory to M365 and Zero Trust – and the moments that shaped the…
+- [The Golden Tenant Is Dead. Here's What Replaces It.](https://endlesstech.blog/posts/2026-02-25-the-golden-tenant-is-dead.html) — The Intune golden tenant model breaks as soon as Microsoft ships the next update.
+- [Microsoft 365 Archive: File-Level Archiving Is Here](https://endlesstech.blog/posts/2026-02-25-cloudknox-sharepoint-file-level-archiving.html) — File-level archiving in Microsoft 365 Archive has shipped.
+- [You Don't Have to Love Microsoft – But You Should Understand Its Dominance (Pragmatism Over Ideology)](https://endlesstech.blog/posts/2026-02-01-microsoft-dominanz-pragmatismus-alternativen.html) — Microsoft 365 isn't perfect, but it's unrivaled.
+- [iOS/iPadOS ABM Enrollment Troubleshooting: The 'Not Contacted' Nightmare](https://endlesstech.blog/posts/2026-01-28-ios-abm-enrollment-troubleshooting.html) — Managing Apple devices with Intune? Here's why iOS/iPadOS devices show "Not Contacted" after ABM enrollment — the root cause and the factory-reset fix.
+- [Intune Enrollment Restrictions: Your Foundational Control Against Local Admin Risk](https://endlesstech.blog/posts/2026-01-06-intune-enrollment-restrictions.html) — Intune enrollment restrictions are your foundational Zero Trust control.
+- [Microsoft Entra Tenant vs. Azure Subscription: The Difference](https://endlesstech.blog/posts/2026-01-02-microsoft-entra-tenant-vs-azure-subscriptions.html) — Understand the fundamental differences between Microsoft Entra ID Tenants and Azure Subscriptions, and learn how they work together to manage identity and…
+- [The Copilot "Mandate" - A Fact-Check on Digital Sovereignty and Cloud Governance](https://endlesstech.blog/posts/cloudknox-the-copilot-mandate.html) — A fact-check on the Swiss Parliament's Microsoft Copilot incident, exploring digital sovereignty, cloud governance, and the shared responsibility model in…
+- [ZTNA with Microsoft Entra Suite: Zero Trust Network Access](https://endlesstech.blog/posts/2025-12-18-zero-trust-microsoft-entra-suite.html) — How Microsoft Entra Suite enables Zero Trust Network Access (ZTNA) — Entra Private Access, Global Secure Access, and Conditional Access in one platform.
+- [Windows 11 and Hardware Lifecycles: Why the Debate is Bigger Than Microsoft](https://endlesstech.blog/posts/2025-12-18-windows-11-hardware-lifecycle.html) — The debate over Windows 11's hardware requirements isn't about an update; it's about the future of IT infrastructure and why a structured hardware…
+- [Microsoft 365 Add-Ons: Is Business Premium Worth It?](https://endlesstech.blog/posts/2025-12-18-beyond-the-basics-why-smart-m365-add-ons-are-your-best-investment.html) — Why Microsoft 365 Business Premium is worth it for SMBs, and how the Microsoft Defender Suite for Business Premium and the Microsoft Purview Suite deliver…
+- [MCP Servers Part 1: Understanding the Double-Edged Sword of AI Tooling](https://endlesstech.blog/posts/2025-12-17-cloudknox-mcp-servers-understanding-the-double-edged-sword-of-ai-tooling.html) — MCP servers security risks explained: prompt injection, RCE, supply chain attacks, and a four-layer defense strategy using Microsoft Defender and Entra ID.
+- [Windows 365 Cloud Apps: When Less is More](https://endlesstech.blog/posts/2025-11-13-windows-365-cloud-apps-when-less-is-more.html) — Windows 365 Cloud Apps revolutionize application delivery.
+- [Mobile Application Management: Your Quarterback for Mobile Security](https://endlesstech.blog/posts/2025-11-10-mobile-application-management-your-quarterback-for-mobile-security.html) — Mobile Application Management (MAM) secures company data in apps on personal devices.
+- [Zero Trust with Microsoft 365: The Complete Pillar-by-Pillar Guide](https://endlesstech.blog/posts/2025-10-24-getting-started-with-zero-trust.html) — Zero Trust in Microsoft 365 means never trust, always verify.
 
 ## Author
 

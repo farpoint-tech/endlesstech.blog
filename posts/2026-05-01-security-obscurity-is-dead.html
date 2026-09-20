@@ -85,13 +85,15 @@
 
                     <h2>The Zero Trust Bullshit Wall</h2>
 
-                    <p>Here is where it gets ironic. Many organisations, having recognised that obscurity does not work, swing to the opposite extreme. They implement Zero Trust — or at least what they call Zero Trust — by piling on so many Conditional Access policies, MFA prompts, and password complexity requirements that the system becomes unusable for legitimate users.</p>
+                    <p>Here is where it gets ironic. Many organisations, having recognised that obscurity does not work, swing to the opposite extreme. They pile on so many Conditional Access policies, MFA prompts, and password complexity requirements that the system becomes unusable for legitimate users — and they call the result Zero Trust.</p>
+
+                    <p>It is not. Microsoft defines Zero Trust by three principles: <strong>verify explicitly</strong> (authenticate and authorise on all available signals), <strong>use least privilege access</strong> (just-in-time and just-enough access, risk-based adaptive policies), and <strong>assume breach</strong> (minimise the blast radius, segment access, verify end-to-end encryption). Password complexity requirements appear nowhere in that definition. Microsoft actively recommends against them. So what those organisations built is a stack of controls wearing the label, not the thing itself.</p>
 
                     <p>The result? Users write their 20-character, special-character-laden passwords on sticky notes and paste them to their monitors. Helpdesk tickets flood in. Workarounds proliferate. The Zero Trust Bullshit Wall has been built, and it is keeping out exactly the wrong people.</p>
 
-                    <p>This is the KISS Principle failure in action: security rules so complex that they force users into behaviours that undermine the very security you were trying to enforce. A password policy that results in passwords on sticky notes is not a security policy — it is a liability.</p>
+                    <p>This is the KISS Principle failure in action: security rules so complex that they force users into behaviours that undermine the very security you were trying to enforce. A password policy that results in passwords on sticky notes is not a security policy — it is a liability. And this is not just my opinion. Microsoft's own operations guidance says that where a password policy uses complexity-based rules such as length, multiple character sets, or expiration, you should reconsider it in favour of Microsoft recommended practices and deploy Microsoft Entra password protection. Its guidance for cloud-only accounts is blunter still: the recommended setting is for passwords never to expire, and the Identity Secure Score lists "Do not expire passwords" as an improvement action.</p>
 
-                    <p>Microsoft 365 provides the tools to avoid this trap. Passwordless authentication via Windows Hello for Business, FIDO2 security keys, and Microsoft Authenticator eliminates the password problem entirely. Conditional Access policies, when designed thoughtfully, enforce strong security without creating friction for legitimate users. The goal is not to build a wall — it is to build a gate that opens for the right people and stays shut for everyone else.</p>
+                    <p>Microsoft 365 provides the tools to avoid this trap. Passwordless authentication via Windows Hello for Business, FIDO2 security keys, and Microsoft Authenticator eliminates the password problem entirely. Conditional Access policies, when designed thoughtfully, enforce strong security without creating friction for legitimate users — and there is a documented way to design them that way. Create every new policy in <strong>report-only mode</strong>, evaluate its real impact in the Conditional Access insights workbook, then switch it on. That is the answer to the ticket storm, and it costs nothing but patience. The goal is not to build a wall — it is to build a gate that opens for the right people and stays shut for everyone else.</p>
 
                     <h2>Building Real Defense in Depth</h2>
 
@@ -121,12 +123,12 @@
                             <tr>
                                 <td>Network</td>
                                 <td>Traffic filtering, segmentation</td>
-                                <td>Defender for Cloud Apps, Azure Firewall</td>
+                                <td>Microsoft Entra Internet Access and Private Access (Global Secure Access) for user-to-app traffic; Azure Firewall and network security groups for Azure workloads</td>
                             </tr>
                             <tr>
                                 <td>Application</td>
-                                <td>Vulnerability testing, secure configuration</td>
-                                <td>Defender for Cloud, Secure Score</td>
+                                <td>Vulnerability management, secure configuration, SaaS governance</td>
+                                <td>Microsoft Defender Vulnerability Management, Microsoft Defender for Cloud Apps, Microsoft Secure Score</td>
                             </tr>
                             <tr>
                                 <td>Data</td>
@@ -136,7 +138,11 @@
                         </tbody>
                     </table>
 
+                    <p>Two notes on that table, because both cells are commonly filled in with the wrong product. Microsoft Defender for Cloud Apps is a CASB: it discovers shadow IT, connects SaaS apps through their APIs, and applies session controls. It does not filter network traffic and does not segment networks, so it belongs in the Application row. And Microsoft Defender for Cloud is the posture and workload-protection product for Azure and multicloud <em>infrastructure</em> — it has no role in a Microsoft 365 application layer, and putting it there sends readers looking for a product they do not own.</p>
+
                     <p>The critical insight is that this stack eliminates single points of failure. If an attacker bypasses MFA through a phishing attack, a non-compliant device policy prevents them from accessing corporate resources. If they somehow get onto a compliant device, network controls and DLP policies limit what they can exfiltrate. Each layer buys time and reduces the blast radius of a breach.</p>
+
+                    <p>Worth saying out loud, though: the real answer to MFA phishing is <strong>phishing-resistant MFA</strong>, not a second layer catching what the first one missed. The Identity Secure Score names "Ensure phishing-resistant MFA strength is required for Administrators" as an improvement action, and that is where to start. One prerequisite for the device layer that trips people up: without an Intune compliance policy in place and at least one compliant device, the Conditional Access policy that requires compliance will not behave the way you expect.</p>
 
                     <h2>The Antidote to Privilege Creep</h2>
 
@@ -146,15 +152,19 @@
 
                     <p>In Microsoft 365, Entra ID Privileged Identity Management (PIM) operationalises both of these principles. Administrators do not hold permanent privileged roles — they request elevation for a specific time window, with justification, and the access expires automatically. Access Reviews provide the recertification mechanism: on a regular cadence, managers and resource owners review who has access to what, and revoke anything that lacks a current business justification.</p>
 
-                    <blockquote>Running an annual access recertification campaign is not bureaucracy. It is the difference between a contained incident and a full-scale breach.</blockquote>
+                    <p>Check the licensing before you build a plan around this. PIM and Access Reviews are not part of a baseline Microsoft 365 subscription. Both need <strong>Microsoft Entra ID P2</strong> or <strong>Microsoft Entra ID Governance</strong>, and you need a license for every user with an eligible or time-bound assignment, every approver, every user under review, and every reviewer — Microsoft's own worked example puts a 50-admin organisation at 53 licenses. If the license lapses, eligible assignments are removed and running access reviews end. If P2 is out of reach for you, say so and plan the fallback honestly: permanent role assignments on a hardened, separate set of admin accounts, plus manual recertification on a calendar.</p>
+
+                    <p>Match the recertification cadence to the privilege. Annual is a reasonable floor for ordinary application access, but it is far too slow for privileged directory roles — Microsoft's own reference scenario runs <strong>monthly</strong> reviews of users assigned to administrator roles, and it names Global Administrator, Identity Governance Administrator, User Administrator, Application Administrator, Cloud Application Administrator and Privileged Role Administrator specifically. Review privileged roles monthly or quarterly, and everything else annually.</p>
+
+                    <blockquote>Running an access recertification campaign is not bureaucracy. It is the difference between a contained incident and a full-scale breach.</blockquote>
 
                     <h2>Secure by Design: Stop Treating Security as an Afterthought</h2>
 
                     <p>The final principle worth addressing is one that applies not just to enterprise IT, but to every software project, every new deployment, and every configuration change: <strong>Secure by Design</strong>. Security cannot be bolted on at the end of a project. By the time a system reaches production, the cost of fixing a fundamental security flaw is an order of magnitude higher than addressing it at the design stage.</p>
 
-                    <p>This means integrating security requirements from the very beginning of the development or deployment lifecycle. It means hardening default configurations before a system goes live — disabling unused services, renaming default accounts, applying the principle of least privilege to service accounts. It means treating every new workload as a potential attack surface from day one.</p>
+                    <p>This means integrating security requirements from the very beginning of the development or deployment lifecycle. It means hardening default configurations before a system goes live and treating every new workload as a potential attack surface from day one. Hardening, to be clear, is not renaming things — that would be the same obscurity this post spent its first half dismantling. It is what Microsoft actually recommends and scores: protect and manage local admin passwords with Windows LAPS, use least-privileged administrative roles, designate more than one Global Administrator, block legacy authentication, and do not expire passwords. All five are named improvement actions in the Identity Secure Score. Applying least privilege to service accounts belongs on that list too. Renaming the built-in admin does not.</p>
 
-                    <p>Microsoft provides the tooling to make this practical. Microsoft Secure Score gives you a measurable baseline and actionable recommendations. Defender for Cloud flags misconfigurations before they become vulnerabilities. The work is not glamorous, but it is the foundation on which everything else rests.</p>
+                    <p>Microsoft provides the tooling to make this practical. Microsoft Secure Score gives you a measurable baseline and ranked recommended actions across Identity, Device, Apps and Data — allow 24 to 48 hours for a change to show up in the score, or you will think it did not work. Alongside it, Microsoft Defender Vulnerability Management flags misconfigurations before they become vulnerabilities. (If you also run Azure or multicloud workloads, Microsoft Defender for Cloud is the equivalent for that infrastructure — a different product for a different estate.) The work is not glamorous, but it is the foundation on which everything else rests.</p>
 
                     <h2>Key Takeaways</h2>
 
@@ -162,7 +172,7 @@
                         <li>Security by Obscurity is not a strategy. Kerckhoffs's Principle has been telling us this for over a century.</li>
                         <li>Overly complex security controls create workarounds that undermine security. Apply the KISS Principle.</li>
                         <li>Defense in Depth eliminates single points of failure by layering Identity, Device, Network, Application, and Data controls.</li>
-                        <li>Privilege Creep is a silent threat. Entra ID PIM and regular Access Reviews are your countermeasures.</li>
+                        <li>Privilege Creep is a silent threat. Entra ID PIM and regular Access Reviews are your countermeasures — both require Entra ID P2 or Entra ID Governance, licensed per eligible admin, approver and reviewer. Review privileged roles monthly or quarterly, not annually.</li>
                         <li>Security must be built in from the start, not added at the end.</li>
                     </ul>
 

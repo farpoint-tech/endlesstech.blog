@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="Two paths into Microsoft 365 data: a delegated path with a user sign-in, and an app-only path that leaves no sign-in behind">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0B1220"/>
+      <stop offset="100%" stop-color="#131C33"/>
+    </linearGradient>
+    <marker id="arrowCyan" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L9,3 L0,6 Z" fill="#00D9FF"/>
+    </marker>
+    <marker id="arrowPink" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L9,3 L0,6 Z" fill="#FF00FF"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <text x="60" y="78" font-family="Inter, system-ui, sans-serif" font-size="38" font-weight="700" fill="#FFFFFF">Two ways into your data</text>
+  <text x="60" y="116" font-family="Inter, system-ui, sans-serif" font-size="21" fill="#8FA3C8">Only one of them leaves a sign-in behind</text>
+
+  <!-- Lane A: delegated -->
+  <text x="60" y="182" font-family="Inter, system-ui, sans-serif" font-size="17" font-weight="600" fill="#00D9FF">DELEGATED &#183; ON BEHALF OF A USER</text>
+
+  <circle cx="120" cy="248" r="30" fill="none" stroke="#00D9FF" stroke-width="2.5"/>
+  <circle cx="120" cy="238" r="10" fill="#00D9FF"/>
+  <path d="M104,264 a16,16 0 0 1 32,0" fill="#00D9FF"/>
+  <text x="120" y="308" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#C7D4EC" text-anchor="middle">User</text>
+
+  <line x1="162" y1="248" x2="312" y2="248" stroke="#00D9FF" stroke-width="2.5" marker-end="url(#arrowCyan)"/>
+
+  <rect x="322" y="208" width="230" height="80" rx="10" fill="#16223D" stroke="#3366FF" stroke-width="2.5"/>
+  <text x="437" y="245" font-family="Inter, system-ui, sans-serif" font-size="18" font-weight="600" fill="#FFFFFF" text-anchor="middle">Enterprise App</text>
+  <text x="437" y="270" font-family="Inter, system-ui, sans-serif" font-size="15" fill="#8FA3C8" text-anchor="middle">service principal</text>
+
+  <line x1="562" y1="248" x2="712" y2="248" stroke="#00D9FF" stroke-width="2.5" marker-end="url(#arrowCyan)"/>
+
+  <rect x="722" y="200" width="240" height="96" rx="10" fill="#16223D" stroke="#3366FF" stroke-width="2.5"/>
+  <text x="842" y="238" font-family="Inter, system-ui, sans-serif" font-size="18" font-weight="600" fill="#FFFFFF" text-anchor="middle">Mail &#183; Files &#183; Directory</text>
+  <text x="842" y="266" font-family="Inter, system-ui, sans-serif" font-size="15" fill="#8FA3C8" text-anchor="middle">Microsoft 365 data</text>
+
+  <text x="992" y="243" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="600" fill="#00D9FF">Sign-in</text>
+  <text x="992" y="266" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="600" fill="#00D9FF">logged</text>
+
+  <line x1="60" y1="360" x2="1140" y2="360" stroke="#243356" stroke-width="1.5"/>
+
+  <!-- Lane B: app-only -->
+  <text x="60" y="418" font-family="Inter, system-ui, sans-serif" font-size="17" font-weight="600" fill="#FF00FF">APP-ONLY &#183; NO USER INVOLVED</text>
+
+  <circle cx="120" cy="484" r="30" fill="none" stroke="#FF00FF" stroke-width="2.5" stroke-dasharray="5 4"/>
+  <line x1="120" y1="484" x2="120" y2="466" stroke="#FF00FF" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="120" y1="484" x2="133" y2="493" stroke="#FF00FF" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="120" y="544" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#C7D4EC" text-anchor="middle">Nightly job</text>
+
+  <line x1="162" y1="484" x2="312" y2="484" stroke="#FF00FF" stroke-width="2.5" stroke-dasharray="7 5" marker-end="url(#arrowPink)"/>
+
+  <rect x="322" y="444" width="230" height="80" rx="10" fill="#16223D" stroke="#FF00FF" stroke-width="2.5"/>
+  <text x="437" y="481" font-family="Inter, system-ui, sans-serif" font-size="18" font-weight="600" fill="#FFFFFF" text-anchor="middle">Same Enterprise App</text>
+  <text x="437" y="506" font-family="Inter, system-ui, sans-serif" font-size="15" fill="#8FA3C8" text-anchor="middle">client credentials</text>
+
+  <line x1="562" y1="484" x2="712" y2="484" stroke="#FF00FF" stroke-width="2.5" stroke-dasharray="7 5" marker-end="url(#arrowPink)"/>
+
+  <rect x="722" y="436" width="240" height="96" rx="10" fill="#16223D" stroke="#FF00FF" stroke-width="2.5"/>
+  <text x="842" y="474" font-family="Inter, system-ui, sans-serif" font-size="18" font-weight="600" fill="#FFFFFF" text-anchor="middle">Every mailbox</text>
+  <text x="842" y="502" font-family="Inter, system-ui, sans-serif" font-size="15" fill="#8FA3C8" text-anchor="middle">Mail.Read.All</text>
+
+  <text x="992" y="479" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="600" fill="#FF00FF">Last sign-in:</text>
+  <text x="992" y="502" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="600" fill="#FF00FF">never</text>
+</svg>

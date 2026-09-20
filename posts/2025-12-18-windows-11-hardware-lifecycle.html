@@ -30,7 +30,7 @@
     <link rel="stylesheet" href="../assets/css/blog-post.css">
     
     <!-- Google Fonts -->
-    <link rel="canonical" href="https://farpoint-tech.github.io/endlesstech.blog/posts/2025-12-18-windows-11-hardware-lifecycle.html" />
+    <link rel="canonical" href="https://endlesstech.blog/posts/2025-12-18-windows-11-hardware-lifecycle.html" />
 </head>
 <body>
     <!-- Header -->
@@ -69,6 +69,21 @@
                 <div class="post-content">
                     <p>The current discussion around Windows 11 and its hardware requirements often misses the bigger picture. This isn't about a "malicious update" from Microsoft—it's about a fundamental question that many companies are ignoring: How do we plan our IT infrastructure for the future?</p>
 
+                    <h2>0. The Date the Whole Debate Turns On</h2>
+
+                    <p>Before any of the arguments below matter, the calendar does. <strong>Windows 10 reached end of support on 14 October 2025.</strong> No technical support, no feature updates, no quality or security updates.</p>
+
+                    <p>If you need more time, the paid <strong>Extended Security Updates (ESU)</strong> program is the bridge. What it actually is:</p>
+
+                    <ul>
+                        <li>Critical and Important security updates only — no new features, no non-security fixes, no general technical support.</li>
+                        <li>Devices must run Windows 10 <strong>version 22H2</strong> with the required licensing preparation updates installed.</li>
+                        <li>Sold per year and cumulative — buying Year Two means paying for Year One too — for a maximum of three years, running to October 2028. Year One coverage runs through 13 October 2026.</li>
+                        <li>Windows 10 Long Term Servicing releases (LTSB/LTSC) have their own lifecycles and are <strong>not</strong> covered by the Windows 10 ESU program.</li>
+                    </ul>
+
+                    <p>ESU is a bridge, not a plan. If your answer to Windows 11 is "we'll buy another ESU year", you have deferred the decision, paid for the privilege, and still have to make it.</p>
+
                     <h2>1. The AI Revolution: Why Old Hardware Is No Longer Enough</h2>
                     
                     <p>This is the point many overlook: the future of productivity is local. Not in the cloud, but on the device itself. Microsoft and Apple are investing heavily in local AI processing, and this requires hardware that didn't exist five years ago.</p>
@@ -77,7 +92,9 @@
                         <img src="../assets/images/ai-npu-processor.webp" alt="Close-up of an AI Neural Processing Unit chip powering Windows 11 Copilot Plus features on modern hardware" loading="lazy" srcset="../assets/images/responsive/ai-npu-processor-400w.webp 400w, ../assets/images/ai-npu-processor.webp 800w" sizes="(max-width: 800px) 100vw, 800px">
                     </figure>
 
-                    <p><strong>Copilot+ PCs</strong> require a Neural Processing Unit (NPU) with at least 40+ TOPS (Tera Operations Per Second). This isn't just a marketing gimmick—these are specialized chips that can run AI models locally on the device. Why does this matter? Because companies that don't leverage these features will be at a competitive disadvantage.</p>
+                    <p><strong>Copilot+ PCs</strong> require a Neural Processing Unit (NPU) with at least 40+ TOPS (Tera Operations Per Second). But the NPU is only one of four criteria, and it is not the one that fails your fleet: a Copilot+ PC needs a <strong>40 TOPS NPU, 16 GB RAM, 8 logical processors and 256 GB of storage</strong>. Recall goes further and requires a device meeting the <strong>Secured-core</strong> standard, Device Encryption or BitLocker turned on, and enrolment in Windows Hello <strong>Enhanced Sign-in Security</strong> with at least one biometric option. Check the RAM floor first — that is what disqualifies most corporate laptops, not the missing NPU.</p>
+
+                    <p>One correction to the usual framing while we are here: Copilot+ hardware is required for <em>most</em> Windows AI APIs, not all of them. A growing number — Phi Silica on GPU, Speech Recognition, Video Super Resolution — also run on non-Copilot+ Windows 11 PCs, and neither Foundry Local nor Windows ML requires Copilot+ at all. It is a tiered fallback, not a cliff edge. Companies without Copilot+ hardware get less, not nothing.</p>
 
                     <p>It's a similar story on the Apple side: <strong>Apple Intelligence</strong> only works on Macs with Apple Silicon (M-series chips). A 2015 MacBook Pro? Not compatible. A 2018 MacBook Air? Also not compatible. The hardware requirements aren't arbitrary; they are a direct consequence of software evolution.</p>
 
@@ -93,7 +110,7 @@
                         <li><strong>Hardware Modernization</strong> (is a separate, necessary investment)</li>
                     </ul>
 
-                    <p>The depreciation tables (AfA) in Germany aren't just tax tricks—they are based on the reality that hardware reaches its optimal lifespan after 3-5 years. This isn't arbitrary. It's based on:</p>
+                    <p>German depreciation tables (AfA) set a useful life for tax purposes. Careful here: that is a tax figure, not a statement about how long a device stays fit for work — the two are related but not the same thing, and treating them as identical is a weak argument that a CFO will take apart. What I do observe in practice is that a business laptop stops being economical somewhere in years three to five, for reasons that have nothing to do with tax law:</p>
 
                     <ul>
                         <li><strong>Wear and Tear:</strong> Batteries degrade, hard drives age, components slow down.</li>
@@ -124,27 +141,28 @@
                     <p>TPM 2.0 (Trusted Platform Module) is not a Microsoft invention to sell hardware. It is a hardware security module that:</p>
 
                     <ul>
-                        <li><strong>Securely stores encryption keys</strong>—not in RAM, but in isolated hardware.</li>
-                        <li><strong>Prevents firmware attacks</strong>—malware cannot manipulate the operating system at a low level.</li>
-                        <li><strong>Provides credential protection</strong>—Windows Hello and other biometric authentication methods only work with TPM 2.0.</li>
-                        <li><strong>Enables BitLocker encryption</strong>—disk encryption with hardware support.</li>
+                        <li><strong>Securely stores encryption keys</strong>—not in RAM, but in isolated hardware. A key stored in a TPM with a non-exportable property truly cannot leave the TPM.</li>
+                        <li><strong>Makes boot tampering provable</strong>—a TPM does not prevent firmware attacks by itself. It <em>measures</em> the boot chain and stores those measurements, so Device Health Attestation and BitLocker can detect that something changed. The controls that actually block low-level manipulation are UEFI Secure Boot and virtualization-based security; the TPM is what makes the tampering evident.</li>
+                        <li><strong>Strengthens credential protection</strong>—with an important caveat, see below.</li>
+                        <li><strong>Makes BitLocker practical</strong>—BitLocker runs without a TPM too. Microsoft's requirement: for BitLocker to use the system integrity check a TPM provides, the device needs TPM 1.2 or later; without a TPM, saving a startup key on a removable drive is mandatory. So the TPM buys you transparent unlock and boot-integrity checking, not encryption as such.</li>
                     </ul>
 
-                    <p>Why is this important for SMBs? Because <strong>80% of cyberattacks on SMBs target credential theft and ransomware</strong>. A TPM 2.0 chip makes both significantly more difficult.</p>
+                    <p>Now the caveat, because this is where I have heard the argument made badly — including by me, in the first version of this post. <strong>Windows Hello and Windows Hello for Business do not require a TPM.</strong> Microsoft's own TPM feature matrix lists "TPM Required: No" for both, and supports TPM 1.2 as well as 2.0. Where the TPM is absent or nonfunctional, Windows Hello for Business provisions using software-protected keys; you can force hardware-only provisioning with the <em>Use a hardware security device</em> policy, but that is a choice you make, not a hardware fact. TPM 2.0 is recommended over 1.2 for performance and security, and Windows Hello as a FIDO platform authenticator uses TPM 2.0 for key storage.</p>
 
-                    <p>For example, an employee opens a phishing email, and a trojan is installed. With TPM 2.0, this trojan cannot simply extract the Windows login credentials—they are stored in a hardware-encrypted format. Without TPM 2.0? It's much easier.</p>
+                    <p>Same correction for credential theft. The feature that stops credentials being lifted out of memory is <strong>Credential Guard</strong>, which is virtualization-based and — per the same matrix — also has "TPM Required: No" and works with TPM 1.2 or 2.0. What TPM 2.0 does is make Credential Guard's enhanced protection easy to switch on by default: paired with System Guard, TPM 2.0 provides enhanced security for Credential Guard, and Windows 11 requires TPM 2.0 by default precisely to make that enablement easier.</p>
 
-                    <p>This isn't "profiteering" by Microsoft. This is <strong>necessary security infrastructure for today's threat landscape</strong>.</p>
+                    <p>So the honest version of the phishing example: an employee opens a phishing email and a trojan lands. What keeps that trojan from harvesting cached credentials is Credential Guard, running on a machine where virtualization-based security is on. TPM 2.0 is the reason that configuration is the default instead of a project. Credit the right control — a reader who thinks a TPM chip alone solves credential theft will make a bad decision with it.</p>
+
+                    <p>Credential theft and ransomware dominate what I see hitting small companies. Both get materially harder on a machine with TPM 2.0, virtualization-based security on by default, and disk encryption that unlocks transparently. That is not "profiteering" by Microsoft — it is the baseline the current threat landscape assumes.</p>
 
                     <h2>4. macOS as an Alternative—But with Realistic Limits</h2>
 
                     <p>Here's an honest answer: Yes, macOS could be an option for certain companies. And yes, the hardware lifecycle is longer than with Windows.</p>
 
-                    <p><strong>The facts about macOS:</strong></p>
+                    <p><strong>What I see on the macOS side</strong> — and these are observations from the fleets I look after plus Apple's own support pages, not figures Microsoft publishes:</p>
                     <ul>
-                        <li>Apple typically supports hardware for <strong>6-7 years</strong> with operating system updates.</li>
-                        <li>After that, there are another <strong>2-3 years</strong> of security updates.</li>
-                        <li>This is significantly longer than Windows (typically 3-5 years).</li>
+                        <li>Apple tends to carry a Mac through operating system updates for roughly <strong>6-7 years</strong>, with a tail of security updates after that.</li>
+                        <li>Careful with the comparison, though: that is Apple's <em>OS support</em> for a piece of hardware, whereas the 3-5 years I use for Windows is a <em>replacement cycle</em>. They are not the same measurement. Windows 11 has its own documented lifecycle per release, independent of how old the device is.</li>
                     </ul>
 
                     <p>For whom is macOS an option?</p>
@@ -152,7 +170,7 @@
                         <li><strong>Design Agencies</strong> (Adobe Suite, Final Cut Pro)</li>
                         <li><strong>Software Development</strong> (Unix-based, better developer tools)</li>
                         <li><strong>Creative Industries</strong> (video, graphics, music)</li>
-                        <li><strong>Certain Office-focused industries</strong> (with M.Office for Mac)</li>
+                        <li><strong>Certain Office-focused industries</strong> (with Microsoft Office for Mac)</li>
                     </ul>
 
                     <p>But here's the reality: a 7-year-old Mac is no longer "current." And this is where it becomes problematic:</p>
@@ -175,7 +193,7 @@
                     <h3>User Experience & Learning Curve</h3>
                     <p>Linux is not Windows. That sounds obvious, but it's the core problem. An employee who has used Windows for 20 years can't just switch to Linux and have it "just work." The operation is different, the workflows are different, and the troubleshooting processes are different.</p>
 
-                    <p>Studies show that the switch to Linux for non-technical users involves a <strong>3-6 month learning curve</strong>. This isn't just training time—it's reduced productivity during the transition.</p>
+                    <p>In the migrations I have been close to, non-technical users need something in the order of three to six months before they are back to their old speed. I have no study to hand you for that number — treat it as my experience, not a benchmark. Either way, it is not just training time; it is reduced productivity during the transition.</p>
 
                     <h3>Change Management is Underestimated</h3>
                     <p>Companies massively underestimate how difficult it is to migrate 50+ employees from Windows to Linux. This isn't just an OS update—it's a cultural change.</p>
@@ -190,7 +208,7 @@
                     <h3>Software Compatibility</h3>
                     <p>Yes, LibreOffice is free. But it's not Microsoft Office. Yes, Thunderbird works. But it's not Outlook. And yes, there are Linux alternatives for almost everything—but they are not identical.</p>
 
-                    <p>For a company that uses Microsoft 365, switching to Linux is also a switch from native applications to web versions. It works, but it's not the same experience.</p>
+                    <p>For a company that uses Microsoft 365, switching to Linux is also a switch from native applications to web versions. It works, but it's not the same experience. One fair counterpoint: Intune supports Linux desktops for compliance policies and Conditional Access, so a Linux fleet is no longer automatically unmanaged from a Microsoft 365 perspective. That weakens the management argument against Linux — it does not fix the application one.</p>
 
                     <h3>Support & Expertise</h3>
                     <p>An SMB with 2 IT employees probably has Windows expertise. Linux expertise is more expensive and harder to find. This is a real business risk.</p>
@@ -274,14 +292,14 @@
                     <p>The answer to the Windows 11 question is not "We're switching to Linux" or "We're ignoring it." The answer is:</p>
 
                     <ol>
-                        <li><strong>Establish a hardware lifecycle</strong>—3-5 years for Windows, 5-7 years for macOS (depending on the use case).</li>
+                        <li><strong>Establish a hardware lifecycle</strong>—in my practice, 3-5 years for Windows and 5-7 for macOS, depending on the use case. Those are working figures, not vendor requirements; pick yours and write it down.</li>
                         <li><strong>Understand security as a business requirement</strong>—not a cost factor.</li>
                         <li><strong>Use modern features</strong>—AI, security, and productivity are not optional.</li>
                         <li><strong>Sustainably manage old hardware</strong>—refurbishing, donations, upcycling.</li>
                         <li><strong>Regularly review</strong>—What's working? What's not? Where are the security risks?</li>
                     </ol>
 
-                    <p>This isn't revolutionary. This is standard practice in modern companies. And it's exactly what the AfA tables suggest.</p>
+                    <p>This isn't revolutionary. This is standard practice in modern companies — and the numbers happen to land close to what the AfA tables assume for tax purposes, which makes the budget conversation easier even though the two are answering different questions.</p>
 
                     <p>The Windows 11 debate is less of a tech scandal and more of a wake-up call for companies to take their IT strategy seriously.</p>
 
@@ -291,7 +309,7 @@
 
                     <hr>
 
-                    <p><strong>Zero Trust. Zero Drama. Zero Bullshit.</strong></strong></p>
+                    <p><strong>Zero Trust. Zero Drama. Zero Bullshit.</strong></p>
 
                     <p><a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Learn more: https://easym365.de</a></p>
 
@@ -299,15 +317,19 @@
 
                     <h2>References</h2>
                     <ol>
-                        <li><a href="https://learn.microsoft.com/en-us/windows/ai/npu-devices/" target="_blank" rel="noopener noreferrer">Microsoft: Copilot+ PC Requirements - Neural Processing Unit (NPU) 40+ TOPS</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/windows/ai/npu-devices/" target="_blank" rel="noopener noreferrer">Microsoft Learn: Copilot+ PC Requirements - Neural Processing Unit (NPU) 40+ TOPS</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/lifecycle/faq/windows" target="_blank" rel="noopener noreferrer">Microsoft Learn: Windows Lifecycle FAQ - Windows 10 end of support, 14 October 2025</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/windows/whats-new/extended-security-updates" target="_blank" rel="noopener noreferrer">Microsoft Learn: Extended Security Updates (ESU) program for Windows 10</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/windows/security/hardware-security/tpm/tpm-recommendations" target="_blank" rel="noopener noreferrer">Microsoft Learn: TPM recommendations - TPM and Windows Features matrix</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/windows/client-management/manage-recall" target="_blank" rel="noopener noreferrer">Microsoft Learn: Manage Recall - Copilot+ PC and Recall system requirements</a></li>
                         <li><a href="https://support.apple.com/en-us/121115" target="_blank" rel="noopener noreferrer">Apple: Apple Intelligence System Requirements - M-Chip Compatibility</a></li>
-                        <li><a href="https://stripe.com/resources/more/afa-germany" target="_blank" rel="noopener noreferrer">Stripe: How businesses in Germany can correctly depreciate assets (AfA)</a></li>
+                        <li><a href="https://stripe.com/resources/more/afa-germany" target="_blank" rel="noopener noreferrer">Stripe: How businesses in Germany can correctly depreciate assets (AfA)</a> — tax guidance, not a hardware lifecycle source</li>
                         <li><a href="https://www.microsoft.com/en-us/windows/business/knowledge-center/how-endpoint-security-shields-growing-companies-from-threats" target="_blank" rel="noopener noreferrer">Microsoft: Endpoint Security for Small and Mid-Sized Businesses</a></li>
-                        <li><a href="https://www.paloaltonetworks.com/network-security/small-business" target="_blank" rel="noopener noreferrer">Palo Alto Networks: SMB Cybersecurity Threats and Targeting Patterns</a></li>
-                        <li><a href="https://forums.macrumors.com/threads/rules-for-mac-os-dropping-hardware-support-and-for-retiring-mac-oss.2415471/" target="_blank" rel="noopener noreferrer">MacRumors Forums: Rules for Mac OS Dropping Hardware Support</a></li>
+                        <li><a href="https://www.paloaltonetworks.com/network-security/small-business" target="_blank" rel="noopener noreferrer">Palo Alto Networks: SMB Cybersecurity Threats and Targeting Patterns</a> — vendor research, not a Microsoft figure</li>
+                        <li><a href="https://forums.macrumors.com/threads/rules-for-mac-os-dropping-hardware-support-and-for-retiring-mac-oss.2415471/" target="_blank" rel="noopener noreferrer">MacRumors Forums: Rules for Mac OS Dropping Hardware Support</a> — community thread, indicative only</li>
                         <li><a href="https://www.intego.com/mac-security-blog/when-does-an-old-mac-become-unsafe-to-use/" target="_blank" rel="noopener noreferrer">Intego: macOS Security Updates and Support Duration</a></li>
                         <li><a href="https://www.apple.com/apple-intelligence/" target="_blank" rel="noopener noreferrer">Apple: Apple Intelligence Compatibility - M-Chip Requirement</a></li>
-                        <li><a href="https://builtin.com/articles/enterprise-linux-management" target="_blank" rel="noopener noreferrer">Built In: Enterprise Linux Management and Learning Curve</a></li>
+                        <li><a href="https://builtin.com/articles/enterprise-linux-management" target="_blank" rel="noopener noreferrer">Built In: Enterprise Linux Management and Learning Curve</a> — vendor-neutral article, not a study</li>
                         <li><a href="https://www.techbuyer.com/us/blog/exploring-the-potential-of-reuse" target="_blank" rel="noopener noreferrer">TechBuyer: Sustainable IT Hardware Reuse and Refurbishing</a></li>
                         <li><a href="https://giveitgetit.org/" target="_blank" rel="noopener noreferrer">Give It Get It: Computer Donations and Digital Inclusion Programs</a></li>
                         <li><a href="https://ybc-itad.com/index.html" target="_blank" rel="noopener noreferrer">YBC: IT Asset Disposition and E-Waste Recycling</a></li>
@@ -356,6 +378,7 @@
   "@type": "Article",
   "headline": "Windows 11 and Hardware Lifecycles: Why the Debate is Bigger Than Microsoft",
   "datePublished": "2025-12-18",
+  "dateModified": "2026-09-05",
   "author": {
     "@type": "Person",
     "name": "Philipp Schmidt",
@@ -366,13 +389,13 @@
     "name": "Philipp Schmidt",
     "url": "https://easym365.de"
   },
-  "image": "https://farpoint-tech.github.io/endlesstech.blog/assets/images/hardware-lifecycle-hero.png",
-  "url": "https://farpoint-tech.github.io/endlesstech.blog/posts/2025-12-18-windows-11-hardware-lifecycle.html",
+  "image": "https://endlesstech.blog/assets/images/hardware-lifecycle-hero.png",
+  "url": "https://endlesstech.blog/posts/2025-12-18-windows-11-hardware-lifecycle.html",
   "description": "The debate over Windows 11 hardware requirements is about the future of IT infrastructure and structured hardware lifecycle management.",
   "inLanguage": "en",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://farpoint-tech.github.io/endlesstech.blog/posts/2025-12-18-windows-11-hardware-lifecycle.html"
+    "@id": "https://endlesstech.blog/posts/2025-12-18-windows-11-hardware-lifecycle.html"
   }
 }
     </script>
