@@ -60,11 +60,10 @@ jobs:
           git commit -m "$message"
           git push origin "$branch"
 
-          url=$(gh pr create --base master --head "$branch" \
-            --title "$message" \
-            --body "Automated release from \`.scheduled/releases.json\`, opened by the release workflow because master requires a pull request.
+          body="Automated release from .scheduled/releases.json, opened by the release workflow because master requires a pull request."
+          body="$body"$'\n\n'"tools/check-findability.py passed before this branch was pushed. Merge it to put the articles online."
 
-\`tools/check-findability.py\` passed before this branch was pushed. Merge it to put the articles online.")
+          url=$(gh pr create --base master --head "$branch" --title "$message" --body "$body")
 
           echo "opened $url"
           echo "::notice::Release pull request ready to merge: $url"
