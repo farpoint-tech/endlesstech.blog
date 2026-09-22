@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+    <meta name="robots" content="index,follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Apple ADE enrollment profiles are retiring with no date and no migration tool. What Intune enrollment policies change, and why enrolled devices need a wipe.">
+    <meta name="author" content="Philipp Schmidt">
+    <meta name="keywords" content="Intune Apple enrollment policies, Apple ADE enrollment profile, enrollment profiles vs enrollment policies, Apple automated device enrollment Intune, enrollment time grouping Apple, Intune Provisioning Client f1346770-5b25-470b-88bd-d5744ab7952c, Apple Business Manager Intune, tvOS visionOS enrollment policy, ADE migration Intune, updateDeviceProfileAssignment">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Intune Apple Enrollment Policies: Moving off ADE Profiles">
+    <meta property="og:description" content="Apple ADE enrollment profiles are retiring with no date and no migration tool. What Intune enrollment policies change, and why enrolled devices need a wipe.">
+    <meta property="og:image" content="https://endlesstech.blog/assets/images/intune-apple-enrollment-policies/apple-ade-hero.svg">
+    <meta property="og:url" content="https://endlesstech.blog/posts/2026-09-08-intune-apple-enrollment-policies-ade.html">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Intune Apple Enrollment Policies: Moving off ADE Profiles">
+    <meta name="twitter:description" content="Apple ADE enrollment profiles are retiring with no date and no migration tool. What Intune enrollment policies change, and why enrolled devices need a wipe.">
+    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/intune-apple-enrollment-policies/apple-ade-hero.svg">
+
+    <title>Intune Apple Enrollment Policies: Moving off ADE Profiles</title>
+
+    <link rel="alternate" type="application/rss+xml" title="EndlessTech Blog RSS Feed" href="https://endlesstech.blog/feed.xml">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/blog-post.css">
+
+    <link rel="canonical" href="https://endlesstech.blog/posts/2026-09-08-intune-apple-enrollment-policies-ade.html" />
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/images/logo.webp" alt="Philipp Schmidt - Secure. Scalable. Simple M365.">
+            </a>
+            <nav class="nav" id="nav">
+                <a href="../index.html">Home</a>
+                <a href="../index.html#blog" class="active">Blog</a>
+                <a href="../about.html">About</a>
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+            </nav>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">&#9776;</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="post-full">
+            <header class="post-full-header">
+                <h1 class="post-full-title">Intune Apple Enrollment Policies: Migrating off ADE Enrollment Profiles</h1>
+                <div class="post-full-meta">
+                    <time datetime="2026-09-25">September 2026</time> &bull; By Philipp Schmidt
+                </div>
+                <div class="post-tags"><span class="tag">Intune</span><span class="tag">Apple</span><span class="tag">macOS</span><span class="tag">iOS</span><span class="tag">Device Management</span></div>
+            </header>
+
+            <figure class="post-full-image">
+                <img src="../assets/images/intune-apple-enrollment-policies/apple-ade-hero.svg" alt="Two Apple ADE device states side by side: a device still in the box picks up a new enrollment policy on assignment, while an already enrolled device ignores it until a factory reset">
+            </figure>
+
+            <section class="post-full-content">
+                <div class="post-content">
+
+                    <p>Apple automated device enrollment in Intune now has two configuration surfaces, and Microsoft has already picked which one gets the new features. If you open the Learn page for iOS/iPadOS, macOS, tvOS or visionOS ADE setup, the same box sits near the top of all four: the older experience under <strong>Enrollment program tokens &rarr; Profiles</strong> "will eventually be retired" and "won't receive new features." No date accompanies that sentence, and no migration tool ships with it.</p>
+
+                    <p>Switching surfaces is the cheap half. Apple ADE configuration applies during Setup Assistant and never again, so the devices already in your users' hands will not pick up a new enrollment policy no matter what you assign to them. That turns the migration from an afternoon of clicking into a question about your hardware replacement cycle.</p>
+
+                    <div class="post-tldr">
+                        <h2>In short</h2>
+                        <p><strong>Build every new Apple ADE configuration as an Enrollment Policy.</strong> The old Profiles surface is on its way out and new capability lands only on the new one &mdash; tvOS, visionOS and Enrollment Time Grouping have no equivalent under Profiles. <strong>Set a default policy per token early</strong>, because a synced device with no policy assigned fails enrollment when someone powers it on. <strong>Do not plan a migration project.</strong> Devices still in the box migrate for the price of one assignment; devices already enrolled only take the new configuration after a factory reset, so let them move with the replacement cycle. And if you turn on Enrollment Time Grouping, you have also signed up for watching its failure report &mdash; a failed group join can strip configuration off a device that already had it.</p>
+                    </div>
+
+                    <nav class="post-toc" aria-label="Table of contents">
+                        <h2>On this page</h2>
+                        <ol>
+                            <li><a href="#what-changed">What actually changed</a></li>
+                            <li><a href="#migration">Why the migration follows your hardware cycle</a></li>
+                            <li><a href="#etg">Enrollment Time Grouping: the benefit and the bill</a></li>
+                            <li><a href="#bulk">Bulk assignment: what the portal can and cannot do</a></li>
+                            <li><a href="#quarter">What to do this quarter</a></li>
+                            <li><a href="#pitfalls">Pitfalls that cost a day</a></li>
+                            <li><a href="#glossary">Glossary</a></li>
+                            <li><a href="#faq">Frequently Asked Questions</a></li>
+                        </ol>
+                    </nav>
+
+                    <h2 id="what-changed">What actually changed</h2>
+                    <p>Microsoft added a second place to configure Apple ADE. Both are reached through the same enrollment token, and in the portal they look like neighbouring blades:</p>
+                    <ul>
+                        <li><strong>Enrollment program tokens &rarr; Profiles</strong> &mdash; the original surface, in production in most tenants that have had Apple devices for more than a year.</li>
+                        <li><strong>Enrollment program tokens &rarr; Enrollment policies</strong> &mdash; the newer surface, and where Microsoft is now shipping.</li>
+                    </ul>
+
+                    <blockquote>"This article reflects the updated policy creation experience (Enrollment program tokens &gt; Enrollment policies) for devices going through automated device enrollment. The older experience (Enrollment program tokens &gt; Profiles) differs and will eventually be retired. The older experience won't receive new features, so be sure to create new policies under Enrollment policies."</blockquote>
+
+                    <p>That box is identical on the iOS/iPadOS, macOS, tvOS and visionOS setup pages, which is about as clear a signal as Microsoft gives without publishing a deprecation timeline. What it does not give you is a date. Anyone telling a customer when Profiles switch off is making the date up.</p>
+
+                    <p>The stronger evidence is what the two surfaces can do. Microsoft documents three capabilities exclusively under Enrollment policies, with no Profiles equivalent described anywhere:</p>
+                    <ul>
+                        <li><strong>tvOS</strong> automated device enrollment.</li>
+                        <li><strong>visionOS</strong> automated device enrollment.</li>
+                        <li><strong>Enrollment Time Grouping</strong>, which puts the device into a security group during enrollment instead of afterwards.</li>
+                    </ul>
+                    <p>Check the licence before you quote the first two at anyone: <strong>tvOS and visionOS management requires Microsoft Intune Plan 2</strong>, while Plan 1 covers iOS/iPadOS. They are useful as evidence of where Microsoft is shipping, and useless as a feature promise to a customer who does not hold Plan 2.</p>
+                    <p>Whether the architecture underneath was replaced or merely extended is a fair question, and one you cannot answer from the outside. For planning purposes it does not matter. What matters is where new capability arrives, and that is settled.</p>
+
+                    <h2 id="migration">Why the migration follows your hardware cycle</h2>
+                    <p>Moving a device to the new surface is one assignment, which is tedious at twenty devices and brutal at two thousand. That is the easy version of the problem. For devices that are already enrolled and in service, reassignment does not move them at all. The same Learn box that announces the retirement says so:</p>
+
+                    <blockquote>"If you make changes to an existing enrollment policy, the new settings won't take effect on assigned devices until devices are reset back to factory settings and reactivated. The device name template setting is the only setting you can change that doesn't require a factory reset to take effect. Changes to the naming template take effect at the next check-in."</blockquote>
+
+                    <p>That is how ADE has always worked: the enrollment configuration is delivered to the device by Setup Assistant during activation, and it is never re-evaluated afterwards. An iPhone that has been in service for two years is running whatever Setup Assistant handed it on day one.</p>
+
+                    <p>Note the one carve-out in that quote, because it is the only lever you have on the installed base: <strong>the device name template applies without a factory reset</strong>, at the next check-in. If your naming is inconsistent across an older fleet, that you can fix today. Everything else in the policy waits for a wipe.</p>
+
+                    <p>A second, independent piece of Learn documentation points the same direction. ADE now issues management-profile certificates over ACME, and on macOS the rollout has exactly the same boundary: "Devices that are already enrolled don't receive an ACME certificate unless they re-enroll into Microsoft Intune." That sentence appears on the macOS overview page, where ACME needs macOS 13.1 or later; the Apple mobile overview lists version requirements (iOS 16.0, iPadOS 16.1, tvOS 26.0, visionOS 26.0) without repeating the re-enrollment caveat, so read it as documented for Macs and likely for the rest. Two different features, one shared constraint &mdash; the enrolled fleet is frozen at the configuration it received at setup.</p>
+
+                    <p>So the fleet splits in two, and the two halves cost wildly different amounts:</p>
+
+                    <table class="post-table">
+                        <thead>
+                            <tr><th>Device state</th><th>What migration means</th><th>Effort</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Synced from Apple Business or Apple School Manager, <strong>never activated</strong> &mdash; stock, spares, new orders</td>
+                                <td>Assign the new Enrollment Policy. Setup Assistant applies it on first boot.</td>
+                                <td>One assignment</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Already enrolled</strong> and in a user's hands</td>
+                                <td>Assignment changes nothing on the device. The new configuration lands at the next factory reset.</td>
+                                <td>A device lifecycle</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p>Which leaves one sensible plan: point new and reset devices at Enrollment policies starting now, and let the installed base move as hardware gets replaced, wiped for reassignment, or reset for any of the ordinary reasons devices get reset. Wiping a working fleet to unify the configuration is difficult to justify to anyone paying the bill, and impossible to justify when there is no deadline forcing it.</p>
+
+                    <p>That plan needs three numbers per customer, and they are worth collecting before anyone asks how long this will take: how many Apple devices sit behind each token, how many of them are running on the old Profiles, and what the replacement cycle actually looks like. Without the third number the first two tell you nothing about duration.</p>
+
+                    <h2 id="etg">Enrollment Time Grouping: the benefit and the bill</h2>
+                    <p>Enrollment Time Grouping is the headline capability that only exists on the new surface, and it solves a real problem. Without it, a freshly enrolled device has to wait for group membership to be evaluated before Intune knows which apps and policies it needs. Microsoft puts a number on the wait: "It can take up to 8 hours post enrollment for devices to receive all apps and policies." With ETG, the device is written into a named security group during enrollment, so the configuration is already on its way when the user reaches the home screen.</p>
+
+                    <p>Four prerequisites gate it, and missing any one of them means the feature silently does not work.</p>
+
+                    <figure class="post-content-image">
+                        <img src="../assets/images/intune-apple-enrollment-policies/enrollment-time-grouping-chain.svg" alt="The four prerequisites for enrollment time grouping in a chain, followed by the failure report that must be monitored continuously" loading="lazy">
+                        <figcaption>Windows admins will recognise the middle two &mdash; Autopilot device preparation has the same service principal requirement, and it is the most common reason V2 rollouts fail.</figcaption>
+                    </figure>
+
+                    <table class="post-table">
+                        <thead>
+                            <tr><th>Requirement</th><th>Detail</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Static group</td><td>Membership type <strong>Assigned</strong>. Dynamic groups are not offered in the picker.</td></tr>
+                            <tr><td>Service principal as owner</td><td><strong>Intune Provisioning Client</strong>, AppId <code>f1346770-5b25-470b-88bd-d5744ab7952c</code>. Some tenants show it as <em>Intune Autopilot ConfidentialClient</em>; the AppId is what identifies it. Adding it needs ownership of the group, or a role carrying <code>microsoft.directory/groups/owners/update</code>: Groups Administrator or User Administrator.</td></tr>
+                            <tr><td>Custom RBAC role</td><td>The <em>enrollment time device membership assignment</em> permission, which Learn describes as "available in custom roles under <strong>Enrollment programs</strong>" &mdash; no built-in role is named anywhere. The group must also be in the admin's scope groups or it will not appear during policy creation.</td></tr>
+                            <tr><td>Commercial cloud</td><td>Not available for Apple ADE policies in Azure Government or Azure operated by 21Vianet.</td></tr>
+                        </tbody>
+                    </table>
+
+                    <p>The bill for enabling it sits in the same documentation, a paragraph below the benefit:</p>
+
+                    <blockquote>"Failure to join the group during enrollment might cause configuration to change or be removed from the device after enrollment, so we recommend monitoring the report continuously so that you can take the necessary mitigating actions right away."</blockquote>
+
+                    <p>Configuration being <em>removed</em> from a device is a different class of problem from a device being slow to provision. The report lives under <strong>Devices &rarr; Monitor &rarr; Enrollment time grouping failures</strong>, it lists failures only, it lags by up to 20 minutes, and reading it requires <code>Microsoft.Intune/ManagedDevices/Read</code>. There is no alert attached. Microsoft's own suggestion is to build something that polls the report on a schedule and notifies you, which tells you how much of this is left as an exercise for the reader.</p>
+
+                    <p>Three more things worth knowing before you commit to ETG:</p>
+                    <ul>
+                        <li><strong>The group membership is permanent.</strong> Learn is explicit that ETG "creates real Entra security group memberships that persist after enrollment." This is not a staging area that empties itself. Conditional Access, group-based licensing and every other consumer of group membership will read that group, so name it and govern it like any other device group. Learn's own advice is to skip ETG entirely if nothing else reads the group.</li>
+                        <li><strong>Not supported with the staging token.</strong></li>
+                        <li><strong>You cannot remove the group through the portal.</strong> When editing an existing enrollment policy, the <em>Remove</em> option for the ETG group is missing &mdash; a known issue. The documented workarounds are deleting and recreating the policy, or calling <code>DELETE .../configurationPolicies('{policyId}')/clearEnrollmentTimeDeviceMembershipTarget</code>. Worth knowing before you attach a group you are not sure about.</li>
+                    </ul>
+
+                    <p>ETG's static-group requirement does not retire the dynamic group pattern. Learn still documents building a dynamic group from the policy name via the <code>enrollmentProfileName</code> parameter, and for everything that happens after enrollment that remains the right tool. The split is documented rather than merely sensible: "If you assign dynamic groups to enrollment policies, there might be a delay in delivering applications and policies to devices after the enrollment." ETG covers the enrollment window, dynamic groups cover steady state. One related detail from the same page, easy to miss and cheap to fix: for devices enrolling with user affinity, the enrolling user should already be a member of an Entra user group before setup, or delivery slows down for that reason instead.</p>
+
+                    <h2 id="bulk">Bulk assignment: what the portal can and cannot do</h2>
+                    <p>Microsoft shipped no migration tool for this, which is not the same thing as shipping no bulk assignment. The distinction is worth getting right before a customer meeting, because the loose version collapses the moment somebody opens the portal.</p>
+
+                    <p>The portal does multi-select. Learn's own instructions read "Select all devices you want to assign, and then select Assign policy," and there is a separate <strong>Apple Serial Numbers</strong> pane for assigning by serial. At four-figure device counts this is genuinely unpleasant &mdash; that part of the complaint is fair. But the accurate statement is that Microsoft shipped <em>no migration tool</em>, not that there is no bulk assignment.</p>
+
+                    <p>On the Graph route, one widely repeated detail has no documentation behind it: that the <code>deviceIds</code> field of the beta action <code>updateDeviceProfileAssignment</code> expects serial numbers rather than device IDs. Learn does not say that anywhere. The reference lists <code>deviceIds</code> as a string collection with an empty description, and the request example shows nothing but the placeholder <code>"Device Ids value"</code>. The claim is plausible &mdash; ADE identity in Intune runs on serial numbers throughout, including the sync itself and the <code>depEnrollmentBaseProfile</code> resource, which is described as being assigned to "Apple DEP serial numbers" &mdash; but plausible is not documented, and this is a beta endpoint where guessing gets expensive.</p>
+
+                    <p>Test it against a single device in a lab tenant before pointing it at a fleet. And treat the whole route as a one-off migration step rather than an operational procedure: Microsoft's position on beta Intune APIs is that they are supported but "subject to more frequent change," with v1.0 recommended wherever possible.</p>
+
+                    <h2 id="quarter">What to do this quarter</h2>
+                    <ol>
+                        <li><strong>Stop creating Profiles.</strong> Every new Apple ADE configuration goes under Enrollment policies. This costs nothing and stops the problem growing.</li>
+                        <li><strong>Set a default policy on every enrollment token.</strong> A synced device with no policy assigned fails enrollment the moment someone powers it on, and the error points at the device rather than at the missing default.</li>
+                        <li><strong>Count what you have.</strong> Devices per token, how many are on Profiles, and the replacement cycle. Three numbers, and they turn "we should migrate at some point" into a date range.</li>
+                        <li><strong>Assign the new policy to everything not yet activated.</strong> Stock, spares and anything on order. This half of the fleet migrates for free.</li>
+                        <li><strong>Add the reset-to-new-policy step to your device handling runbooks.</strong> Every wipe for reassignment, every warranty replacement, every reset for a stuck device is a migration opportunity that costs nothing extra.</li>
+                        <li><strong>Decide on ETG deliberately.</strong> If nothing else reads the group and the eight-hour provisioning window is not hurting anyone, skipping it is a legitimate answer. If you enable it, name an owner for the failure report in the same change.</li>
+                    </ol>
+
+                    <h2 id="pitfalls">Pitfalls that cost a day</h2>
+                    <ul>
+                        <li><strong>Device Type Restrictions blocking the platform</strong> &rarr; enrollment fails and the device shows as <em>Invalid Profile</em>, no matter how correct the enrollment policy is. The default <em>All Users</em> restriction is the usual culprit. Block personally owned devices, not the platform.</li>
+                        <li><strong>No default policy on the token</strong> &rarr; a device synced from Apple Business enrolls into nothing and fails at activation.</li>
+                        <li><strong>Expecting an assignment to reach an enrolled device</strong> &rarr; it will not. Confirm the device state before you promise a customer a timeline.</li>
+                        <li><strong>ETG group left dynamic</strong> &rarr; it never appears in the picker, and the usual reaction is to assume the feature is broken.</li>
+                        <li><strong>ETG group without the service principal as owner</strong> &rarr; devices never join, and everything targeted at that group misses. The same failure mode as Windows <a href="2026-09-22-windows-autopilot-v1-vs-v2-technical-guide.html">Autopilot device preparation</a>, for the same reason.</li>
+                        <li><strong>ETG enabled with nobody watching the failure report</strong> &rarr; silent configuration drift on the devices that failed to join.</li>
+                        <li><strong>Quoting a retirement date</strong> &rarr; there is not one. "No new features" is defensible; a deadline is not.</li>
+                        <li><strong>Promising tvOS or visionOS on Intune Plan 1</strong> &rarr; both need Plan 2. Check the licence before the demo, not after.</li>
+                    </ul>
+                    <p>One limit worth recording even though it is unlikely to bite a mid-sized tenant: 1,000 enrollment policies per enrollment token.</p>
+
+                    <h2 id="bottom-line">Bottom line</h2>
+                    <p>Treating this as a feature announcement is what makes it expensive later. Enrollment policies are where Apple ADE is going, the old surface is frozen, and the cost of moving depends almost entirely on how much of your fleet is already activated. Switch new configuration over now, migrate the installed base at the pace hardware turns over anyway, and if you turn on Enrollment Time Grouping, put someone's name against that failure report. Device naming is the one thing you can still change on devices already in the field. Everything else waits for the wipe.</p>
+
+                    <div class="post-cta">
+                        <h3>Zero Trust. Zero Drama. Zero Bullshit.</h3>
+                        <p>Need the three numbers for your own Apple fleet, or a second opinion before you turn on Enrollment Time Grouping?<br>
+                        <strong>I do this work in SMB tenants every week.</strong></p>
+                        <a href="https://easym365.de" target="_blank" rel="noopener noreferrer" class="cta-button">Talk it through with me</a>
+                    </div>
+
+                    <section class="post-glossary">
+                    <h2 id="glossary">Glossary</h2>
+                    <dl>
+                        <dt>Automated Device Enrollment (ADE)</dt><dd>Apple's zero-touch enrollment programme. Devices bought through Apple Business Manager or Apple School Manager are assigned to an MDM server and enroll automatically during Setup Assistant.</dd>
+                        <dt>Enrollment profile (legacy)</dt><dd>The original Intune surface for configuring ADE, under Enrollment program tokens &rarr; Profiles. Documented by Microsoft as eventually retiring and no longer receiving new features.</dd>
+                        <dt>Enrollment policy</dt><dd>The current surface, under Enrollment program tokens &rarr; Enrollment policies. The only place tvOS, visionOS and Enrollment Time Grouping are available.</dd>
+                        <dt>Enrollment Time Grouping (ETG)</dt><dd>Writes the device into a static Entra security group during enrollment rather than after it, cutting the wait for apps and policies. Requires a static group owned by the Intune Provisioning Client service principal.</dd>
+                        <dt>Intune Provisioning Client</dt><dd>The service principal (AppId f1346770-5b25-470b-88bd-d5744ab7952c) that must own an enrollment-time group. Named Intune Autopilot ConfidentialClient in some tenants.</dd>
+                        <dt>Default policy</dt><dd>The enrollment policy applied to any device enrolling with a given token that has no policy of its own. Without one, unassigned devices fail enrollment at activation.</dd>
+                        <dt>ACME</dt><dd>The certificate protocol Apple ADE enrollment now uses in place of SCEP. Applied at enrollment; Microsoft documents for macOS (13.1 or later) that devices enrolled beforehand keep their old certificate until they re-enroll.</dd>
+                        <dt>Setup Assistant</dt><dd>Apple's out-of-box setup flow. ADE configuration is delivered here and is not re-evaluated afterwards, which is why changes need a factory reset to take effect.</dd>
+                    </dl>
+                    </section>
+
+                    <section class="faq">
+                    <h2 id="faq">Frequently Asked Questions</h2>
+                    <h3>Are Apple enrollment profiles deprecated in Intune?</h3>
+                    <p>Microsoft documents the older experience under Enrollment program tokens &gt; Profiles as one that "will eventually be retired" and that "won't receive new features," and repeats that on the iOS/iPadOS, macOS, tvOS and visionOS setup pages. No retirement date has been published and no migration tool has shipped, so treat it as frozen rather than as having a deadline.</p>
+                    <h3>What is the difference between an enrollment profile and an enrollment policy in Intune?</h3>
+                    <p>Both configure Apple automated device enrollment through the same token, but only enrollment policies receive new capability. tvOS, visionOS and Enrollment Time Grouping exist only under enrollment policies, with no documented equivalent under profiles.</p>
+                    <h3>Will assigning a new enrollment policy migrate my existing Apple devices?</h3>
+                    <p>Only devices that have not been activated yet. Microsoft states that changes to an enrollment policy do not take effect on assigned devices until they are reset to factory settings and reactivated, because ADE configuration is applied by Setup Assistant and never re-evaluated. Devices already in service keep their original configuration until they are wiped. The single documented exception is the device name template, which takes effect at the next check-in without a reset.</p>
+                    <h3>Why do my Apple devices never join the enrollment time grouping group?</h3>
+                    <p>The usual cause is that the Intune Provisioning Client service principal (AppId f1346770-5b25-470b-88bd-d5744ab7952c) is not an owner of the security group. Also confirm the group is static, that your admin role carries the enrollment time device membership assignment permission, and that the group is in your scope groups. Devices &gt; Monitor &gt; Enrollment time grouping failures lists what failed.</p>
+                    <h3>Does enrollment time grouping work in Azure Government or 21Vianet?</h3>
+                    <p>No. Microsoft documents enrollment time grouping for Apple automated device enrollment policies as unavailable in some sovereign cloud environments, naming Azure Government and Azure operated by 21Vianet specifically.</p>
+                    <h3>Can I bulk-assign Apple devices to a new enrollment policy?</h3>
+                    <p>Yes, through multi-select in the portal and through the Apple Serial Numbers pane, though neither is comfortable at four-figure device counts. There is no dedicated migration tool. The beta Graph action updateDeviceProfileAssignment is often suggested for bulk work, but its deviceIds field is undocumented and the endpoint is beta, so test it on a single device before using it at scale.</p>
+                    </section>
+
+                    <hr>
+                    <h3>References</h3>
+                    <ol class="post-references">
+                        <li><a href="https://learn.microsoft.com/intune/device-enrollment/apple/setup-automated-ios" target="_blank" rel="noopener noreferrer">Microsoft Learn: Set up automated device enrollment for iOS/iPadOS</a></li>
+                        <li><a href="https://learn.microsoft.com/intune/device-enrollment/apple/setup-automated-macos" target="_blank" rel="noopener noreferrer">Microsoft Learn: Set up automated device enrollment for macOS</a></li>
+                        <li><a href="https://learn.microsoft.com/intune/device-enrollment/apple/setup-automated-tv-os" target="_blank" rel="noopener noreferrer">Microsoft Learn: Set up automated device enrollment for tvOS</a></li>
+                        <li><a href="https://learn.microsoft.com/intune/device-enrollment/apple/setup-automated-vision-os" target="_blank" rel="noopener noreferrer">Microsoft Learn: Set up automated device enrollment for visionOS</a></li>
+                        <li><a href="https://learn.microsoft.com/intune/device-enrollment/setup-time-grouping" target="_blank" rel="noopener noreferrer">Microsoft Learn: Enrollment time grouping in Microsoft Intune</a></li>
+                        <li><a href="https://learn.microsoft.com/intune/fundamentals/choose-targeting-method" target="_blank" rel="noopener noreferrer">Microsoft Learn: Choose the right targeting method in Microsoft Intune</a></li>
+                        <li><a href="https://learn.microsoft.com/intune/device-enrollment/apple/overview-automated-enrollment-apple" target="_blank" rel="noopener noreferrer">Microsoft Learn: Overview of Apple Automated Device Enrollment for Apple mobile</a></li>
+                        <li><a href="https://learn.microsoft.com/intune/device-enrollment/apple/overview-automated-enrollment-macos" target="_blank" rel="noopener noreferrer">Microsoft Learn: Overview of Apple Automated Device Enrollment for macOS</a></li>
+                        <li><a href="https://learn.microsoft.com/intune/device-enrollment/apple/manage-devices-tokens-apple" target="_blank" rel="noopener noreferrer">Microsoft Learn: Manage Apple mobile devices and tokens for automated device enrollment</a></li>
+                        <li><a href="https://learn.microsoft.com/intune/device-enrollment/apple/tutorial-automated-ios" target="_blank" rel="noopener noreferrer">Microsoft Learn: Tutorial &mdash; Set up Intune enrollment for iOS/iPadOS devices in Apple Business</a></li>
+                        <li><a href="https://learn.microsoft.com/intune/fundamentals/licensing" target="_blank" rel="noopener noreferrer">Microsoft Learn: Microsoft Intune licensing</a></li>
+                        <li><a href="https://learn.microsoft.com/graph/api/intune-enrollment-enrollmentprofile-updatedeviceprofileassignment?view=graph-rest-beta" target="_blank" rel="noopener noreferrer">Microsoft Graph beta: updateDeviceProfileAssignment action</a></li>
+                    </ol>
+                </div>
+            </section>
+
+            <section class="author-bio">
+                <img src="../assets/images/cloudknox-author.webp" alt="Philipp Schmidt - Microsoft 365 Security Consultant - easyM365.de" class="author-avatar" loading="lazy">
+                <div class="author-info">
+                    <h3>Philipp Schmidt</h3>
+                    <p>IT consultant specializing in Microsoft 365, Security, and Zero Trust architecture. Helping SMBs build secure, scalable, and simple cloud solutions.</p>
+                    <p><strong>Zero Trust. Zero Drama. Zero Bullshit.</strong></p>
+                    <p><a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Learn more: https://easym365.de</a></p>
+                </div>
+            </section>
+        </article>
+        <div id="post-navigation"></div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2026 Philipp Schmidt. All rights reserved.</p>
+            <p>Secure. Scalable. Simple M365.</p>
+            <div class="footer-links">
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+                <a href="https://www.linkedin.com/in/pschmidt3010" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://github.com/farpoint-tech" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const menuToggle = document.getElementById("menu-toggle");
+        const nav = document.getElementById("nav");
+        menuToggle.addEventListener("click", () => { nav.classList.toggle("active"); });
+    </script>
+    <script src="../assets/js/post-navigation.js"></script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Intune Apple Enrollment Policies: Migrating off ADE Enrollment Profiles",
+  "description": "Apple ADE enrollment profiles are retiring with no date and no migration tool. What Intune enrollment policies change, and why enrolled devices need a wipe.",
+  "image": "https://endlesstech.blog/assets/images/intune-apple-enrollment-policies/apple-ade-hero.svg",
+  "author": {
+    "@type": "Person",
+    "name": "Philipp Schmidt",
+    "url": "https://easym365.de"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "EndlessTech Blog"
+  },
+  "datePublished": "2026-09-25",
+  "dateModified": "2026-09-25",
+  "inLanguage": "en",
+  "mainEntityOfPage": "https://endlesstech.blog/posts/2026-09-08-intune-apple-enrollment-policies-ade.html"
+}
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Are Apple enrollment profiles deprecated in Intune?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Microsoft documents the older experience under Enrollment program tokens > Profiles as one that will eventually be retired and that won't receive new features, and repeats that on the iOS/iPadOS, macOS, tvOS and visionOS setup pages. No retirement date has been published and no migration tool has shipped, so treat it as frozen rather than as having a deadline."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between an enrollment profile and an enrollment policy in Intune?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Both configure Apple automated device enrollment through the same token, but only enrollment policies receive new capability. tvOS, visionOS and Enrollment Time Grouping exist only under enrollment policies, with no documented equivalent under profiles."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Will assigning a new enrollment policy migrate my existing Apple devices?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Only devices that have not been activated yet. Microsoft states that changes to an enrollment policy do not take effect on assigned devices until they are reset to factory settings and reactivated, because ADE configuration is applied by Setup Assistant and never re-evaluated. Devices already in service keep their original configuration until they are wiped. The single documented exception is the device name template, which takes effect at the next check-in without a reset."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why do my Apple devices never join the enrollment time grouping group?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The usual cause is that the Intune Provisioning Client service principal (AppId f1346770-5b25-470b-88bd-d5744ab7952c) is not an owner of the security group. Also confirm the group is static, that your admin role carries the enrollment time device membership assignment permission, and that the group is in your scope groups. Devices > Monitor > Enrollment time grouping failures lists what failed."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does enrollment time grouping work in Azure Government or 21Vianet?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Microsoft documents enrollment time grouping for Apple automated device enrollment policies as unavailable in some sovereign cloud environments, naming Azure Government and Azure operated by 21Vianet specifically."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I bulk-assign Apple devices to a new enrollment policy?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, through multi-select in the portal and through the Apple Serial Numbers pane, though neither is comfortable at four-figure device counts. There is no dedicated migration tool. The beta Graph action updateDeviceProfileAssignment is often suggested for bulk work, but its deviceIds field is undocumented and the endpoint is beta, so test it on a single device before using it at scale."
+      }
+    }
+  ]
+}
+    </script>
+</body>
+</html>

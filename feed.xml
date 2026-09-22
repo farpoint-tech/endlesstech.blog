@@ -6,13 +6,29 @@
     <description>Practical Microsoft 365 security guides, Zero Trust strategies, and Intune tips for SMBs. By Philipp Schmidt.</description>
     <language>en</language>
     <managingEditor>philippschmidt3010@gmail.com (Philipp Schmidt)</managingEditor>
-    <lastBuildDate>Wed, 26 Aug 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 25 Sep 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://endlesstech.blog/feed.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://endlesstech.blog/assets/images/logo.webp</url>
       <title>EndlessTech Blog</title>
       <link>https://endlesstech.blog/</link>
     </image>
+
+    <item>
+      <title>Intune Apple Enrollment Policies: Migrating off ADE Enrollment Profiles</title>
+      <link>https://endlesstech.blog/posts/2026-09-08-intune-apple-enrollment-policies-ade.html</link>
+      <guid>https://endlesstech.blog/posts/2026-09-08-intune-apple-enrollment-policies-ade.html</guid>
+      <pubDate>Fri, 25 Sep 2026 00:00:00 +0000</pubDate>
+      <description>Apple ADE enrollment profiles are retiring with no date and no migration tool. What Intune enrollment policies change, and why enrolled devices need a wipe.</description>
+    </item>
+
+    <item>
+      <title>Windows Autopilot V1 vs V2: A Technical Guide to classic Autopilot and Device Preparation</title>
+      <link>https://endlesstech.blog/posts/2026-09-22-windows-autopilot-v1-vs-v2-technical-guide.html</link>
+      <guid>https://endlesstech.blog/posts/2026-09-22-windows-autopilot-v1-vs-v2-technical-guide.html</guid>
+      <pubDate>Mon, 21 Sep 2026 00:00:00 +0000</pubDate>
+      <description>When to use classic Autopilot versus Device Preparation, how to set up both, the service principal that breaks most V2 rollouts, and the real pitfalls.</description>
+    </item>
 
     <item>
       <title>Unused Enterprise Apps: Why Last Sign-In Lies</title>
@@ -111,6 +127,14 @@
     </item>
 
     <item>
+      <title>From Theory to Implementation: How Context Engineering Technically Works</title>
+      <link>https://endlesstech.blog/posts/context-engineering-architecture.html</link>
+      <guid>https://endlesstech.blog/posts/context-engineering-architecture.html</guid>
+      <pubDate>Fri, 26 Jun 2026 00:00:00 +0000</pubDate>
+      <description>From theory to implementation: Discover the technical reality behind a productive Context Engineering system. Learn how functional separation, prompt architecture, and clear ownership drive AI success.</description>
+    </item>
+
+    <item>
       <title>Demystifying the Microsoft Graph API: A Practical Guide</title>
       <link>https://endlesstech.blog/posts/2026-06-22-demystifying-microsoft-graph-api-practical-guide.html</link>
       <guid>https://endlesstech.blog/posts/2026-06-22-demystifying-microsoft-graph-api-practical-guide.html</guid>
@@ -164,14 +188,6 @@
       <guid>https://endlesstech.blog/posts/2026-05-21-ghost-hunting-m365-orphaned-teams-channel-sites.html</guid>
       <pubDate>Thu, 21 May 2026 00:00:00 +0000</pubDate>
       <description>Microsoft documents that Teams channel sites die with their team. When one survives, deleting it is the last step, not the first. How to find them safely.</description>
-    </item>
-
-    <item>
-      <title>From Theory to Implementation: How Context Engineering Technically Works</title>
-      <link>https://endlesstech.blog/posts/context-engineering-architecture.html</link>
-      <guid>https://endlesstech.blog/posts/context-engineering-architecture.html</guid>
-      <pubDate>Sun, 03 May 2026 00:00:00 +0000</pubDate>
-      <description>From theory to implementation: Discover the technical reality behind a productive Context Engineering system. Learn how functional separation, prompt architecture, and clear ownership drive AI success.</description>
     </item>
 
     <item>

@@ -87,6 +87,15 @@ up by itself, and it:
 - regenerates `sitemap.xml`, `feed.xml` and `llms.txt`
 - runs `tools/check-findability.py` and refuses to commit if it fails
 
+`master` requires a pull request and `github-actions[bot]` is not on the bypass
+list, so the workflow cannot push to `master` directly — it did, and every run
+with something due failed with `GH006: Protected branch update failed`. It now
+commits to a short-lived `release/<timestamp>` branch and opens a pull request
+instead. **A release only goes live once that pull request is merged.** Until
+then the calendar entry stays due, so the next run reopens it rather than
+releasing anything twice. Putting `github-actions[bot]` on the bypass list of
+the `master` rule and restoring the direct push makes the release automatic again.
+
 Nothing due is a green, empty run. Do not remove the `SERIES-RELEASE-SLOT`
 marker from `index.html` — without it the release fails.
 

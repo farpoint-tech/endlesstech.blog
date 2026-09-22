@@ -13,8 +13,18 @@ on:
         description: "Release date to publish (YYYY-MM-DD). Defaults to today, Europe/Berlin."
         required: false
 
+# master requires a pull request and github-actions[bot] is not on the bypass
+# list, so a direct push is rejected with GH006 and the whole run fails. The
+# release therefore opens a pull request instead and leaves the merge to a
+# human, which is what the branch protection asks for. The calendar is
+# catch-up safe: until the pull request is merged the entry stays due, and the
+# next run reopens it rather than releasing anything twice.
+#
+# To make the release fully automatic again, add github-actions[bot] to the
+# bypass list of the master protection rule and restore the direct push.
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   release:
@@ -29,14 +39,32 @@ jobs:
         id: release
         run: python3 .github/scripts/release-scheduled.py ${{ inputs.date }}
 
-      - name: Commit and push
+      - name: Open a release pull request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          set -euo pipefail
+
           if git diff --quiet && git diff --cached --quiet; then
-            echo "no changes"
+            echo "nothing to release"
             exit 0
           fi
+
+          message="${{ steps.release.outputs.message || 'release: scheduled post' }}"
+          branch="release/$(date -u +%Y%m%d-%H%M%S)"
+
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$branch"
           git add -A
-          git commit -m "${{ steps.release.outputs.message || 'release: scheduled post' }}"
-          git push origin master
+          git commit -m "$message"
+          git push origin "$branch"
+
+          url=$(gh pr create --base master --head "$branch" \
+            --title "$message" \
+            --body "Automated release from \`.scheduled/releases.json\`, opened by the release workflow because master requires a pull request.
+
+\`tools/check-findability.py\` passed before this branch was pushed. Merge it to put the articles online.")
+
+          echo "opened $url"
+          echo "::notice::Release pull request ready to merge: $url"

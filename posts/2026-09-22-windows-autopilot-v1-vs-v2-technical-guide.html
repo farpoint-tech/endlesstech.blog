@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+    <meta name="robots" content="index,follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="When to use classic Autopilot versus Device Preparation, how to set up both, the service principal that breaks most V2 rollouts, and the real pitfalls.">
+    <meta name="author" content="Philipp Schmidt">
+    <meta name="keywords" content="Windows Autopilot V1 vs V2, Autopilot Device Preparation, classic Autopilot vs Device Preparation, Enrollment Time Grouping service principal, Intune Provisioning Client f1346770-5b25-470b-88bd-d5744ab7952c, Autopilot hardware hash, Autopilot deployment profile, Enrollment Status Page, corporate identifiers Intune, Autopilot hybrid join, Autopilot Gerätevorbereitung, Autopilot Einrichtung Unterschied">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Windows Autopilot V1 vs V2: Classic vs Device Preparation">
+    <meta property="og:description" content="When to use classic Autopilot versus Device Preparation, how to set up both, the service principal that breaks most V2 rollouts, and the real pitfalls.">
+    <meta property="og:image" content="https://endlesstech.blog/assets/images/autopilot-v1-vs-v2/autopilot-v1-v2-hero.svg">
+    <meta property="og:url" content="https://endlesstech.blog/posts/2026-09-22-windows-autopilot-v1-vs-v2-technical-guide.html">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Windows Autopilot V1 vs V2: Classic vs Device Preparation">
+    <meta name="twitter:description" content="When to use classic Autopilot versus Device Preparation, how to set up both, the service principal that breaks most V2 rollouts, and the real pitfalls.">
+    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/autopilot-v1-vs-v2/autopilot-v1-v2-hero.svg">
+
+    <title>Windows Autopilot V1 vs V2: Classic vs Device Preparation</title>
+
+    <link rel="alternate" type="application/rss+xml" title="EndlessTech Blog RSS Feed" href="https://endlesstech.blog/feed.xml">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/blog-post.css">
+
+    <link rel="canonical" href="https://endlesstech.blog/posts/2026-09-22-windows-autopilot-v1-vs-v2-technical-guide.html" />
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/images/logo.webp" alt="Philipp Schmidt - Secure. Scalable. Simple M365.">
+            </a>
+            <nav class="nav" id="nav">
+                <a href="../index.html">Home</a>
+                <a href="../index.html#blog" class="active">Blog</a>
+                <a href="../about.html">About</a>
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+            </nav>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">&#9776;</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="post-full">
+            <header class="post-full-header">
+                <h1 class="post-full-title">Windows Autopilot V1 vs V2: A Technical Guide to classic Autopilot and Device Preparation</h1>
+                <div class="post-full-meta">
+                    <time datetime="2026-09-21">September 2026</time> &bull; By Philipp Schmidt
+                </div>
+                <div class="post-tags"><span class="tag">Intune</span><span class="tag">Autopilot</span><span class="tag">Device Management</span><span class="tag">Windows 11</span><span class="tag">Deployment</span></div>
+            </header>
+
+            <figure class="post-full-image">
+                <img src="../assets/images/autopilot-v1-vs-v2/autopilot-v1-v2-hero.svg" alt="Two Windows Autopilot provisioning paths side by side: classic Autopilot requiring a hardware hash upload before shipping, and Device Preparation requiring no pre-registration">
+            </figure>
+
+            <section class="post-full-content">
+                <div class="post-content">
+
+                    <p>Windows Autopilot now has two provisioning models that look similar from the outside and behave nothing alike underneath. The older one &mdash; what practitioners call V1, officially just Windows Autopilot &mdash; needs to know a device before it ships: the hardware hash goes into your tenant, the device is matched to a deployment profile, and provisioning happens from there. Device Preparation, the newer model people call V2, needs none of that. Take a laptop out of a retail box, sign in, and it provisions.</p>
+
+                    <p>That difference decides your entire procurement process, so getting the choice right matters more than getting either one perfectly configured. This is the practitioner version: when each applies, how to set both up, and the specific things that break rollouts.</p>
+
+                    <div class="post-tldr">
+                        <h2>In short</h2>
+                        <p><strong>Hybrid Join, self-deploying or kiosk &rarr; classic Autopilot.</strong> There is no alternative. <strong>Cloud-only, Entra Join, user-driven &rarr; Device Preparation.</strong> <strong>Windows 365 &rarr; Device Preparation in automatic mode</strong>, which is still public preview. The decision is made per customer and documented, not defaulted across a fleet. The single most common V2 failure: the <em>Intune Provisioning Client</em> service principal is not an owner of the enrollment-time group, so devices never join it and everything targeted at that group misses the deployment. And on a device already registered in classic Autopilot, what decides is the association state: unassociated means the classic profile wins.</p>
+                    </div>
+
+                    <nav class="post-toc" aria-label="Table of contents">
+                        <h2>On this page</h2>
+                        <ol>
+                            <li><a href="#choosing">Choosing between the two</a></li>
+                            <li><a href="#v1">classic Autopilot (V1) end to end</a></li>
+                            <li><a href="#v2">Device Preparation (V2) end to end</a></li>
+                            <li><a href="#per-customer">What to decide and document per customer</a></li>
+                            <li><a href="#verification">Verification</a></li>
+                            <li><a href="#pitfalls">Pitfalls that actually cost you a day</a></li>
+                            <li><a href="#glossary">Glossary</a></li>
+                            <li><a href="#faq">Frequently Asked Questions</a></li>
+                        </ol>
+                    </nav>
+
+                    <h2 id="choosing">Choosing between the two</h2>
+                    <p>The decision tree is short, and the first branch is absolute.</p>
+
+                    <figure class="post-content-image">
+                        <img src="../assets/images/autopilot-v1-vs-v2/autopilot-decision-tree.svg" alt="Decision tree: hybrid join, self-deploying or kiosk leads to classic Autopilot; cloud-only user-driven leads to Device Preparation; Windows 365 leads to Device Preparation in Automatic Mode" loading="lazy">
+                        <figcaption>Decide per customer and write down the reason. Mixed fleets are fine: classic for the special cases, Device Preparation for standard desks.</figcaption>
+                    </figure>
+
+                    <ul>
+                        <li><strong>Hybrid Entra Join (on-prem AD)</strong> &rarr; classic Autopilot. Device Preparation does not do hybrid join at all, so there is nothing to weigh on this branch.</li>
+                        <li><strong>Self-deploying, kiosk or shared devices</strong> (no user assignment) &rarr; classic Autopilot.</li>
+                        <li><strong>Cloud-only, Entra Joined, user-driven</strong> &rarr; Device Preparation.</li>
+                        <li><strong>Windows 365 Cloud PCs</strong> &rarr; Device Preparation in automatic mode. Check the preview status before promising it: Microsoft put automatic mode for Windows 365 Enterprise, Frontline in dedicated mode and Cloud Apps into public preview in November 2025.</li>
+                    </ul>
+                    <p>Mixed fleets are legitimate. Picking one model as a house default and applying it to every tenant without checking the join type first is how this goes wrong.</p>
+                    <blockquote>A device already registered in classic Autopilot does not automatically ignore a Device Preparation policy. What decides is the device's <strong>association state</strong>: if the device is not associated with the tenant, the classic Autopilot profile takes precedence; if it is associated, device association wins and the Device Preparation deployment runs. So before a V2 rollout on existing or second-hand hardware you have two routes: associate the device, or deregister it from classic Autopilot. Doing neither is what produces the failure that looks like "the policy just does not apply."</blockquote>
+
+                    <h2 id="v1">classic Autopilot (V1) end to end</h2>
+                    <h3>Getting hardware hashes</h3>
+                    <p>The standard path is the only one that scales: build the OEM or distributor relationship, register your tenant ID at purchase, and hashes get uploaded into the tenant before the hardware ships. Dell, HP, Lenovo and the large distributors all support this.</p>
+                    <p>The exception path &mdash; lab work, a one-off device &mdash; is running the script locally as administrator:</p>
+<pre><code>[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned
+Install-Script -Name Get-WindowsAutopilotInfo -Force
+Get-WindowsAutopilotInfo -Online</code></pre>
+                    <p>The first three lines are the part people skip and then wonder why nothing runs on a fresh device: the script is not installed and the execution policy blocks it. <code>-Online</code> uploads the hash directly and prompts for a sign-in with at least Intune Administrator rights. Drop <code>-Online</code> if you want a CSV instead; the file lands in <code>C:\HWID\AutopilotHWID.csv</code>.</p>
+                    <p>Manual extraction is error-prone and should never become the routine process. Microsoft says the same in stronger terms: registration via the 4K hardware hash is recommended "only for testing or other limited scenarios", partly because the hash carries sensitive information, and points at the Partner Center for the normal case. If you find yourself doing this at volume, the procurement channel is the actual problem.</p>
+
+                    <h3>Import and profile</h3>
+                    <p>Import under <strong>Devices &rarr; Enrollment &rarr; Windows Autopilot Devices &rarr; Import</strong>. The import itself takes several minutes; then run <strong>Sync</strong> and refresh until the devices appear, rather than assuming the upload failed. Three things about the CSV: at most 500 devices per file, plain ANSI text with no quotation marks, and never edited in Excel. Excel does not produce a file Intune can import.</p>
+                    <p>Then <strong>Deployment Profiles &rarr; Create profile</strong>, with the settings that matter:</p>
+                    <ul>
+                        <li><strong>Deployment mode:</strong> user-driven (standard) or self-deploying for kiosk and shared devices</li>
+                        <li><strong>Join type:</strong> Microsoft Entra Joined by default; Hybrid Entra Joined only where on-prem AD genuinely requires it</li>
+                        <li><strong>Privacy settings:</strong> hide</li>
+                        <li><strong>User account type:</strong> standard user, with local admin rights only by documented exception</li>
+                        <li><strong>Device naming template:</strong> customer prefix plus a random suffix</li>
+                    </ul>
+
+                    <h3>Assignment, apps, provisioning</h3>
+                    <ol>
+                        <li>Assign the profile to a device group or group tag. Never leave it unassigned. A registered device without an assigned profile does not fail; Microsoft applies the default Windows Autopilot profile by design, so that every registered device goes through the Autopilot experience. The device provisions into whatever that default happens to be, which is almost never what the customer ordered.</li>
+                        <li>Deploy apps via <strong>Apps &rarr; Windows &rarr; Add</strong> (M365 Apps, Defender, line-of-business).</li>
+                        <li>Configure the Enrollment Status Page: which apps block, the timeout, and what happens on failure.</li>
+                        <li>Power on. The user signs in with Entra credentials, completes MFA and Windows Hello, and the device joins, enrolls, applies the profile and installs apps.</li>
+                    </ol>
+
+                    <h2 id="v2">Device Preparation (V2) end to end</h2>
+                    <p>The differences from V1 are the whole point, so this is where the detail belongs.</p>
+
+                    <h3>No pre-registration, but a build requirement</h3>
+                    <p>There are no hardware hashes and no import step. In exchange there is a floor on the OS: <strong>Windows 11 24H2</strong>, or 22H2/23H2 with <strong>KB5035942</strong> installed. A device below that will not provision, and the failure is not always obvious from the error.</p>
+
+                    <h3>Enrollment Time Grouping &mdash; and the service principal</h3>
+                    <p>Device Preparation writes the device into a <strong>static security group</strong> during enrollment. Two things about that group cause most of the support tickets:</p>
+                    <ul>
+                        <li>It must be <strong>static</strong>: Membership type <strong>Assigned</strong>, one group per enrollment policy. A dynamic group does not work here.</li>
+                        <li>The service principal <strong>Intune Provisioning Client</strong> (AppId <code>f1346770-5b25-470b-88bd-d5744ab7952c</code>) must be an <strong>owner</strong> of that group. In some tenants the same service principal is called <strong>Intune Autopilot ConfidentialClient</strong> &mdash; the AppId is what identifies it. To set the owner you either own the group already or hold a role carrying <code>microsoft.directory/groups/owners/update</code>, which means Groups Administrator or User Administrator.</li>
+                    </ul>
+                    <p>That second point is, by a wide margin, the most common cause of a failed V2 setup, and it does not announce itself. The device never becomes a member of the group, so every app, script and policy targeted at that group misses the deployment. Microsoft documents the symptom rather than an error at save time: <strong>Devices &rarr; Monitor &rarr; Enrollment time grouping failures</strong> lists exactly the devices that failed to join their static group. Watch that report continuously. A device that misses the group can lose configuration again after enrollment.</p>
+
+                    <h3>Limits and identifiers</h3>
+                    <ul>
+                        <li><strong>Up to 25 apps and 10 PowerShell scripts</strong> are tracked during setup. Microsoft raised the app limit from 10 to 25 in January 2026, for user-driven and automatic mode alike &mdash; and flagged the catch in the same breath: review your deployment timeout, because 25 blocking apps take longer than 10. Anything beyond the limit installs afterwards, outside the provisioning experience.</li>
+                        <li>Upload <strong>corporate identifiers</strong> (manufacturer, model, serial number) when enrollment restrictions block personal devices. Recommendation: do it always, not only when required. It costs nothing and prevents a class of enrollment rejection that is tedious to diagnose.</li>
+                    </ul>
+
+                    <h3>Policies sync, but nothing blocks the desktop</h3>
+                    <p>This is the architectural difference that catches people. Device Preparation syncs the policies assigned to the device group, but it does not track whether they were applied; Microsoft documents that they might land during the deployment or after it completes. Nothing holds the desktop back while that settles, and there is no user-phase equivalent of the Enrollment Status Page. So Conditional Access and compliance policies have to be in place before the rollout, and they have to tolerate the window in which a brand-new device cannot yet be compliant. A "require compliant device" policy with no allowance for enrollment will block the very process meant to make the device compliant.</p>
+
+                    <h2 id="per-customer">What to decide and document per customer</h2>
+                    <ul>
+                        <li>V1 or V2, and the reason</li>
+                        <li>Procurement path: distributor with hash upload, or retail / user-purchased</li>
+                        <li>Deployment mode: user-driven or self-deploying</li>
+                        <li>Join type: Entra Joined or Hybrid (V1 only)</li>
+                        <li>Device naming convention</li>
+                        <li>Group tag strategy for segmented rollouts (V1)</li>
+                        <li>Enrollment Status Page and timeout configuration (V1 only &mdash; Device Preparation does not use the ESP)</li>
+                        <li>App and policy baseline for day one</li>
+                        <li>Any exceptions granted for local administrator rights</li>
+                    </ul>
+
+                    <h2 id="verification">Verification</h2>
+                    <p>A rollout is not done until a test device passes all of this:</p>
+                    <ul>
+                        <li>OOBE completes without manual intervention beyond entering credentials</li>
+                        <li>The device appears under <strong>Devices &rarr; All devices</strong> as a corporate device with the correct name</li>
+                        <li>V1: the Enrollment Status Page runs to completion. V2: the deployment report shows every app and script as <strong>Installed</strong>. The other three statuses are the diagnosis: <em>In progress</em>, <em>Failed</em>, and <em>Skipped</em>, where <em>Skipped</em> almost always means the app or script was picked in the policy but never assigned to the device group named in that same policy</li>
+                        <li>V2: the device landed automatically in the enrollment-time group</li>
+                        <li>Assigned apps are installed, though status messages may lag behind reality</li>
+                        <li>The device evaluates as compliant and Conditional Access applies correctly</li>
+                        <li>Join type matches the specification</li>
+                        <li>No device carries unintended local administrator rights</li>
+                    </ul>
+
+                    <h2 id="pitfalls">Pitfalls that actually cost you a day</h2>
+                    <p><strong>Device Preparation:</strong></p>
+                    <ul>
+                        <li><strong>Missing service principal owner</strong> &rarr; the device never joins the group, and everything targeted at that group misses the deployment. Check this first, always, and watch <strong>Devices &rarr; Monitor &rarr; Enrollment time grouping failures</strong>.</li>
+                        <li><strong>Dynamic instead of static group</strong> &rarr; the group has to be Membership type <strong>Assigned</strong>.</li>
+                        <li><strong>Device registered in classic Autopilot and not associated with the tenant</strong> &rarr; the classic profile wins and the V2 policy never applies. Associate the device or deregister it. A quick tell during OOBE: if the Enrollment Status Page appears at all, the device is running classic Autopilot. Device Preparation does not use the ESP.</li>
+                        <li><strong>Known issue &mdash; local admin:</strong> policy set to <strong>Standard user</strong> combined with the Entra <strong>Local administrator settings</strong> option "Registering user is added as local administrator on the device during Microsoft Entra join" set to <strong>Selected</strong> or <strong>None</strong> causes provisioning to be skipped entirely. Users reach the desktop without the apps. The documented fix is counter-intuitive: of the three combinations Microsoft lists that leave the user a standard non-administrator, two require the policy's <strong>User account type</strong> to be set to <strong>Administrator</strong>, and only the third (Entra set to <strong>All</strong>) uses <strong>Standard user</strong>. Read both settings before you decide which one to change.</li>
+                    </ul>
+                    <p><strong>classic Autopilot:</strong></p>
+                    <ul>
+                        <li><strong>Missing profile assignment</strong> &rarr; the device still runs Autopilot, on the default profile, and lands in a configuration nobody chose. Check the assignment before the device ships.</li>
+                        <li><strong>Manual hash extraction as the routine process</strong> &rarr; does not scale, high error rate.</li>
+                        <li><strong>Admin rights silently not granted on hybrid join</strong> &rarr; in user-driven hybrid Entra join the user does not become a local administrator even when the Autopilot profile says so, if another account on the device already holds admin rights. A script or policy that creates a second local admin account during provisioning is enough to trigger it, so do not create that account until Autopilot has finished.</li>
+                        <li><strong>A "dirty" tenant</strong>: stale registrations, duplicate hashes. Audit tenant state before a batch onboarding.</li>
+                    </ul>
+                    <p><strong>Both:</strong></p>
+                    <ul>
+                        <li><strong>Apps assigned to the wrong target</strong> &rarr; in Device Preparation they show as <em>Skipped</em> in the deployment report, because the app was named in the policy but not assigned to the policy's device group. Check the assignment target and whether the app or script installs in the <strong>System</strong> context. During OOBE no user is signed in.</li>
+                        <li><strong>A Conditional Access policy blocking enrollment</strong>. "Device compliance required" collides with the moment the device cannot yet be compliant.</li>
+                        <li><strong>No internet on first boot</strong> &rarr; provisioning simply stops.</li>
+                        <li><strong>The visibility gap:</strong> customers consistently overestimate how many of the devices touching company data are actually managed. Inventory before the rollout instead of assuming full coverage.</li>
+                        <li><strong>Terminology:</strong> "V1" and "V2" are community shorthand. Use the official names &mdash; Windows Autopilot and Windows Autopilot device preparation &mdash; in customer-facing documents.</li>
+                    </ul>
+
+                    <h2 id="bottom-line">Bottom line</h2>
+                    <p>Device Preparation removes the part of Autopilot that was hardest to operate at scale: knowing every device before it ships. That makes retail and user-purchased hardware viable for the first time. It does not remove hybrid join constraints, it does not cover self-deploying scenarios, and it introduces its own single point of failure in the enrollment-time group. Pick per customer, check the group owner before anything else, and for any device still carrying a classic Autopilot registration, decide deliberately whether to associate it or deregister it.</p>
+
+                    <div class="post-cta">
+                        <h3>Zero Trust. Zero Drama. Zero Bullshit.</h3>
+                        <p>Deciding between classic Autopilot and Device Preparation for a customer fleet, or stuck on an enrollment-time group that devices never join?<br>
+                        <strong>I do this work in SMB tenants every week.</strong></p>
+                        <a href="https://easym365.de" target="_blank" rel="noopener noreferrer" class="cta-button">Talk it through with me</a>
+                    </div>
+
+                    <section class="post-glossary">
+                    <h2 id="glossary">Glossary</h2>
+                    <dl>
+                        <dt>Windows Autopilot (classic, "V1")</dt><dd>The original model: the device's hardware hash is registered in the tenant before provisioning, and a deployment profile drives the out-of-box experience.</dd>
+                        <dt>Windows Autopilot device preparation ("V2")</dt><dd>The newer model requiring no pre-registration or hardware hash. Cloud-only and Entra Join, with enforcement applied after enrollment.</dd>
+                        <dt>Hardware hash</dt><dd>A device-unique identifier collected from firmware and uploaded to the tenant so classic Autopilot can recognise the device before first boot.</dd>
+                        <dt>Enrollment Time Grouping</dt><dd>The static security group Device Preparation writes the device into during enrollment. Must be static, and must have the Intune Provisioning Client service principal as owner.</dd>
+                        <dt>Intune Provisioning Client</dt><dd>The service principal (AppId f1346770-5b25-470b-88bd-d5744ab7952c) that must own the enrollment-time group; in some tenants it is named Intune Autopilot ConfidentialClient. Without that ownership the device never joins the group, and the failures show up under Devices &rarr; Monitor &rarr; Enrollment time grouping failures.</dd>
+                        <dt>Enrollment Status Page (ESP)</dt><dd>The classic-Autopilot screen that blocks sign-in until specified apps and policies have applied, with configurable timeout and failure behaviour.</dd>
+                        <dt>Corporate identifiers</dt><dd>Manufacturer, model and serial number uploaded to Intune so enrollment restrictions can distinguish corporate hardware from personal devices.</dd>
+                        <dt>Group tag</dt><dd>A label on a classic Autopilot device record used to target different deployment profiles at segments of a fleet.</dd>
+                    </dl>
+                    </section>
+
+                    <section class="faq">
+                    <h2 id="faq">Frequently Asked Questions</h2>
+                    <h3>What is the difference between Autopilot V1 and V2?</h3>
+                    <p>classic Autopilot (V1) requires the device's hardware hash to be registered in the tenant before provisioning and supports hybrid join, self-deploying and kiosk scenarios. Device Preparation (V2) needs no pre-registration or hash, supports Microsoft Entra join only, and covers two flows: user-driven for physical devices and automatic mode for Windows 365 Cloud PCs, the latter still in public preview. It applies enforcement after enrollment rather than before.</p>
+                    <h3>When must I still use classic Autopilot?</h3>
+                    <p>Whenever Hybrid Entra Join is required, because Device Preparation does not support hybrid join at all, and for self-deploying, kiosk or shared-device scenarios with no user assignment. Both are hard constraints.</p>
+                    <h3>Why do devices never land in my Device Preparation enrollment-time group?</h3>
+                    <p>Almost always because the Intune Provisioning Client service principal (AppId f1346770-5b25-470b-88bd-d5744ab7952c) is not an owner of the enrollment-time security group. Add it as an owner, and confirm the group is static rather than dynamic. Devices &gt; Monitor &gt; Enrollment time grouping failures lists the devices that failed to join.</p>
+                    <h3>Why is my Device Preparation policy not applying to a device?</h3>
+                    <p>Check whether the device is registered in classic Autopilot and not associated with the tenant — in that state the classic profile takes precedence and the Device Preparation policy never applies. Associate the device, or deregister it from Autopilot. Also verify the build: Windows 11 24H2, or 22H2/23H2 with KB5035942.</p>
+                    <h3>How many apps can Device Preparation install during setup?</h3>
+                    <p>Up to 25 apps and 10 PowerShell scripts are tracked during the provisioning experience — Microsoft raised the app limit from 10 to 25 in January 2026. Anything beyond that installs afterwards, so put day-one essentials inside the limit and review your deployment timeout, because 25 blocking apps take longer than 10.</p>
+                    <h3>Do I need hardware hashes for Windows Autopilot device preparation?</h3>
+                    <p>No. Device Preparation requires no hardware hash and no pre-registration, which is what makes retail and user-purchased devices viable. Corporate identifiers are still recommended where enrollment restrictions block personal devices.</p>
+                    </section>
+
+                    <hr>
+                    <h3>References</h3>
+                    <ol class="post-references">
+                        <li><a href="https://learn.microsoft.com/en-us/autopilot/device-preparation/overview" target="_blank" rel="noopener noreferrer">Microsoft Learn: Overview of Windows Autopilot device preparation</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/autopilot/device-preparation/requirements" target="_blank" rel="noopener noreferrer">Microsoft Learn: Windows Autopilot device preparation requirements</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/autopilot/device-preparation/troubleshooting-faq" target="_blank" rel="noopener noreferrer">Microsoft Learn: Device preparation troubleshooting FAQ</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/autopilot/device-preparation/known-issues" target="_blank" rel="noopener noreferrer">Microsoft Learn: Windows Autopilot device preparation known issues</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/autopilot/windows-autopilot" target="_blank" rel="noopener noreferrer">Microsoft Learn: Windows Autopilot overview</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/autopilot/known-issues" target="_blank" rel="noopener noreferrer">Microsoft Learn: Windows Autopilot known issues</a></li>
+                        <li><a href="https://learn.microsoft.com/autopilot/device-preparation/compare" target="_blank" rel="noopener noreferrer">Microsoft Learn: Compare Windows Autopilot device preparation and Windows Autopilot</a></li>
+                        <li><a href="https://learn.microsoft.com/intune/intune-service/enrollment/enrollment-time-grouping" target="_blank" rel="noopener noreferrer">Microsoft Learn: Enrollment time grouping in Microsoft Intune</a></li>
+                        <li><a href="https://learn.microsoft.com/autopilot/add-devices" target="_blank" rel="noopener noreferrer">Microsoft Learn: Manually register devices with Windows Autopilot</a></li>
+                    </ol>
+                </div>
+            </section>
+
+            <section class="author-bio">
+                <img src="../assets/images/cloudknox-author.webp" alt="Philipp Schmidt - Microsoft 365 Security Consultant - easyM365.de" class="author-avatar" loading="lazy">
+                <div class="author-info">
+                    <h3>Philipp Schmidt</h3>
+                    <p>IT consultant specializing in Microsoft 365, Security, and Zero Trust architecture. Helping SMBs build secure, scalable, and simple cloud solutions.</p>
+                    <p><strong>Zero Trust. Zero Drama. Zero Bullshit.</strong></p>
+                    <p><a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Learn more: https://easym365.de</a></p>
+                </div>
+            </section>
+        </article>
+        <div id="post-navigation"></div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2026 Philipp Schmidt. All rights reserved.</p>
+            <p>Secure. Scalable. Simple M365.</p>
+            <div class="footer-links">
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+                <a href="https://www.linkedin.com/in/pschmidt3010" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://github.com/farpoint-tech" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const menuToggle = document.getElementById("menu-toggle");
+        const nav = document.getElementById("nav");
+        menuToggle.addEventListener("click", () => { nav.classList.toggle("active"); });
+    </script>
+    <script src="../assets/js/post-navigation.js"></script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Windows Autopilot V1 vs V2: A Technical Guide to classic Autopilot and Device Preparation",
+  "description": "When to use classic Autopilot versus Device Preparation, how to set up both, the service principal that breaks most V2 rollouts, and the real pitfalls.",
+  "image": "https://endlesstech.blog/assets/images/autopilot-v1-vs-v2/autopilot-v1-v2-hero.svg",
+  "author": {
+    "@type": "Person",
+    "name": "Philipp Schmidt",
+    "url": "https://easym365.de"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "EndlessTech Blog"
+  },
+  "datePublished": "2026-09-21",
+  "dateModified": "2026-09-21",
+  "inLanguage": "en",
+  "mainEntityOfPage": "https://endlesstech.blog/posts/2026-09-22-windows-autopilot-v1-vs-v2-technical-guide.html"
+}
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the difference between Autopilot V1 and V2?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "classic Autopilot (V1) requires the device's hardware hash to be registered in the tenant before provisioning and supports hybrid join, self-deploying and kiosk scenarios. Device Preparation (V2) needs no pre-registration or hash, supports Microsoft Entra join only, and covers two flows: user-driven for physical devices and automatic mode for Windows 365 Cloud PCs, the latter still in public preview. It applies enforcement after enrollment rather than before."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "When must I still use classic Autopilot?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Whenever Hybrid Entra Join is required, because Device Preparation does not support hybrid join at all, and for self-deploying, kiosk or shared-device scenarios with no user assignment. Both are hard constraints."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why do devices never land in my Device Preparation enrollment-time group?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Almost always because the Intune Provisioning Client service principal (AppId f1346770-5b25-470b-88bd-d5744ab7952c) is not an owner of the enrollment-time security group. Add it as an owner, and confirm the group is static rather than dynamic. Devices > Monitor > Enrollment time grouping failures lists the devices that failed to join."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why is my Device Preparation policy not applying to a device?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Check whether the device is registered in classic Autopilot and not associated with the tenant \u2014 in that state the classic profile takes precedence and the Device Preparation policy never applies. Associate the device, or deregister it from Autopilot. Also verify the build: Windows 11 24H2, or 22H2/23H2 with KB5035942."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How many apps can Device Preparation install during setup?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Up to 25 apps and 10 PowerShell scripts are tracked during the provisioning experience — Microsoft raised the app limit from 10 to 25 in January 2026. Anything beyond that installs afterwards, so put day-one essentials inside the limit and review your deployment timeout, because 25 blocking apps take longer than 10."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need hardware hashes for Windows Autopilot device preparation?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Device Preparation requires no hardware hash and no pre-registration, which is what makes retail and user-purchased devices viable. Corporate identifiers are still recommended where enrollment restrictions block personal devices."
+      }
+    }
+  ]
+}
+    </script>
+</body>
+</html>
