@@ -30,8 +30,9 @@ Teams · Compliance (GDPR, NIS2)
 
 ## All articles
 
-- [Intune Apple Enrollment Policies: Migrating off ADE Enrollment Profiles](https://endlesstech.blog/posts/2026-09-08-intune-apple-enrollment-policies-ade.html) — Apple ADE enrollment profiles are retiring with no date and no migration tool.
+- [Entra ID PIM Setup: What to Validate About Authentication Context at Role Activation](https://endlesstech.blog/posts/2026-09-03-entra-pim-authentication-context.html) — What Microsoft documents about PIM authentication context, the 10-minute reauthentication window, and how to validate the behaviour in your tenant.
 - [Windows Autopilot V1 vs V2: A Technical Guide to classic Autopilot and Device Preparation](https://endlesstech.blog/posts/2026-09-22-windows-autopilot-v1-vs-v2-technical-guide.html) — When to use classic Autopilot versus Device Preparation, how to set up both, the service principal that breaks most V2 rollouts, and the real pitfalls.
+- [Intune Apple Enrollment Policies: Migrating off ADE Enrollment Profiles](https://endlesstech.blog/posts/2026-09-08-intune-apple-enrollment-policies-ade.html) — Apple ADE enrollment profiles are retiring with no date and no migration tool.
 - [Unused Enterprise Apps: Why Last Sign-In Lies](https://endlesstech.blog/posts/2026-08-26-enterprise-apps-sign-in-vs-data-flow.html) — An Entra app with zero user sign-ins can still read every mailbox every night.
 - [Microsoft Defender for Office 365: Plans, Features, and a Sane SMB Setup](https://endlesstech.blog/posts/2026-08-25-defender-for-office-365-smb-setup.html) — EOP vs Defender Plan 1 vs Plan 2 explained without the licensing fog, plus the preset policy setup that stops most phishing in a Microsoft 365 tenant you…
 - [Cloud API vs. Local AI Models: The Honest TCO and Security Analysis No One Wants to Write](https://endlesstech.blog/posts/2026-08-06-cloud-api-vs-local-ai-tco-security.html) — Cloud AI APIs vs local models: the honest total cost of ownership and security analysis.

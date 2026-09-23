@@ -6,7 +6,7 @@
     <description>Practical Microsoft 365 security guides, Zero Trust strategies, and Intune tips for SMBs. By Philipp Schmidt.</description>
     <language>en</language>
     <managingEditor>philippschmidt3010@gmail.com (Philipp Schmidt)</managingEditor>
-    <lastBuildDate>Fri, 25 Sep 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 23 Sep 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://endlesstech.blog/feed.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://endlesstech.blog/assets/images/logo.webp</url>
@@ -15,11 +15,11 @@
     </image>
 
     <item>
-      <title>Intune Apple Enrollment Policies: Migrating off ADE Enrollment Profiles</title>
-      <link>https://endlesstech.blog/posts/2026-09-08-intune-apple-enrollment-policies-ade.html</link>
-      <guid>https://endlesstech.blog/posts/2026-09-08-intune-apple-enrollment-policies-ade.html</guid>
-      <pubDate>Fri, 25 Sep 2026 00:00:00 +0000</pubDate>
-      <description>Apple ADE enrollment profiles are retiring with no date and no migration tool. What Intune enrollment policies change, and why enrolled devices need a wipe.</description>
+      <title>Entra ID PIM Setup: What to Validate About Authentication Context at Role Activation</title>
+      <link>https://endlesstech.blog/posts/2026-09-03-entra-pim-authentication-context.html</link>
+      <guid>https://endlesstech.blog/posts/2026-09-03-entra-pim-authentication-context.html</guid>
+      <pubDate>Wed, 23 Sep 2026 00:00:00 +0000</pubDate>
+      <description>What Microsoft documents about PIM authentication context, the 10-minute reauthentication window, and how to validate the behaviour in your tenant.</description>
     </item>
 
     <item>
@@ -28,6 +28,14 @@
       <guid>https://endlesstech.blog/posts/2026-09-22-windows-autopilot-v1-vs-v2-technical-guide.html</guid>
       <pubDate>Mon, 21 Sep 2026 00:00:00 +0000</pubDate>
       <description>When to use classic Autopilot versus Device Preparation, how to set up both, the service principal that breaks most V2 rollouts, and the real pitfalls.</description>
+    </item>
+
+    <item>
+      <title>Intune Apple Enrollment Policies: Migrating off ADE Enrollment Profiles</title>
+      <link>https://endlesstech.blog/posts/2026-09-08-intune-apple-enrollment-policies-ade.html</link>
+      <guid>https://endlesstech.blog/posts/2026-09-08-intune-apple-enrollment-policies-ade.html</guid>
+      <pubDate>Mon, 21 Sep 2026 00:00:00 +0000</pubDate>
+      <description>Apple ADE enrollment profiles are retiring with no date and no migration tool. What Intune enrollment policies change, and why enrolled devices need a wipe.</description>
     </item>
 
     <item>
