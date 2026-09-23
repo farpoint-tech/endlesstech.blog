@@ -1,12 +1,25 @@
 name: Release scheduled post
 
-# 05:50 UTC = 07:50 Europe/Berlin (CEST), every day. The release calendar in
-# .scheduled/releases.json decides whether anything is actually due, so an
-# idle run is a green run. Entries that were missed — a failed run, a day
-# GitHub skipped the cron — are caught up on the next run.
+# GitHub's scheduler runs this job late, consistently: every run between
+# 2026-09-09 and 2026-09-18 started 3h46m to 5h09m after its cron time. A
+# 05:50 UTC cron therefore landed around 12:20 Europe/Berlin, and the
+# announcement post for a release goes out at 08:18 Europe/Berlin — it would
+# have linked to a 404 for four hours.
+#
+# So the cron sits at 00:50 UTC, which leaves 5h28m of headroom before 06:18
+# UTC (08:18 CEST) and 6h28m before 07:18 UTC (08:18 CET). 00:50 UTC is the
+# same Europe/Berlin calendar day in both CET and CEST, so the "today" the
+# script resolves never drifts across a DST boundary. The 03:50 UTC run is a
+# catch-up for a cron GitHub skips entirely; the script is idempotent, so it
+# is a green no-op whenever the first run did the work.
+#
+# The release calendar in .scheduled/releases.json decides whether anything is
+# actually due, so an idle run is a green run. Entries that were missed are
+# caught up on the next run.
 on:
   schedule:
-    - cron: "50 5 * * *"
+    - cron: "50 0 * * *"
+    - cron: "50 3 * * *"
   workflow_dispatch:
     inputs:
       date:
@@ -15,13 +28,19 @@ on:
 
 # master requires a pull request and github-actions[bot] is not on the bypass
 # list, so a direct push is rejected with GH006 and the whole run fails. The
-# release therefore opens a pull request instead and leaves the merge to a
-# human, which is what the branch protection asks for. The calendar is
-# catch-up safe: until the pull request is merged the entry stays due, and the
-# next run reopens it rather than releasing anything twice.
+# release therefore opens a pull request and merges it in the same job, which
+# branch protection does allow. Nobody has to confirm anything for a release
+# to go out.
 #
-# To make the release fully automatic again, add github-actions[bot] to the
-# bypass list of the master protection rule and restore the direct push.
+# The gate that keeps this honest is tools/check-findability.py: the release
+# script runs it first and exits non-zero if it fails, so the job never gets
+# as far as opening a pull request for a broken release.
+#
+# If the merge is refused as well — a required review, a required status check
+# — the job fails loudly and names the pull request, so the release is one
+# click away rather than silently stuck. Until that pull request is merged the
+# calendar entry stays due, and the next run reopens it rather than releasing
+# anything twice.
 permissions:
   contents: write
   pull-requests: write
@@ -39,7 +58,7 @@ jobs:
         id: release
         run: python3 .github/scripts/release-scheduled.py ${{ inputs.date }}
 
-      - name: Open a release pull request
+      - name: Open the release pull request and merge it
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -60,10 +79,15 @@ jobs:
           git commit -m "$message"
           git push origin "$branch"
 
-          body="Automated release from .scheduled/releases.json, opened by the release workflow because master requires a pull request."
-          body="$body"$'\n\n'"tools/check-findability.py passed before this branch was pushed. Merge it to put the articles online."
+          body="Automated release from .scheduled/releases.json."
+          body="$body"$'\n\n'"tools/check-findability.py passed before this branch was pushed."
 
           url=$(gh pr create --base master --head "$branch" --title "$message" --body "$body")
-
           echo "opened $url"
-          echo "::notice::Release pull request ready to merge: $url"
+
+          if gh pr merge "$url" --squash --delete-branch; then
+            echo "::notice::Released and merged: $url"
+          else
+            echo "::error::Release $url was opened but could not be merged automatically. Merge it to put the articles online. Nothing is lost - the calendar entry stays due until then."
+            exit 1
+          fi
