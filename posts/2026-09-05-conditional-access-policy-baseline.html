@@ -5,24 +5,24 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
     <meta name="robots" content="index,follow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A decision-based Conditional Access baseline: core controls, report-only deadlines, and how to consolidate policy sprawl safely.">
+    <meta name="description" content="A Conditional Access baseline built on Microsoft's Secure foundation templates: seven core policies, report-only deadlines, and consolidating policy sprawl.">
     <meta name="author" content="Philipp Schmidt">
     <meta name="keywords" content="conditional access policy baseline, CA policy review cleanup, conditional access what-if tool, report only CA policy, minimum conditional access policies SMB, conditional access MFA stopped working, bedingter Zugriff Basisrichtlinien, CA Richtlinien aufraeumen">
 
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="article">
-    <meta property="og:title" content="Conditional Access Policy Baseline: Cleaning Up 40 Policies Nobody Reviews">
-    <meta property="og:description" content="A decision-based Conditional Access baseline: core controls, report-only deadlines, and how to consolidate policy sprawl safely.">
+    <meta property="og:title" content="Conditional Access Baseline: Cleaning Up Policy Sprawl">
+    <meta property="og:description" content="A Conditional Access baseline built on Microsoft's Secure foundation templates: seven core policies, report-only deadlines, and consolidating policy sprawl.">
     <meta property="og:image" content="https://endlesstech.blog/assets/images/conditional-access-baseline/ca-baseline-hero.svg">
     <meta property="og:url" content="https://endlesstech.blog/posts/2026-09-05-conditional-access-policy-baseline.html">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Conditional Access Policy Baseline: Cleaning Up 40 Policies Nobody Reviews">
-    <meta name="twitter:description" content="A decision-based Conditional Access baseline: core controls, report-only deadlines, and how to consolidate policy sprawl safely.">
+    <meta name="twitter:title" content="Conditional Access Baseline: Cleaning Up Policy Sprawl">
+    <meta name="twitter:description" content="A Conditional Access baseline built on Microsoft's Secure foundation templates: seven core policies, report-only deadlines, and consolidating policy sprawl.">
     <meta name="twitter:image" content="https://endlesstech.blog/assets/images/conditional-access-baseline/ca-baseline-hero.svg">
 
-    <title>Conditional Access Policy Baseline: Cleaning Up 40 Policies Nobody Reviews</title>
+    <title>Conditional Access Baseline: Cleaning Up Policy Sprawl</title>
 
     <link rel="alternate" type="application/rss+xml" title="EndlessTech Blog RSS Feed" href="https://endlesstech.blog/feed.xml">
     <link rel="stylesheet" href="../assets/css/style.css">
@@ -65,18 +65,18 @@
 
                     <p>Open the Conditional Access blade in most tenants that have been running a few years and you will find somewhere between fifteen and fifty policies, named by whoever set them up that day, half of them in report-only mode with nobody checking the sign-in logs behind them.</p>
 
-                    <p>This is not a training problem, and it is not an absence of guidance either. Microsoft does ship a baseline &mdash; most admins have simply never opened it. The Conditional Access policy templates include a category called <strong>Secure foundation</strong>, which Learn describes as the policies Microsoft recommends as the base for all organizations, to be deployed as a group. On top of that, Microsoft-managed policies are created directly in eligible tenants in report-only state and switch themselves on, normally no sooner than 30 days later, and tenants without Conditional Access licences get security defaults. The problem is that the shipped baseline is invisible next to whatever grew in the policy list over five years, so everyone reinvents it &mdash; someone inherits a tenant, opens the policy list, and cannot tell what half of it is for.</p>
+                    <p>Microsoft ships a baseline for exactly this, and in most tenants I review nobody has opened it. The Conditional Access policy templates include a category called <strong>Secure foundation</strong>, which Learn describes as the policies Microsoft recommends as the base for all organizations, to be deployed as a group. On top of that, Microsoft-managed policies are created directly in eligible tenants in report-only state and switch themselves on, normally no sooner than 30 days later, and tenants without Conditional Access licences get security defaults. Next to five years of accumulated policies that shipped baseline is easy to miss, so it gets reinvented: someone inherits a tenant, opens the policy list, and cannot tell what half of it is for.</p>
 
                     <div class="post-tldr">
                         <h2>In short</h2>
-                        <p>Start from Microsoft's own <strong>Secure foundation</strong> template set rather than from a blank page. In practice that comes down to seven things: <strong>MFA for all users, block legacy authentication, stricter MFA for admins, securing the security info registration flow, device compliance for sensitive apps, risk or location restriction, and session controls for unmanaged devices.</strong> Everything past that should map to a named risk. Report-only is a staging step with a deadline, not a permanent state &mdash; except for Microsoft-managed policies, which you decide on rather than delete. And a template copied across tenants without drift detection is a starting point, not a control.</p>
+                        <p>Start from Microsoft's own <strong>Secure foundation</strong> template set rather than from a blank page. In practice that comes down to seven things: <strong>MFA for all users, block legacy authentication, stricter MFA for admins, securing the security info registration flow, device compliance for sensitive apps, risk or location restriction, and session controls for unmanaged devices.</strong> Everything past that should map to a named risk. Report-only is a staging step with a deadline. Microsoft-managed policies are the exception there: you make a call on each one, and deleting them is not an option. A template copied across tenants needs drift detection behind it before it counts as a control.</p>
                     </div>
 
                     <nav class="post-toc" aria-label="Table of contents">
                         <h2>On this page</h2>
                         <ol>
                             <li><a href="#baseline">What a minimum viable baseline actually covers</a></li>
-                            <li><a href="#report-only">Why report-only mode quietly stops being useful</a></li>
+                            <li><a href="#report-only">When report-only mode stops being useful</a></li>
                             <li><a href="#testing">Testing before you flip the switch</a></li>
                             <li><a href="#consolidating">Consolidating without breaking things</a></li>
                             <li><a href="#msp">MSPs: templates without drift detection</a></li>
@@ -86,42 +86,49 @@
                     </nav>
 
                     <h2 id="baseline">What a minimum viable baseline actually covers</h2>
-                    <p>Microsoft's <strong>Secure foundation</strong> category is eight templates and it is the right starting list: MFA for all users, MFA for admins, MFA for admins accessing Microsoft admin portals, MFA for Azure management, block legacy authentication, securing security info registration, require compliant device, and require compliant or hybrid-joined device or MFA. Deploy those as a group, then cut or merge what your tenant genuinely does not need. Stripped down to the conditions that actually have to be covered, it looks like this &mdash; everything past it is tenant-specific hardening rather than foundation:</p>
+                    <p>Microsoft's <strong>Secure foundation</strong> category is eight templates and it is the right starting list: MFA for all users, MFA for admins, MFA for admins accessing Microsoft admin portals, MFA for Azure management, block legacy authentication, securing security info registration, require compliant device, and require compliant or hybrid-joined device or MFA. Deploy those as a group, then cut or merge what your tenant genuinely does not need. Stripped down to the conditions that actually have to be covered, it looks like this. Anything past it is tenant-specific hardening:</p>
                     <ol>
-                        <li><strong>Require MFA for all users</strong> &mdash; the non-negotiable starting point, scoped to all users with an exclusion group reserved for break-glass accounts only</li>
-                        <li><strong>Block legacy authentication</strong> &mdash; protocols that cannot do modern auth cannot do MFA, so they are a guaranteed bypass path if left open</li>
-                        <li><strong>Require MFA for admin roles specifically</strong> &mdash; a second, stricter layer on top of the general policy, usually with a shorter session lifetime. Note that Conditional Access evaluates built-in directory roles only, so custom roles and administrative-unit-scoped assignments are not covered by a role-targeted policy</li>
-                        <li><strong>Secure the security info registration flow</strong> &mdash; the one most self-built baselines miss. Without it, an attacker holding the password of an account that has no MFA method yet can register their own, and from then on passes every MFA prompt as that user</li>
-                        <li><strong>Require a compliant or hybrid-joined device for sensitive apps</strong> &mdash; device-state gating for anything touching sensitive data, not just mail</li>
-                        <li><strong>Restrict risky sign-ins or unfamiliar locations</strong> &mdash; the risk-based version needs Entra ID P2; a location allow-list is the P1-compatible fallback</li>
-                        <li><strong>Session controls for unmanaged devices</strong> &mdash; restrict downloads or apply app-enforced restrictions for browser access from devices you do not manage</li>
+                        <li><strong>Require MFA for all users</strong>: the non-negotiable starting point, scoped to all users with an exclusion group reserved for break-glass accounts only</li>
+                        <li><strong>Block legacy authentication</strong>: protocols that cannot do modern auth cannot do MFA, so they are a guaranteed bypass path if left open</li>
+                        <li><strong>Require MFA for admin roles specifically</strong>: a second, stricter layer on top of the general policy, usually with a shorter session lifetime. Note that Conditional Access evaluates built-in directory roles only, so custom roles and administrative-unit-scoped assignments are not covered by a role-targeted policy</li>
+                        <li><strong>Secure the security info registration flow</strong>: the one most self-built baselines miss. Without it, an attacker holding the password of an account that has no MFA method yet can register their own, and from then on passes every MFA prompt as that user</li>
+                        <li><strong>Require a compliant or hybrid-joined device for sensitive apps</strong>: device-state gating for every app that touches sensitive data</li>
+                        <li><strong>Restrict risky sign-ins or unfamiliar locations</strong>: the risk-based version needs Entra ID P2; a location allow-list is the P1-compatible fallback</li>
+                        <li><strong>Session controls for unmanaged devices</strong>: restrict downloads or apply app-enforced restrictions for browser access from devices you do not manage</li>
                     </ol>
-                    <p>That is seven policies, not forty. Anything beyond it should be a deliberate addition for a risk you can name &mdash; not something copied from a forum thread because it sounded reasonable.</p>
+                    <p>That is seven policies. Every one you add beyond them should answer a risk you can name, which rules out the ones copied from a forum thread because they sounded reasonable.</p>
 
-                    <h2 id="report-only">Why report-only mode quietly stops being useful</h2>
-                    <p>Report-only is the right way to test a policy before enforcing it: it logs what <em>would</em> have happened without blocking anyone. The failure is not the feature, it is what happens next. A policy goes to report-only, the admin moves to the next fire, and eighteen months later it is still report-only because nobody built the habit of checking the logs behind it. At that point it is not a staged rollout &mdash; it is a policy that does nothing while looking, at a glance, like it does something.</p>
-                    <p>If you have report-only policies older than a few weeks, the fix is not another policy. It is a scheduled fifteen-minute check, followed by a deliberate decision to enforce or delete. A report-only policy with no decision date attached is not a control; it is a placeholder.</p>
-                    <p>Microsoft documents three ways to run that check, and they are not equally available. The <em>Policy impact</em> view on the policy itself and the <em>Report-only</em> tab in the sign-in log details work in any Conditional Access tenant. The Insights and reporting workbook additionally needs Entra ID P1 and a Log Analytics workspace that is already receiving your sign-in logs. If nobody ever wired up Azure Monitor, start with Policy impact rather than assuming the workbook is missing. Two documented limits are worth knowing before you trust the results: policies in the <em>User Actions</em> scope are not evaluated in report-only mode at all, and report-only policies that check device compliance can repeatedly prompt macOS, iOS and Android users for a device certificate &mdash; exclude those platforms while you test.</p>
+                    <h2 id="report-only">When report-only mode stops being useful</h2>
+                    <p>Report-only is the right way to test a policy before enforcing it: it logs what <em>would</em> have happened without blocking anyone. The trouble starts afterwards. A policy goes to report-only, the admin moves to the next fire, and eighteen months later it is still report-only because nobody built the habit of checking the logs behind it. By then it does nothing, while looking at a glance like it does something.</p>
+                    <p>If you have report-only policies older than a few weeks, the fix is a scheduled fifteen-minute check followed by a deliberate decision to enforce or delete. A report-only policy with no decision date attached is a placeholder.</p>
+                    <p>Microsoft documents three ways to run that check, and they are not equally available. The <em>Policy impact</em> view on the policy itself and the <em>Report-only</em> tab in the sign-in log details work in any Conditional Access tenant. The Insights and reporting workbook additionally needs Entra ID P1 and a Log Analytics workspace that is already receiving your sign-in logs. If nobody ever wired up Azure Monitor, start with Policy impact rather than assuming the workbook is missing. Two documented limits are worth knowing before you trust the results: policies in the <em>User Actions</em> scope are not evaluated in report-only mode at all, and report-only policies that check device compliance can repeatedly prompt macOS, iOS and Android users for a device certificate, so exclude those platforms while you test.</p>
                     <p>Before you delete anything, check who wrote it. Microsoft-managed policies also sit in report-only, are maintained by Microsoft, and switch themselves on unless you set them to Off, normally no sooner than 30 days after they arrive. Some can be enabled faster; when that applies, the notification email, the message center post and the policy details in the admin center say so. Those you review and decide on: you cannot rename or delete them, and letting one run out the clock is a decision by default.</p>
 
                     <h2 id="testing">Testing before you flip the switch</h2>
-                    <p>The What If tool answers one question well: for a given user, app and set of conditions, which policies apply and what is the result. Run it against your admin accounts, your break-glass accounts and any service accounts before enforcing anything new &mdash; it catches the lockout scenario before it happens to a real person instead of after.</p>
+                    <p>The What If tool answers one question well: for a given user, app and set of conditions, which policies apply and what is the result. Run it against your admin accounts, your break-glass accounts and any service accounts before enforcing anything new. It shows you the lockout while it is still hypothetical.</p>
 
                     <h2 id="consolidating">Consolidating without breaking things</h2>
-                    <p>Policy sprawl is rarely forty distinct intentions. It is usually five or six intentions duplicated across app-specific and group-specific variants that could be one policy with broader scope. Before deleting anything, export the current set (Graph <code>identity/conditionalAccess/policies</code> or the admin center export), group policies by the condition they actually test rather than by name, and look for duplicates differing only in target app or group. Those usually collapse into a single policy with a wider assignment.</p>
+                    <p>Forty policies usually hold five or six actual intentions, duplicated across app-specific and group-specific variants that could each be one policy with broader scope. Before deleting anything, export the current set (Graph <code>identity/conditionalAccess/policies</code> or the admin center export), group policies by the condition they actually test rather than by name, and look for duplicates differing only in target app or group. Those usually collapse into a single policy with a wider assignment.</p>
 
                     <h2 id="msp">MSPs: templates without drift detection are a false sense of consistency</h2>
-                    <p>Copying a policy template across customer tenants solves the initial deployment problem and creates a new one: each tenant drifts independently as admins make one-off changes. Until recently nothing native flagged "tenant B's MFA policy no longer matches the template it came from." Entra Tenant Governance now does. Configuration management lets you author a JSON baseline &mdash; a Conditional Access policy is the <code>microsoft.entra.conditionalaccesspolicy</code> resource, with properties such as <code>State</code>, <code>IncludedGroups</code> and <code>ExcludedUsers</code> &mdash; create a monitor that runs every six hours, and read a list of configuration drifts naming each property that moved.</p>
-                    <p>Two things to plan around before you build on it. Drift monitoring needs at least Entra ID P1, which Business Premium includes, and the included capacity is 30 monitors and 800 configuration resources per tenant per day. And monitors are created per tenant: you can reuse one baseline file across every customer, and each customer tenant gets its own monitor. With a Tenant Governance governance relationship you create and manage those monitors from your own tenant. The relationship carries cross-tenant delegated admin access that covers configuration management, and it needs a licence only for the administrators in your tenant who configure it. Tooling that reports divergence closes the gap. A reference document does not &mdash; the document does not know when reality has moved away from it.</p>
+                    <p>Copying a policy template across customer tenants solves the initial deployment problem and creates a new one: each tenant drifts independently as admins make one-off changes. Until recently nothing native flagged "tenant B's MFA policy no longer matches the template it came from." Entra Tenant Governance now does. Configuration management lets you author a JSON baseline (a Conditional Access policy is the <code>microsoft.entra.conditionalaccesspolicy</code> resource, with properties such as <code>State</code>, <code>IncludedGroups</code> and <code>ExcludedUsers</code>), create a monitor that runs every six hours, and read a list of configuration drifts naming each property that moved.</p>
+                    <p>Two things to plan around before you build on it. Drift monitoring needs at least Entra ID P1, which Business Premium includes, and the included capacity is 30 monitors and 800 configuration resources per tenant per day. And monitors are created per tenant: you can reuse one baseline file across every customer, and each customer tenant gets its own monitor. With a Tenant Governance governance relationship you create and manage those monitors from your own tenant. The relationship carries cross-tenant delegated admin access that covers configuration management, and it needs a licence only for the administrators in your tenant who configure it. Only tooling that reports divergence closes that gap, because a reference document has no way of noticing that the tenant has moved away from it.</p>
 
                     <h2 id="bottom-line">Bottom line</h2>
-                    <p>Microsoft's shipped baseline &mdash; the Secure foundation templates plus the Microsoft-managed policies that land in your tenant on their own &mdash; is the floor, not the ceiling. Start by reconciling what you already have against it, then decide deliberately what your tenant needs on top. Report-only needs a deadline attached, Microsoft-managed policies need a decision rather than a deletion, and a copied template without drift detection is a starting point rather than an ongoing control.</p>
+                    <p>Treat Microsoft's shipped baseline, the Secure foundation templates plus the Microsoft-managed policies that land in your tenant on their own, as the floor. Reconcile what you already have against it, then decide deliberately what your tenant needs on top. In practice that means a decision date on every report-only policy, an explicit call on each Microsoft-managed one, and drift detection behind any template you copy across tenants.</p>
+
+                    <div class="post-cta">
+                        <h3>Zero Trust. Zero Drama. Zero Bullshit.</h3>
+                        <p>Forty policies in the list and no one sure which of them still matter?<br>
+                        <strong>I reconcile Conditional Access against the Secure foundation baseline in SMB tenants every week.</strong></p>
+                        <a href="https://easym365.de" target="_blank" rel="noopener noreferrer" class="cta-button">Talk it through with me</a>
+                    </div>
 
                     <section class="post-glossary">
                     <h2 id="glossary">Glossary</h2>
                     <dl>
                         <dt>Conditional Access</dt><dd>The Entra ID policy engine that evaluates signals (user, device, location, risk) at sign-in and enforces allow, block, require MFA or require compliant device.</dd>
-                        <dt>Report-only mode</dt><dd>A policy state that logs what the policy would have done without enforcing it — intended as a staging step before enforcement, not a permanent state.</dd>
+                        <dt>Report-only mode</dt><dd>A policy state that logs what the policy would have done without enforcing it. Meant as a short staging step before enforcement.</dd>
                         <dt>What If tool</dt><dd>An Entra admin center simulator that shows which Conditional Access policies apply to a hypothetical sign-in and what the outcome would be.</dd>
                         <dt>Legacy authentication</dt><dd>Older protocols (POP, IMAP, SMTP AUTH) that cannot perform modern authentication and therefore bypass MFA entirely unless blocked.</dd>
                         <dt>Policy drift</dt><dd>The gradual divergence of a deployed policy set from the template it was created from, caused by untracked one-off changes.</dd>
@@ -133,9 +140,9 @@
                     <h3>What are the minimum Conditional Access policies every tenant needs?</h3>
                     <p>Microsoft ships a starting set: the Secure foundation Conditional Access templates, which Microsoft recommends deploying as a group, plus the Microsoft-managed policies that arrive in eligible tenants automatically. Treat that as the floor, and add device compliance, unmanaged-browser session controls and risk-based controls only after checking licences, application architecture, enrolment flows, service accounts and emergency-access exclusions. Every policy should map to a named risk and a tested rollback path.</p>
                     <h3>How do I clean up and consolidate Conditional Access policies?</h3>
-                    <p>Export the current set, group policies by the condition they actually test rather than their name, and merge duplicates that differ only by target app or group into one policy with broader scope. Enforce or delete every report-only policy older than a few weeks &mdash; but check the author first: Microsoft-managed policies also appear in report-only, cannot be renamed or deleted, and enable themselves unless you set them to Off, normally no sooner than 30 days after they arrive.</p>
+                    <p>Export the current set, group policies by the condition they actually test rather than their name, and merge duplicates that differ only by target app or group into one policy with broader scope. Enforce or delete every report-only policy older than a few weeks, after checking who created it: Microsoft-managed policies also appear in report-only, cannot be renamed or deleted, and enable themselves unless you set them to Off, normally no sooner than 30 days after they arrive.</p>
                     <h3>How do I analyse Conditional Access report-only logs?</h3>
-                    <p>Use the Policy impact view on the policy, or the Report-only tab in the sign-in log details — both work in any Conditional Access tenant. The Insights and reporting workbook gives you the combined view across policies, but it additionally needs Entra ID P1 and a Log Analytics workspace already receiving your sign-in logs. Review on a schedule — a report-only policy without a review date tends to stay report-only indefinitely.</p>
+                    <p>Use the Policy impact view on the policy, or the Report-only tab in the sign-in log details; both work in any Conditional Access tenant. The Insights and reporting workbook gives you the combined view across policies, but it additionally needs Entra ID P1 and a Log Analytics workspace already receiving your sign-in logs. Review on a schedule, because a report-only policy without a review date tends to stay report-only indefinitely.</p>
                     <h3>How do MSPs keep Conditional Access consistent across customer tenants?</h3>
                     <p>A policy document copied once is not enough, because tenants drift independently after deployment. Entra Tenant Governance configuration management now covers this natively: author one JSON baseline, create a monitor in each customer tenant, and read the configuration drifts it reports every six hours. It needs at least Entra ID P1 per tenant, and each tenant gets its own monitor even though the baseline file is shared. With a governance relationship you manage those monitors from your own tenant instead of signing in to each customer. A static reference document cannot detect drift.</p>
                     </section>
@@ -190,7 +197,7 @@
   "@context": "https://schema.org",
   "@type": "Article",
   "headline": "Conditional Access Policy Baseline: Cleaning Up 40 Policies Nobody Reviews",
-  "description": "A decision-based Conditional Access baseline: core controls, report-only deadlines, and how to consolidate policy sprawl safely.",
+  "description": "A Conditional Access baseline built on Microsoft's Secure foundation templates: seven core policies, report-only deadlines, and consolidating policy sprawl.",
   "image": "https://endlesstech.blog/assets/images/conditional-access-baseline/ca-baseline-hero.svg",
   "author": {
     "@type": "Person",
@@ -225,7 +232,7 @@
       "name": "How do I clean up and consolidate Conditional Access policies?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Export the current set, group policies by the condition they actually test rather than their name, and merge duplicates that differ only by target app or group into one policy with broader scope. Enforce or delete every report-only policy older than a few weeks — but check the author first: Microsoft-managed policies also appear in report-only, cannot be renamed or deleted, and enable themselves unless you set them to Off, normally no sooner than 30 days after they arrive."
+        "text": "Export the current set, group policies by the condition they actually test rather than their name, and merge duplicates that differ only by target app or group into one policy with broader scope. Enforce or delete every report-only policy older than a few weeks, after checking who created it: Microsoft-managed policies also appear in report-only, cannot be renamed or deleted, and enable themselves unless you set them to Off, normally no sooner than 30 days after they arrive."
       }
     },
     {
@@ -233,7 +240,7 @@
       "name": "How do I analyse Conditional Access report-only logs?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Use the Policy impact view on the policy, or the Report-only tab in the sign-in log details \u2014 both work in any Conditional Access tenant. The Insights and reporting workbook gives you the combined view across policies, but it additionally needs Entra ID P1 and a Log Analytics workspace already receiving your sign-in logs. Review on a schedule \u2014 a report-only policy without a review date tends to stay report-only indefinitely."
+        "text": "Use the Policy impact view on the policy, or the Report-only tab in the sign-in log details; both work in any Conditional Access tenant. The Insights and reporting workbook gives you the combined view across policies, but it additionally needs Entra ID P1 and a Log Analytics workspace already receiving your sign-in logs. Review on a schedule, because a report-only policy without a review date tends to stay report-only indefinitely."
       }
     },
     {
