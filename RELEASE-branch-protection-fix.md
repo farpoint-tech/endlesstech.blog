@@ -23,47 +23,25 @@ Branch Protection erlaubt, ein direkter Push nicht.
 
 **Offener Punkt:** PR #17 meldet `mergeable: true`, `mergeable_state: blocked`.
 Das heißt, die Regel verlangt zusätzlich etwas — ein Review oder einen Required
-Check. Dann wird auch der Merge des Bots abgewiesen. Die Protection-Settings
-selbst kann ich nicht lesen (API antwortet 403, diese Session hat kein
-GitHub-Token mit Admin-Scope), deshalb unten beide Varianten.
+Check. Dann wird auch der Merge des Bots abgewiesen. Die Protection-Settings selbst
+kann ich nicht lesen (API antwortet 403, diese Session hat kein Admin-Token).
 
-## Variante A — Bypass-Liste (empfohlen)
+## Wo die Regel liegt
 
-Der Bot darf direkt auf `master` pushen. Danach kann der Workflow wieder auf
-den einfachen Push zurück, ohne PR-Umweg.
+`farpoint-tech` ist ein **persönlicher GitHub-Account**, keine Organisation. Es gibt
+keine Rulesets (die API liefert für `master` eine leere Regel-Liste), es greift die
+**klassische Branch Protection**. Die Option „Allow specified actors to bypass
+required pull requests“ existiert nur für Organisations-Repos und fehlt hier deshalb.
 
-**Wenn ein Ruleset greift** (Settings → Rules → Rulesets):
+## Was umzustellen ist
 
-1. Repo → **Settings** → **Rules** → **Rulesets** → das Ruleset für `master` öffnen
-2. Abschnitt **Bypass list** → **Add bypass**
-3. **Repository admin** wählen, oder unter **Apps** den Eintrag **GitHub Actions**
-4. Speichern
-
-**Wenn klassische Branch Protection greift** (Settings → Branches):
-
-1. Repo → **Settings** → **Branches** → Regel für `master` → **Edit**
-2. Unter **Require a pull request before merging** →
-   **Allow specified actors to bypass required pull requests** anhaken
-3. `github-actions[bot]` hinzufügen
-4. Speichern
-
-Welche der beiden greift, zeigt sich daran, welche Seite überhaupt einen
-Eintrag für `master` hat.
-
-## Variante B — Required approvals auf 0
-
-Der PR bleibt, aber der Bot darf ihn selbst mergen. Kein Codeowner-Review mehr
-für `master`.
-
-1. Repo → **Settings** → **Branches** → Regel für `master` → **Edit**
-2. **Require a pull request before merging** → **Require approvals** → auf **0**
-3. Falls **Require status checks to pass before merging** aktiv ist: prüfen, ob
-   ein Check gelistet ist, den der Bot nicht erfüllen kann. Solche Checks
-   entfernen oder den Bot in Variante A auf die Bypass-Liste setzen.
-4. Speichern
-
-Zusätzlich hilfreich: Settings → General → **Allow auto-merge** aktivieren.
-Dann greift `gh pr merge --auto` als Rückfall, falls ein Check noch läuft.
+1. https://github.com/farpoint-tech/endlesstech.blog/settings/branches (als Owner eingeloggt)
+2. Regel für `master` → **Edit**
+3. Unter **Require a pull request before merging**:
+   - **Require approvals** abhaken (oder auf 0), damit der Bot seinen Release-PR selbst mergen kann
+   - oder den ganzen Punkt abhaken, dann geht auch der direkte Push des Workflows
+4. **Require status checks to pass before merging** abhaken, falls aktiv — Release-PRs lösen keine Checks aus
+5. **Save changes**
 
 ## Verifikation
 
@@ -97,7 +75,6 @@ Sein Cron-Fund steckt schon in `ff21f66`.
 
 - Repo: https://github.com/farpoint-tech/endlesstech.blog
 - Branch-Settings: https://github.com/farpoint-tech/endlesstech.blog/settings/branches
-- Rulesets: https://github.com/farpoint-tech/endlesstech.blog/settings/rules
 - Workflow: https://github.com/farpoint-tech/endlesstech.blog/actions/workflows/release-series.yml
 - PR #17: https://github.com/farpoint-tech/endlesstech.blog/pull/17
 - Fehlgeschlagener Lauf vom 21.09.: https://github.com/farpoint-tech/endlesstech.blog/actions/runs/35592367085
