@@ -6,13 +6,21 @@
     <description>Practical Microsoft 365 security guides, Zero Trust strategies, and Intune tips for SMBs. By Philipp Schmidt.</description>
     <language>en</language>
     <managingEditor>philippschmidt3010@gmail.com (Philipp Schmidt)</managingEditor>
-    <lastBuildDate>Wed, 23 Sep 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 29 Sep 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://endlesstech.blog/feed.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://endlesstech.blog/assets/images/logo.webp</url>
       <title>EndlessTech Blog</title>
       <link>https://endlesstech.blog/</link>
     </image>
+
+    <item>
+      <title>Conditional Access Policy Baseline: Cleaning Up 40 Policies Nobody Reviews</title>
+      <link>https://endlesstech.blog/posts/2026-09-05-conditional-access-policy-baseline.html</link>
+      <guid>https://endlesstech.blog/posts/2026-09-05-conditional-access-policy-baseline.html</guid>
+      <pubDate>Tue, 29 Sep 2026 00:00:00 +0000</pubDate>
+      <description>A Conditional Access baseline built on Microsoft's Secure foundation templates: seven core policies, report-only deadlines, and consolidating policy sprawl.</description>
+    </item>
 
     <item>
       <title>Entra ID PIM Setup: What to Validate About Authentication Context at Role Activation</title>
