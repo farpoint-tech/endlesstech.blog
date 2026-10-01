@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+    <meta name="robots" content="index,follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="An IT security budget buy-in case study: three years of declined recommendations at one manufacturing client, and what 'nothing bad has happened yet' cost.">
+    <meta name="author" content="Philipp Schmidt">
+    <meta name="keywords" content="IT security budget buy-in, management buy-in IT security, security budget SMB, declined IT recommendations, Microsoft 365 Business Premium cost, end-of-life server risk, IT security case study">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="IT Security Budget Buy-In: What Three Years of &quot;We'll Revisit Next Quarter&quot; Actually Costs">
+    <meta property="og:description" content="An IT security budget buy-in case study: three years of declined recommendations at one manufacturing client, and what 'nothing bad has happened yet' cost.">
+    <meta property="og:image" content="https://endlesstech.blog/assets/images/it-security-budget-case-study/budget-buy-in-hero.png">
+    <meta property="og:url" content="https://endlesstech.blog/posts/2026-11-03-it-security-budget-buy-in-case-study.html">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="IT Security Budget Buy-In: What Three Years of &quot;We'll Revisit Next Quarter&quot; Actually Costs">
+    <meta name="twitter:description" content="An IT security budget buy-in case study: three years of declined recommendations at one manufacturing client, and what 'nothing bad has happened yet' cost.">
+    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/it-security-budget-case-study/budget-buy-in-hero.png">
+
+    <title>IT Security Budget Buy-In: What Three Years of &quot;We'll Revisit Next Quarter&quot; Actually Costs | EndlessTech Blog</title>
+
+    <link rel="alternate" type="application/rss+xml" title="EndlessTech Blog RSS Feed" href="https://endlesstech.blog/feed.xml">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/blog-post.css">
+
+    <link rel="canonical" href="https://endlesstech.blog/posts/2026-11-03-it-security-budget-buy-in-case-study.html" />
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/images/logo.webp" alt="Philipp Schmidt - Secure. Scalable. Simple M365.">
+            </a>
+            <nav class="nav" id="nav">
+                <a href="../index.html">Home</a>
+                <a href="../index.html#blog" class="active">Blog</a>
+                <a href="../about.html">About</a>
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+            </nav>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">&#9776;</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="post-full">
+            <header class="post-full-header">
+                <h1 class="post-full-title">IT Security Budget Buy-In: What Three Years of &quot;We'll Revisit Next Quarter&quot; Actually Costs</h1>
+                <div class="post-full-meta">
+                    <time datetime="2026-11-03">November 2026</time> &bull; By Philipp Schmidt
+                </div>
+                <div class="post-tags"><span class="tag">Security</span><span class="tag">IT Budget</span><span class="tag">Case Study</span><span class="tag">SMB</span><span class="tag">Best Practices</span></div>
+            </header>
+
+            <figure class="post-full-image">
+                <picture>
+                    <source srcset="../assets/images/it-security-budget-case-study/budget-buy-in-hero.webp" type="image/webp">
+                    <img src="../assets/images/it-security-budget-case-study/budget-buy-in-hero.png" alt="A dusty on-premises server room with ageing beige servers, a binder of printed emails and an unlabeled USB backup drive on the desk" width="1600" height="900">
+                </picture>
+            </figure>
+
+            <section class="post-full-content">
+                <div class="post-content">
+
+                    <p>Management buy-in for an IT security budget usually stalls on one argument: nothing bad has happened yet. Years without an incident get treated as proof that the current setup works, and the size of the number barely enters into it. This is what that logic cost one manufacturing client of mine over three years, in figures I have in writing because I sent them by email as they happened.</p>
+
+                    <p><em>This is an anonymised, composite case from my own client work; figures are rounded.</em></p>
+
+                    <nav class="series-nav" aria-label="The declined security budget case study">
+                        <p class="series-label">The declined security budget &mdash; a 3-part case study</p>
+                        <ol>
+                            <li class="current"><span class="series-part">Part 1</span> <span class="current-text">IT security budget buy-in &mdash; you are here</span></li>
+                            <li><span class="series-part">Part 2</span> <span><a href="https://endlesstech.blog/posts/2026-11-05-why-backups-fail-during-ransomware-attack.html">Why backups fail during a ransomware attack</a> (5 November 2026)</span></li>
+                            <li><span class="series-part">Part 3</span> <span><a href="https://endlesstech.blog/posts/2026-11-10-cost-of-ransomware-attack-smb-breakdown.html">The cost of a ransomware attack, line by line</a> (10 November 2026)</span></li>
+                        </ol>
+                    </nav>
+
+                    <h2 id="environment">The Environment Nobody Wanted to Touch</h2>
+                    <p>2021. A 120-employee, family-owned manufacturing company in southern Germany, 35 years in business, brought me in for a look at their IT. What I found:</p>
+                    <p>Seventeen Windows Server 2008 R2 boxes, end of life since 2020. A domain existed, mostly because Exchange needed one, but nothing was managed through it: 120 machines configured one by one, every user a local admin. Backup was a USB drive an employee plugged in on Fridays, when he remembered. Email ran on on-prem Exchange 2010, no MFA, and the CFO checked it from his iPad at the airport. The firewall was a consumer Fritz!Box with the company name as the password.</p>
+                    <p>None of this is exotic. It's the default state of a lot of SMBs that have never had a reason to think about it.</p>
+
+                    <h2 id="recommendations">What I Recommended, and What It Was Worth</h2>
+                    <p>I put four things in writing: Microsoft 365 Business Premium across all 120 seats for identity, device management, and email security, at roughly &euro;28,800 a year. Decommissioning the 2008 servers. MFA on every account, immediately. A real backup, not the Friday USB drive.</p>
+                    <p>The responses, paraphrased from the same emails:</p>
+                    <p>The CFO did the multiplication (&euro;20 times 120 people times 12 months) and asked what exactly they'd get for that money, since email already worked fine. The CEO pointed out the servers had run for twelve years, so why would they fail now. The office manager, who "knew computers," mentioned that her nephew had set up the USB backup and it had been fine for years.</p>
+                    <p>They approved nothing. The decision was to revisit next quarter.</p>
+
+                    <h2 id="nothing-bad">Why Is "Nothing Bad Has Happened Yet" the Most Expensive Sentence in IT?</h2>
+                    <p>Nothing changed in year two, except the failure rate. The Exchange server crashed twice; I rebuilt it both times over a weekend. Three laptops got crypto-locked by commodity malware, and the response was to buy new laptops, not to investigate how. The server room's fifteen-year-old wall-unit AC started grinding; a replacement quote came in at &euro;3,500, and the CFO asked if a fan would do instead. The USB backup drive itself got lost at some point. Nobody knew what, if anything, had been on it.</p>
+                    <p>Somewhere in that year, the CFO said something I still think about: <em>"Philipp, you keep telling us to spend money, but nothing bad has actually happened. Maybe we're doing fine."</em></p>
+                    <p>Nothing bad had happened because I'd been catching problems before they became incidents. That part is invisible by design, which is exactly why it never shows up in anyone's cost-benefit calculation.</p>
+
+                    <h2 id="documentation">What Documentation Actually Buys You</h2>
+                    <p>I kept every recommendation in writing: the date, the cost, the response. In SMB IT security budget conversations, "we told you" and "we can prove we told you" are two different professional positions, and only one of them holds up in a board meeting.</p>
+                    <p>That habit turned out to matter more than any single recommendation I made. What it protected, and what it didn't prevent, is <a href="https://endlesstech.blog/posts/2026-11-05-why-backups-fail-during-ransomware-attack.html">Part 2 of this story</a>: what happened when new leadership arrived and started cutting the few safeguards that were still standing.</p>
+
+                    <div class="post-cta">
+                        <h3>Zero Trust. Zero Drama. Zero Bullshit.</h3>
+                        <p>Which of your own recommendations has been sitting on &ldquo;revisit next quarter&rdquo; the longest, and do you still have the email that proves you made it?</p>
+                        <p>If you want to see how I'd put that list in front of your management: drop me a note. Thirty minutes, I'll show you.</p>
+                        <a href="https://easym365.de" target="_blank" rel="noopener noreferrer" class="cta-button">Talk it through with me</a>
+                    </div>
+
+
+                    <section class="faq">
+                    <h2 id="faq">Frequently Asked Questions</h2>
+                    <h3>Why do small businesses decline security recommendations they can afford?</h3>
+                    <p>The price is rarely the real objection. What's actually happening is survivorship bias: years without an incident get read as evidence the setup works, when it's often evidence someone's been preventing incidents without anyone noticing.</p>
+                    <h3>What does Microsoft 365 Business Premium cost for a small business?</h3>
+                    <p>Pricing varies by region and licensing agreement, but for a 100+ seat SMB the ballpark is in the &euro;20&ndash;25 per user, per month range, which is small compared to the cost of a single serious incident.</p>
+                    <h3>How do I get management buy-in for an IT security budget?</h3>
+                    <p>Tie every recommendation to a specific business consequence, not a technical feature: a person, a date, a number. Put it in writing. A good pitch doesn't guarantee buy-in, but the paper trail protects you either way.</p>
+                    <h3>Is an unsupported end-of-life server actually risky if it's &ldquo;been fine for years&rdquo;?</h3>
+                    <p>Years without failure change nothing about the underlying risk: no security patches, no vendor support, and an increasingly slow path back if it does fail. &ldquo;Fine for years&rdquo; describes the past, not the odds going forward.</p>
+                    </section>
+                </div>
+            </section>
+
+            <section class="author-bio">
+                <img src="../assets/images/cloudknox-author.webp" alt="Philipp Schmidt - Microsoft 365 Security Consultant - easyM365.de" class="author-avatar" loading="lazy">
+                <div class="author-info">
+                    <h3>Philipp Schmidt</h3>
+                    <p>IT consultant specializing in Microsoft 365, Security, and Zero Trust architecture. Helping SMBs build secure, scalable, and simple cloud solutions.</p>
+                    <p><strong>Zero Trust. Zero Drama. Zero Bullshit.</strong></p>
+                    <p><a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Learn more: https://easym365.de</a></p>
+                </div>
+            </section>
+        </article>
+        <div id="post-navigation"></div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2026 Philipp Schmidt. All rights reserved.</p>
+            <p>Secure. Scalable. Simple M365.</p>
+            <div class="footer-links">
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+                <a href="https://www.linkedin.com/in/pschmidt3010" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://github.com/farpoint-tech" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const menuToggle = document.getElementById("menu-toggle");
+        const nav = document.getElementById("nav");
+        menuToggle.addEventListener("click", () => { nav.classList.toggle("active"); });
+    </script>
+    <script src="../assets/js/post-navigation.js"></script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "IT Security Budget Buy-In: What Three Years of \"We'll Revisit Next Quarter\" Actually Costs",
+  "description": "An IT security budget buy-in case study: three years of declined recommendations at one manufacturing client, and what 'nothing bad has happened yet' cost.",
+  "image": "https://endlesstech.blog/assets/images/it-security-budget-case-study/budget-buy-in-hero.png",
+  "author": {
+    "@type": "Person",
+    "name": "Philipp Schmidt",
+    "url": "https://easym365.de"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "EndlessTech Blog"
+  },
+  "datePublished": "2026-11-03",
+  "dateModified": "2026-11-03",
+  "inLanguage": "en",
+  "mainEntityOfPage": "https://endlesstech.blog/posts/2026-11-03-it-security-budget-buy-in-case-study.html"
+}
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Why do small businesses decline security recommendations they can afford?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The price is rarely the real objection. What's actually happening is survivorship bias: years without an incident get read as evidence the setup works, when it's often evidence someone's been preventing incidents without anyone noticing."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What does Microsoft 365 Business Premium cost for a small business?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Pricing varies by region and licensing agreement, but for a 100+ seat SMB the ballpark is in the \u20ac20\u201325 per user, per month range, which is small compared to the cost of a single serious incident."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I get management buy-in for an IT security budget?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tie every recommendation to a specific business consequence, not a technical feature: a person, a date, a number. Put it in writing. A good pitch doesn't guarantee buy-in, but the paper trail protects you either way."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is an unsupported end-of-life server actually risky if it's \u201cbeen fine for years\u201d?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Years without failure change nothing about the underlying risk: no security patches, no vendor support, and an increasingly slow path back if it does fail. \u201cFine for years\u201d describes the past, not the odds going forward."
+      }
+    }
+  ]
+}
+    </script>
+</body>
+</html>

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+    <meta name="robots" content="index,follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="The cost of a ransomware attack for a small business, line by line: how one 120-person manufacturer's incident reached €1.4 million, and what changed after.">
+    <meta name="author" content="Philipp Schmidt">
+    <meta name="keywords" content="cost of a ransomware attack for a small business, ransomware recovery cost, ransomware cost breakdown, MFA ROI small business, cyber insurance deductible ransomware, SMB cybersecurity budget, ransomware case study">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Cost of a Ransomware Attack for a Small Business: A Line-by-Line Breakdown">
+    <meta property="og:description" content="The cost of a ransomware attack for a small business, line by line: how one 120-person manufacturer's incident reached €1.4 million, and what changed after.">
+    <meta property="og:image" content="https://endlesstech.blog/assets/images/ransomware-cost-breakdown/ransomware-cost-hero.png">
+    <meta property="og:url" content="https://endlesstech.blog/posts/2026-11-10-cost-of-ransomware-attack-smb-breakdown.html">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Cost of a Ransomware Attack for a Small Business: A Line-by-Line Breakdown">
+    <meta name="twitter:description" content="The cost of a ransomware attack for a small business, line by line: how one 120-person manufacturer's incident reached €1.4 million, and what changed after.">
+    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/ransomware-cost-breakdown/ransomware-cost-hero.png">
+
+    <title>Cost of a Ransomware Attack for a Small Business: A Line-by-Line Breakdown | EndlessTech Blog</title>
+
+    <link rel="alternate" type="application/rss+xml" title="EndlessTech Blog RSS Feed" href="https://endlesstech.blog/feed.xml">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/blog-post.css">
+
+    <link rel="canonical" href="https://endlesstech.blog/posts/2026-11-10-cost-of-ransomware-attack-smb-breakdown.html" />
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/images/logo.webp" alt="Philipp Schmidt - Secure. Scalable. Simple M365.">
+            </a>
+            <nav class="nav" id="nav">
+                <a href="../index.html">Home</a>
+                <a href="../index.html#blog" class="active">Blog</a>
+                <a href="../about.html">About</a>
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+            </nav>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">&#9776;</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="post-full">
+            <header class="post-full-header">
+                <h1 class="post-full-title">Cost of a Ransomware Attack for a Small Business: A Line-by-Line Breakdown</h1>
+                <div class="post-full-meta">
+                    <time datetime="2026-11-10">November 2026</time> &bull; By Philipp Schmidt
+                </div>
+                <div class="post-tags"><span class="tag">Ransomware</span><span class="tag">Security</span><span class="tag">Cyber Insurance</span><span class="tag">Case Study</span><span class="tag">SMB</span></div>
+            </header>
+
+            <figure class="post-full-image">
+                <picture>
+                    <source srcset="../assets/images/ransomware-cost-breakdown/ransomware-cost-hero.webp" type="image/webp">
+                    <img src="../assets/images/ransomware-cost-breakdown/ransomware-cost-hero.png" alt="A boardroom table in morning light with a thick folder of printed emails and quotes beside a single summary sheet" width="1600" height="900">
+                </picture>
+            </figure>
+
+            <section class="post-full-content">
+                <div class="post-content">
+
+                    <p>For this 120-person manufacturer, the ransomware attack cost around &euro;1.4 million: lost production, the incident response firm, hardware, recovery work, the insurance deductible and data that never came back. The security recommendations they had declined in the three years before were worth roughly &euro;58,000 a year. Below is how the &euro;1.4 million came together, and what the company changed afterwards.</p>
+
+                    <p><em>This is an anonymised, composite case from my own client work; figures are rounded.</em></p>
+
+                    <p>This is Part 3 of a case study that started with <a href="https://endlesstech.blog/posts/2026-11-03-it-security-budget-buy-in-case-study.html">three years of declined security recommendations</a> and continued through <a href="https://endlesstech.blog/posts/2026-11-05-why-backups-fail-during-ransomware-attack.html">a ransomware attack that started with one email</a>.</p>
+
+                    <nav class="series-nav" aria-label="The declined security budget case study">
+                        <p class="series-label">The declined security budget &mdash; a 3-part case study</p>
+                        <ol>
+                            <li><span class="series-part">Part 1</span> <a href="https://endlesstech.blog/posts/2026-11-03-it-security-budget-buy-in-case-study.html">IT security budget buy-in</a></li>
+                            <li><span class="series-part">Part 2</span> <a href="https://endlesstech.blog/posts/2026-11-05-why-backups-fail-during-ransomware-attack.html">Why backups fail during a ransomware attack</a></li>
+                            <li class="current"><span class="series-part">Part 3</span> <span class="current-text">The cost of a ransomware attack, line by line &mdash; you are here</span></li>
+                        </ol>
+                    </nav>
+
+                    <h2 id="board-meeting">The Board Meeting Where Someone Had to Pay</h2>
+                    <p>April 2024. Board meeting. The new CFO needed someone to blame for the ransomware attack, and the obvious candidate was the external IT provider: me.</p>
+                    <p>I brought a folder. Three years of emails, recommendations, and quotes, each with a date and a decision attached:</p>
+                    <p>June 2021: M365 Business Premium with MFA, Defender, and Intune, &euro;28,800 a year. Declined. March 2022: a plan to decommission the Windows 7 and Server 2008 R2 machines. "Under consideration," no further reply. May 2022: server room AC replacement, &euro;3,500. Declined. August 2022: a quote for a real backup solution with an offline copy, &euro;12,000 setup plus &euro;800 a month. Declined. January 2024, after the AC failure: an email that read, in part, "This was a &euro;3,500 problem. Next time, it will be a &euro;500,000 problem." No response.</p>
+                    <p>Total value of the declined recommendations: roughly &euro;58,000 a year. Total cost of the ransomware attack (lost production, the incident response firm, hardware, my time, the insurance deductible, the data that never came back) landed around &euro;1.4 million. Nobody in the room said much after that.</p>
+
+                    <h2 id="recovery-cost">What Does It Actually Cost to Recover From a Ransomware Attack?</h2>
+                    <p>The incident response retainer alone was &euro;45,000. The cyber insurance deductible, after coverage had been scaled back during the cost-cutting the year before, was &euro;150,000. Recovery took four weeks of eighteen-hour days, rebuilding systems from whatever survived: old emails, paper records, a few employees' personal laptops.</p>
+                    <p>Line by line, as far as this company itemised it (case figures, rounded):</p>
+                    <table class="post-table">
+                        <thead>
+                            <tr><th>Cost item</th><th>Amount</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Incident response firm</td><td>&euro;45,000</td></tr>
+                            <tr><td>Cyber insurance deductible</td><td>&euro;150,000</td></tr>
+                            <tr><td>Lost production, replacement hardware, four weeks of recovery work including my time, and the data that never came back</td><td>roughly &euro;1.2 million, not itemised further</td></tr>
+                            <tr><td><strong>Total cost of the ransomware attack</strong></td><td><strong>around &euro;1.4 million</strong></td></tr>
+                        </tbody>
+                    </table>
+                    <p>The overheated server room two months earlier was its own incident, at close to &euro;228,000.</p>
+                    <p>Some of it never came back. A twenty-year-old payroll database was gone outright. Financial records from 2019 through 2023 were incomplete. Customer order history survived only in fragments. And because the attacker had exfiltrated data before encrypting anything, there was a second cost that doesn't show up on an invoice: explaining to customers why their information had been sitting on someone else's server for three weeks before anyone knew.</p>
+
+                    <h2 id="what-changed">What Changed After</h2>
+                    <p>By the end of 2024, the company had migrated all 120 users to Microsoft 365 Business Premium, the same plan declined in 2021, with MFA, Conditional Access, Defender for Endpoint, and Intune rolled out fully. The remaining on-prem servers moved to Azure. Backup became an actual 3-2-1 setup with an immutable cloud copy and monthly restore tests, not a Friday USB drive.</p>
+                    <p>They hired an IT team instead of an IT person this time: two people, plus a 24/7 SOC, because the factory runs three shifts and IT problems don't wait for business hours. The full security stack now runs about &euro;95,000 a year, less than what they'd been spending on emergency fixes and my weekend call-outs before the attack.</p>
+                    <p>The CFO resigned in September 2024. The board replaced him with someone who asks questions before cutting things. By December, the company's Secure Score had gone from an estimated 35% to 82%.</p>
+
+                    <h2 id="lessons">The Real Lessons</h2>
+                    <h3>Fifteen years without a failure is a warning sign</h3>
+                    <p>A server that hasn't failed in fifteen years is overdue. The absence of an incident says little about the defenses; often it means someone has been catching problems before they became incidents.</p>
+                    <h3>The cheapest option is the most expensive one, eventually</h3>
+                    <p>The &euro;3,500 AC repair became a &euro;228,000 weekend. The free antivirus became part of a &euro;1.4 million incident. Every cost-cutting decision in this story ended up costing ten to a hundred times more than the thing it was meant to save.</p>
+                    <h3>Invisible IT work is still work</h3>
+                    <p>The fired IT veteran's absence cost &euro;2,400 in a single emergency call, on top of the certificate failure that weakened the company's defenses for ten days before the attack, with nobody watching. The best IT people are invisible because everything works, and that invisibility is easy to mistake for being unnecessary.</p>
+                    <h3>MFA was only part of what got declined</h3>
+                    <p>The link that started this attack dropped a loader on an unpatched Windows 7 laptop, and MFA on its own does not stop that. The package declined in 2021 was more than MFA: Defender checking links and attachments, endpoint protection on managed devices, and Intune, which would have retired that laptop years earlier. I think that package would likely have stopped this attack early; I can't prove it. &euro;28,800 a year against a &euro;1.4 million incident works out to roughly a 48x return, calculated from this company's own numbers and not meant as a benchmark for anyone else's.</p>
+                    <h3>Testing a backup is what makes it a backup</h3>
+                    <p>The Friday USB drive was theater. The domain-joined backup server turned into a second victim of the same attack, instead of the escape hatch everyone assumed it was. "We have backups" and "we tested restoring from backups last month" are two different sentences, and only one of them means anything during an incident.</p>
+                    <h3>A paper trail is what professional survival looks like in writing</h3>
+                    <p>Three years of documented recommendations were the only thing standing between me and being blamed for a decision I never got to make.</p>
+                    <h3>Companies this size are targets too</h3>
+                    <p>Most of the ransomware cases I get called into involve companies of this size, not enterprise targets. "Why would anyone bother hacking us" is not a security posture, and this company found that out the expensive way.</p>
+
+                    <div class="post-cta">
+                        <h3>Zero Trust. Zero Drama. Zero Bullshit.</h3>
+                        <p>If you put every declined security recommendation from the last three years into one folder, what would the total be, and what would you set it against?</p>
+                        <p>If you want to see what this looks like for your own Microsoft 365 setup: drop me a note. Thirty minutes, I'll show you.</p>
+                        <a href="https://easym365.de" target="_blank" rel="noopener noreferrer" class="cta-button">Talk it through with me</a>
+                    </div>
+
+
+                    <section class="faq">
+                    <h2 id="faq">Frequently Asked Questions</h2>
+                    <h3>What is the ROI of MFA and Microsoft 365 security for a small business?</h3>
+                    <p>In this case, roughly 48x: &euro;28,800 a year in Microsoft 365 security features against a &euro;1.4 million incident that the declined package would likely have stopped early. That is one company's numbers, not a benchmark. Your own ratio depends on what an incident would cost you, but in my experience the gap between prevention and recovery is usually wide.</p>
+                    <h3>How long does ransomware recovery take?</h3>
+                    <p>For this company, about four weeks of intensive rebuilding, with some records never fully recovered. Recovery time depends heavily on backup quality and how early the attack is caught; untested or compromised backups can extend it considerably.</p>
+                    <h3>Should a small business pay the ransom?</h3>
+                    <p>Most incident response guidance says no: decryption isn't guaranteed, payment doesn't undo data that was already stolen, and it funds the next attack. This company didn't pay and rebuilt from what survived instead.</p>
+                    <h3>Does cyber insurance cover the cost of a ransomware attack?</h3>
+                    <p>Partly, and only on the terms of the specific policy. Deductibles, sub-limits, exclusions and the security controls declared when the policy was signed all decide what gets paid. Here, a policy downgraded during cost-cutting left a &euro;150,000 deductible with the company. Read your own policy with your broker before an incident, not after.</p>
+                    <h3>What's a realistic annual cybersecurity budget for a 120-person company?</h3>
+                    <p>This company landed around &euro;95,000 a year after the incident, covering M365 security licensing, a two-person IT team, and a 24/7 SOC. That was less than they'd been spending reactively before, and a fraction of what this one incident cost.</p>
+                    </section>
+                </div>
+            </section>
+
+            <section class="author-bio">
+                <img src="../assets/images/cloudknox-author.webp" alt="Philipp Schmidt - Microsoft 365 Security Consultant - easyM365.de" class="author-avatar" loading="lazy">
+                <div class="author-info">
+                    <h3>Philipp Schmidt</h3>
+                    <p>IT consultant specializing in Microsoft 365, Security, and Zero Trust architecture. Helping SMBs build secure, scalable, and simple cloud solutions.</p>
+                    <p><strong>Zero Trust. Zero Drama. Zero Bullshit.</strong></p>
+                    <p><a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Learn more: https://easym365.de</a></p>
+                </div>
+            </section>
+        </article>
+        <div id="post-navigation"></div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2026 Philipp Schmidt. All rights reserved.</p>
+            <p>Secure. Scalable. Simple M365.</p>
+            <div class="footer-links">
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+                <a href="https://www.linkedin.com/in/pschmidt3010" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://github.com/farpoint-tech" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const menuToggle = document.getElementById("menu-toggle");
+        const nav = document.getElementById("nav");
+        menuToggle.addEventListener("click", () => { nav.classList.toggle("active"); });
+    </script>
+    <script src="../assets/js/post-navigation.js"></script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Cost of a Ransomware Attack for a Small Business: A Line-by-Line Breakdown",
+  "description": "The cost of a ransomware attack for a small business, line by line: how one 120-person manufacturer's incident reached \u20ac1.4 million, and what changed after.",
+  "image": "https://endlesstech.blog/assets/images/ransomware-cost-breakdown/ransomware-cost-hero.png",
+  "author": {
+    "@type": "Person",
+    "name": "Philipp Schmidt",
+    "url": "https://easym365.de"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "EndlessTech Blog"
+  },
+  "datePublished": "2026-11-10",
+  "dateModified": "2026-11-10",
+  "inLanguage": "en",
+  "mainEntityOfPage": "https://endlesstech.blog/posts/2026-11-10-cost-of-ransomware-attack-smb-breakdown.html"
+}
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the ROI of MFA and Microsoft 365 security for a small business?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "In this case, roughly 48x: \u20ac28,800 a year in Microsoft 365 security features against a \u20ac1.4 million incident that the declined package would likely have stopped early. That is one company's numbers, not a benchmark. Your own ratio depends on what an incident would cost you, but in my experience the gap between prevention and recovery is usually wide."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long does ransomware recovery take?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For this company, about four weeks of intensive rebuilding, with some records never fully recovered. Recovery time depends heavily on backup quality and how early the attack is caught; untested or compromised backups can extend it considerably."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should a small business pay the ransom?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Most incident response guidance says no: decryption isn't guaranteed, payment doesn't undo data that was already stolen, and it funds the next attack. This company didn't pay and rebuilt from what survived instead."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does cyber insurance cover the cost of a ransomware attack?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Partly, and only on the terms of the specific policy. Deductibles, sub-limits, exclusions and the security controls declared when the policy was signed all decide what gets paid. Here, a policy downgraded during cost-cutting left a \u20ac150,000 deductible with the company. Read your own policy with your broker before an incident, not after."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What's a realistic annual cybersecurity budget for a 120-person company?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "This company landed around \u20ac95,000 a year after the incident, covering M365 security licensing, a two-person IT team, and a 24/7 SOC. That was less than they'd been spending reactively before, and a fraction of what this one incident cost."
+      }
+    }
+  ]
+}
+    </script>
+</body>
+</html>

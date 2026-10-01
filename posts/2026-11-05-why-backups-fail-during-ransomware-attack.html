@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+    <meta name="robots" content="index,follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Why do backups fail during a ransomware attack? A case study: a domain-joined backup server, an untested USB drive, and 47 minutes that encrypted everything.">
+    <meta name="author" content="Philipp Schmidt">
+    <meta name="keywords" content="why do backups fail during a ransomware attack, ransomware backup failure, domain-joined backup server, immutable backup, air-gapped backup, backup restore test, 3-2-1-1-0 backup, ransomware case study">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Why Backups Fail During a Ransomware Attack: The 47 Minutes That Ended Three Years of Warnings">
+    <meta property="og:description" content="Why do backups fail during a ransomware attack? A case study: a domain-joined backup server, an untested USB drive, and 47 minutes that encrypted everything.">
+    <meta property="og:image" content="https://endlesstech.blog/assets/images/backups-fail-ransomware/backups-fail-hero.png">
+    <meta property="og:url" content="https://endlesstech.blog/posts/2026-11-05-why-backups-fail-during-ransomware-attack.html">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Why Backups Fail During a Ransomware Attack: The 47 Minutes That Ended Three Years of Warnings">
+    <meta name="twitter:description" content="Why do backups fail during a ransomware attack? A case study: a domain-joined backup server, an untested USB drive, and 47 minutes that encrypted everything.">
+    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/backups-fail-ransomware/backups-fail-hero.png">
+
+    <title>Why Backups Fail During a Ransomware Attack: The 47 Minutes That Ended Three Years of Warnings | EndlessTech Blog</title>
+
+    <link rel="alternate" type="application/rss+xml" title="EndlessTech Blog RSS Feed" href="https://endlesstech.blog/feed.xml">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/blog-post.css">
+
+    <link rel="canonical" href="https://endlesstech.blog/posts/2026-11-05-why-backups-fail-during-ransomware-attack.html" />
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/images/logo.webp" alt="Philipp Schmidt - Secure. Scalable. Simple M365.">
+            </a>
+            <nav class="nav" id="nav">
+                <a href="../index.html">Home</a>
+                <a href="../index.html#blog" class="active">Blog</a>
+                <a href="../about.html">About</a>
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+            </nav>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">&#9776;</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="post-full">
+            <header class="post-full-header">
+                <h1 class="post-full-title">Why Backups Fail During a Ransomware Attack: The 47 Minutes That Ended Three Years of Warnings</h1>
+                <div class="post-full-meta">
+                    <time datetime="2026-11-05">November 2026</time> &bull; By Philipp Schmidt
+                </div>
+                <div class="post-tags"><span class="tag">Ransomware</span><span class="tag">Backup</span><span class="tag">Security</span><span class="tag">Case Study</span><span class="tag">SMB</span></div>
+            </header>
+
+            <figure class="post-full-image">
+                <picture>
+                    <source srcset="../assets/images/backups-fail-ransomware/backups-fail-hero.webp" type="image/webp">
+                    <img src="../assets/images/backups-fail-ransomware/backups-fail-hero.png" alt="A server room at night under red emergency light, the air conditioning off, floor fans aimed at the racks and a chair propping the door open" width="1600" height="900">
+                </picture>
+            </figure>
+
+            <section class="post-full-content">
+                <div class="post-content">
+
+                    <p>Backups fail during a ransomware attack for reasons that have little to do with whether the backup job ran. They fail when the backup target can be reached from the compromised network, when no copy is immutable or offline, and when nobody has ever tested a restore. In this case all three met on the same Monday morning, two months after the server room had overheated.</p>
+
+                    <p><em>This is an anonymised, composite case from my own client work; figures are rounded.</em></p>
+
+                    <p>This continues <a href="https://endlesstech.blog/posts/2026-11-03-it-security-budget-buy-in-case-study.html">Part 1</a>, where a manufacturing client declined roughly &euro;58,000 a year in security recommendations for three years running. This is what happened when leadership changed and the remaining safeguards started coming apart.</p>
+
+                    <nav class="series-nav" aria-label="The declined security budget case study">
+                        <p class="series-label">The declined security budget &mdash; a 3-part case study</p>
+                        <ol>
+                            <li><span class="series-part">Part 1</span> <a href="https://endlesstech.blog/posts/2026-11-03-it-security-budget-buy-in-case-study.html">IT security budget buy-in</a></li>
+                            <li class="current"><span class="series-part">Part 2</span> <span class="current-text">Why backups fail during a ransomware attack &mdash; you are here</span></li>
+                            <li><span class="series-part">Part 3</span> <span><a href="https://endlesstech.blog/posts/2026-11-10-cost-of-ransomware-attack-smb-breakdown.html">The cost of a ransomware attack, line by line</a> (10 November 2026)</span></li>
+                        </ol>
+                    </nav>
+
+                    <h2 id="new-leadership">New Leadership, Old Blind Spots</h2>
+                    <p>Early 2023. The founder retired; his son took over as CEO. The old CFO left for another company, replaced by an aggressive cost-cutter who described himself as a "digital native" who "knew IT."</p>
+                    <p>In his first sixty days, the new CFO cancelled the managed antivirus subscription (Windows Defender is free, isn't it, same thing) and let go of the one internal IT person, a 55-year-old who'd been there twenty years and cost too much for what he apparently did. The handover was informal, which is a polite way of saying there wasn't one.</p>
+                    <p>Three weeks later, payroll went down. Nobody knew the database password; it lived in the departed employee's head. The company called him back for a three-hour emergency consultation at &euro;2,400. The CFO paid it and was furious about paying it.</p>
+                    <p>What nobody found until later: the departed admin had left a scheduled task, never documented, that renewed the company's critical certificates in the background. It ran under his own account, which nobody disabled. Ninety days after he left, that account's password expired and the task quietly stopped. The certificates it had last renewed were still valid for months, so nothing broke right away.</p>
+
+                    <h2 id="server-room-ac">Does Turning Off the Server Room AC for a Weekend Really Save Money?</h2>
+                    <p>January 2024. Outside temperature: minus 8&deg;C. The new CFO walked past the server room, heard the AC running, and asked the facilities manager why they were cooling servers in the middle of winter. He had it switched off for the weekend to save electricity. The facilities manager, who wasn't IT and had no reason to argue, complied.</p>
+                    <p>The same wall unit this company had refused to replace for &euro;3,500 back in <a href="https://endlesstech.blog/posts/2026-11-03-it-security-budget-buy-in-case-study.html">Part 1</a> had been running on a failing compressor for months. Cycling it off and back on finished it.</p>
+                    <p>Saturday, 2 a.m.: a monitoring alert. Server room temperature at 48&deg;C and climbing. I drove in at 2:30, propped the door with a chair, grabbed every fan in the building, and spent the night watching the temperature come down a degree at a time. By morning, three servers had permanent damage. Two of them ran the ERP system. Production stopped Monday morning for a hundred and twenty people.</p>
+                    <p>Emergency hardware replacement plus two days of lost production ran close to &euro;228,000. The AC replacement that started this would have cost &euro;3,500.</p>
+
+                    <h2 id="47-minutes">The 47 Minutes</h2>
+                    <p>Late February 2024. A salesperson clicked a link in a fake DHL delivery notice, on the Windows 7 laptop nobody had upgraded because it "still worked." The link dropped a loader, and for the next 23 days nothing visible happened. The attacker was inside the network, reading email, learning the org chart, picking targets.</p>
+                    <p>Then, in the early hours of a Monday in March, the encryption started. It spread over SMB, and forty-seven minutes later every reachable file share, server, and workstation on the network was encrypted, including the backup server, because the backup server was domain-joined like everything else.</p>
+                    <p>The Friday USB backup hadn't been plugged in for three weeks, and the replacement drive they'd bought after losing the first one had never been configured correctly. Its job ran and finished every time. It had been backing up an empty folder for weeks without anyone checking.</p>
+                    <p>5:47 a.m., my phone rang: nobody could log in. I got to the office by 6:30 to a hundred and twenty people standing around a screen demanding a ransom of roughly &euro;780,000, payable in bitcoin within seven days. Phobos ransomware.</p>
+                    <p>Incident response cost &euro;45,000 to bring in. The company's cyber insurance, downgraded during the cost-cutting the previous year, carried a &euro;150,000 deductible. Forensics confirmed the 23 days the attacker had spent inside before triggering the encryption, and found one more thing: the certificate the fired admin's script used to renew had expired ten days before the attack, breaking the VPN's monitoring in a way nobody had caught.</p>
+                    <p>They didn't pay the ransom. Decryption isn't guaranteed even if you do, the attacker had already taken data out, and paying just funds whoever hits the next company.</p>
+
+                    <h2 id="why-backups-fail">So Why Do Backups Fail Exactly When You Need Them?</h2>
+                    <p>In this case the backups still existed. What failed were two assumptions: that the backups were separate from what they were protecting, and that a backup job that runs is the same thing as a restore that works. Three properties decide whether a backup survives an attack like this one. They are separate controls, and having one of them gives you none of the others.</p>
+                    <h3>1. Network reachability of the backup target</h3>
+                    <p>Ransomware running with domain credentials can encrypt or delete anything it can reach over the network and authenticate to. Here the backup server was domain-joined and sat in the same network segment as production, so it was just one more machine on the list. Taking the backup server out of the production domain, giving it separate credentials and restricting network access to the backup traffic it actually needs shrinks that exposure. It does not make the backup copies themselves tamper-proof.</p>
+                    <h3>2. An immutable or air-gapped copy</h3>
+                    <p>That is the job of at least one copy that cannot be changed or deleted during its retention period, either because the storage enforces immutability or because the media is physically disconnected. The Friday USB drive was meant to be that offline copy. It hadn't been connected for three weeks, and its replacement was faithfully copying an empty folder.</p>
+                    <h3>3. A tested restore</h3>
+                    <p>A successful backup job tells you that the selected data was copied without errors. It does not tell you whether the right data was selected, whether the copy can be read back, or how long it takes to bring a server up from it. Only a restore answers that: restoring real systems or files into an isolated environment on a schedule and checking the result. Nobody here had ever run one, which is how an empty folder went unnoticed for weeks.</p>
+                    <p>The single points of failure in this story (one aging compressor, one expiring certificate, one departed admin's undocumented script) failed in parallel and unnoticed, until the day something forced all of them to matter at once.</p>
+                    <p>None of these failures happened in isolation. The cancelled antivirus, the AC nobody wanted to fix, the backup server sitting on the domain, the certificate script only one person understood: each was a separate decision, made by a different person, for a reason that made sense to them at the time. <a href="https://endlesstech.blog/posts/2026-11-10-cost-of-ransomware-attack-smb-breakdown.html">Part 3</a> covers what it cost to add all of them up.</p>
+
+                    <div class="post-cta">
+                        <h3>Zero Trust. Zero Drama. Zero Bullshit.</h3>
+                        <p>When did your team last restore a complete server from backup into an isolated network, and how long did it take?</p>
+                        <p>If you want to see what a restore test looks like in your own environment: drop me a note. Thirty minutes, I'll show you.</p>
+                        <a href="https://easym365.de" target="_blank" rel="noopener noreferrer" class="cta-button">Talk it through with me</a>
+                    </div>
+
+
+                    <section class="faq">
+                    <h2 id="faq">Frequently Asked Questions</h2>
+                    <h3>Why did the backup server get encrypted during the ransomware attack?</h3>
+                    <p>It was domain-joined, on the same network segment as production, trusted by the same directory. When the ransomware spread through the domain, the backup server was just another machine on it.</p>
+                    <h3>What is the difference between a successful backup job and a verified restore?</h3>
+                    <p>A successful backup job means the software copied the selected data and logged no errors. A verified restore means someone brought that data back into an isolated environment and confirmed it is complete and usable within an acceptable time. In this case the replacement USB drive completed its jobs for weeks while backing up an empty folder, which only a restore test would have exposed.</p>
+                    <h3>What is a dead man's switch in IT, and why do departing admins leave them?</h3>
+                    <p>It's a script or scheduled task that keeps running, or stops something, after an admin leaves. Some are deliberate; more often, like here, it's just an undocumented task nobody thought to hand over. The second kind is more dangerous, because nobody knows to look for it.</p>
+                    <h3>Should backup servers be domain-joined?</h3>
+                    <p>Not to the production domain. Common hardening guidance is to run the backup server in a workgroup or a separate management domain with its own credentials, so a compromised production domain doesn't hand the attacker the backups as well. Separately, keep at least one copy that is immutable or offline; the 3-2-1-1-0 variant of the 3-2-1 rule makes that explicit, together with zero errors in restore verification.</p>
+                    <h3>How fast can ransomware encrypt a network?</h3>
+                    <p>In this case, 47 minutes from the moment the encryption was triggered to a fully encrypted network, after the attacker had already spent 23 days inside. The exact time varies by ransomware family and network segmentation, but &ldquo;we'll have hours to react&rdquo; is not a safe assumption for any of them.</p>
+                    </section>
+                </div>
+            </section>
+
+            <section class="author-bio">
+                <img src="../assets/images/cloudknox-author.webp" alt="Philipp Schmidt - Microsoft 365 Security Consultant - easyM365.de" class="author-avatar" loading="lazy">
+                <div class="author-info">
+                    <h3>Philipp Schmidt</h3>
+                    <p>IT consultant specializing in Microsoft 365, Security, and Zero Trust architecture. Helping SMBs build secure, scalable, and simple cloud solutions.</p>
+                    <p><strong>Zero Trust. Zero Drama. Zero Bullshit.</strong></p>
+                    <p><a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Learn more: https://easym365.de</a></p>
+                </div>
+            </section>
+        </article>
+        <div id="post-navigation"></div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2026 Philipp Schmidt. All rights reserved.</p>
+            <p>Secure. Scalable. Simple M365.</p>
+            <div class="footer-links">
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+                <a href="https://www.linkedin.com/in/pschmidt3010" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://github.com/farpoint-tech" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const menuToggle = document.getElementById("menu-toggle");
+        const nav = document.getElementById("nav");
+        menuToggle.addEventListener("click", () => { nav.classList.toggle("active"); });
+    </script>
+    <script src="../assets/js/post-navigation.js"></script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Why Backups Fail During a Ransomware Attack: The 47 Minutes That Ended Three Years of Warnings",
+  "description": "Why do backups fail during a ransomware attack? A case study: a domain-joined backup server, an untested USB drive, and 47 minutes that encrypted everything.",
+  "image": "https://endlesstech.blog/assets/images/backups-fail-ransomware/backups-fail-hero.png",
+  "author": {
+    "@type": "Person",
+    "name": "Philipp Schmidt",
+    "url": "https://easym365.de"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "EndlessTech Blog"
+  },
+  "datePublished": "2026-11-05",
+  "dateModified": "2026-11-05",
+  "inLanguage": "en",
+  "mainEntityOfPage": "https://endlesstech.blog/posts/2026-11-05-why-backups-fail-during-ransomware-attack.html"
+}
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Why did the backup server get encrypted during the ransomware attack?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It was domain-joined, on the same network segment as production, trusted by the same directory. When the ransomware spread through the domain, the backup server was just another machine on it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between a successful backup job and a verified restore?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A successful backup job means the software copied the selected data and logged no errors. A verified restore means someone brought that data back into an isolated environment and confirmed it is complete and usable within an acceptable time. In this case the replacement USB drive completed its jobs for weeks while backing up an empty folder, which only a restore test would have exposed."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a dead man's switch in IT, and why do departing admins leave them?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It's a script or scheduled task that keeps running, or stops something, after an admin leaves. Some are deliberate; more often, like here, it's just an undocumented task nobody thought to hand over. The second kind is more dangerous, because nobody knows to look for it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should backup servers be domain-joined?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Not to the production domain. Common hardening guidance is to run the backup server in a workgroup or a separate management domain with its own credentials, so a compromised production domain doesn't hand the attacker the backups as well. Separately, keep at least one copy that is immutable or offline; the 3-2-1-1-0 variant of the 3-2-1 rule makes that explicit, together with zero errors in restore verification."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How fast can ransomware encrypt a network?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "In this case, 47 minutes from the moment the encryption was triggered to a fully encrypted network, after the attacker had already spent 23 days inside. The exact time varies by ransomware family and network segmentation, but \u201cwe'll have hours to react\u201d is not a safe assumption for any of them."
+      }
+    }
+  ]
+}
+    </script>
+</body>
+</html>
