@@ -61,6 +61,21 @@
       "date": "2026-10-27",
       "slug": "2026-09-01-microsoft-365-compliance-smb-gdpr-audit-logs",
       "card": ".scheduled/cards/2026-09-01-microsoft-365-compliance-smb-gdpr-audit-logs.html"
+    },
+    {
+      "date": "2026-11-03",
+      "slug": "2026-11-03-it-security-budget-buy-in-case-study",
+      "card": ".scheduled/cards/2026-11-03-it-security-budget-buy-in-case-study.html"
+    },
+    {
+      "date": "2026-11-05",
+      "slug": "2026-11-05-why-backups-fail-during-ransomware-attack",
+      "card": ".scheduled/cards/2026-11-05-why-backups-fail-during-ransomware-attack.html"
+    },
+    {
+      "date": "2026-11-10",
+      "slug": "2026-11-10-cost-of-ransomware-attack-smb-breakdown",
+      "card": ".scheduled/cards/2026-11-10-cost-of-ransomware-attack-smb-breakdown.html"
     }
   ]
 }
