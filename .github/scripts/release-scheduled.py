@@ -79,7 +79,9 @@ def due_entries(calendar: dict, today: str) -> list[dict]:
     for entry in calendar["releases"]:
         if entry["date"] > today:
             continue
-        if os.path.exists(os.path.join(ROOT, "posts", entry["slug"] + ".html")):
+        card_waiting = os.path.exists(os.path.join(ROOT, entry["card"]))
+        article_live = os.path.exists(os.path.join(ROOT, "posts", entry["slug"] + ".html"))
+        if article_live and not card_waiting:
             continue  # already released
         out.append(entry)
     return sorted(out, key=lambda e: (e["date"], e["slug"]))
@@ -95,7 +97,10 @@ def release(entry: dict, source_ref: str) -> None:
                          "release date" % entry["card"])
 
     print("releasing %s (due %s)" % (slug, entry["date"]))
-    git("checkout", source_ref, "--", article)
+    # articles may already sit on master ahead of their date (reachable by URL,
+    # in the sitemap, off the homepage); keep that copy, it may carry later fixes
+    if not os.path.exists(os.path.join(ROOT, article)):
+        git("checkout", source_ref, "--", article)
 
     missing = [a for a in referenced_assets(os.path.join(ROOT, article))
                if not os.path.exists(os.path.join(ROOT, a))]

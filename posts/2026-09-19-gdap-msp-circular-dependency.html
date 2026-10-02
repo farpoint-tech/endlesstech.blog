@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+    <meta name="robots" content="index,follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="How MSPs monitor GDAP expiry, recover through customer approval, and structure least-privilege access with security groups and PIM.">
+    <meta name="author" content="Philipp Schmidt">
+    <meta name="keywords" content="GDAP circular dependency, GDAP auto-renewal broken, CIPP GDAP PIM integration, Microsoft partner GDAP roles, GDAP security group mapping, MSP break-glass customer tenant, GDAP Verlaengerung, delegierte Administratorrechte">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="GDAP for MSPs: Recovery Planning for an Expired Relationship">
+    <meta property="og:description" content="How MSPs monitor GDAP expiry, recover through customer approval, and structure least-privilege access with security groups and PIM.">
+    <meta property="og:image" content="https://endlesstech.blog/assets/images/gdap-msp-circular-dependency/gdap-circular-hero.svg">
+    <meta property="og:url" content="https://endlesstech.blog/posts/2026-09-19-gdap-msp-circular-dependency.html">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="GDAP for MSPs: Recovery Planning for an Expired Relationship">
+    <meta name="twitter:description" content="How MSPs monitor GDAP expiry, recover through customer approval, and structure least-privilege access with security groups and PIM.">
+    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/gdap-msp-circular-dependency/gdap-circular-hero.svg">
+
+    <title>GDAP for MSPs: Recovery Planning for an Expired Relationship</title>
+
+    <link rel="alternate" type="application/rss+xml" title="EndlessTech Blog RSS Feed" href="https://endlesstech.blog/feed.xml">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/blog-post.css">
+
+    <link rel="canonical" href="https://endlesstech.blog/posts/2026-09-19-gdap-msp-circular-dependency.html" />
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/images/logo.webp" alt="Philipp Schmidt - Secure. Scalable. Simple M365.">
+            </a>
+            <nav class="nav" id="nav">
+                <a href="../index.html">Home</a>
+                <a href="../index.html#blog" class="active">Blog</a>
+                <a href="../about.html">About</a>
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+            </nav>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">&#9776;</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="post-full">
+            <header class="post-full-header">
+                <h1 class="post-full-title">GDAP for MSPs: Recovery Planning for an Expired Relationship</h1>
+                <div class="post-full-meta">
+                    <time datetime="2026-10-20">October 2026</time> &bull; By Philipp Schmidt
+                </div>
+                <div class="post-tags"><span class="tag">MSP</span><span class="tag">Entra ID</span><span class="tag">GDAP</span><span class="tag">Security</span><span class="tag">Best Practices</span></div>
+            </header>
+
+            <figure class="post-full-image">
+                <img src="../assets/images/gdap-msp-circular-dependency/gdap-circular-hero.svg" alt="A recovery plan showing a GDAP relationship expiry, customer approval and least-privilege partner access">
+            </figure>
+
+            <section class="post-full-content">
+                <div class="post-content">
+
+                    <p>Granular Delegated Admin Privileges replaced the old delegated admin model with something more precise and time-bound. Its operational failure mode is not a technical circular dependency: when a relationship expires, the partner can request a new one in Partner Center, but recovery depends on customer approval and the customer's ability to act promptly.</p>
+
+                    <p>The blunt version: GDAP needs a recovery plan. If the relationship expires, the service desk needs named customer contacts, a documented approval path, expiry monitoring and an agreed emergency-access process.</p>
+
+                    <div class="post-tldr">
+                        <h2>In short</h2>
+                        <p>If a GDAP relationship lapses, the partner can request a new relationship, but the customer must approve it. The fix is a documented recovery process: named customer approvers, monitored expiry and Auto extend status, and an explicitly agreed emergency-access arrangement where the risk justifies one. Map least-privilege roles to security groups rather than individuals.</p>
+                    </div>
+
+                    <nav class="post-toc" aria-label="Table of contents">
+                        <h2>On this page</h2>
+                        <ol>
+                            <li><a href="#where-it-comes-from">Where recovery depends on the customer</a></li>
+                            <li><a href="#auto-renewal">Monitor expiry and Auto extend deliberately</a></li>
+                            <li><a href="#roles">What roles an MSP actually needs</a></li>
+                            <li><a href="#scale">Managing this at scale</a></li>
+                            <li><a href="#glossary">Glossary</a></li>
+                            <li><a href="#faq">Frequently Asked Questions</a></li>
+                        </ol>
+                    </nav>
+
+                    <h2 id="where-it-comes-from">Where recovery depends on the customer</h2>
+                    <p>GDAP relationships are established through Partner Center, require customer acceptance, and are mapped from MSP security groups to specific roles. If one expires or is removed, the normal recovery path is a new GDAP relationship request followed by customer approval. That is operationally slower than an active relationship, especially when customer administrators are unavailable, but it is not a requirement to sign in as customer Global Administrator first.</p>
+                    <p>The practical fix is a recovery runbook: store named customer approvers and escalation contacts, monitor expiry, test the approval path, and agree any emergency-access option contractually. Two clocks matter in recovery: an unaccepted relationship request expires after 90 days, and expired or terminated relationships disappear from both portals after a year, taking their audit trail with them. A partner-controlled break-glass account is one possible arrangement, not a universal default; it has custody, MFA, monitoring and liability implications that the customer must explicitly accept.</p>
+
+                    <h2 id="auto-renewal">Monitor expiry and Auto extend deliberately</h2>
+                    <p>Active GDAP relationships can use <strong>Auto extend</strong>, which adds six months until the relationship is terminated or Auto extend is disabled. The maximum relationship duration is two years, and a relationship with the Global Administrator role cannot use Auto extend. Treat expiry and Auto extend as monitored states: check Partner Center relationship analytics on a schedule and act before the relationship lapses, because recovery requires a new request and customer approval.</p>
+
+                    <h2 id="roles">What roles an MSP actually needs</h2>
+                    <p>Microsoft does publish role guidance for this: the GDAP role guidance carries a least-privileged-role-by-task table and a "GDAP roles by partner types" table written around help-desk functions, and Microsoft 365 Lighthouse offers role recommendations by MSP job function plus reusable GDAP templates. What it does not give you is a finished per-MSP role set, so the mapping below is a starting point on top of that guidance, not a substitute for it. Scoped by function rather than granting broad admin by default:</p>
+                    <ul>
+                        <li><strong>Helpdesk:</strong> User Administrator, Authentication Administrator &mdash; password and MFA method resets, basic user support</li>
+                        <li><strong>M365 administration:</strong> Exchange, SharePoint and Teams Administrator &mdash; day-to-day service configuration</li>
+                        <li><strong>Security:</strong> Security Administrator and Security Reader, split between who needs to act and who only needs to observe</li>
+                        <li><strong>Full administration:</strong> Global Administrator, reserved for a small number of senior technicians and scoped through <a href="2026-09-03-entra-pim-authentication-context.html">PIM activation</a> rather than standing assignment</li>
+                    </ul>
+                    <p>One consequence follows directly: a relationship that contains Global Administrator can never auto extend, so putting Global Administrator into your everyday relationship costs you Auto extend for everything else in it. The workable split is two relationships per customer &mdash; a long-lived, auto-extending one carrying the functional roles, and a separate short-duration relationship requested for Global Administrator only when a task genuinely needs it.</p>
+                    <p>Mapping each function to its own security group, rather than assigning roles to individuals, is what makes this maintainable. Role changes become group membership changes rather than a renegotiation of the relationship itself. One thing to check before you wonder why access does not work: guest accounts do not work with GDAP, so a technician who exists as a guest in the customer tenant has to be removed there first.</p>
+
+                    <h2 id="scale">Managing this at scale</h2>
+                    <p>Manually managing role-to-group mappings across dozens or hundreds of customer tenants does not hold up past a handful. Tooling that treats the mapping as a template and reapplies it across managed tenants is a meaningfully different operational model from configuring each tenant individually and hoping they stay consistent. Microsoft 365 Lighthouse does exactly this: its GDAP setup wizard recommends roles per MSP job function, and its GDAP templates save and reapply a mapping across customer tenants. Layering PIM on top &mdash; technicians eligible for a role rather than standing in it &mdash; adds real security value, at the cost of stacking PIM's own activation-verification gap onto GDAP's reliability issues. Worth doing deliberately, not assumed to work end to end because each piece is documented separately.</p>
+
+                    <h2 id="bottom-line">Bottom line</h2>
+                    <p>GDAP is the correct model: precise, auditable access instead of blanket delegated admin rights. Its recovery path depends on customer availability when an access relationship has expired. Named approvers, monitored expiry and Auto extend state, and a documented role set mapped to security groups make GDAP operationally resilient without inventing a universal partner-controlled break-glass account.</p>
+
+                    <section class="post-glossary">
+                    <h2 id="glossary">Glossary</h2>
+                    <dl>
+                        <dt>GDAP</dt><dd>Granular Delegated Admin Privileges — the Microsoft partner model granting scoped, time-bound administrative access to a customer tenant, replacing blanket delegated admin rights.</dd>
+                        <dt>Partner Center</dt><dd>Where the partner requests, monitors and extends GDAP relationships. The customer accepts, reviews and terminates them in their own Microsoft 365 admin center. Relationship status on both sides is what needs scheduled checking.</dd>
+                        <dt>Break-glass account</dt><dd>An emergency-access account maintained outside the normal access path — here, outside GDAP — so a failure of that path does not lock you out entirely.</dd>
+                        <dt>Role-to-group mapping</dt><dd>Assigning GDAP roles to MSP security groups rather than individuals, so staffing changes become group membership changes.</dd>
+                    </dl>
+                    </section>
+
+                    <section class="faq">
+                    <h2 id="faq">Frequently Asked Questions</h2>
+                    <h3>How is an expired GDAP relationship recovered?</h3>
+                    <p>An expired GDAP relationship is recovered by requesting a new relationship in Partner Center and obtaining customer approval. The operational risk is delay and unavailable customer approvers, not a mandatory technical Global Administrator loop. Maintain named contacts, expiry monitoring and a documented, contractually agreed emergency-access process for customers where the risk warrants it.</p>
+                    <h3>How do I fix GDAP auto-renewal failures?</h3>
+                    <p>Monitor Partner Center relationship analytics, expiry dates and Auto extend state on a schedule. Auto extend can add six months to an active relationship until it is terminated or disabled, but a lapsed relationship still requires a new request and customer approval.</p>
+                    <h3>What GDAP roles does an MSP actually need?</h3>
+                    <p>Microsoft publishes least-privileged role guidance by task and by partner function, and Microsoft 365 Lighthouse ships GDAP templates with role recommendations per MSP job function. Build on those: split roles by function — helpdesk, M365 administration, security, full administration — each mapped to its own security group, with Global Administrator reserved for a few technicians and scoped through PIM activation rather than standing assignment.</p>
+                    <h3>How do GDAP, PIM and multi-tenant tooling fit together?</h3>
+                    <p>Management tooling handles role-to-group mappings as templates across tenants, solving the scale problem. Layering PIM makes technician access time-bound rather than standing; validate the PIM authentication-context behaviour in your own tenant as part of the operating model.</p>
+                    <h3>How many GDAP relationships should an MSP have per customer tenant?</h3>
+                    <p>Microsoft explicitly supports multiple relationships per customer tenant, each with its own roles and duration, and the Global Administrator restriction on Auto extend usually makes at least two the practical answer: one long-lived auto-extending relationship for functional roles, plus a short-duration relationship for Global Administrator when it is genuinely needed. Within each relationship, differentiate technician access through role-mapped security groups.</p>
+                    </section>
+
+                    <hr>
+                    <h3>References</h3>
+                    <ol class="post-references">
+                        <li><a href="https://learn.microsoft.com/en-us/partner-center/customers/gdap-introduction" target="_blank" rel="noopener noreferrer">Microsoft Learn: Granular delegated admin privileges (GDAP) introduction</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/partner-center/customers/gdap-least-privileged-roles-by-task" target="_blank" rel="noopener noreferrer">Microsoft Learn: GDAP least-privileged roles by task</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/security-emergency-access" target="_blank" rel="noopener noreferrer">Microsoft Learn: Manage emergency access accounts</a></li>
+                    </ol>
+                </div>
+            </section>
+
+            <section class="author-bio">
+                <img src="../assets/images/cloudknox-author.webp" alt="Philipp Schmidt - Microsoft 365 Security Consultant - easyM365.de" class="author-avatar" loading="lazy">
+                <div class="author-info">
+                    <h3>Philipp Schmidt</h3>
+                    <p>IT consultant specializing in Microsoft 365, Security, and Zero Trust architecture. Helping SMBs build secure, scalable, and simple cloud solutions.</p>
+                    <p><strong>Zero Trust. Zero Drama. Zero Bullshit.</strong></p>
+                    <p><a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Learn more: https://easym365.de</a></p>
+                </div>
+            </section>
+        </article>
+        <div id="post-navigation"></div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2026 Philipp Schmidt. All rights reserved.</p>
+            <p>Secure. Scalable. Simple M365.</p>
+            <div class="footer-links">
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+                <a href="https://www.linkedin.com/in/pschmidt3010" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://github.com/farpoint-tech" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const menuToggle = document.getElementById("menu-toggle");
+        const nav = document.getElementById("nav");
+        menuToggle.addEventListener("click", () => { nav.classList.toggle("active"); });
+    </script>
+    <script src="../assets/js/post-navigation.js"></script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "GDAP for MSPs: Recovery Planning for an Expired Relationship",
+  "description": "How MSPs monitor GDAP expiry, recover through customer approval, and structure least-privilege access with security groups and PIM.",
+  "image": "https://endlesstech.blog/assets/images/gdap-msp-circular-dependency/gdap-circular-hero.svg",
+  "author": {
+    "@type": "Person",
+    "name": "Philipp Schmidt",
+    "url": "https://easym365.de"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "EndlessTech Blog"
+  },
+  "datePublished": "2026-10-20",
+  "dateModified": "2026-10-20",
+  "inLanguage": "en",
+  "mainEntityOfPage": "https://endlesstech.blog/posts/2026-09-19-gdap-msp-circular-dependency.html"
+}
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How is an expired GDAP relationship recovered?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "An expired GDAP relationship is recovered by requesting a new relationship in Partner Center and obtaining customer approval. The operational risk is delay and unavailable customer approvers, not a mandatory technical Global Administrator loop. Maintain named contacts, expiry monitoring and a documented, contractually agreed emergency-access process for customers where the risk warrants it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I fix GDAP auto-renewal failures?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Monitor Partner Center relationship analytics, expiry dates and Auto extend state on a schedule. Auto extend can add six months to an active relationship until it is terminated or disabled, but a lapsed relationship still requires a new request and customer approval."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What GDAP roles does an MSP actually need?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Microsoft publishes least-privileged role guidance by task and by partner function, and Microsoft 365 Lighthouse ships GDAP templates with role recommendations per MSP job function. Build on those: split roles by function \u2014 helpdesk, M365 administration, security, full administration \u2014 each mapped to its own security group, with Global Administrator reserved for a few technicians and scoped through PIM activation rather than standing assignment."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do GDAP, PIM and multi-tenant tooling fit together?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Management tooling handles role-to-group mappings as templates across tenants, solving the scale problem. Layering PIM makes technician access time-bound rather than standing; validate the PIM authentication-context behaviour in your own tenant as part of the operating model."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How many GDAP relationships should an MSP have per customer tenant?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Microsoft explicitly supports multiple relationships per customer tenant, each with its own roles and duration, and the Global Administrator restriction on Auto extend usually makes at least two the practical answer: one long-lived auto-extending relationship for functional roles, plus a short-duration relationship for Global Administrator when it is genuinely needed. Within each relationship, differentiate technician access through role-mapped security groups."
+      }
+    }
+  ]
+}
+    </script>
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+    <meta name="robots" content="index,follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="How to triage Entra Identity Protection detections, handle verified Leaked Credentials alerts, and keep noise from overwhelming the queue.">
+    <meta name="author" content="Philipp Schmidt">
+    <meta name="keywords" content="Entra Identity Protection false positive, risky user alert investigation, Entra ID P1 vs P2 identity protection, leaked credentials alert, alert fatigue, how to detect compromised user accounts in M365, riskante Anmeldung Fehlalarm, kompromittierte Konten erkennen">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Entra Identity Protection: Triage Risky Users Without Training Yourself to Ignore the Queue">
+    <meta property="og:description" content="How to triage Entra Identity Protection detections, handle verified Leaked Credentials alerts, and keep noise from overwhelming the queue.">
+    <meta property="og:image" content="https://endlesstech.blog/assets/images/identity-protection-false-positives/identity-protection-hero.svg">
+    <meta property="og:url" content="https://endlesstech.blog/posts/2026-09-15-entra-identity-protection-false-positives.html">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Entra Identity Protection: Triage Risky Users Without Training Yourself to Ignore the Queue">
+    <meta name="twitter:description" content="How to triage Entra Identity Protection detections, handle verified Leaked Credentials alerts, and keep noise from overwhelming the queue.">
+    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/identity-protection-false-positives/identity-protection-hero.svg">
+
+    <title>Entra Identity Protection: Triage Risky Users Without Training Yourself to Ignore the Queue</title>
+
+    <link rel="alternate" type="application/rss+xml" title="EndlessTech Blog RSS Feed" href="https://endlesstech.blog/feed.xml">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/blog-post.css">
+
+    <link rel="canonical" href="https://endlesstech.blog/posts/2026-09-15-entra-identity-protection-false-positives.html" />
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/images/logo.webp" alt="Philipp Schmidt - Secure. Scalable. Simple M365.">
+            </a>
+            <nav class="nav" id="nav">
+                <a href="../index.html">Home</a>
+                <a href="../index.html#blog" class="active">Blog</a>
+                <a href="../about.html">About</a>
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+            </nav>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">&#9776;</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="post-full">
+            <header class="post-full-header">
+                <h1 class="post-full-title">Entra Identity Protection: Triage Risky Users Without Training Yourself to Ignore the Queue</h1>
+                <div class="post-full-meta">
+                    <time datetime="2026-10-13">October 2026</time> &bull; By Philipp Schmidt
+                </div>
+                <div class="post-tags"><span class="tag">Entra ID</span><span class="tag">Security</span><span class="tag">Identity Protection</span><span class="tag">Monitoring</span></div>
+            </header>
+
+            <figure class="post-full-image">
+                <img src="../assets/images/identity-protection-false-positives/identity-protection-hero.svg" alt="A risky user alert queue with a dismiss button that fails to clear a resolved false positive">
+            </figure>
+
+            <section class="post-full-content">
+                <div class="post-content">
+
+                    <p>A security tool that flags real risk and also floods the queue with false positives eventually gets the same response either way: admins stop reading it closely.</p>
+
+                    <p>That is the practical failure mode with Identity Protection &mdash; risky user detections that turn out to be false positives, and then a queue that still looks open after you worked it, because dismissals are processed asynchronously and the report lags behind the click.</p>
+
+                    <div class="post-tldr">
+                        <h2>In short</h2>
+                        <p>Identity Protection's value depends on admins trusting and triaging it. Verify the resulting risk state through the portal or Graph when closing a case rather than treating any UI action as evidence. <strong>Leaked Credentials is a verified exposure signal</strong> and should enter a password-reset and session-review runbook. P1 and Free tenants can receive nonpremium detections and generic additional-risk signals, while detailed premium detections and risk-based Conditional Access require P2.</p>
+                    </div>
+
+                    <nav class="post-toc" aria-label="Table of contents">
+                        <h2>On this page</h2>
+                        <ol>
+                            <li><a href="#dismiss">Why the dismiss button matters more than it sounds</a></li>
+                            <li><a href="#leaked-credentials">Leaked Credentials without independent confirmation</a></li>
+                            <li><a href="#p1-p2">P1 versus P2: what risk detection you actually have</a></li>
+                            <li><a href="#reduce-noise">Reducing false positives without losing signal</a></li>
+                            <li><a href="#msp">Alert triage for MSPs across many tenants</a></li>
+                            <li><a href="#glossary">Glossary</a></li>
+                            <li><a href="#faq">Frequently Asked Questions</a></li>
+                        </ol>
+                    </nav>
+
+                    <h2 id="dismiss">Why the dismiss button matters more than it sounds</h2>
+                    <p>Closing a risky-user case is not cosmetic, but the action matters. Use <strong>Confirm user safe</strong> when the investigation shows the user was safe; Microsoft can use that feedback. Use <strong>Dismiss user risk</strong> only when the risk was real but benign. A user can appear at risk again when new or ongoing linked signals are present, so verify the current risk history rather than assuming a reappearance proves that a dismissal failed.</p>
+                    <p>Dismissing risk is processed asynchronously and can take a few minutes to show up, and risk feedback on detections is processed offline. So do not treat the click as the outcome. Check directly via <code>/identityProtection/riskyUsers/{id}</code> in Microsoft Graph &mdash; the risk reports in Graph require Entra ID P2 &mdash; or open the risky users list in the Microsoft Entra admin center under Protection &gt; Identity Protection &gt; Risky users, and confirm the state actually moved to dismissed or remediated rather than persisting as at risk.</p>
+
+                    <h2 id="leaked-credentials">Leaked Credentials without independent confirmation</h2>
+                    <p>The Leaked Credentials detection is not a loose or partial dataset match. Microsoft validates discovered credential material against the tenant's current valid password hashes and emits the detection only for a confirmed match. It is always high risk because it represents verified credential exposure, not a heuristic signal.</p>
+                    <p>That does not mean every alert proves an attacker used the account, but it does mean the response should be serious: start a secure password reset and review or revoke sessions according to the incident runbook. For hybrid identities, password hash synchronization is required for on-premises password remediation through Entra.</p>
+                    <p>Do not disable the detection merely to reduce queue volume. Improve triage, ownership and automated remediation instead.</p>
+
+                    <h2 id="p1-p2">P1 versus P2: what risk detection you actually have</h2>
+                    <p>Detailed premium detections and risk-based Conditional Access require Entra ID P2 or Microsoft 365 E5. Free and P1 tenants can still receive nonpremium detections and generic "Additional risk detected" events, but they do not receive detailed premium detection context or risk-based Conditional Access. That matters because "Identity Protection" gets used loosely, and a P1 admin reading about risky user detection may not realise the feature is unavailable regardless of configuration effort. On P1, build Conditional Access on the signals you do have &mdash; device compliance, location, MFA state &mdash; since there is no risk score to build a policy on. See <a href="2026-08-11-zero-trust-m365-identity.html">the Identity pillar</a> for how those fit together.</p>
+
+                    <h2 id="reduce-noise">Reducing false positives without losing signal</h2>
+                    <ul>
+                        <li><strong>Define your known-safe network ranges as named locations and mark them as trusted</strong> &mdash; office IPs, established VPN egress. Sign-ins from trusted named locations lower the calculated sign-in risk and improve the accuracy of the risk calculation, so expected infrastructure stops producing travel-pattern false positives</li>
+                        <li><strong>Require step-up authentication rather than a hard block</strong> at medium risk, reserving blocks for high risk. This reduces the cost of a false positive from a lockout to an extra prompt</li>
+                        <li><strong>Review risk policy scope regularly</strong> &mdash; a policy scoped too broadly generates volume a narrower one would not</li>
+                    </ul>
+
+                    <h2 id="msp">Alert triage for MSPs across many tenants</h2>
+                    <p>At fifty-plus tenants, per-tenant manual review does not hold up, which is why the honest answer in MSP circles is often "we do not investigate most alerts." The workable approach is a centralised layer surfacing only high-risk, high-confidence detections across all managed tenants into one queue, with medium and low risk handled by automated remediation &mdash; forced reset, step-up MFA &mdash; rather than manual review. Building it needs either a PSA/RMM integration pulling the Graph <code>identityProtection</code> endpoints across tenants, or a multi-tenant layer plus a scripted rollup. Either way, the answer to "how do I review this manually across fifty tenants" is that you do not; you triage by policy.</p>
+
+                    <h2 id="bottom-line">Bottom line</h2>
+                    <p>Identity Protection is only as useful as the trust admins place in it. Verify dismissals actually persist, treat Leaked Credentials as confirmed credential exposure that goes straight into a password-reset and session-revocation runbook, and if you are on P1, stop looking for a reduced version of risk detection that does not exist.</p>
+
+                    <section class="post-glossary">
+                    <h2 id="glossary">Glossary</h2>
+                    <dl>
+                        <dt>Identity Protection</dt><dd>Entra ID P2 risk engine that scores users and sign-ins for compromise likelihood and can feed that risk into Conditional Access.</dd>
+                        <dt>Risky user</dt><dd>A user Entra ID has flagged as likely compromised. Medium and high risk states persist until remediated or dismissed; low risk detections and users age out automatically after six months.</dd>
+                        <dt>Leaked Credentials</dt><dd>A detection raised when credential material found by Microsoft's credential scanning is validated against the tenant's current valid password hashes and matches. Always delivered as high risk: it is confirmed credential exposure, though not proof that an attacker has used the account.</dd>
+                        <dt>Named location</dt><dd>A defined IP range or country in Entra ID. Marked as trusted, it lowers the sign-in risk calculated for sign-ins from known-safe infrastructure.</dd>
+                        <dt>Step-up authentication</dt><dd>Requiring an additional, stronger authentication factor in response to elevated risk, instead of blocking the sign-in outright.</dd>
+                    </dl>
+                    </section>
+
+                    <section class="faq">
+                    <h2 id="faq">Frequently Asked Questions</h2>
+                    <h3>Why can I not dismiss Risky Users in Identity Protection?</h3>
+                    <p>Dismissing risk is processed asynchronously and can take a few minutes to update the report, and risk feedback on detections is processed offline. After dismissing, verify the actual risk state via Microsoft Graph (/identityProtection/riskyUsers/{id}, which requires Entra ID P2) or the admin center rather than assuming the click cleared it.</p>
+                    <h3>Are Entra ID Leaked Credentials alerts always real?</h3>
+                    <p>Yes, in the sense that matters: Microsoft validates the discovered credential material against your tenant's current valid password hashes and only emits the detection on a confirmed match, which is why it is always high risk. It confirms the password is exposed, not that an attacker has already signed in — so reset the password securely, revoke sessions, and check the risk history and sign-in logs for correlated activity.</p>
+                    <h3>How do I reduce false positives in Identity Protection without losing coverage?</h3>
+                    <p>Define known-safe network ranges as named locations and mark them as trusted so sign-ins from them carry lower calculated risk, use step-up authentication instead of hard blocks at medium risk, and review risk policy scope regularly rather than leaving it broad.</p>
+                    <h3>Do SMBs really need Entra ID P2 for risk detection?</h3>
+                    <p>Risk-based sign-in and user-risk Conditional Access require P2 — there is no reduced version on P1. P1 tenants can still build meaningful Conditional Access on device, location and MFA signals without a risk score.</p>
+                    <h3>How should MSPs triage Identity Protection alerts across dozens of tenants?</h3>
+                    <p>Manual per-tenant review does not scale past a handful. A centralised queue surfacing only high-confidence, high-risk detections, combined with automated remediation for medium and low risk, is the realistic approach.</p>
+                    </section>
+
+                    <hr>
+                    <h3>References</h3>
+                    <ol class="post-references">
+                        <li><a href="https://learn.microsoft.com/en-us/entra/id-protection/overview-identity-protection" target="_blank" rel="noopener noreferrer">Microsoft Learn: What is Microsoft Entra ID Protection?</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/entra/id-protection/concept-identity-protection-risks" target="_blank" rel="noopener noreferrer">Microsoft Learn: Risk detections in Entra ID Protection</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/graph/api/resources/riskyuser" target="_blank" rel="noopener noreferrer">Microsoft Graph: riskyUser resource type</a></li>
+                    </ol>
+                </div>
+            </section>
+
+            <section class="author-bio">
+                <img src="../assets/images/cloudknox-author.webp" alt="Philipp Schmidt - Microsoft 365 Security Consultant - easyM365.de" class="author-avatar" loading="lazy">
+                <div class="author-info">
+                    <h3>Philipp Schmidt</h3>
+                    <p>IT consultant specializing in Microsoft 365, Security, and Zero Trust architecture. Helping SMBs build secure, scalable, and simple cloud solutions.</p>
+                    <p><strong>Zero Trust. Zero Drama. Zero Bullshit.</strong></p>
+                    <p><a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Learn more: https://easym365.de</a></p>
+                </div>
+            </section>
+        </article>
+        <div id="post-navigation"></div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2026 Philipp Schmidt. All rights reserved.</p>
+            <p>Secure. Scalable. Simple M365.</p>
+            <div class="footer-links">
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+                <a href="https://www.linkedin.com/in/pschmidt3010" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://github.com/farpoint-tech" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const menuToggle = document.getElementById("menu-toggle");
+        const nav = document.getElementById("nav");
+        menuToggle.addEventListener("click", () => { nav.classList.toggle("active"); });
+    </script>
+    <script src="../assets/js/post-navigation.js"></script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Entra Identity Protection: Triage Risky Users Without Training Yourself to Ignore the Queue",
+  "description": "How to triage Entra Identity Protection detections, handle verified Leaked Credentials alerts, and keep noise from overwhelming the queue.",
+  "image": "https://endlesstech.blog/assets/images/identity-protection-false-positives/identity-protection-hero.svg",
+  "author": {
+    "@type": "Person",
+    "name": "Philipp Schmidt",
+    "url": "https://easym365.de"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "EndlessTech Blog"
+  },
+  "datePublished": "2026-10-13",
+  "dateModified": "2026-10-13",
+  "inLanguage": "en",
+  "mainEntityOfPage": "https://endlesstech.blog/posts/2026-09-15-entra-identity-protection-false-positives.html"
+}
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Why can I not dismiss Risky Users in Identity Protection?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Dismissing risk is processed asynchronously and can take a few minutes to update the report, and risk feedback on detections is processed offline. After dismissing, verify the actual risk state via Microsoft Graph (/identityProtection/riskyUsers/{id}, which requires Entra ID P2) or the admin center rather than assuming the click cleared it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are Entra ID Leaked Credentials alerts always real?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, in the sense that matters: Microsoft validates the discovered credential material against your tenant's current valid password hashes and only emits the detection on a confirmed match, which is why it is always high risk. It confirms the password is exposed, not that an attacker has already signed in \u2014 so reset the password securely, revoke sessions, and check the risk history and sign-in logs for correlated activity."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I reduce false positives in Identity Protection without losing coverage?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Define known-safe network ranges as named locations and mark them as trusted so sign-ins from them carry lower calculated risk, use step-up authentication instead of hard blocks at medium risk, and review risk policy scope regularly rather than leaving it broad."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do SMBs really need Entra ID P2 for risk detection?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Risk-based sign-in and user-risk Conditional Access require P2 \u2014 there is no reduced version on P1. P1 tenants can still build meaningful Conditional Access on device, location and MFA signals without a risk score."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How should MSPs triage Identity Protection alerts across dozens of tenants?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Manual per-tenant review does not scale past a handful. A centralised queue surfacing only high-confidence, high-risk detections, combined with automated remediation for medium and low risk, is the realistic approach."
+      }
+    }
+  ]
+}
+    </script>
+</body>
+</html>

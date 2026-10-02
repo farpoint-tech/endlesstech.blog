@@ -164,6 +164,21 @@ def read_under_review(root: str) -> set:
     return out
 
 
+def read_pending(root: str) -> set:
+    """Filenames in posts/ that are published ahead of their release date.
+
+    An article whose homepage card still waits in .scheduled/cards/ is
+    reachable by URL and listed in sitemap.xml, so search engines can find it,
+    but it stays off the homepage, feed.xml and llms.txt until the release
+    script moves the card onto the homepage on its release date."""
+    out = set()
+    for path in glob.glob(os.path.join(root, ".scheduled", "cards", "*.html")):
+        target = card_target(read(path))
+        if target and os.path.exists(os.path.join(root, POSTS_DIR, target)):
+            out.add(target)
+    return out
+
+
 def read_post(root: str, filename: str) -> dict:
     relpath = "%s/%s" % (POSTS_DIR, filename)
     text = read(os.path.join(root, relpath))
@@ -407,11 +422,14 @@ def build_llms(posts: list[dict], old_llms: str) -> str:
 
 def regenerate_indexes(root: str, posts: list[dict] | None = None) -> list[dict]:
     posts = posts if posts is not None else read_posts(root)
+    # pending articles are in the sitemap, but not yet in the feed or llms.txt
+    pending = read_pending(root)
+    listed = [p for p in posts if p["filename"] not in pending]
     write(os.path.join(root, "sitemap.xml"), build_sitemap(posts))
     feed_path = os.path.join(root, "feed.xml")
-    write(feed_path, build_feed(posts, read(feed_path)))
+    write(feed_path, build_feed(listed, read(feed_path)))
     llms_path = os.path.join(root, "llms.txt")
-    write(llms_path, build_llms(posts, read(llms_path)))
+    write(llms_path, build_llms(listed, read(llms_path)))
     return posts
 
 

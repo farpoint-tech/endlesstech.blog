@@ -55,6 +55,10 @@ def check(root: str, strict: bool = False) -> list[str]:
     stubs = site_index.read_stubs(root)
     review = site_index.read_under_review(root)
     posts = [f for f in files if f not in stubs and f not in review]
+    # published ahead of the release date: reachable and in the sitemap, but
+    # no homepage card, no feed entry and no llms.txt line until release day
+    pending = site_index.read_pending(root) & set(posts)
+    listed_posts = [f for f in posts if f not in pending]
 
     # articles under review keep their URL but must be unlisted and noindex
     for filename in sorted(review):
@@ -102,7 +106,10 @@ def check(root: str, strict: bool = False) -> list[str]:
             continue
         listing[target] = listing.get(target, 0) + 1
 
-    for filename in posts:
+    for filename in sorted(set(listing) & pending):
+        errors.append("index.html: card for posts/%s while its card is still "
+                      "waiting in .scheduled/cards/" % filename)
+    for filename in listed_posts:
         count = listing.get(filename, 0)
         if count == 0:
             errors.append("index.html: no card in the main listing for %s" % filename)
@@ -148,7 +155,12 @@ def check(root: str, strict: bool = False) -> list[str]:
             seen = _count_xml(text, ".//{*}loc", errors, name)
         elif name == "feed.xml":
             seen = _count_xml(text, ".//{*}item/{*}link", errors, name)
-        for filename in posts:
+        required = posts if name == "sitemap.xml" else listed_posts
+        if name != "sitemap.xml":
+            for filename in sorted(set(seen) & pending):
+                errors.append("%s: lists posts/%s before its release date"
+                              % (name, filename))
+        for filename in required:
             count = seen.get(filename, 0)
             if count == 0:
                 errors.append("%s: %s is missing" % (name, filename))

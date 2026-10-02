@@ -57,15 +57,20 @@ it does fail if the stub's target no longer exists or if a stub gets listed.
 
 ## Scheduled posts
 
-**Never commit article HTML to `master` before its release date.** GitHub Pages
-serves every file on that branch, so a post on `master` is public the moment it
-lands there — a `noindex` tag is a crawl-control fallback, not a confidentiality
-boundary.
+Articles go onto `master` **ahead of their release date**: reachable by direct
+link and listed in `sitemap.xml` so search engines can find them, but **not** on
+the homepage, in `feed.xml` or in `llms.txt`. What keeps an article in that
+state is its homepage card still waiting in `.scheduled/cards/<slug>.html`;
+`tools/site_index.py` and `tools/check-findability.py` both read that. On the
+release date the workflow moves the card onto the homepage and regenerates
+feed and llms.txt.
+
+`scheduled-posts` remains the place where articles are drafted.
 
 Preparing a post:
 
-1. Commit the article to the **`scheduled-posts`** branch (`posts/YYYY-MM-DD-slug.html`),
-   together with any images it needs that `master` does not already have.
+1. Commit the article to **`master`** (`posts/YYYY-MM-DD-slug.html`) together with its
+   images, and keep a copy on `scheduled-posts`.
 2. Add its release date to **`.scheduled/releases.json`**:
    `{"date": "2026-09-10", "slug": "2026-09-03-entra-pim-authentication-context",
    "card": ".scheduled/cards/2026-09-03-entra-pim-authentication-context.html"}`.
@@ -80,7 +85,8 @@ On the release day the workflow `.github/workflows/release-series.yml` runs
 entry due today or earlier that is not on `master` yet, so a missed run catches
 up by itself, and it:
 
-- fetches `posts/<slug>.html` and any missing `assets/` files from `scheduled-posts`
+- fetches `posts/<slug>.html` and any missing `assets/` files from `scheduled-posts`,
+  unless the article is already on `master`
 - inserts the card into the main listing of `index.html` at the
   `<!-- SERIES-RELEASE-SLOT -->` marker and re-sorts it newest first
 - deletes the consumed card
