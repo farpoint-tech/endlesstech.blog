@@ -30,7 +30,7 @@ Teams · Compliance (GDPR, NIS2)
 
 ## All articles
 
-- [Intune Policy Not Applying: Why Silent Failures Keep Coming Back](https://endlesstech.blog/posts/2026-09-08-intune-policy-not-applying-troubleshooting.html) — A practical troubleshooting order for Intune policy applicability, conflicts, check-ins, registration state and App Protection failures.
+- [Intune Policy Not Applying: Why Silent Failures Keep Coming Back](https://endlesstech.blog/posts/2026-09-08-intune-policy-not-applying-troubleshooting.html) — A practical troubleshooting order for Intune policies that do not apply: applicability, conflicts, check-ins, registration state and App Protection…
 - [Conditional Access Policy Baseline: Cleaning Up 40 Policies Nobody Reviews](https://endlesstech.blog/posts/2026-09-05-conditional-access-policy-baseline.html) — A Conditional Access baseline built on Microsoft's Secure foundation templates: seven core policies, report-only deadlines, and consolidating policy…
 - [Entra ID PIM Setup: What to Validate About Authentication Context at Role Activation](https://endlesstech.blog/posts/2026-09-03-entra-pim-authentication-context.html) — What Microsoft documents about PIM authentication context, the 10-minute reauthentication window, and how to validate the behaviour in your tenant.
 - [Windows Autopilot V1 vs V2: A Technical Guide to classic Autopilot and Device Preparation](https://endlesstech.blog/posts/2026-09-22-windows-autopilot-v1-vs-v2-technical-guide.html) — When to use classic Autopilot versus Device Preparation, how to set up both, the service principal that breaks most V2 rollouts, and the real pitfalls.

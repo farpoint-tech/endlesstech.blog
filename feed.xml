@@ -19,7 +19,7 @@
       <link>https://endlesstech.blog/posts/2026-09-08-intune-policy-not-applying-troubleshooting.html</link>
       <guid>https://endlesstech.blog/posts/2026-09-08-intune-policy-not-applying-troubleshooting.html</guid>
       <pubDate>Fri, 02 Oct 2026 00:00:00 +0000</pubDate>
-      <description>A practical troubleshooting order for Intune policy applicability, conflicts, check-ins, registration state and App Protection failures.</description>
+      <description>A practical troubleshooting order for Intune policies that do not apply: applicability, conflicts, check-ins, registration state and App Protection failures.</description>
     </item>
 
     <item>
@@ -154,7 +154,7 @@
       <title>From Theory to Implementation: How Context Engineering Technically Works</title>
       <link>https://endlesstech.blog/posts/context-engineering-architecture.html</link>
       <guid>https://endlesstech.blog/posts/context-engineering-architecture.html</guid>
-      <pubDate>Mon, 22 Jun 2026 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 26 Jun 2026 00:00:00 +0000</pubDate>
       <description>From theory to implementation: Discover the technical reality behind a productive Context Engineering system. Learn how functional separation, prompt architecture, and clear ownership drive AI success.</description>
     </item>
 
