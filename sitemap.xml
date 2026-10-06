@@ -146,11 +146,6 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://endlesstech.blog/posts/context-engineering-architecture.html</loc>
-    <lastmod>2026-06-22</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://endlesstech.blog/posts/2026-06-22-demystifying-microsoft-graph-api-practical-guide.html</loc>
     <lastmod>2026-09-05</lastmod>
     <priority>0.8</priority>
@@ -183,6 +178,11 @@
   <url>
     <loc>https://endlesstech.blog/posts/2026-05-21-ghost-hunting-m365-orphaned-teams-channel-sites.html</loc>
     <lastmod>2026-09-06</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://endlesstech.blog/posts/context-engineering-architecture.html</loc>
+    <lastmod>2026-05-03</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
