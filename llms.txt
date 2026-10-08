@@ -30,6 +30,7 @@ Teams · Compliance (GDPR, NIS2)
 
 ## All articles
 
+- [B2B Guest User Governance: Finding the Accounts Nobody Remembers Inviting](https://endlesstech.blog/posts/2026-09-12-b2b-guest-user-governance-cleanup.html) — Most tenants do not know their real guest count.
 - [M365 Offboarding Automation: Why Mostly Reliable Is Not Good Enough](https://endlesstech.blog/posts/2026-09-10-m365-offboarding-automation-lifecycle.html) — A complete M365 offboarding sequence, a method to audit what a departed employee can still access, and automation options without Entra ID Governance.
 - [Intune Policy Not Applying: Why Silent Failures Keep Coming Back](https://endlesstech.blog/posts/2026-09-08-intune-policy-not-applying-troubleshooting.html) — A practical troubleshooting order for Intune policies that do not apply: applicability, conflicts, check-ins, registration state and App Protection…
 - [Conditional Access Policy Baseline: Cleaning Up 40 Policies Nobody Reviews](https://endlesstech.blog/posts/2026-09-05-conditional-access-policy-baseline.html) — A Conditional Access baseline built on Microsoft's Secure foundation templates: seven core policies, report-only deadlines, and consolidating policy…

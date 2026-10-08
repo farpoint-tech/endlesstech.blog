@@ -6,13 +6,21 @@
     <description>Practical Microsoft 365 security guides, Zero Trust strategies, and Intune tips for SMBs. By Philipp Schmidt.</description>
     <language>en</language>
     <managingEditor>philippschmidt3010@gmail.com (Philipp Schmidt)</managingEditor>
-    <lastBuildDate>Tue, 06 Oct 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 08 Oct 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://endlesstech.blog/feed.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://endlesstech.blog/assets/images/logo.webp</url>
       <title>EndlessTech Blog</title>
       <link>https://endlesstech.blog/</link>
     </image>
+
+    <item>
+      <title>B2B Guest User Governance: Finding the Accounts Nobody Remembers Inviting</title>
+      <link>https://endlesstech.blog/posts/2026-09-12-b2b-guest-user-governance-cleanup.html</link>
+      <guid>https://endlesstech.blog/posts/2026-09-12-b2b-guest-user-governance-cleanup.html</guid>
+      <pubDate>Thu, 08 Oct 2026 00:00:00 +0000</pubDate>
+      <description>Most tenants do not know their real guest count. How to audit B2B Collaboration, Direct Connect and cross-tenant access, and clean up inactive guest accounts.</description>
+    </item>
 
     <item>
       <title>M365 Offboarding Automation: Why Mostly Reliable Is Not Good Enough</title>
