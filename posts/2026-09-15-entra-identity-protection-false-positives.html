@@ -95,7 +95,7 @@
                     <p>Do not disable the detection merely to reduce queue volume. Improve triage, ownership and automated remediation instead.</p>
 
                     <h2 id="p1-p2">P1 versus P2: what risk detection you actually have</h2>
-                    <p>Detailed premium detections and risk-based Conditional Access require Entra ID P2 or Microsoft 365 E5. Free and P1 tenants can still receive nonpremium detections and generic "Additional risk detected" events, but they do not receive detailed premium detection context or risk-based Conditional Access. That matters because "Identity Protection" gets used loosely, and a P1 admin reading about risky user detection may not realise the feature is unavailable regardless of configuration effort. On P1, build Conditional Access on the signals you do have &mdash; device compliance, location, MFA state &mdash; since there is no risk score to build a policy on. See <a href="2026-08-11-zero-trust-m365-identity.html">the Identity pillar</a> for how those fit together.</p>
+                    <p>Detailed premium detections and risk-based Conditional Access require Entra ID P2 or Microsoft 365 E5. Free and P1 tenants can still receive nonpremium detections and generic "Additional risk detected" events, but they do not receive detailed premium detection context or risk-based Conditional Access. That matters because "Identity Protection" gets used loosely, and a P1 admin may see limited risk information but not the full detection details, risk history or risk-based Conditional Access available with P2. On P1, build Conditional Access on the signals you do have &mdash; device compliance, location, MFA state &mdash; since there is no risk score to build a policy on. See <a href="2026-08-11-zero-trust-m365-identity.html">the Identity pillar</a> for how those fit together.</p>
 
                     <h2 id="reduce-noise">Reducing false positives without losing signal</h2>
                     <ul>
@@ -108,7 +108,7 @@
                     <p>At fifty-plus tenants, per-tenant manual review does not hold up, which is why the honest answer in MSP circles is often "we do not investigate most alerts." The workable approach is a centralised layer surfacing only high-risk, high-confidence detections across all managed tenants into one queue, with medium and low risk handled by automated remediation &mdash; forced reset, step-up MFA &mdash; rather than manual review. Building it needs either a PSA/RMM integration pulling the Graph <code>identityProtection</code> endpoints across tenants, or a multi-tenant layer plus a scripted rollup. Either way, the answer to "how do I review this manually across fifty tenants" is that you do not; you triage by policy.</p>
 
                     <h2 id="bottom-line">Bottom line</h2>
-                    <p>Identity Protection is only as useful as the trust admins place in it. Verify dismissals actually persist, treat Leaked Credentials as confirmed credential exposure that goes straight into a password-reset and session-revocation runbook, and if you are on P1, stop looking for a reduced version of risk detection that does not exist.</p>
+                    <p>Identity Protection is only as useful as the trust admins place in it. Verify dismissals actually persist, treat Leaked Credentials as confirmed credential exposure that goes straight into a password-reset and session-revocation runbook, and if you are on P1, use the limited risk reports available and recognise that full investigation details and risk-based policies require P2.</p>
 
                     <section class="post-glossary">
                     <h2 id="glossary">Glossary</h2>
@@ -130,7 +130,7 @@
                     <h3>How do I reduce false positives in Identity Protection without losing coverage?</h3>
                     <p>Define known-safe network ranges as named locations and mark them as trusted so sign-ins from them carry lower calculated risk, use step-up authentication instead of hard blocks at medium risk, and review risk policy scope regularly rather than leaving it broad.</p>
                     <h3>Do SMBs really need Entra ID P2 for risk detection?</h3>
-                    <p>Risk-based sign-in and user-risk Conditional Access require P2 — there is no reduced version on P1. P1 tenants can still build meaningful Conditional Access on device, location and MFA signals without a risk score.</p>
+                    <p>Risk-based sign-in and user-risk Conditional Access require P2. P1 offers limited risk reporting and some nonpremium detections, but not full detection details or risk-based policies; standard Conditional Access can still use device, location and authentication signals.</p>
                     <h3>How should MSPs triage Identity Protection alerts across dozens of tenants?</h3>
                     <p>Manual per-tenant review does not scale past a handful. A centralised queue surfacing only high-confidence, high-risk detections, combined with automated remediation for medium and low risk, is the realistic approach.</p>
                     </section>
@@ -232,7 +232,7 @@
       "name": "Do SMBs really need Entra ID P2 for risk detection?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Risk-based sign-in and user-risk Conditional Access require P2 \u2014 there is no reduced version on P1. P1 tenants can still build meaningful Conditional Access on device, location and MFA signals without a risk score."
+        "text": "Risk-based sign-in and user-risk Conditional Access require P2. P1 offers limited risk reporting and some nonpremium detections, but not full detection details or risk-based policies; standard Conditional Access can still use device, location and authentication signals."
       }
     },
     {
