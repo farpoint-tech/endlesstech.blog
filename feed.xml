@@ -6,13 +6,21 @@
     <description>Practical Microsoft 365 security guides, Zero Trust strategies, and Intune tips for SMBs. By Philipp Schmidt.</description>
     <language>en</language>
     <managingEditor>philippschmidt3010@gmail.com (Philipp Schmidt)</managingEditor>
-    <lastBuildDate>Thu, 08 Oct 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 13 Oct 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://endlesstech.blog/feed.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://endlesstech.blog/assets/images/logo.webp</url>
       <title>EndlessTech Blog</title>
       <link>https://endlesstech.blog/</link>
     </image>
+
+    <item>
+      <title>Entra Identity Protection: Triage Risky Users Without Training Yourself to Ignore the Queue</title>
+      <link>https://endlesstech.blog/posts/2026-09-15-entra-identity-protection-false-positives.html</link>
+      <guid>https://endlesstech.blog/posts/2026-09-15-entra-identity-protection-false-positives.html</guid>
+      <pubDate>Tue, 13 Oct 2026 00:00:00 +0000</pubDate>
+      <description>How to triage Entra Identity Protection detections, act on verified Leaked Credentials alerts, and tune risk policies so the noise stops burying real incidents.</description>
+    </item>
 
     <item>
       <title>B2B Guest User Governance: Finding the Accounts Nobody Remembers Inviting</title>
