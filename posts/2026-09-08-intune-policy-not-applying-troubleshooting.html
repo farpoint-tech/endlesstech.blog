@@ -5,24 +5,24 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
     <meta name="robots" content="index,follow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A practical troubleshooting order for Intune policy applicability, conflicts, check-ins, registration state and App Protection failures.">
+    <meta name="description" content="A practical troubleshooting order for Intune policies that do not apply: applicability, conflicts, check-ins, registration state and App Protection failures.">
     <meta name="author" content="Philipp Schmidt">
-    <meta name="keywords" content="Intune policy not applying, Intune silent failure, Intune app protection policy stopped working, Intune Entra sync licensing mismatch, Intune Autopilot lifecycle, Intune Richtlinie wird nicht angewendet, Intune Fehlersuche">
+    <meta name="keywords" content="Intune policy not applying, Intune silent failure, Intune app protection policy stopped working, Intune Entra sync licensing mismatch, Intune Autopilot lifecycle">
 
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="article">
-    <meta property="og:title" content="Intune Policy Not Applying: Why Silent Failures Keep Coming Back">
-    <meta property="og:description" content="A practical troubleshooting order for Intune policy applicability, conflicts, check-ins, registration state and App Protection failures.">
+    <meta property="og:title" content="Intune Policy Not Applying: A Troubleshooting Order">
+    <meta property="og:description" content="A practical troubleshooting order for Intune policies that do not apply: applicability, conflicts, check-ins, registration state and App Protection failures.">
     <meta property="og:image" content="https://endlesstech.blog/assets/images/intune-policy-not-applying/intune-troubleshooting-hero.svg">
     <meta property="og:url" content="https://endlesstech.blog/posts/2026-09-08-intune-policy-not-applying-troubleshooting.html">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Intune Policy Not Applying: Why Silent Failures Keep Coming Back">
-    <meta name="twitter:description" content="A practical troubleshooting order for Intune policy applicability, conflicts, check-ins, registration state and App Protection failures.">
+    <meta name="twitter:title" content="Intune Policy Not Applying: A Troubleshooting Order">
+    <meta name="twitter:description" content="A practical troubleshooting order for Intune policies that do not apply: applicability, conflicts, check-ins, registration state and App Protection failures.">
     <meta name="twitter:image" content="https://endlesstech.blog/assets/images/intune-policy-not-applying/intune-troubleshooting-hero.svg">
 
-    <title>Intune Policy Not Applying: Why Silent Failures Keep Coming Back</title>
+    <title>Intune Policy Not Applying: A Troubleshooting Order</title>
 
     <link rel="alternate" type="application/rss+xml" title="EndlessTech Blog RSS Feed" href="https://endlesstech.blog/feed.xml">
     <link rel="stylesheet" href="../assets/css/style.css">
@@ -51,7 +51,7 @@
             <header class="post-full-header">
                 <h1 class="post-full-title">Intune Policy Not Applying: Why Silent Failures Keep Coming Back</h1>
                 <div class="post-full-meta">
-                    <time datetime="2026-10-01">October 2026</time> &bull; By Philipp Schmidt
+                    <time datetime="2026-10-02">October 2026</time> &bull; By Philipp Schmidt
                 </div>
                 <div class="post-tags"><span class="tag">Intune</span><span class="tag">Device Management</span><span class="tag">Microsoft 365</span><span class="tag">Troubleshooting</span></div>
             </header>
@@ -79,6 +79,7 @@
                             <li><a href="#app-protection">When App Protection stops being detected by Conditional Access</a></li>
                             <li><a href="#order">A practical troubleshooting order</a></li>
                             <li><a href="#autopilot">Autopilot: front-loading the pain, not removing it</a></li>
+                            <li><a href="#bottom-line">Bottom line</a></li>
                             <li><a href="#glossary">Glossary</a></li>
                             <li><a href="#faq">Frequently Asked Questions</a></li>
                         </ol>
@@ -92,7 +93,7 @@
 
                     <h2 id="app-protection">When App Protection stops being detected by Conditional Access</h2>
                     <p>A specific and disproportionately painful failure: a Conditional Access policy requiring an approved client app or App Protection Policy starts rejecting a device that Intune still shows as protected. The workaround that circulates &mdash; remove all corporate apps and reinstall starting with Microsoft Authenticator &mdash; points at the wrong layer. App protection is a MAM control, and Learn states plainly that Intune app protection policies do not require an MDM service at all. The device's compliance state and its Entra device object are not what that grant control reads.</p>
-                    <p>What breaks is the app's own registration with the Intune MAM service. Run the documented check before anyone reinstalls anything: confirm the user is licensed for Intune and targeted by the policy, confirm the specific app is listed in that policy, and confirm the user has actually checked in. All of it is visible under <strong>Apps &gt; Monitor &gt; App protection status</strong> for that user, including the last sync time. Then check delivery timing. Learn documents retry intervals of 12 hours for a user who is unlicensed or not targeted, 24 hours for a tenant that is not onboarded, and roughly 30 minutes once MAM registration has succeeded. An app that has gone 90 days without contacting the Intune MAM service may be deregistered automatically, and re-registers on next launch. Reinstalling every corporate app is a way to force that last case; it is not a diagnosis. Device registration state only matters here if the same Conditional Access policy also requires a compliant device.</p>
+                    <p>What breaks is the app's own registration with the Intune MAM service. Run the documented check before anyone reinstalls anything: confirm the user is licensed for Intune and targeted by the policy, confirm the specific app is listed in that policy, and confirm the user has actually checked in. All of it is visible under <strong>Apps &gt; Monitor &gt; App protection status</strong> for that user, including the last sync time. Then check delivery timing. Learn documents retry intervals of 12 hours for a user who is unlicensed or not targeted, 24 hours for a tenant that is not onboarded, and roughly 30 minutes once MAM registration has succeeded. An app that has gone 90 days without contacting the Intune MAM service may be deregistered automatically, and re-registers on next launch. Reinstalling every corporate app is a way to force that last case; it is not a diagnosis. Device registration matters here only through Conditional Access. If a policy uses the <strong>Require app protection policy</strong> grant, the device has to be registered in Entra ID through a broker app (Microsoft Authenticator on iOS, Company Portal on Android), so a missing or broken broker blocks sign-in before app protection ever applies. Intune enrollment only comes into it when the same policy also requires a compliant device.</p>
 
                     <h2 id="order">A practical troubleshooting order</h2>
                     <p>Work from the device outward rather than from the policy inward:</p>
@@ -110,6 +111,13 @@
 
                     <h2 id="bottom-line">Bottom line</h2>
                     <p>Intune's failures are rarely visible where you would expect to find them &mdash; the policy's own configuration screen. Most of what looks like a broken policy is a conflict, a stale license sync, or a device that has not checked in. Working from the device outward finds the cause faster than staring at the same deployment status screen a second time.</p>
+
+                    <div class="post-cta">
+                        <h3>Zero Trust. Zero Drama. Zero Bullshit.</h3>
+                        <p>Is there a device in your tenant that has shown &ldquo;pending&rdquo; for a policy for more than a week?<br>
+                        <strong>Send me the policy and the device, and I'll show you where in the chain it stops.</strong></p>
+                        <a href="https://easym365.de" target="_blank" rel="noopener noreferrer" class="cta-button">Talk it through with me</a>
+                    </div>
 
                     <section class="post-glossary">
                     <h2 id="glossary">Glossary</h2>
@@ -197,8 +205,8 @@
     "@type": "Organization",
     "name": "EndlessTech Blog"
   },
-  "datePublished": "2026-10-01",
-  "dateModified": "2026-10-01",
+  "datePublished": "2026-10-02",
+  "dateModified": "2026-10-02",
   "inLanguage": "en",
   "mainEntityOfPage": "https://endlesstech.blog/posts/2026-09-08-intune-policy-not-applying-troubleshooting.html"
 }

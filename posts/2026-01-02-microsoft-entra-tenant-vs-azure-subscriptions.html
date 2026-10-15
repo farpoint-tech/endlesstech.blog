@@ -144,7 +144,7 @@
                         <div class="key-point">Manages authentication and authorization across all cloud services</div>
                     </div>
                     
-                    <p><strong>Terminology Note:</strong> If you're searching for <strong>Azure AD vs Entra ID</strong> — they're the same service. Microsoft renamed Azure Active Directory to Microsoft Entra ID in 2023. Entra ID is the identity service within the broader <a href="2025-12-18-zero-trust-microsoft-entra-suite.html">Entra suite</a>, which also includes Permissions Management and Verified ID. Wondering about cost? See our guide on <a href="2026-06-09-is-microsoft-entra-id-free-pricing-guide.html">whether Microsoft Entra ID is free</a>.</p>
+                    <p><strong>Terminology Note:</strong> If you're searching for <strong>Azure AD vs Entra ID</strong> — they're the same service. Microsoft renamed Azure Active Directory to Microsoft Entra ID in 2023. Entra ID is the identity service within the broader <a href="2025-12-18-zero-trust-microsoft-entra-suite.html">Microsoft Entra product family</a>, which also includes Entra ID Governance, External ID, Verified ID, Workload ID, Internet Access and Private Access. One name you will still find in older articles is Microsoft Entra Permissions Management — that product was retired on October 1, 2025 and is no longer available. Wondering about cost? See our guide on <a href="2026-06-09-is-microsoft-entra-id-free-pricing-guide.html">whether Microsoft Entra ID is free</a>.</p>
                 </section>
 
                 <section>
@@ -190,14 +190,14 @@
 
                 <section>
                     <h2>How to Get Access to an Azure Subscription Over an Enterprise Tenant</h2>
-                    <p>For organizations with an <strong>Enterprise Agreement (EA)</strong> with Microsoft, accessing Azure subscriptions is streamlined. <strong>Important:</strong> EA is common for large enterprises but not mandatory—alternatives include <strong>CSP (Cloud Solution Provider)</strong> or <strong>Pay-As-You-Go</strong>.</p>
+                    <p>For organizations with an <strong>Enterprise Agreement (EA)</strong> with Microsoft, accessing Azure subscriptions is streamlined. <strong>Important:</strong> EA is common for large enterprises but not mandatory. The alternatives are a <strong>Microsoft Customer Agreement (MCA)</strong>, today the standard direct agreement, a <strong>Microsoft Partner Agreement</strong> through a CSP partner, or a <strong>Microsoft Online Services Program</strong> (pay-as-you-go) account.</p>
                     
                     <h3>Step-by-Step Process:</h3>
                     <ol style="margin-left: var(--spacing-lg); margin-bottom: var(--spacing-md);">
                         <li><strong>Invitation to the Enterprise Tenant:</strong> Your administrator adds your account to the organization's Microsoft Entra ID tenant.</li>
                         <li><strong>Subscription Creation:</strong> An admin with the right permissions creates a new Azure subscription under the EA (or other contract type). It's automatically linked to the tenant.</li>
                         <li><strong>Role-Based Access Control (RBAC):</strong> Roles like <em>Owner</em>, <em>Contributor</em>, or <em>Reader</em> define what you can do within the subscription.</li>
-                        <li><strong>Cross-Tenant Access:</strong> For access to another tenant's subscription, Azure AD B2B collaboration is used. You're invited as a guest and granted RBAC permissions—ideal for consultants or multi-tenant setups.</li>
+                        <li><strong>Cross-Tenant Access:</strong> For access to another tenant's subscription, Microsoft Entra B2B collaboration (part of Microsoft Entra External ID) is used. You're invited as a guest and granted RBAC permissions—ideal for consultants or multi-tenant setups.</li>
                     </ol>
                 </section>
 
@@ -299,7 +299,7 @@
   "author": { "@type": "Person", "name": "Philipp Schmidt", "url": "https://easym365.de" },
   "publisher": { "@type": "Organization", "name": "EndlessTech Blog" },
   "datePublished": "2026-01-02",
-  "dateModified": "2026-06-20",
+  "dateModified": "2026-09-05",
   "mainEntityOfPage": "https://endlesstech.blog/posts/2026-01-02-microsoft-entra-tenant-vs-azure-subscriptions.html"
 }
     </script>

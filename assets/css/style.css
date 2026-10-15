@@ -755,6 +755,47 @@ em, i {
 .mb-lg { margin-bottom: var(--spacing-lg); }
 .mb-xl { margin-bottom: var(--spacing-xl); }
 
+/* Inline-style replacements (index.html) — identical declarations, no
+   inline style="" attributes anywhere in the markup. */
+.hero-inline-link {
+  color: #FFFFFF;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.section-intro {
+  color: var(--color-text-light);
+  max-width: 720px;
+  margin: 0 auto var(--spacing-lg);
+}
+
+.section-lead {
+  max-width: 700px;
+  margin: 0 auto var(--spacing-lg);
+}
+
+.pillars-figure {
+  margin-top: var(--spacing-xl);
+}
+
+.pillars-figure img {
+  max-width: 500px;
+  width: 100%;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+}
+
+.footer-copyright {
+  margin-top: var(--spacing-md);
+  font-size: 0.875rem;
+  color: var(--color-text-light);
+}
+
+.footer-legal {
+  margin-top: var(--spacing-sm);
+  font-size: 0.875rem;
+}
+
 /* ==================== Cornerstone Posts ==================== */
 .cornerstone-section {
   margin-top: var(--spacing-xxl);

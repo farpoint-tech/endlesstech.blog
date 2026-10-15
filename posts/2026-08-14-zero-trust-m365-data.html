@@ -70,7 +70,7 @@
 
                     <div class="post-tldr">
                         <h2>In short</h2>
-                        <p>Data is what attackers are after &mdash; the other three pillars exist to protect it. Zero Trust for data means protection travels with the file, wherever it goes: into email, onto a USB drive, into a third-party app, into an AI prompt. In Microsoft 365 that is Purview: sensitivity labels that carry encryption and access rules, DLP that stops sensitive content leaving, and DSPM for AI that watches what Copilot can reach.</p>
+                        <p>Data is what attackers are after &mdash; the other three pillars exist to protect it. Zero Trust for data means protection travels with the file, wherever it goes: into email, onto a USB drive, into a third-party app, into an AI prompt. In Microsoft 365 that is Purview: sensitivity labels that carry encryption and access rules, DLP that stops sensitive content leaving, and Data Security Posture Management that watches what Copilot can reach.</p>
                     </div>
 
                     <nav class="series-nav" aria-label="Zero Trust for Microsoft 365 series">
@@ -110,19 +110,19 @@
 
 <h2 id="the-controls">The Controls That Matter</h2>
 <p><strong>Sensitivity labels (Purview Information Protection).</strong> A simple taxonomy &mdash; Public, Internal, Confidential, Highly Confidential &mdash; that applies encryption, watermarks, and access restrictions and persists across Office apps, SharePoint, Teams, and email. Start with manual labelling to build awareness, then automate.</p>
-<p><strong>Data Loss Prevention (DLP).</strong> Policy-based controls that detect and block sensitive content &mdash; card numbers, health records, custom patterns &mdash; leaving via email, Teams, SharePoint, or the endpoint. Run in audit mode first, review two weeks of alerts, then enforce.</p>
+<p><strong>Data Loss Prevention (DLP).</strong> Policy-based controls that detect and block sensitive content &mdash; card numbers, health records, custom patterns &mdash; leaving via email, Teams, SharePoint, or the endpoint. Run the policy in simulation mode first &mdash; that is the actual policy state, and &ldquo;Audit only&rdquo; is an action, not a state. A simulation runs for up to 15 days, so about two weeks of data is exactly what you get. Review the simulation dashboard, switch on policy tips for a pilot group, then turn it on.</p>
 <p><strong>Auto-labeling and trainable classifiers.</strong> Once the taxonomy holds, let service-side and client-side auto-labeling apply labels at scale, so protection does not depend on every user remembering to click.</p>
-<p><strong>DSPM for AI.</strong> If Copilot is in the tenant, Data Security Posture Management for AI shows where sensitive data meets AI workloads and surfaces the gaps before they become leaks. This is where the data pillar and Copilot readiness meet &mdash; and why you <a href="2026-04-17-sharepoint-permission-auditing-copilot.html">audit SharePoint permissions before enabling Copilot</a>. Oversharing plus AI equals data leakage at scale.</p>
+<p><strong>Data Security Posture Management (DSPM).</strong> If Copilot is in the tenant, Purview DSPM shows where sensitive data meets AI workloads and surfaces the gaps before they become leaks. This is where the data pillar and Copilot readiness meet &mdash; and why you <a href="2026-04-17-sharepoint-permission-auditing-copilot.html">audit SharePoint permissions before enabling Copilot</a>. Oversharing plus AI equals data leakage at scale. The earlier product, DSPM for AI, is now marked &ldquo;classic&rdquo; and has been replaced by this broader version, which covers AI apps and agents alongside the rest of your data estate.</p>
 
 <h2 id="implementation">How to Roll It Out</h2>
 <p><strong>Phase one:</strong> Define and publish a small sensitivity-label taxonomy. Train users to apply it manually &mdash; adoption builds the awareness that automation later relies on.</p>
-<p><strong>Phase two:</strong> Create DLP policies for your highest-risk data. Start in audit mode, review, then switch to enforce.</p>
-<p><strong>Phase three:</strong> Turn on auto-labeling and endpoint DLP. If Copilot is deployed, enable DSPM for AI and close the oversharing gaps first.</p>
+<p><strong>Phase two:</strong> Create DLP policies for your highest-risk data. Start in simulation mode, review the dashboard, add policy tips for a pilot group, then turn it on.</p>
+<p><strong>Phase three:</strong> Turn on auto-labeling and endpoint DLP. If Copilot is deployed, turn on Purview DSPM and close the oversharing gaps first.</p>
 
 <h2 id="common-mistakes">Common Mistakes</h2>
 <p><strong>Enabling Copilot before auditing permissions.</strong> Copilot surfaces whatever a user can already reach. If SharePoint is overshared, Copilot turns that into instant, searchable exposure. Fix permissions and labels first.</p>
-<p><strong>Building a label taxonomy nobody understands.</strong> Twelve labels with sub-labels and no guidance get ignored. Four clear ones get used.</p>
-<p><strong>Going straight to enforce on DLP.</strong> You will block legitimate work and lose the room. Audit, review, communicate, then enforce.</p>
+<p><strong>Building a label taxonomy nobody understands.</strong> Twelve labels with sublabels and no guidance get ignored. Four clear ones get used. Purview is also moving parent labels to label groups, so plan the taxonomy against that structure.</p>
+<p><strong>Going straight to enforce on DLP.</strong> You will block legitimate work and lose the room. Simulate, review, communicate, then turn it on.</p>
 
                     <section class="post-glossary">
                     <h2 id="glossary">Glossary</h2>
@@ -131,18 +131,18 @@
                         <dt>Sensitivity label</dt><dd>A classification that travels with a document or email and applies encryption, watermarks, and access rules wherever the file goes.</dd>
                         <dt>Data Loss Prevention (DLP)</dt><dd>Policy-based detection and blocking of sensitive content leaving via email, Teams, SharePoint, or the endpoint.</dd>
                         <dt>Auto-labeling</dt><dd>Automatic application of sensitivity labels to data at rest and in transit using trainable classifiers, rather than relying on manual tagging.</dd>
-                        <dt>DSPM for AI</dt><dd>Data Security Posture Management for AI &mdash; monitors how sensitive data interacts with Copilot and other AI tools and surfaces coverage gaps.</dd>
+                        <dt>DSPM</dt><dd>Microsoft Purview Data Security Posture Management &mdash; monitors how sensitive data interacts with Copilot, other AI tools, and the rest of your data estate, and surfaces coverage gaps. Replaces the classic DSPM for AI.</dd>
                     </dl>
                     </section>
 
                     <section class="faq">
                     <h2 id="faq">Frequently Asked Questions</h2>
                     <h3>What does the Data pillar cover in Zero Trust for Microsoft 365?</h3>
-                    <p>Protecting the data itself so it stays protected wherever it moves. In Microsoft 365 that means Purview sensitivity labels (which carry encryption and access rules with the file), Data Loss Prevention, and auto-labeling &mdash; plus DSPM for AI when Copilot is in play.</p>
+                    <p>Protecting the data itself so it stays protected wherever it moves. In Microsoft 365 that means Purview sensitivity labels (which carry encryption and access rules with the file), Data Loss Prevention, and auto-labeling &mdash; plus Purview DSPM when Copilot is in play.</p>
                     <h3>How do sensitivity labels differ from SharePoint permissions?</h3>
                     <p>Permissions control access to a location; a sensitivity label travels with the file. Once labelled, a document keeps its encryption and access rules even after it is downloaded, emailed, or moved to another tenant &mdash; which permissions alone cannot do.</p>
                     <h3>What should I do about data security before enabling Copilot?</h3>
-                    <p>Audit SharePoint and OneDrive permissions for oversharing, publish and apply sensitivity labels to your sensitive content, and enable DSPM for AI. Copilot exposes whatever a user can already reach, so unmanaged oversharing becomes instant, searchable exposure.</p>
+                    <p>Find the overshared sites first &mdash; Purview DSPM data risk assessments and the SharePoint Advanced Management Content Management Assessment both do that job. While you remediate, apply the interim controls Microsoft's own blueprint calls for: Restricted Content Discovery to keep high-risk sites out of Copilot discovery, and a Purview DLP policy scoped to the Microsoft 365 Copilot location to keep sensitive content out of grounding. Then fix the permissions themselves and publish and apply sensitivity labels. Copilot exposes whatever a user can already reach, so unmanaged oversharing becomes instant, searchable exposure.</p>
                     </section>
 
                 </div>
@@ -196,7 +196,7 @@
     "name": "EndlessTech Blog"
   },
   "datePublished": "2026-08-14",
-  "dateModified": "2026-08-14",
+  "dateModified": "2026-09-05",
   "isPartOf": {
     "@type": "CreativeWorkSeries",
     "name": "Zero Trust for Microsoft 365"
@@ -214,7 +214,7 @@
       "name": "What does the Data pillar cover in Zero Trust for Microsoft 365?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Protecting the data itself so it stays protected wherever it moves. In Microsoft 365 that means Purview sensitivity labels (which carry encryption and access rules with the file), Data Loss Prevention, and auto-labeling \u2014 plus DSPM for AI when Copilot is in play."
+        "text": "Protecting the data itself so it stays protected wherever it moves. In Microsoft 365 that means Purview sensitivity labels (which carry encryption and access rules with the file), Data Loss Prevention, and auto-labeling \u2014 plus Purview DSPM when Copilot is in play."
       }
     },
     {
@@ -230,7 +230,7 @@
       "name": "What should I do about data security before enabling Copilot?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Audit SharePoint and OneDrive permissions for oversharing, publish and apply sensitivity labels to your sensitive content, and enable DSPM for AI. Copilot exposes whatever a user can already reach, so unmanaged oversharing becomes instant, searchable exposure."
+        "text": "Find the overshared sites first \u2014 Purview DSPM data risk assessments and the SharePoint Advanced Management Content Management Assessment both do that job. While you remediate, apply the interim controls Microsoft's own blueprint calls for: Restricted Content Discovery to keep high-risk sites out of Copilot discovery, and a Purview DLP policy scoped to the Microsoft 365 Copilot location to keep sensitive content out of grounding. Then fix the permissions themselves and publish and apply sensitivity labels. Copilot exposes whatever a user can already reach, so unmanaged oversharing becomes instant, searchable exposure."
       }
     }
   ]

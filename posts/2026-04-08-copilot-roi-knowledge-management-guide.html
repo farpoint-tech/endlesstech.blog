@@ -4,34 +4,32 @@
     <meta charset="UTF-8">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="robots" content="index,follow">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Microsoft 365 Copilot ROI breakdown for 60 users: real cost analysis, 5.4:1 return, NIST AI RMF mapping, glossary, and a 10-point readiness checklist.">
+    <meta name="robots" content="index, follow">
+    <meta name="description" content="A Microsoft 365 Copilot business case for 60 users built from Microsoft's own published numbers: every input named, every subtotal shown, and the two levers that move the result.">
     <meta name="author" content="Philipp Schmidt">
-    <meta name="keywords" content="Microsoft 365 Copilot, Copilot ROI, Knowledge Management, RAG, Graph Connector, Sensitivity Labels, DLP, NIST AI RMF, SharePoint, Zero Trust, Purview, Power Automate">
+    <meta name="keywords" content="Microsoft 365 Copilot, Copilot ROI, Copilot business case, Copilot pricing, Copilot assisted hours, Copilot usage report, semantic index, Restricted Content Discovery, SharePoint Advanced Management, Copilot adoption, knowledge management, Copilot readiness">
 
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="article">
-    <meta property="og:title" content="Copilot ROI: Why Knowledge Management Is the Difference Between 1.4:1 and 5.4:1">
-    <meta property="og:description" content="Microsoft 365 Copilot ROI breakdown for 60 users: real cost analysis, 5.4:1 return, NIST AI RMF mapping, glossary, and a 10-point readiness checklist.">
+    <meta property="og:title" content="Copilot ROI: A 60-User Model You Can Recalculate">
+    <meta property="og:description" content="A Microsoft 365 Copilot business case for 60 users built from Microsoft's own published numbers: every input named, every subtotal shown, and the two levers that move the result.">
     <meta property="og:image" content="https://endlesstech.blog/assets/images/copilot-mandate-hero.jpg">
     <meta property="og:url" content="https://endlesstech.blog/posts/2026-04-08-copilot-roi-knowledge-management-guide.html">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Copilot ROI: Why Knowledge Management Is the Difference Between 1.4:1 and 5.4:1">
-    <meta name="twitter:description" content="Microsoft 365 Copilot ROI breakdown for 60 users: real cost analysis, 5.4:1 return, NIST AI RMF mapping, glossary, and a 10-point readiness checklist.">
+    <meta name="twitter:title" content="Copilot ROI: A 60-User Model You Can Recalculate">
+    <meta name="twitter:description" content="A Microsoft 365 Copilot business case for 60 users built from Microsoft's own published numbers: every input named, every subtotal shown, and the two levers that move the result.">
     <meta name="twitter:image" content="https://endlesstech.blog/assets/images/copilot-mandate-hero.jpg">
 
-    <title>Copilot ROI: Why Knowledge Management Is the Difference Between 1.4:1 and 5.4:1 | EndlessTech Blog</title>
+    <title>Copilot ROI: A 60-User Model You Can Recalculate</title>
 
     <!-- Stylesheet -->
     <link rel="alternate" type="application/rss+xml" title="EndlessTech Blog RSS Feed" href="https://endlesstech.blog/feed.xml">
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/blog-post.css">
 
-    <!-- Google Fonts -->
-    <link rel="canonical" href="https://farpoint-tech.github.io/endlesstech.blog/posts/2026-04-08-copilot-roi-knowledge-management-guide.html" />
+    <link rel="canonical" href="https://endlesstech.blog/posts/2026-04-08-copilot-roi-knowledge-management-guide.html" />
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -52,7 +50,7 @@
                 <a href="https://easym365.de" target="_blank" rel="noopener">Website</a>
             </nav>
             <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
-                ☰
+                &#9776;
             </button>
         </div>
     </header>
@@ -62,10 +60,10 @@
         <article class="post-full">
             <header class="post-full-header">
                 <div class="post-title-row">
-                    <h1 class="post-full-title">Copilot ROI: Why Knowledge Management Is the Difference Between 1.4:1 and 5.4:1</h1>
+                    <h1 class="post-full-title">Copilot ROI: A 60-User Model You Can Recalculate</h1>
                 </div>
                 <div class="post-full-meta">
-                    By Philipp Schmidt
+                    <time datetime="2026-04-08">April 2026</time> &bull; Updated September 2026 &bull; By Philipp Schmidt
                 </div>
             </header>
 
@@ -77,376 +75,277 @@
             <section class="post-full-content">
                 <div class="post-content">
 
-                    <p>Everyone wants the ROI slide. The one that shows a 5:1 return, a break-even in six weeks, and a CFO who stops asking uncomfortable questions. The problem is that most Copilot deployments never get there — not because the technology is bad, but because the knowledge infrastructure underneath it is a disaster. Orphaned SharePoint sites, documents nobody labelled, data that Copilot cannot legally touch, and users who were handed a license and told "good luck." The result is a very expensive search engine that occasionally hallucinates.</p>
+                    <p>Every Copilot business case I have been handed had the same defect: a savings number with no arithmetic behind it. Somebody assumed two hours a week per user, multiplied by a headcount, and the slide was done. Nobody could say where the two hours came from, how many of those users would still be opening Copilot in month four, or what happens to the number when half the company's SharePoint estate is excluded from search.</p>
 
-                    <p>This post is the complete technical and financial picture. It covers a real cost model for 60 users, the seven terms you need to understand before you touch a Copilot setting, the NIST AI Risk Management Framework mapped to actual Microsoft tooling, the data flow architecture that makes retrieval work, and a ten-point checklist that tells you whether your organisation is actually ready — or just thinks it is.</p>
+                    <p>So here is the model instead of the slide. Sixty users, one year, every input named and every subtotal shown, using the two productivity constants Microsoft itself publishes. Substitute your own numbers where mine are guesses. That is the point.</p>
 
-                    <blockquote>The difference between a 1.4:1 ROI and a 5.4:1 ROI is not the Copilot license. It is the $195,000 worth of knowledge management work that most organisations skip because it does not show up on the vendor's demo slide.</blockquote>
+                    <p><strong>Correction:</strong> this replaces an earlier version of this article. That version carried a $195,000 figure that did not follow from its own tables, and a 1.4:1 / 5.4:1 headline that was not derived from anything. Both are gone. What follows is recalculated from scratch.</p>
 
-                    <h2>Part 1: The Real Cost — 60 Users, One Year, No Surprises</h2>
+                    <div class="post-tldr">
+                        <h2>In short</h2>
+                        <p>Microsoft publishes two numbers you can build on: an hourly rate of <strong>$72</strong> (its default for Copilot assisted value, from US Bureau of Labor Statistics compensation data) and a time saving of <strong>six minutes</strong> per assisted task. At 220 working days, one Copilot action per user per working day is worth 22 hours, or $1,584, per year. A $30 licence costs $360 a year, so the licence alone pays for itself at roughly <strong>one useful action every four and a half working days</strong>. Everything above that is a question of how many licensed users actually use it and how much of your content Copilot is allowed to find. In my model, year one lands between <strong>0.77:1 and 6.88:1</strong> depending on those two levers.</p>
+                    </div>
 
-                    <p>The scenario: a manufacturing company with 500 employees rolls out Copilot to 60 users across management, sales, and engineering. Here is what that actually costs in Year 1, including the infrastructure work that vendors rarely mention in their pitch decks.</p>
+                    <nav class="post-toc" aria-label="Table of contents">
+                        <h2>On this page</h2>
+                        <ol>
+                            <li><a href="#constants">The two numbers Microsoft publishes</a></li>
+                            <li><a href="#licence">What the licence actually costs</a></li>
+                            <li><a href="#costs">The cost side, line by line</a></li>
+                            <li><a href="#benefit">The benefit side, line by line</a></li>
+                            <li><a href="#scenarios">Three scenarios and a break-even</a></li>
+                            <li><a href="#honest">Where this model is weakest</a></li>
+                            <li><a href="#findability">Why findability moves the number more than the licence</a></li>
+                            <li><a href="#measure">Measuring it in your own tenant</a></li>
+                            <li><a href="#before">What I would do before buying 60 licences</a></li>
+                            <li><a href="#glossary">Glossary</a></li>
+                            <li><a href="#faq">Frequently Asked Questions</a></li>
+                        </ol>
+                    </nav>
 
-                    <h3>Investment Breakdown</h3>
+                    <h2 id="constants">The two numbers Microsoft publishes</h2>
+
+                    <p>You do not have to invent productivity assumptions. Microsoft ships two of them inside its own reporting, and it documents where they come from.</p>
+
+                    <p><strong>$72 per hour.</strong> The Copilot Dashboard in Viva Insights converts <em>Copilot assisted hours</em> into <em>Copilot assisted value</em> by multiplying by an average hourly rate. Microsoft's default is $72, based on US Bureau of Labor Statistics data on employer costs for employee compensation. It is a fully loaded employer cost, not a salary, and it is editable in the dashboard's value calculator.</p>
+
+                    <p><strong>Six minutes per assisted task.</strong> The Copilot Studio agents report uses a default time savings multiplier of six minutes per knowledge reference, drawn from research by Microsoft's Office of the Chief Economist on information-retrieval and writing tasks. Same six minutes for both categories.</p>
+
+                    <p>Microsoft is careful about what these are. Learn calls the assisted-hours metric "a general estimate" and "broad approximations based on the best available research rather than precise calculations," and says the methodology will change as new research lands. Treat them the same way: as a defensible starting point that someone else has already had to justify, not as measurement.</p>
+
+                    <p>Put them together with a working year and you get one clean constant. At <strong>220 working days</strong> (my assumption, adjust for your leave policy), one assisted action per user per working day is:</p>
+
+                    <blockquote>220 days &times; 6 minutes &divide; 60 = <strong>22 hours per user per year</strong>, worth 22 &times; $72 = <strong>$1,584</strong>.</blockquote>
+
+                    <p>That single line turns "will Copilot pay off" into a question you can answer from a usage report: how many assisted actions per day, by how many people.</p>
+
+                    <h2 id="licence">What the licence actually costs</h2>
+
+                    <p>Microsoft Learn does not publish prices, so this comes from the public pricing pages, checked on <strong>6 September 2026</strong>, in USD, commercial, United States. Prices differ by region and by agreement, so check yours before you present anything.</p>
+
+                    <ul>
+                        <li><strong>Microsoft 365 Copilot</strong> (the enterprise add-on): $30.00 user/month, paid yearly, annual commitment.</li>
+                        <li><strong>Microsoft 365 Copilot Business</strong> (the add-on for the Business plans): listed at $21.00 user/month paid yearly, shown at a promotional $18.00 on the day I checked.</li>
+                        <li><strong>Microsoft 365 Copilot Chat</strong>: included at no additional cost for every Entra account with an eligible Microsoft 365 or Office 365 subscription.</li>
+                    </ul>
+
+                    <p>I model the $30 figure because the tenant in this example runs on Microsoft 365 E3. A Business Premium tenant pays less, which improves every ratio below.</p>
+
+                    <p>Two licensing facts that break more pilots than the price does. First, the eligible base plans are far broader than E3 and E5: Business Basic, Standard and Premium, E3/E5/E7, F1/F3, A3/A5, Office 365 E1/E3/E5/F3 and the Teams plans all qualify. Business Premium is the realistic entry point for an SME. Second, and this is a hard blocker: <strong>the user's primary mailbox must be in Exchange Online</strong>. On-premises and hybrid mailboxes do not support mailbox grounding, so a licensed user with an on-premises mailbox gets Copilot for cloud content and nothing from their mail and calendar. Find those users before you count them in the business case.</p>
+
+                    <h2 id="costs">The cost side, line by line</h2>
+
+                    <p>The scenario: a 500-person manufacturer on Microsoft 365 E3 rolls Copilot out to 60 people across management, sales and engineering. Rates marked as assumptions are mine and should be replaced with yours.</p>
 
                     <table class="post-table">
                         <thead>
                             <tr>
-                                <th>Cost Item</th>
-                                <th>One-Time</th>
-                                <th>Monthly</th>
-                                <th>Annual</th>
+                                <th>Cost item</th>
+                                <th>How it is calculated</th>
+                                <th>Year 1</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Copilot Licenses (60 users × $30)</td>
-                                <td>–</td>
-                                <td>$1,800</td>
+                                <td>Copilot licences</td>
+                                <td>60 users &times; $30/month &times; 12</td>
                                 <td>$21,600</td>
                             </tr>
                             <tr>
-                                <td>M365 E5 Compliance (if not already licensed)</td>
-                                <td>–</td>
-                                <td>+$1,200</td>
-                                <td>$14,400</td>
+                                <td>Permission and findability remediation (external)</td>
+                                <td>100 h &times; $160/h <em>(assumed rate)</em></td>
+                                <td>$16,000</td>
                             </tr>
                             <tr>
-                                <td>Initial Knowledge Structuring (80h × $160/h)</td>
-                                <td>$12,800</td>
-                                <td>–</td>
-                                <td>–</td>
+                                <td>Training, two hours per user (internal time)</td>
+                                <td>60 users &times; 2 h &times; $72/h</td>
+                                <td>$8,640</td>
                             </tr>
                             <tr>
-                                <td>SharePoint Architecture Consulting (2 days)</td>
-                                <td>$3,200</td>
-                                <td>–</td>
-                                <td>–</td>
+                                <td>Admin time for adoption reporting</td>
+                                <td>4 h/month &times; 12 &times; $72/h</td>
+                                <td>$3,456</td>
                             </tr>
                             <tr>
-                                <td>Power Automate Premium (logbook automation, 5 flows)</td>
-                                <td>–</td>
-                                <td>$150</td>
-                                <td>$1,800</td>
+                                <td><strong>Total, year 1</strong></td>
+                                <td></td>
+                                <td><strong>$49,696</strong></td>
                             </tr>
                             <tr>
-                                <td>Change Management (workshops, training)</td>
-                                <td>$10,000</td>
-                                <td>–</td>
-                                <td>–</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Total (Year 1)</strong></td>
-                                <td><strong>$26,000</strong></td>
-                                <td><strong>$3,150</strong></td>
-                                <td><strong>$63,800</strong></td>
+                                <td><strong>Recurring, year 2 onward</strong></td>
+                                <td>Licences + admin time</td>
+                                <td><strong>$25,056</strong></td>
                             </tr>
                         </tbody>
                     </table>
 
-                    <h3>Cost vs. Savings</h3>
+                    <p>What is deliberately not in the table. <strong>Copilot connectors</strong> cost nothing extra to index: Learn states that indexing of synced connector data incurs no extra cost for tenants with Microsoft 365 licences, and connector grounding is included with a Copilot licence. <strong>SharePoint Advanced Management</strong> is included with the Copilot licence too, which is why the remediation line is labour and not software. <strong>Purview DLP for the Copilot location</strong> is the one place a real licence gap can appear: blocking Copilot from processing labelled files and emails needs Microsoft 365 E5 or the Purview Suite, while DLP on prompts is available to all Copilot and Copilot Chat users. If you need the file-level control and sit on E3, add that line yourself.</p>
 
-                    <table class="post-table">
-                        <thead>
-                            <tr>
-                                <th>Metric</th>
-                                <th>Monthly</th>
-                                <th>Annual (Year 1)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Total Investment</td>
-                                <td>$3,150</td>
-                                <td>$63,800</td>
-                            </tr>
-                            <tr>
-                                <td>Time Savings Value</td>
-                                <td>$28,800</td>
-                                <td>$345,600</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Net Benefit</strong></td>
-                                <td><strong>+$25,650</strong></td>
-                                <td><strong>+$281,800</strong></td>
-                            </tr>
-                            <tr>
-                                <td><strong>ROI</strong></td>
-                                <td><strong>813%</strong></td>
-                                <td><strong>441% (5.4:1)</strong></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <h2 id="benefit">The benefit side, line by line</h2>
 
-                    <p>The time savings calculation assumes 60 users saving 2 hours per week at a $60/h knowledge worker rate — 480 hours per month, $28,800 in monthly value. That is the conservative scenario. It assumes the knowledge structure is in place.</p>
+                    <p>One formula, four inputs, nothing hidden:</p>
 
-                    <h3>Break-Even Analysis</h3>
+                    <blockquote>Assisted hours = active users &times; actions per working day &times; 220 days &times; 6 minutes &divide; 60<br>Value = assisted hours &times; $72</blockquote>
 
-                    <table class="post-table">
-                        <thead>
-                            <tr>
-                                <th>Timeframe</th>
-                                <th>Cumulative Cost</th>
-                                <th>Cumulative Savings</th>
-                                <th>Net Position</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Month 1</td>
-                                <td>$29,150</td>
-                                <td>$28,800</td>
-                                <td>-$350</td>
-                            </tr>
-                            <tr>
-                                <td>Month 2</td>
-                                <td>$32,300</td>
-                                <td>$57,600</td>
-                                <td><strong>+$25,300 ✓</strong></td>
-                            </tr>
-                            <tr>
-                                <td>Month 3</td>
-                                <td>$35,450</td>
-                                <td>$86,400</td>
-                                <td>+$50,950</td>
-                            </tr>
-                            <tr>
-                                <td>Month 6</td>
-                                <td>$44,900</td>
-                                <td>$172,800</td>
-                                <td>+$127,900</td>
-                            </tr>
-                            <tr>
-                                <td>Month 12</td>
-                                <td>$63,800</td>
-                                <td>$345,600</td>
-                                <td><strong>+$281,800</strong></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <p>Two of those inputs are Microsoft's published defaults and one is a calendar assumption. The remaining two are the only things you genuinely have to estimate, and both can later be read out of the Copilot usage report instead of argued about: <strong>how many licensed users are actually active</strong>, and <strong>how many assisted actions each takes per working day</strong>. If a Copilot business case cannot be reduced to those two unknowns, the number in it is decoration.</p>
 
-                    <p>Break-even at approximately 1.1 months. That is the number that gets the CFO's attention. But it only holds in the conservative scenario — and only if the prerequisites are met.</p>
+                    <h2 id="scenarios">Three scenarios and a break-even</h2>
 
-                    <h3>ROI Scenarios: The Honest Version</h3>
+                    <p>Same cost base of $49,696 in all three. Only the two unknowns change.</p>
 
                     <table class="post-table">
                         <thead>
                             <tr>
                                 <th>Scenario</th>
-                                <th>Time Saved/Week</th>
-                                <th>Monthly Savings</th>
-                                <th>Annual ROI</th>
-                                <th>Break-Even</th>
+                                <th>Active users</th>
+                                <th>Actions/day</th>
+                                <th>Assisted hours</th>
+                                <th>Value at $72/h</th>
+                                <th>Net, year 1</th>
+                                <th>Ratio</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Pessimistic (no knowledge structure)</td>
-                                <td>0.5h</td>
-                                <td>$7,200</td>
-                                <td>1.4:1</td>
-                                <td>~9 months</td>
-                            </tr>
-                            <tr>
-                                <td>Conservative (with knowledge structure)</td>
-                                <td>2h</td>
-                                <td>$28,800</td>
-                                <td>5.4:1</td>
-                                <td>~1.1 months</td>
-                            </tr>
-                            <tr>
-                                <td>Optimistic (mature implementation)</td>
-                                <td>4h</td>
-                                <td>$57,600</td>
-                                <td>10.8:1</td>
-                                <td>~2 weeks</td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <p>The pessimistic scenario is not a failure of Copilot. It is what happens when an organisation hands out licenses without doing the groundwork. The 5.4:1 scenario requires three things: a functioning knowledge structure, trained users who actually use the tool, and content that is kept current. Remove any one of those and you slide toward 1.4:1. The $195,000 gap between those two outcomes is the cost of skipping the boring parts.</p>
-
-                    <h2>Part 2: The Glossary — Seven Terms That Actually Matter</h2>
-
-                    <p>Before configuring anything, these seven concepts need to be understood. Not because the exam requires it, but because every misconfiguration in a Copilot deployment traces back to someone not understanding one of them.</p>
-
-                    <h3>RAG (Retrieval-Augmented Generation)</h3>
-                    <p>An AI technique where the language model retrieves relevant documents from your enterprise database before answering and uses them as context — referred to as "grounding." Without RAG, the AI invents answers. With RAG, you get fact-based responses with source citations. The practical difference: without RAG, ask Copilot for your return rate and it guesses. With RAG, it reads the current SharePoint dashboard and returns "Return rate Q1 2026: 3.2% (Source: Sales Report March 2026)."</p>
-
-                    <h3>Graph Connector</h3>
-                    <p>A translator that connects external systems — SAP, Salesforce, Confluence, ServiceNow — to Microsoft Graph, making them searchable by Copilot. Your knowledge does not only live in SharePoint. Graph Connectors extend Copilot's reach to all data sources. Ask Copilot for open support tickets for a specific customer and the Graph Connector retrieves them from ServiceNow, even though it is not a Microsoft system.</p>
-
-                    <h3>Sensitivity Label</h3>
-                    <p>A digital classification stamp on documents — Public, Internal, Confidential, Highly Confidential — that determines who can access a document and whether Copilot is permitted to process it. This is the mechanism that prevents Copilot from accidentally including salary lists or M&A plans in a response to a general query. A document labelled Highly Confidential is shown only to those with the appropriate permissions — not to every licensed user who asks a broad question.</p>
-
-                    <h3>DLP (Data Loss Prevention)</h3>
-                    <p>Automatic security rules that prevent sensitive data — credit card numbers, social security numbers, trade secrets — from being accidentally shared or processed by Copilot. This is where GDPR and NIS2 compliance becomes concrete. If Copilot accidentally includes personal data in a response, the regulatory exposure is significant. DLP blocks the retrieval before it happens. An employee asks Copilot to show customer data from a project containing GDPR-protected health data — DLP blocks the response before it is generated.</p>
-
-                    <h3>Grounding</h3>
-                    <p>The process where Copilot combines retrieved enterprise documents (via RAG) with the user's prompt before the AI generates a response. Grounding is the operational difference between "AI guesses" and "AI cites your data." Without grounding, a query about 2025 revenue produces an invented figure. With grounding, Copilot reads the annual report PDF and returns the exact figure with a page reference.</p>
-
-                    <h3>Profile Page (Knowledge Profile)</h3>
-                    <p>A structured SharePoint page that collects everything important about a topic — project, product, customer, process — in one place. Copilot can only provide useful answers if knowledge is findable. Profile pages function as a table of contents for the AI. A product profile page aggregates the technical datasheet, customer feedback spreadsheet, marketing presentation, and FAQ document. When a user asks what customers say about that product, Copilot searches all of those sources in a single query.</p>
-
-                    <h3>Logbook Method</h3>
-                    <p>An automated system that extracts important insights from meetings, emails, or chats and stores them in a searchable database. Without a logbook, the organisation forgets what was discussed in meetings. With a logbook, Copilot has long-term memory. A weekly sales meeting triggers a Power Automate flow that extracts customer objections, feature requests, and competitor mentions. Three months later, a new sales representative can ask Copilot for every objection raised about a specific product and receive a complete history.</p>
-
-                    <h2>Part 3: NIST AI Risk Management Framework — Mapped to Real Microsoft Tooling</h2>
-
-                    <p>The NIST AI RMF is not an abstract framework for academics. It is a practical governance structure that maps directly to Microsoft 365 tooling. Here is how each function translates into concrete configuration work.</p>
-
-                    <table class="post-table">
-                        <thead>
-                            <tr>
-                                <th>NIST Function</th>
-                                <th>Goal</th>
-                                <th>Microsoft 365 Copilot Implementation</th>
-                                <th>Technical Tool</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>GOVERN</strong></td>
-                                <td>Establish AI governance</td>
-                                <td>Copilot Studio: Agent Lifecycle Management; Entra ID: Role-based access control (RBAC); Purview Compliance Manager: Policy enforcement</td>
-                                <td><code>New-MgPolicyAuthorizationPolicy</code>; Copilot Studio Admin Center</td>
-                            </tr>
-                            <tr>
-                                <td><strong>MAP</strong></td>
-                                <td>Identify risks</td>
-                                <td>Microsoft Graph: Data flow visualisation; Purview Data Map: Which data does Copilot use?; Sensitivity Labels: Classify sensitive content</td>
-                                <td>Graph Explorer; <code>Get-MgInformationProtectionPolicy</code></td>
-                            </tr>
-                            <tr>
-                                <td><strong>MEASURE</strong></td>
-                                <td>Measure performance and risks</td>
-                                <td>Purview Analytics: Copilot usage metrics; Viva Insights: Productivity impact; DLP Reports: Block rate of sensitive prompts</td>
-                                <td>Purview Compliance Portal; <code>Get-DlpDetailReport</code></td>
-                            </tr>
-                            <tr>
-                                <td><strong>MANAGE</strong></td>
-                                <td>Mitigate risks</td>
-                                <td>DLP Policies: Real-time blocking; Conditional Access: MFA + Device Compliance; Retention Policies: 7-year audit trail</td>
-                                <td><code>New-DlpCompliancePolicy</code>; <code>New-ConditionalAccessPolicy</code></td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <h3>GOVERN in Practice: Restricting Copilot to a Pilot Group</h3>
-
-                    <p>The GOVERN function starts with access control. Before any user touches Copilot in a production environment, the scope needs to be defined. The following PowerShell snippet restricts Copilot usage to a specific Entra ID group — the standard starting point for any controlled rollout.</p>
-
-<pre><code class="language-powershell"># Restrict Copilot usage to specific Entra ID group
-New-MgPolicyAuthorizationPolicy -Id "CopilotAccess" `
-    -AllowedMemberTypes @("User") `
-    -AllowedResourceActions @("microsoft.graph/copilot/query") `
-    -PrincipalGroupIds @("12345-abcd-6789-efgh")  # Group "Copilot-Pilots"</code></pre>
-
-                    <p>Purview Compliance Manager automatically generates NIST AI RMF Assessment Reports, providing documented evidence of compliance posture — a requirement for any organisation operating under NIS2 or ISO 27001.</p>
-
-                    <h2>Part 4: The Architecture — How Retrieval Actually Works</h2>
-
-                    <p>Understanding the data flow is not optional for anyone responsible for a Copilot deployment. Two architectural patterns define how Copilot retrieves and processes information: the RAG pipeline and the Graph Connector integration.</p>
-
-                    <h3>The RAG Pipeline</h3>
-
-                    <p>When a user submits a prompt, Copilot does not simply pass it to the language model. The orchestration layer intercepts the prompt and sends it to a Retrieval API that queries three parallel sources: the SharePoint and OneDrive index, any configured Graph Connectors, and Microsoft Teams. All three sources produce vector embeddings — mathematical representations of document content — from which the system selects the most relevant chunks. Those chunks are combined with the original prompt in a grounding step before the Azure OpenAI language model generates a response. The final output includes citations pointing back to the source documents.</p>
-
-                    <p>The critical implication: if the SharePoint index contains unstructured, unlabelled, or outdated content, the vector embeddings will reflect that chaos. Garbage in, hallucination out — even with a $30/month license.</p>
-
-                    <h3>Graph Connector Integration and Security Controls</h3>
-
-                    <p>External systems connect to Microsoft Graph through Graph Connectors, which feed into a hybrid index alongside SharePoint and OneDrive data. The Copilot Retrieval API queries this unified index. Two security controls operate at different points in this pipeline.</p>
-
-                    <p>Purview DLP validates retrieval results in real time — if a retrieved chunk contains content that matches a DLP policy (credit card numbers, health data, classified project information), the response is blocked before it reaches the user. Sensitivity Labels operate earlier in the pipeline, filtering during the indexing stage. Documents labelled Highly Confidential are not indexed for general retrieval; they are only accessible to users with the appropriate permissions. This is the Zero Trust Bullshit Wall in practice: the principle of least privilege applied to AI retrieval, not just file access.</p>
-
-                    <h2>Part 5: The 10-Point Readiness Checklist</h2>
-
-                    <p>Before any Copilot rollout, this checklist determines whether the organisation is actually ready or whether it is about to spend $63,800 to achieve a 1.4:1 ROI. The traffic light system is unambiguous.</p>
-
-                    <table class="post-table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Checkpoint</th>
-                                <th>Responsible</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
+                                <td>Licences handed out, nothing else done</td>
+                                <td>24 (40%)</td>
                                 <td>1</td>
-                                <td><strong>Licensing secured:</strong> Microsoft 365 E3/E5 + Copilot licenses ordered</td>
-                                <td>IT Procurement</td>
+                                <td>528</td>
+                                <td>$38,016</td>
+                                <td>&minus;$11,680</td>
+                                <td>0.77:1</td>
                             </tr>
                             <tr>
+                                <td>Findability fixed, users trained</td>
+                                <td>45 (75%)</td>
                                 <td>2</td>
-                                <td><strong>Sensitivity Labels defined:</strong> Minimum 3 labels (Public, Internal, Confidential) created and applied to 80% of documents</td>
-                                <td>Compliance Team</td>
+                                <td>1,980</td>
+                                <td>$142,560</td>
+                                <td>+$92,864</td>
+                                <td><strong>2.87:1</strong></td>
                             </tr>
                             <tr>
-                                <td>3</td>
-                                <td><strong>DLP Policies active:</strong> Minimum 1 policy for Copilot protection (blocking sensitive data) configured</td>
-                                <td>Security Admin</td>
-                            </tr>
-                            <tr>
+                                <td>Mature, content maintained</td>
+                                <td>54 (90%)</td>
                                 <td>4</td>
-                                <td><strong>SharePoint architecture reviewed:</strong> No orphaned sites, clear permission structure (no "Everyone" access)</td>
-                                <td>SharePoint Admin</td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td><strong>Profile pages created:</strong> Minimum 10 pilot pages for the most important topics (products, projects) available</td>
-                                <td>Knowledge Manager</td>
-                            </tr>
-                            <tr>
-                                <td>6</td>
-                                <td><strong>Graph Connectors configured:</strong> Minimum 1 external data source (e.g., CRM, ticket system) connected</td>
-                                <td>IT Architecture</td>
-                            </tr>
-                            <tr>
-                                <td>7</td>
-                                <td><strong>Logbook automation tested:</strong> Minimum 1 Power Automate flow for meeting summaries in production</td>
-                                <td>Automation Team</td>
-                            </tr>
-                            <tr>
-                                <td>8</td>
-                                <td><strong>Pilot group defined:</strong> 10–50 power users identified (early adopters, diverse roles)</td>
-                                <td>Change Management</td>
-                            </tr>
-                            <tr>
-                                <td>9</td>
-                                <td><strong>Training scheduled:</strong> Minimum 2-hour workshop "Using Copilot Effectively" for pilot group scheduled</td>
-                                <td>HR / Training</td>
-                            </tr>
-                            <tr>
-                                <td>10</td>
-                                <td><strong>Success metrics defined:</strong> KPIs established (e.g., time saved, usage rate, satisfaction)</td>
-                                <td>Project Lead</td>
+                                <td>4,752</td>
+                                <td>$342,144</td>
+                                <td>+$292,448</td>
+                                <td>6.88:1</td>
                             </tr>
                         </tbody>
                     </table>
 
-                    <p><strong>8–10 checked:</strong> Copilot rollout can begin. <strong>5–7 checked:</strong> Close the critical gaps first — items 2, 3, and 4 are non-negotiable. <strong>0–4 checked:</strong> The infrastructure is not ready. Build the knowledge management foundation before touching a Copilot license.</p>
+                    <p>The first row is a loss, and it is the most common outcome I see in the first year. Forty per cent of licensed users touching Copilot roughly once a working day is not a strawman; it is what a rollout with no enablement and a messy SharePoint estate produces.</p>
 
-                    <h3>The Three Blockers That Actually Appear in Practice</h3>
+                    <p>Break-even for the middle scenario: one-off costs of $24,640 (remediation plus training), recurring costs of $2,088 a month, benefit of $11,880 a month, so $9,792 net a month against $24,640 of setup. That clears at <strong>2.5 months</strong>, on the flattering assumption that the benefit runs at full rate from day one. It never does. Assume a three-month ramp and you land closer to four months.</p>
 
-                    <p>Three objections come up in almost every pre-rollout assessment. They are solvable, but only if they are addressed before the licenses are activated.</p>
+                    <p>Year two is where the shape changes. The remediation and training are spent, so the middle scenario becomes $142,560 against $25,056 of recurring cost, or <strong>5.69:1</strong>. That only holds if someone keeps owning the content. The structure decays; the licence bill does not.</p>
 
-                    <p><strong>"We do not have Sensitivity Labels."</strong> Start with three standard labels using Microsoft's built-in template. A basic labelling structure can be deployed in two weeks. It is not perfect, but it is the minimum viable Zero Trust Bullshit Wall between Copilot and your confidential data.</p>
+                    <h2 id="honest">Where this model is weakest</h2>
 
-                    <p><strong>"SharePoint is chaotic — we have 500+ orphaned sites."</strong> Run a SharePoint hygiene project in parallel with a Copilot pilot on ten clean, well-structured sites. The pilot demonstrates value while the cleanup happens. Do not wait for perfection before starting; wait for a minimum viable structure.</p>
+                    <p>Three things, and I would rather say them than have a CFO find them.</p>
 
-                    <p><strong>"Nobody knows who should maintain the profile pages."</strong> Define a Knowledge Owner role explicitly. Product managers own product profile pages. Project leads own project pages. Without named ownership, the knowledge structure decays within six months and the ROI slides back toward 1.4:1.</p>
+                    <p><strong>Assisted hours are not cash.</strong> An hour that Copilot gives back becomes value only if it is spent on something the business would otherwise have paid for. Microsoft's own framing is that employees "re-invest" the time. In a sales team with a pipeline gap, that reinvestment is real. In a back-office function with no queue, it is slack. If you think only half the freed time converts, halve every benefit figure: the middle scenario drops from 2.87:1 to <strong>1.43:1</strong> and break-even moves from 2.5 to 6.4 months. Still positive, much less exciting, and much easier to defend.</p>
+
+                    <p><strong>Six minutes is an average of research results, not a measurement of your tenant.</strong> Microsoft says so plainly and reserves the right to change it. If your users mostly draft short emails, it is generous. If they spend their day hunting through document libraries, it is probably conservative.</p>
+
+                    <p><strong>The two unknowns are estimates until you have real usage data.</strong> Which is the argument for running Copilot Chat first, seeing what demand looks like in the free tier, and buying licences against evidence rather than a forecast.</p>
+
+                    <h2 id="findability">Why findability moves the number more than the licence</h2>
+
+                    <p>The reason knowledge management belongs in a financial article is mechanical, not philosophical. Copilot's value is the number of grounded, useful answers it produces. That number is capped by what Copilot is allowed to retrieve for the person asking. Three documented controls set that cap, and two of them are things your own admins switch on.</p>
+
+                    <p><strong>Permissions are the boundary, and there is no way around them.</strong> The semantic index is built for the whole tenant, but it only surfaces a result to a user who already has access to that content through role-based access control. Copilot prompts run in the security context of the person asking. This cuts both ways: an over-shared site is an exposure problem, and an under-shared one is an ROI problem. I wrote up the audit side of that in <a href="2026-04-17-sharepoint-permission-auditing-copilot.html">the SharePoint permission audit for Copilot readiness</a>.</p>
+
+                    <p><strong>A site excluded from search is invisible to Copilot.</strong> Setting a site's "Search and offline availability" to no removes it from Microsoft Search and from the semantic index at the same time. There is no option to exclude one and keep the other. Somebody who ticked that box on the engineering wiki three years ago has quietly deleted a chunk of your business case.</p>
+
+                    <p><strong>Restricted Content Discovery is a governance tool with a direct price.</strong> It is a site-level setting, included with the Copilot licence through SharePoint Advanced Management, that keeps a site out of organisation-wide search and Copilot responses while you review its permissions. It changes no permissions and removes nothing from the search index, but it does strip the AI entry points out of the site: no Copilot button, no AI actions menu, no create-pages-with-AI. Microsoft's own caution is unusually direct: excessive use "can reduce the amount of content available to organization-wide search and Microsoft Copilot experiences, which can affect the completeness and relevance of search results and AI-generated responses." It applies to SharePoint sites only, not OneDrive, and on sites with more than 500,000 items the change can take over a week to propagate.</p>
+
+<pre><code># Restrict one site from org-wide search and Copilot discovery
+Set-SPOSite -Identity https://contoso.sharepoint.com/sites/finance -RestrictContentOrgWideSearch $true
+
+# Let site admins manage the setting for their own sites (they must supply a justification)
+Set-SPOTenant -DelegateRestrictedContentDiscoverabilityManagement $true</code></pre>
+
+                    <p>If you are still using <strong>Restricted SharePoint Search</strong>, the allow-list approach, plan your way off it. It is retiring, new enablement is blocked from 31 July 2026, and Microsoft directs customers to Restricted Content Discovery instead.</p>
+
+                    <p>There is an upside lever too, and it is cheap. When a user attaches a SharePoint document library or folder to a prompt, or pastes its URL, Copilot uses that library's <strong>column metadata</strong> as an additional signal to constrain and rank results. Consistent metadata on the libraries people actually work in is one of the few knowledge-management chores with a visible effect on answer quality.</p>
+
+                    <p>The remediation tooling is already paid for. A Copilot licence includes SharePoint Advanced Management, which is where the data access governance reports, the "everyone except external users" insights, site permission reports, site access review, the SharePoint Admin Agent and the content management assessment live. That is why my cost table has 100 hours of labour and no software line: you are buying somebody's attention, not a product.</p>
+
+                    <h2 id="measure">Measuring it in your own tenant</h2>
+
+                    <p>Replace my two unknowns with real numbers as soon as you have them.</p>
+
+                    <ul>
+                        <li><strong>Copilot readiness report</strong> (Microsoft 365 admin center, Reports &gt; Usage &gt; Microsoft Copilot) shows which users meet the licensing prerequisites and flags technical blockers. Run it before you order anything.</li>
+                        <li><strong>Copilot usage report</strong>, same place, gives you active users and usage trends per app, and will tell you how many licensed users were inactive over the past 28 days. Data for a given day appears within about 48 hours. This is where your "active users" input comes from, and where you find the licences to reassign.</li>
+                        <li><strong>Copilot Chat usage report</strong> covers users without a Copilot licence. Use it as a demand signal before you buy.</li>
+                        <li><strong>Copilot Dashboard</strong> in Viva Insights gives you assisted hours and assisted value directly, with the $72 rate editable in the calculator. Data appears within about seven days of licences being assigned.</li>
+                    </ul>
+
+                    <p>Two gotchas worth knowing before you promise a board a number. Copilot assisted hours needs <strong>optional diagnostic data</strong> enabled to be complete; with only required diagnostic data the figure is understated. And the <strong>Copilot business impact report</strong>, the one that correlates usage against your own outcome metrics, wants at least 65 Copilot users and 65 non-Copilot users to run properly. A 60-licence rollout is below that line. Plan the pilot cohort accordingly if the correlation analysis matters to you.</p>
+
+                    <h2 id="before">What I would do before buying 60 licences</h2>
+
+                    <ol>
+                        <li>Run the readiness report and count the users whose primary mailbox is not in Exchange Online. Remove them from the business case or fix the mailbox.</li>
+                        <li>Turn on Copilot Chat properly, leave it for six weeks, and read the Copilot Chat usage report. Demand you can see beats demand you assumed.</li>
+                        <li>Pull the data access governance reports and the "everyone except external users" insights. Fix the worst over-sharing; use Restricted Content Discovery only where a site genuinely needs to sit out the review, and take it off again afterwards.</li>
+                        <li>Find every site with search disabled and decide, deliberately, whether it should stay invisible.</li>
+                        <li>Decide whether you need DLP for the Copilot location on files and emails. If yes and you are on E3, price the Purview Suite before, not after.</li>
+                        <li>Pick a pilot cohort with a real, boring, repetitive information-retrieval problem. That is where the six minutes actually show up.</li>
+                        <li>Agree the rate. If $72 is wrong for your workforce, change it once, at the start, and use the same rate on both sides of the model.</li>
+                    </ol>
+
+                    <p>Then run the numbers again with your inputs. If the result embarrasses the project, that is the model working.</p>
+
+                    <section class="post-glossary">
+                    <h2 id="glossary">Glossary</h2>
+                    <dl>
+                        <dt>Grounding</dt><dd>Combining retrieved tenant content with the user's prompt before the language model answers. Without it, the model has only its training data.</dd>
+                        <dt>Semantic index</dt><dd>A vectorised index built from text-based SharePoint content at tenant level, used to find conceptually related material rather than exact keyword matches. It respects existing permissions and is generated for users with a paid Copilot licence.</dd>
+                        <dt>Copilot assisted hours</dt><dd>Microsoft's estimate of time returned to employees, computed from Copilot actions multiplied by research-derived factors. A general estimate, not a measurement.</dd>
+                        <dt>Copilot assisted value</dt><dd>Assisted hours multiplied by an hourly rate, defaulting to $72 from US Bureau of Labor Statistics employer-cost data, editable in the dashboard calculator.</dd>
+                        <dt>Restricted Content Discovery (RCD)</dt><dd>A SharePoint site setting that keeps a site out of organisation-wide search and Copilot responses without changing permissions or removing content from the index. Part of SharePoint Advanced Management.</dd>
+                        <dt>Copilot connectors</dt><dd>Formerly Graph connectors. <em>Synced</em> connectors index external content into Microsoft Graph; <em>federated</em> connectors query the source at runtime without indexing and require a Copilot add-on licence per querying user.</dd>
+                        <dt>EXTRACT usage right</dt><dd>The rights-management permission that allows copying text from encrypted content. Copilot needs it, together with VIEW, before it will return content from an encrypted file.</dd>
+                    </dl>
+                    </section>
+
+                    <section class="faq">
+                    <h2 id="faq">Frequently Asked Questions</h2>
+                    <h3>How much does Microsoft 365 Copilot cost per user?</h3>
+                    <p>On the public pricing pages checked on 6 September 2026, in USD for the United States: Microsoft 365 Copilot, the enterprise add-on, is $30.00 per user per month paid yearly on an annual commitment. Microsoft 365 Copilot Business, the add-on for the Business plans, is listed at $21.00 per user per month paid yearly and was showing a promotional $18.00 that day. Microsoft 365 Copilot Chat is included at no extra cost with an eligible Microsoft 365 or Office 365 subscription. Microsoft Learn does not publish prices, so always confirm against your own agreement and region.</p>
+                    <h3>What ROI should I expect from Microsoft 365 Copilot?</h3>
+                    <p>There is no single figure, and any vendor quoting one has skipped the arithmetic. Using Microsoft's own published defaults of $72 per hour and six minutes saved per assisted task, one Copilot action per user per working day is worth about $1,584 a year against a $360 annual licence. In a 60-user model with $49,696 of first-year cost, year one lands anywhere from 0.77:1, a loss, when 40 per cent of users are active at one action a day, to 6.88:1 when 90 per cent are active at four. The spread is driven by adoption and by how much content Copilot is allowed to find, not by the licence price.</p>
+                    <h3>Do I need Microsoft 365 E5 to use Copilot?</h3>
+                    <p>No. The eligible base plans include Microsoft 365 Business Basic, Standard and Premium, E3, E5 and E7, F1 and F3, A3 and A5, Office 365 E1, E3, E5 and F3, and the Teams plans. Business Premium is the realistic entry point for a smaller organisation. The hard requirement is not the plan tier but the mailbox: the user's primary mailbox must be in Exchange Online, because on-premises and hybrid mailboxes do not support mailbox grounding. E5 or the Purview Suite becomes relevant only if you want Purview DLP to stop Copilot processing labelled files and emails; DLP on prompts is available to all Copilot users.</p>
+                    <h3>How do I measure whether Copilot is paying for itself?</h3>
+                    <p>Start with the Copilot usage report in the Microsoft 365 admin center for active users and inactivity over the past 28 days, with roughly 48 hours of latency. Add the Copilot Dashboard in Viva Insights for assisted hours and assisted value, and change the default $72 rate to your own. Two caveats: assisted hours are incomplete unless optional diagnostic data is enabled, and the Copilot business impact report, which correlates usage against your own outcome metrics, needs at least 65 Copilot and 65 non-Copilot users to run.</p>
+                    </section>
 
                     <hr>
                     <h3>References</h3>
                     <ol class="post-references">
-                        <li>Microsoft Learn — Microsoft 365 Copilot overview and licensing: <a href="https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-overview" target="_blank" rel="noopener noreferrer">learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-overview</a></li>
-                        <li>Microsoft Learn — Microsoft Purview Data Loss Prevention: <a href="https://learn.microsoft.com/en-us/purview/dlp-learn-about-dlp" target="_blank" rel="noopener noreferrer">learn.microsoft.com/en-us/purview/dlp-learn-about-dlp</a></li>
-                        <li>Microsoft Learn — Sensitivity labels overview: <a href="https://learn.microsoft.com/en-us/purview/sensitivity-labels" target="_blank" rel="noopener noreferrer">learn.microsoft.com/en-us/purview/sensitivity-labels</a></li>
-                        <li>Microsoft Learn — Microsoft Graph connectors overview: <a href="https://learn.microsoft.com/en-us/microsoftsearch/connectors-overview" target="_blank" rel="noopener noreferrer">learn.microsoft.com/en-us/microsoftsearch/connectors-overview</a></li>
-                        <li>NIST AI Risk Management Framework: <a href="https://www.nist.gov/system/files/documents/2023/01/26/AI%20RMF%201.0.pdf" target="_blank" rel="noopener noreferrer">nist.gov — AI RMF 1.0</a></li>
-                        <li>Microsoft Learn — Purview Compliance Manager: <a href="https://learn.microsoft.com/en-us/purview/compliance-manager" target="_blank" rel="noopener noreferrer">learn.microsoft.com/en-us/purview/compliance-manager</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-minimum-requirements" target="_blank" rel="noopener noreferrer">Microsoft Learn: Minimum requirements to deploy Microsoft Copilot</a> &mdash; eligible base plans, Exchange Online mailbox requirement</li>
+                        <li><a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-licensing" target="_blank" rel="noopener noreferrer">Microsoft Learn: License options for Microsoft Copilot</a></li>
+                        <li><a href="https://www.microsoft.com/en-us/microsoft-365-copilot/pricing/enterprise" target="_blank" rel="noopener noreferrer">Microsoft: Copilot plans and pricing</a> &mdash; list prices, checked 6 September 2026</li>
+                        <li><a href="https://learn.microsoft.com/en-us/viva/insights/org-team-insights/copilot-dashboard" target="_blank" rel="noopener noreferrer">Microsoft Learn: Copilot Dashboard in Viva Insights</a> &mdash; assisted hours and value, the $72 default rate, diagnostic data</li>
+                        <li><a href="https://learn.microsoft.com/en-us/viva/insights/advanced/analyst/templates/copilot-studio-agents" target="_blank" rel="noopener noreferrer">Microsoft Learn: Copilot Studio agents report</a> &mdash; the six-minute time savings multiplier and its source</li>
+                        <li><a href="https://learn.microsoft.com/en-us/viva/insights/advanced/analyst/templates/copilot-business-impact" target="_blank" rel="noopener noreferrer">Microsoft Learn: Copilot business impact report</a> &mdash; 65 Copilot and 65 non-Copilot user minimum</li>
+                        <li><a href="https://learn.microsoft.com/en-us/microsoft-365/admin/activity-reports/microsoft-365-copilot-usage" target="_blank" rel="noopener noreferrer">Microsoft Learn: Microsoft Copilot usage report</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/microsoft-365/admin/activity-reports/microsoft-365-copilot-readiness" target="_blank" rel="noopener noreferrer">Microsoft Learn: Microsoft Copilot readiness report</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/microsoftsearch/semantic-index-for-copilot" target="_blank" rel="noopener noreferrer">Microsoft Learn: Semantic indexing for Microsoft Copilot</a> &mdash; permissions, excluding sites from search, column metadata</li>
+                        <li><a href="https://learn.microsoft.com/en-us/sharepoint/restricted-content-discovery" target="_blank" rel="noopener noreferrer">Microsoft Learn: Restrict discovery of SharePoint sites and content</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/sharepoint/restricted-sharepoint-search" target="_blank" rel="noopener noreferrer">Microsoft Learn: Restricted SharePoint Search</a> &mdash; retirement and 31 July 2026 date</li>
+                        <li><a href="https://learn.microsoft.com/en-us/sharepoint/sharepoint-advanced-management-features-copilot-license" target="_blank" rel="noopener noreferrer">Microsoft Learn: SharePoint Advanced Management features in Microsoft Copilot licenses</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/microsoftsearch/licensing" target="_blank" rel="noopener noreferrer">Microsoft Learn: Prerequisites for deploying Copilot connectors</a> &mdash; synced vs federated, indexing cost</li>
+                        <li><a href="https://learn.microsoft.com/en-us/purview/dlp-microsoft365-copilot-location-learn-about" target="_blank" rel="noopener noreferrer">Microsoft Learn: DLP for Microsoft 365 Copilot and Copilot Chat</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/office365/servicedescriptions/microsoft-365-service-descriptions/microsoft-365-tenantlevel-services-licensing-guidance/microsoft-purview-service-description" target="_blank" rel="noopener noreferrer">Microsoft Learn: Microsoft Purview service description</a> &mdash; which plans include DLP for Copilot files and emails</li>
+                        <li><a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-architecture-data-protection-auditing" target="_blank" rel="noopener noreferrer">Microsoft Learn: How data is protected and audited in Microsoft 365 and Microsoft Copilot</a> &mdash; sensitivity labels, encryption, EXTRACT and VIEW</li>
+                        <li><a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/get-ready-copilot-sharepoint-advanced-management" target="_blank" rel="noopener noreferrer">Microsoft Learn: Get ready for Microsoft Copilot and agents with SharePoint Advanced Management</a></li>
                     </ol>
 
                 </div>
@@ -492,8 +391,9 @@ New-MgPolicyAuthorizationPolicy -Id "CopilotAccess" `
     {
   "@context": "https://schema.org",
   "@type": "Article",
-  "headline": "Copilot ROI: Why Knowledge Management Is the Difference Between 1.4:1 and 5.4:1",
+  "headline": "Copilot ROI: A 60-User Model You Can Recalculate",
   "datePublished": "2026-04-08",
+  "dateModified": "2026-09-06",
   "author": {
     "@type": "Person",
     "name": "Philipp Schmidt",
@@ -505,13 +405,53 @@ New-MgPolicyAuthorizationPolicy -Id "CopilotAccess" `
     "url": "https://easym365.de"
   },
   "image": "https://endlesstech.blog/assets/images/copilot-mandate-hero.jpg",
-  "url": "https://farpoint-tech.github.io/endlesstech.blog/posts/2026-04-08-copilot-roi-knowledge-management-guide.html",
-  "description": "Microsoft 365 Copilot ROI breakdown for 60 users: real cost analysis, 5.4:1 return, NIST AI RMF mapping, glossary, and a 10-point readiness checklist.",
+  "url": "https://endlesstech.blog/posts/2026-04-08-copilot-roi-knowledge-management-guide.html",
+  "description": "A Microsoft 365 Copilot business case for 60 users built from Microsoft's own published numbers: every input named, every subtotal shown, and the two levers that move the result.",
   "inLanguage": "en",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://farpoint-tech.github.io/endlesstech.blog/posts/2026-04-08-copilot-roi-knowledge-management-guide.html"
+    "@id": "https://endlesstech.blog/posts/2026-04-08-copilot-roi-knowledge-management-guide.html"
   }
+}
+    </script>
+    <script type="application/ld+json">
+    {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How much does Microsoft 365 Copilot cost per user?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "On the public pricing pages checked on 6 September 2026, in USD for the United States: Microsoft 365 Copilot, the enterprise add-on, is $30.00 per user per month paid yearly on an annual commitment. Microsoft 365 Copilot Business, the add-on for the Business plans, is listed at $21.00 per user per month paid yearly and was showing a promotional $18.00 that day. Microsoft 365 Copilot Chat is included at no extra cost with an eligible Microsoft 365 or Office 365 subscription. Microsoft Learn does not publish prices, so always confirm against your own agreement and region."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What ROI should I expect from Microsoft 365 Copilot?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "There is no single figure, and any vendor quoting one has skipped the arithmetic. Using Microsoft's own published defaults of $72 per hour and six minutes saved per assisted task, one Copilot action per user per working day is worth about $1,584 a year against a $360 annual licence. In a 60-user model with $49,696 of first-year cost, year one lands anywhere from 0.77:1, a loss, when 40 per cent of users are active at one action a day, to 6.88:1 when 90 per cent are active at four. The spread is driven by adoption and by how much content Copilot is allowed to find, not by the licence price."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need Microsoft 365 E5 to use Copilot?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The eligible base plans include Microsoft 365 Business Basic, Standard and Premium, E3, E5 and E7, F1 and F3, A3 and A5, Office 365 E1, E3, E5 and F3, and the Teams plans. Business Premium is the realistic entry point for a smaller organisation. The hard requirement is not the plan tier but the mailbox: the user's primary mailbox must be in Exchange Online, because on-premises and hybrid mailboxes do not support mailbox grounding. E5 or the Purview Suite becomes relevant only if you want Purview DLP to stop Copilot processing labelled files and emails; DLP on prompts is available to all Copilot users."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I measure whether Copilot is paying for itself?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Start with the Copilot usage report in the Microsoft 365 admin center for active users and inactivity over the past 28 days, with roughly 48 hours of latency. Add the Copilot Dashboard in Viva Insights for assisted hours and assisted value, and change the default $72 rate to your own. Two caveats: assisted hours are incomplete unless optional diagnostic data is enabled, and the Copilot business impact report, which correlates usage against your own outcome metrics, needs at least 65 Copilot and 65 non-Copilot users to run."
+      }
+    }
+  ]
 }
     </script>
 </body>

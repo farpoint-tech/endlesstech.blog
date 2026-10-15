@@ -38,15 +38,76 @@ posts/
 1. Create `posts/YYYY-MM-DD-slug.html` following the HTML skeleton in `BLOG_GUIDELINES.md`
 2. Use CSS classes only — no inline `style=""` attributes
 3. Required structure: `.post-full` > `.post-full-header` + `.post-full-image` + `.post-full-content` > `.post-content` + `.author-bio`
-4. On the release day, add the post to `index.html`, `sitemap.xml`, and `feed.xml` in the same change
-5. Commit and push to `master`
+4. On the release day, add the post to `index.html`, `sitemap.xml`, `feed.xml`, and `llms.txt` in the same change — or let the scheduled release do it (see below)
+5. Run `python3 tools/check-findability.py` — it must be green
+6. Commit and push to `master`
+
+### Renaming a post
+
+Never just delete the old file — that turns every existing inbound link into a
+404. Leave a **redirect stub** at the old path: a minimal page with a
+`<meta http-equiv="refresh">` to the new URL, a `<link rel="canonical">`, and
+`<meta name="robots" content="noindex, follow">`. See
+`posts/2026-07-19-zero-trust-m365-*.html`.
+
+A file with both a meta refresh and a `noindex` robots directive is treated as a
+stub: it is deliberately kept out of `index.html`, `sitemap.xml`, `feed.xml` and
+`llms.txt`, and `tools/check-findability.py` does not report it as missing — but
+it does fail if the stub's target no longer exists or if a stub gets listed.
 
 ## Scheduled posts
 
-- Do **not** commit future post HTML files to `master`; GitHub Pages publishes every file on that branch.
-- Keep planned posts on the `scheduled-posts` branch until their release date.
-- On release, merge or cherry-pick the post plus its `index.html`, `sitemap.xml`, and `feed.xml` entries together.
-- A `noindex` tag is a crawl-control fallback, not a confidentiality boundary.
+Articles go onto `master` **ahead of their release date**: reachable by direct
+link and listed in `sitemap.xml` so search engines can find them, but **not** on
+the homepage, in `feed.xml` or in `llms.txt`. What keeps an article in that
+state is its homepage card still waiting in `.scheduled/cards/<slug>.html`;
+`tools/site_index.py` and `tools/check-findability.py` both read that. On the
+release date the workflow moves the card onto the homepage and regenerates
+feed and llms.txt.
+
+`scheduled-posts` remains the place where articles are drafted.
+
+Preparing a post:
+
+1. Commit the article to **`master`** (`posts/YYYY-MM-DD-slug.html`) together with its
+   images, and keep a copy on `scheduled-posts`.
+2. Add its release date to **`.scheduled/releases.json`**:
+   `{"date": "2026-09-10", "slug": "2026-09-03-entra-pim-authentication-context",
+   "card": ".scheduled/cards/2026-09-03-entra-pim-authentication-context.html"}`.
+   The slug is the filename without `.html`; the release date and the date in the
+   filename are independent of each other.
+3. Commit the homepage card to **`.scheduled/cards/<slug>.html`** on `master`
+   (a card only, no article text) — copy the markup of an existing `.post-card`.
+   Visible dates use *Month YYYY* of the release, not the day.
+
+On the release day the workflow `.github/workflows/release-series.yml` runs
+`.github/scripts/release-scheduled.py` at 07:50 Europe/Berlin. It picks up every
+entry due today or earlier that is not on `master` yet, so a missed run catches
+up by itself, and it:
+
+- fetches `posts/<slug>.html` and any missing `assets/` files from `scheduled-posts`,
+  unless the article is already on `master`
+- inserts the card into the main listing of `index.html` at the
+  `<!-- SERIES-RELEASE-SLOT -->` marker and re-sorts it newest first
+- deletes the consumed card
+- regenerates `sitemap.xml`, `feed.xml` and `llms.txt`
+- runs `tools/check-findability.py` and refuses to commit if it fails
+
+`master` requires a pull request and `github-actions[bot]` is not on the bypass
+list, so the workflow cannot push to `master` directly — it did, and every run
+with something due failed with `GH006: Protected branch update failed`. It now
+commits to a short-lived `release/<timestamp>` branch and opens a pull request
+instead. **A release only goes live once that pull request is merged.** Until
+then the calendar entry stays due, so the next run reopens it rather than
+releasing anything twice. Putting `github-actions[bot]` on the bypass list of
+the `master` rule and restoring the direct push makes the release automatic again.
+
+Nothing due is a green, empty run. Do not remove the `SERIES-RELEASE-SLOT`
+marker from `index.html` — without it the release fails.
+
+Manual run: the workflow has a `workflow_dispatch` input `date` (YYYY-MM-DD).
+Locally, `python3 .github/scripts/release-scheduled.py 2026-09-10` does the same
+thing without committing.
 
 ## Design
 
@@ -64,3 +125,18 @@ posts/
 ## Topics
 
 Microsoft 365, Security, Zero Trust, Cloud Solutions, Compliance (NIS2/GDPR), Intune, Automation.
+
+## Articles under review
+
+An article whose facts are in doubt stays reachable by URL but is pulled from
+every listing. Add to its `<head>`:
+
+```html
+<meta name="robots" content="noindex, follow">
+<meta name="endlesstech-status" content="under-review">
+```
+
+then run `python3 tools/site_index.py` — it parks the homepage card in
+`.scheduled/unlisted-cards/` and regenerates sitemap, feed and llms.txt.
+Remove both tags and run the same command to relist. `check-findability.py`
+fails if an article under review is still listed anywhere.

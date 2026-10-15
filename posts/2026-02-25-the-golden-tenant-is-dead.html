@@ -79,7 +79,7 @@
 
                     <h3>Internal IT Departments</h3>
                     <p>For internal teams, a golden tenant typically serves as a <strong>controlled test environment</strong> — a safe space to validate new Intune or Microsoft 365 configurations before they touch production. It helps with consistent policy deployment across business units, governance and audit readiness, and structured change validation before large-scale rollout.</p>
-                    <p>The problem? Microsoft releases Intune feature updates approximately <strong>every six to eight weeks</strong>, with security baseline and service updates arriving even more frequently. Most change management cycles simply cannot keep pace. The golden tenant stops being a living standard and starts being a historical record.</p>
+                    <p>The problem? Microsoft ships an Intune <strong>service release every month</strong> — 2603, 2604, 2605 — and publishes documented changes weekly, on top of separate security baseline versions. The six-to-eight-week figure people quote is Microsoft's internal sprint, from planning to release; what actually lands in your tenant lands monthly. Most change management cycles simply cannot keep pace. The golden tenant stops being a living standard and starts being a historical record.</p>
 
                     <h3>Managed Service Providers (MSPs)</h3>
                     <p>For MSPs managing multiple customer tenants, the golden tenant became a <strong>scalable shortcut</strong> — replicate once, deploy many times, maintain service consistency across the board.</p>
@@ -108,7 +108,9 @@
                     <p>Environments change. Applications update. New users get provisioned with slightly different settings. Admins make one-off adjustments under pressure. The golden configuration tarnishes well before anyone notices — a challenge that industry practitioners consistently flag as one of the top pain points of multi-tenant baseline management.</p>
 
                     <h3>4. Too Slow for the Pace of Microsoft</h3>
-                    <p>Intune follows a <strong>six-to-eight-week release cadence</strong> for major features, with security baselines and additional service changes shipping in between. <a href="https://learn.microsoft.com/en-us/intune/intune-service/fundamentals/whats-new" target="_blank" rel="noopener noreferrer">Microsoft's own changelog</a> makes this pace very clear. By the time a golden tenant is validated, packaged, and deployed to downstream environments, it's already behind.</p>
+                    <p>Intune follows a <strong>monthly service-release cadence</strong>, with changes documented week by week and security baseline versions shipping on their own schedule — the Windows 11 25H2 baseline arrived with service release 2603, for example. <a href="https://learn.microsoft.com/en-us/intune/intune-service/fundamentals/whats-new" target="_blank" rel="noopener noreferrer">Microsoft's own changelog</a> makes this pace very clear. By the time a golden tenant is validated, packaged, and deployed to downstream environments, it's already behind.</p>
+
+                    <p>The "Automated Management" column below describes what vendors in this category claim their platforms do. It is a product promise, not a documented Microsoft capability — treat it as the benchmark to test a tool against, not as a given.</p>
 
                     <table class="post-table">
                         <thead>
@@ -120,7 +122,7 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Microsoft update cadence (6–8 weeks)</td>
+                                <td>Microsoft update cadence (monthly service releases)</td>
                                 <td>Manual revalidation required each cycle</td>
                                 <td>Continuously aligned, no manual cycle</td>
                             </tr>
@@ -147,7 +149,7 @@
                     <p>This is precisely what <a href="https://devicie.com" target="_blank" rel="noopener noreferrer">Devicie</a> is built to do.</p>
 
                     <h3>How Devicie Changes the Model</h3>
-                    <p>Rather than maintaining a static reference tenant, Devicie provides an <strong>adaptive, automated configuration layer</strong> for Microsoft Intune environments:</p>
+                    <p>Rather than maintaining a static reference tenant, Devicie provides an <strong>adaptive, automated configuration layer</strong> for Microsoft Intune environments. The points below are the vendor's own description of the product, not something you can verify against Microsoft documentation — test them against your own tenants before you buy:</p>
                     <ul>
                         <li><strong>Automates Intune at scale</strong> — No manual cloning, versioning, or tenant-by-tenant replication required</li>
                         <li><strong>Continuously aligns with Microsoft's security and compliance baselines</strong> — The platform deploys configuration, hardening, and compliance updates as Microsoft's ecosystem evolves</li>
@@ -171,9 +173,9 @@
                     <section class="faq">
                       <h2>Frequently Asked Questions</h2>
                       <h3>What is a golden tenant in Intune?</h3>
-                      <p>A golden tenant is a master "reference" Microsoft 365/Intune configuration — security baselines, compliance policies, Conditional Access, app assignments — defined once and replicated to other tenants. It delivers consistency, but it's a static snapshot that drifts and falls behind Microsoft's six-to-eight-week update cadence.</p>
+                      <p>A golden tenant is a master "reference" Microsoft 365/Intune configuration — security baselines, compliance policies, Conditional Access, app assignments — defined once and replicated to other tenants. It delivers consistency, but it's a static snapshot that drifts and falls behind Microsoft's monthly Intune service releases.</p>
                       <h3>What are Intune security baselines?</h3>
-                      <p>Intune security baselines are pre-configured groups of Microsoft-recommended security settings for Windows and other platforms. They give you a hardened starting point — but baselines change as Microsoft updates them, so they need ongoing governance, not a one-time rollout.</p>
+                      <p>Intune security baselines are preconfigured groups of Microsoft-recommended <strong>Windows</strong> settings. The available baselines — Windows MDM, Microsoft Defender for Endpoint, Microsoft 365 Apps for Enterprise, Microsoft Edge and Windows 365 — all target Windows; there are none for iOS, Android or macOS. They give you a hardened starting point — but baselines change as Microsoft updates them, so they need ongoing governance, not a one-time rollout.</p>
                       <h3>How do you handle configuration drift in Intune?</h3>
                       <p>Configuration drift happens when environments diverge from the intended baseline through updates and one-off changes. Handle it with drift-aware, automated configuration management that continuously detects and remediates drift, rather than catching it only at the next audit.</p>
                     </section>
@@ -229,7 +231,7 @@
   "author": { "@type": "Person", "name": "Philipp Schmidt", "url": "https://easym365.de" },
   "publisher": { "@type": "Organization", "name": "EndlessTech Blog" },
   "datePublished": "2026-02-25",
-  "dateModified": "2026-06-20",
+  "dateModified": "2026-09-05",
   "mainEntityOfPage": "https://endlesstech.blog/posts/2026-02-25-the-golden-tenant-is-dead.html"
 }
 </script>
@@ -238,8 +240,8 @@
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
-    { "@type": "Question", "name": "What is a golden tenant in Intune?", "acceptedAnswer": { "@type": "Answer", "text": "A golden tenant is a master reference Microsoft 365/Intune configuration defined once and replicated to other tenants. It delivers consistency but is a static snapshot that drifts and falls behind Microsoft's six-to-eight-week update cadence." } },
-    { "@type": "Question", "name": "What are Intune security baselines?", "acceptedAnswer": { "@type": "Answer", "text": "Pre-configured groups of Microsoft-recommended security settings for Windows and other platforms. They provide a hardened starting point but change as Microsoft updates them, so they need ongoing governance, not a one-time rollout." } },
+    { "@type": "Question", "name": "What is a golden tenant in Intune?", "acceptedAnswer": { "@type": "Answer", "text": "A golden tenant is a master reference Microsoft 365/Intune configuration defined once and replicated to other tenants. It delivers consistency but is a static snapshot that drifts and falls behind Microsoft's monthly Intune service releases." } },
+    { "@type": "Question", "name": "What are Intune security baselines?", "acceptedAnswer": { "@type": "Answer", "text": "Preconfigured groups of Microsoft-recommended Windows settings. The available baselines (Windows MDM, Defender for Endpoint, Microsoft 365 Apps for Enterprise, Microsoft Edge, Windows 365) all target Windows; there are none for iOS, Android or macOS. They provide a hardened starting point but change as Microsoft updates them, so they need ongoing governance, not a one-time rollout." } },
     { "@type": "Question", "name": "How do you handle configuration drift in Intune?", "acceptedAnswer": { "@type": "Answer", "text": "Drift happens when environments diverge from the baseline through updates and one-off changes. Handle it with drift-aware, automated configuration management that continuously detects and remediates drift rather than catching it at the next audit." } }
   ]
 }

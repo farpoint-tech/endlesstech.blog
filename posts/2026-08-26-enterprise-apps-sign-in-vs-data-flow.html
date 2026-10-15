@@ -110,15 +110,16 @@
                             <tr><td><code>delegatedClientSignInActivity</code></td><td>The app requested a token on behalf of a user. The classic login.</td></tr>
                             <tr><td><code>applicationAuthenticationClientSignInActivity</code></td><td>The app authenticated as itself. Daemon, sync, backup — the invisible traffic.</td></tr>
                             <tr><td><code>delegatedResourceSignInActivity</code></td><td>The app was the resource another app requested access to on a user's behalf.</td></tr>
+                            <tr><td><code>applicationAuthenticationResourceSignInActivity</code></td><td>The app was the resource in an app-only, app-to-app token flow.</td></tr>
                             <tr><td><code>lastSignInActivity</code></td><td>The most recent of any of them. Useful as a rollup, useless as a decision input on its own.</td></tr>
                         </tbody>
                     </table>
 
                     <p>An app whose <code>delegatedClientSignInActivity</code> is empty and whose <code>applicationAuthenticationClientSignInActivity</code> is from last night is not unused. It is unattended, which is a different word and a different risk.</p>
 
-                    <p>Two constraints before you build anything on this. It needs <strong>Entra ID P1 or P2</strong> — on a Free tenant you get no service principal sign-in telemetry at all, and this whole approach collapses to guesswork. And it is a <strong>beta endpoint</strong>: the shape can change, so check the response against your own tenant rather than trusting any blog post, including this one.</p>
+                    <p>Two constraints before you build anything on this. It needs <strong>Entra ID P1 or P2</strong>. Free tenants do get sign-in logs in the portal — seven days of them — but the Graph sign-in activity APIs and the Usage &amp; insights reports, including this one, are premium-only, so on a Free tenant the whole approach collapses to guesswork. And it is a <strong>beta endpoint</strong>: the shape can change, so check the response against your own tenant rather than trusting any blog post, including this one.</p>
 
-                    <p>Read scopes are modest — <code>AuditLog.Read.All</code> for the activity data, <code>Application.Read.All</code> and <code>Directory.Read.All</code> to resolve permissions, owners and consent grants alongside it. Nothing here needs write access, which makes it an easy conversation with a nervous customer.</p>
+                    <p>Read scopes are modest — <code>AuditLog.Read.All</code> for the activity data, <code>Application.Read.All</code> and <code>Directory.Read.All</code> to resolve permissions, owners and consent grants alongside it. For delegated access the signed-in user also needs Reports Reader, Security Reader or Security Administrator. Nothing here needs write access, which makes it an easy conversation with a nervous customer.</p>
 
                     <p>If you want the raw events instead of the rollup, the sign-in log itself will filter by event type:</p>
 
@@ -164,7 +165,7 @@
                     <h2 id="faq">Frequently asked questions</h2>
 
                     <h3>Does this work without Entra ID P1?</h3>
-                    <p>No. Service principal sign-in telemetry requires P1 or P2. Without it you can still enumerate apps, permissions, owners and consent grants, but you cannot tell a dormant app from a busy one, which removes the part that makes cleanup safe.</p>
+                    <p>No. Querying service principal sign-in activity through Graph requires P1 or P2. Without it you can still enumerate apps, permissions, owners and consent grants, but you cannot reliably tell a dormant app from a busy one, which removes the part that makes cleanup safe.</p>
 
                     <h3>Is the beta endpoint safe to rely on?</h3>
                     <p>For analysis, yes. For anything automated that deletes things, treat it as a signal and not as an authority — beta contracts change without much notice, and a wrong answer here has an outage attached.</p>
@@ -230,7 +231,7 @@
     "name": "EndlessTech Blog"
   },
   "datePublished": "2026-08-26",
-  "dateModified": "2026-08-26",
+  "dateModified": "2026-09-05",
   "inLanguage": "en",
   "mainEntityOfPage": "https://endlesstech.blog/posts/2026-08-26-enterprise-apps-sign-in-vs-data-flow.html"
 }
@@ -245,7 +246,7 @@
       "name": "Does enterprise app usage analysis work without Entra ID P1?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No. Service principal sign-in telemetry requires Entra ID P1 or P2. Without it you can still enumerate apps, permissions, owners and consent grants, but you cannot tell a dormant app from a busy one."
+        "text": "No. Querying service principal sign-in activity through Graph requires Entra ID P1 or P2. Without it you can still enumerate apps, permissions, owners and consent grants, but you cannot reliably tell a dormant app from a busy one."
       }
     },
     {

@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-label="A person and the Microsoft Scout desktop app both signing in with the same Microsoft 365 user credentials, producing audit entries that name the user for both the human action and the agent action">
+  <defs>
+    <linearGradient id="sc-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#071633"/><stop offset="1" stop-color="#002863"/></linearGradient>
+    <filter id="sc-glow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="6"/></filter>
+  </defs>
+  <rect width="1200" height="675" fill="url(#sc-bg)"/>
+  <g stroke="#3366FF" stroke-opacity="0.08" stroke-width="1"><path d="M0 135H1200M0 270H1200M0 405H1200M0 540H1200"/><path d="M300 0V675M600 0V675M900 0V675"/></g>
+
+  <text x="600" y="66" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="2" fill="#00D9FF">MICROSOFT SCOUT — ONE IDENTITY, TWO ACTORS</text>
+
+  <!-- human actor -->
+  <g transform="translate(140 210)" font-family="Segoe UI, Arial, sans-serif" text-anchor="middle">
+    <circle cx="0" cy="0" r="52" fill="#0b1f47" stroke="#00D9FF" stroke-width="2.5"/>
+    <circle cx="0" cy="-13" r="16" fill="#00D9FF"/><path d="M-26 27 a26 26 0 0 1 52 0z" fill="#00D9FF"/>
+    <text x="0" y="82" fill="#c7d6ff" font-size="16" font-weight="700">The user</text>
+  </g>
+
+  <!-- scout app -->
+  <g transform="translate(140 460)" font-family="Segoe UI, Arial, sans-serif" text-anchor="middle">
+    <rect x="-56" y="-52" width="112" height="104" rx="14" fill="#0b1f47" stroke="#ECC23B" stroke-width="2.5"/>
+    <rect x="-36" y="-30" width="72" height="46" rx="6" fill="#04102a" stroke="#ECC23B" stroke-width="1.5"/>
+    <text x="0" y="2" fill="#ECC23B" font-size="15" font-weight="700">&gt;_</text>
+    <text x="0" y="36" fill="#ECC23B" font-size="12" font-weight="700">files · shell · web</text>
+    <text x="0" y="82" fill="#f2dfa0" font-size="16" font-weight="700">Scout on the desktop</text>
+  </g>
+
+  <!-- shared credential -->
+  <g transform="translate(470 335)" font-family="Segoe UI, Arial, sans-serif" text-anchor="middle">
+    <circle cx="0" cy="0" r="86" fill="#1b3a6b" filter="url(#sc-glow)" opacity="0.45"/>
+    <rect x="-108" y="-58" width="216" height="116" rx="14" fill="#0b1f47" stroke="#00D9FF" stroke-width="2"/>
+    <text x="0" y="-22" fill="#eaf2ff" font-size="15" font-weight="700">Microsoft 365</text>
+    <text x="0" y="0" fill="#eaf2ff" font-size="15" font-weight="700">user credentials</text>
+    <text x="0" y="26" fill="#9db8ff" font-size="13">philipp@contoso.com</text>
+    <text x="0" y="46" fill="#7f9ad6" font-size="12">no separate agent principal</text>
+  </g>
+  <g fill="none" stroke="#5b78c4" stroke-width="2.5" stroke-dasharray="6 6">
+    <path d="M196 224 C 280 236, 330 268, 360 300"/>
+    <path d="M200 446 C 284 434, 332 402, 360 370"/>
+    <path d="M578 335 H 660"/>
+  </g>
+
+  <!-- audit panel -->
+  <g transform="translate(680 150)" font-family="Segoe UI, Arial, sans-serif">
+    <rect x="0" y="0" width="440" height="370" rx="14" fill="#04102a" stroke="#3366FF" stroke-width="2"/>
+    <rect x="0" y="0" width="440" height="42" rx="14" fill="#12306b"/>
+    <rect x="0" y="28" width="440" height="14" fill="#12306b"/>
+    <text x="20" y="28" fill="#cfe4ff" font-size="15" font-weight="700">Audit record</text>
+
+    <g transform="translate(20 78)">
+      <rect x="0" y="0" width="400" height="120" rx="10" fill="#0b1f47" stroke="#5b78c4" stroke-width="1.5"/>
+      <text x="16" y="30" fill="#9db8ff" font-size="13">Typed by the person</text>
+      <text x="16" y="58" fill="#eaf2ff" font-size="14" font-weight="700">FileMoved · Q1-report.xlsx</text>
+      <text x="16" y="84" fill="#c7d6ff" font-size="13">actor: philipp@contoso.com</text>
+      <text x="16" y="105" fill="#c7d6ff" font-size="13">client: user sign-in</text>
+    </g>
+
+    <g transform="translate(20 218)">
+      <rect x="0" y="0" width="400" height="120" rx="10" fill="#0b1f47" stroke="#ECC23B" stroke-width="1.5"/>
+      <text x="16" y="30" fill="#f2dfa0" font-size="13">Carried out by Scout</text>
+      <text x="16" y="58" fill="#eaf2ff" font-size="14" font-weight="700">FileMoved · Q1-report.xlsx</text>
+      <text x="16" y="84" fill="#c7d6ff" font-size="13">actor: philipp@contoso.com</text>
+      <text x="16" y="105" fill="#c7d6ff" font-size="13">client: user sign-in</text>
+    </g>
+  </g>
+
+  <text x="600" y="612" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="600" fill="#ECC23B">Scout works with your permissions, so the record names you</text>
+</svg>

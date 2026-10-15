@@ -30,7 +30,7 @@
     <link rel="stylesheet" href="../assets/css/blog-post.css">
     
     <!-- Google Fonts -->
-    <link rel="canonical" href="https://farpoint-tech.github.io/endlesstech.blog/posts/cloudknox-the-copilot-mandate.html" />
+    <link rel="canonical" href="https://endlesstech.blog/posts/cloudknox-the-copilot-mandate.html" />
 </head>
 <body>
     <!-- Header -->
@@ -73,21 +73,25 @@
 
                     <h2>1. Not Every Copilot Reads Your Emails</h2>
                     
-                    <p>The most significant misunderstanding must be addressed first. When a colorful new icon appears in the taskbar, it is most likely not the fully integrated "Microsoft 365 Copilot" that has access to internal emails, SharePoint documents, or Teams chats.</p>
+                    <p>The most significant misunderstanding must be addressed first. When a colorful new icon appears in the taskbar, it is most likely not the fully licensed "Microsoft Copilot" (until recently branded Microsoft 365 Copilot) that reaches internal emails, SharePoint documents, or Teams chats on its own.</p>
 
-                    <p>Instead, this version is "Microsoft 365 Copilot Chat" (formerly known as "Copilot with Commercial Data Protection" or Bing Chat Enterprise). Here are the verified facts about this service, according to official Microsoft documentation:</p>
+                    <p>Instead, this version is "Microsoft Copilot Chat" (until recently branded Microsoft 365 Copilot Chat, and before that "Copilot with Commercial Data Protection" or Bing Chat Enterprise). Here are the verified facts about this service, according to official Microsoft documentation:</p>
 
                     <ul>
-                        <li><strong>No Access to Internal Data:</strong> This version is essentially an AI-powered search engine grounded in web data. It is completely "blind" to your organization's internal documents and communications. <a href="https://learn.microsoft.com/en-us/copilot/microsoft-365/enterprise-data-protection" target="_blank" rel="noopener noreferrer">[3]</a></li>
+                        <li><strong>Not Grounded in Internal Data by Default:</strong> Copilot Chat is grounded in web data only and has no access to Microsoft Graph. It is not, however, blind to organizational content. Microsoft documents four ways in which content reaches it: the user pastes or uploads it with the prompt, the user works with open content (the Word, Excel and PowerPoint agents, the Copilot mobile app, or an intranet page in Edge), the user runs Copilot Chat in Outlook, where it can reach their mail, calendar, meetings, chats and limited OneDrive and SharePoint file content through lexical indexing, or the organization enables a pay-as-you-go agent that is grounded in tenant data. <a href="https://learn.microsoft.com/en-us/copilot/privacy-and-protections" target="_blank" rel="noopener noreferrer">[5]</a></li>
                         <li><strong>Contractual Data Protection:</strong> Microsoft guarantees that user prompts and responses are not used to train its foundation AI models. This is a core component of its Enterprise Data Protection (EDP) commitment. <a href="https://learn.microsoft.com/en-us/copilot/microsoft-365/enterprise-data-protection" target="_blank" rel="noopener noreferrer">[3]</a></li>
                         <li><strong>A Secure Alternative:</strong> It provides a secure, enterprise-grade environment for employees who might otherwise turn to unprotected public AI tools for work-related queries, thereby creating a real security risk.</li>
                     </ul>
+
+                    <p>Microsoft now separates three tiers rather than two: Copilot Chat (Basic), Microsoft 365 Copilot (Basic), and Microsoft 365 Copilot (Premium). Only the Premium tier reaches organizational data automatically, through Microsoft Graph and Work IQ. <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-overview" target="_blank" rel="noopener noreferrer">[6]</a></p>
 
                     <h2>2. "Turning It Off Isn't Possible" – Yes, It Is.</h2>
 
                     <p>The statement that deactivation is not possible is, from a technical standpoint, incorrect. While it is true that Microsoft does not provide a simple "off switch" in a user-facing menu, administrators have complete control.</p>
 
-                    <p>According to Microsoft's own documentation, Copilot can be managed and disabled organization-wide through several methods, including the Microsoft 365 admin center, Integrated Apps policies, and PowerShell scripts. <a href="https://learn.microsoft.com/en-us/copilot/manage" target="_blank" rel="noopener noreferrer">[2]</a> The fact that this was communicated as "not possible" in the Swiss Parliament points less to a mandate from Microsoft and more toward the complexities of internal IT processes or a potential knowledge gap in managing these new, rapidly evolving service plans.</p>
+                    <p>According to Microsoft's own documentation, Copilot can be managed and disabled organization-wide through the Microsoft 365 admin center (Integrated Apps), Teams app permission policies, and the Microsoft Edge sidebar policy. <a href="https://learn.microsoft.com/en-us/copilot/manage" target="_blank" rel="noopener noreferrer">[2]</a> The fact that this was communicated as "not possible" in the Swiss Parliament points less to a mandate from Microsoft and more toward the complexities of internal IT processes or a potential knowledge gap in managing these new, rapidly evolving service plans.</p>
+
+                    <p>One caveat has been added since: as of 28 January 2026, Copilot Chat can no longer be unpinned from the navigation of the Microsoft Copilot app for any tenant worldwide. Unpinning was never the control that mattered — blocking the Copilot app through Integrated Apps still removes access tenant-wide — but the "just unpin it" answer is now wrong. <a href="https://learn.microsoft.com/en-us/copilot/manage" target="_blank" rel="noopener noreferrer">[2]</a></p>
 
                     <p>This assessment is supported by the NZZ report, which noted that the Swiss bank UBS successfully implemented a controlled rollout of Copilot. UBS initially blocked the feature for all employees, then gradually enabled it—first for staff without access to customer data, and later for all employees with a filter to detect sensitive information. <a href="https://www.nzz.ch/schweiz/vertrauliche-dokumente-als-trainingsdaten-fuer-amerikanische-ki-die-computer-im-parlament-wurden-von-microsoft-eigenmaechtig-umgeruestet-ld.1917478" target="_blank" rel="noopener noreferrer">[1]</a></p>
 
@@ -128,13 +132,10 @@
                                 <td style="text-align: center;"></td>
                                 <td style="text-align: center;">✔</td>
                             </tr>
-                            <tr>
-                                <td>User Training & Enablement</td>
-                                <td style="text-align: center;"></td>
-                                <td style="text-align: center;">✔</td>
-                            </tr>
                         </tbody>
                     </table>
+
+                    <p>One responsibility does not appear in Microsoft's matrix at all, and it belongs in the same conversation: user training and enablement. Nobody else is going to do it for you.</p>
 
                     <h2>Conclusion: Technology Requires Leadership, Not Reaction</h2>
 
@@ -149,7 +150,7 @@
                     </ol>
 
                     <blockquote>
-                        <p><strong>Zero Trust. Zero Drama. Zero Bullshit.</strong></strong></p>
+                        <p><strong>Zero Trust. Zero Drama. Zero Bullshit.</strong></p>
                     </blockquote>
 
                     <p>Need support with your AI governance strategy? It is perfectly normal for internal IT departments to feel overwhelmed by the sheer speed of AI development. I can help you separate fact from fiction, configure your environment securely, and empower your employees for the future. So you can decide how AI works for you—not the other way around.</p>
@@ -165,6 +166,8 @@
                         <li>Microsoft Learn, "Manage Microsoft 365 Copilot Chat," December 8, 2025. <a href="https://learn.microsoft.com/en-us/copilot/manage" target="_blank" rel="noopener noreferrer">https://learn.microsoft.com/en-us/copilot/manage</a></li>
                         <li>Microsoft Learn, "Enterprise data protection in Microsoft 365 Copilot and Microsoft 365 Copilot Chat," December 8, 2025. <a href="https://learn.microsoft.com/en-us/copilot/microsoft-365/enterprise-data-protection" target="_blank" rel="noopener noreferrer">https://learn.microsoft.com/en-us/copilot/microsoft-365/enterprise-data-protection</a></li>
                         <li>Microsoft Learn, "Shared responsibility in the cloud," December 3, 2025. <a href="https://learn.microsoft.com/en-us/azure/security/fundamentals/shared-responsibility" target="_blank" rel="noopener noreferrer">https://learn.microsoft.com/en-us/azure/security/fundamentals/shared-responsibility</a></li>
+                        <li>Microsoft Learn, "Privacy and protections" (Microsoft Copilot Chat). <a href="https://learn.microsoft.com/en-us/copilot/privacy-and-protections" target="_blank" rel="noopener noreferrer">https://learn.microsoft.com/en-us/copilot/privacy-and-protections</a></li>
+                        <li>Microsoft Learn, "Microsoft Copilot overview." <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-overview" target="_blank" rel="noopener noreferrer">https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-overview</a></li>
                     </ol>
                 </div>
             </section>
@@ -194,6 +197,7 @@
   "@type": "Article",
   "headline": "The Copilot Mandate - A Fact-Check on Digital Sovereignty and Cloud Governance",
   "datePublished": "2025-12-20",
+  "dateModified": "2026-09-05",
   "author": {
     "@type": "Person",
     "name": "Philipp Schmidt",
@@ -204,13 +208,13 @@
     "name": "Philipp Schmidt",
     "url": "https://easym365.de"
   },
-  "image": "https://farpoint-tech.github.io/endlesstech.blog/assets/images/copilot-mandate-hero.jpg",
-  "url": "https://farpoint-tech.github.io/endlesstech.blog/posts/cloudknox-the-copilot-mandate.html",
+  "image": "https://endlesstech.blog/assets/images/copilot-mandate-hero.jpg",
+  "url": "https://endlesstech.blog/posts/cloudknox-the-copilot-mandate.html",
   "description": "A fact-check on the Swiss Parliament Microsoft Copilot incident exploring digital sovereignty and cloud governance.",
   "inLanguage": "en",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://farpoint-tech.github.io/endlesstech.blog/posts/cloudknox-the-copilot-mandate.html"
+    "@id": "https://endlesstech.blog/posts/cloudknox-the-copilot-mandate.html"
   }
 }
     </script>

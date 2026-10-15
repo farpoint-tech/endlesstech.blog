@@ -74,7 +74,7 @@
                         <img src="../assets/images/smb_infographic.webp" alt="Infographic showing SMB cybersecurity statistics with shield icons highlighting key threat vectors for small businesses" loading="lazy" srcset="../assets/images/responsive/smb_infographic-400w.webp 400w, ../assets/images/responsive/smb_infographic-800w.webp 800w, ../assets/images/smb_infographic.webp 1344w" sizes="(max-width: 800px) 100vw, 800px">
                     </figure>
 
-                    <p>Small and medium-sized businesses (SMBs) are under siege. In 2024, <strong>94% of SMBs experienced at least one cyberattack</strong>, and nearly half of all breaches now target businesses with fewer than 1,000 employees. Credential theft is rampant—<strong>86% of web application attacks involve stolen credentials</strong>, yet nearly half of SMBs still rely on passwords alone without multi-factor authentication. The stakes are high: <strong>78% of SMBs fear a breach could put them out of business</strong>.</p>
+                    <p>Small and medium-sized businesses are the attack surface nobody staffs. In the tenants I review, the pattern repeats: credentials are the way in, and the account that gets taken over is almost always one without MFA. Not because the company decided against it, but because nobody had a list of what was missing. That list is exactly what Secure Score gives you.</p>
 
                     <h2>What is Microsoft Secure Score?</h2>
                     
@@ -82,7 +82,9 @@
                         <img src="../assets/images/secure_score_dashboard.webp" alt="Microsoft Secure Score dashboard showing current security posture percentage with actionable improvement recommendations" loading="lazy" srcset="../assets/images/responsive/secure_score_dashboard-400w.webp 400w, ../assets/images/responsive/secure_score_dashboard-800w.webp 800w, ../assets/images/secure_score_dashboard.webp 1024w" sizes="(max-width: 800px) 100vw, 800px">
                     </figure>
 
-                    <p>Microsoft Secure Score is your business's security "credit score" within Microsoft 365. It assesses your organization's security settings, user behaviors, and compliance with best practices across identity, devices, data, and apps. The result is a numerical score—expressed as a percentage—that benchmarks your current security health. A higher score means stronger protection; a lower score signals potential vulnerabilities. Secure Score updates in real time, reflecting changes as you implement (or miss) recommended actions.</p>
+                    <p>Microsoft Secure Score measures how far you have gone in adopting the security controls Microsoft 365 offers you. It assesses your organization's security settings, user behaviors, and compliance with best practices across identity, devices, data, and apps. The result is a point total — each recommended action is worth up to 10 points — which the Defender portal also shows as a percentage of the points available to you. Secure Score updates in real time, reflecting changes as you implement (or miss) recommended actions.</p>
+
+                    <p>One thing it is not, in Microsoft's own words: "an absolute measurement of how likely your system or data could be breached. Rather, it represents the extent to which you are using security controls … that can help offset the risk of being breached." Read it as coverage of controls, not as a probability of getting hit. A high score with the wrong controls covered is still a bad tenant.</p>
 
                     <h2>How Secure Score Works: Key Features</h2>
                     
@@ -92,8 +94,8 @@
 
                     <ul>
                         <li><strong>Security Posture Assessment:</strong> Evaluates your Microsoft 365 environment for best-practice configurations (e.g., MFA, alerting, data loss prevention).</li>
-                        <li><strong>Real-Time Monitoring:</strong> Your score updates instantly as you make changes, so you always have a current snapshot.</li>
-                        <li><strong>Actionable Recommendations:</strong> Each suggested action is weighted by impact, helping you prioritize what matters most.</li>
+                        <li><strong>Real-Time Monitoring:</strong> Your score updates in real time as you make changes, and Secure Score syncs daily for achieved points. Two categories lag much longer: Microsoft Entra recommendation states refresh weekly, Microsoft Teams recommendation states monthly.</li>
+                        <li><strong>Actionable Recommendations:</strong> Each recommended action is worth 10 points or less, and most are scored in a binary fashion — you get all the points or none. Others are scored as a percentage of the total configuration, so protecting 50 of 100 users with MFA gets you half.</li>
                         <li><strong>Benchmarking:</strong> Compare your score to industry averages and similar organizations.</li>
                     </ul>
 
@@ -112,20 +114,20 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td><strong>Identity Security</strong></td>
-                                <td>Are users protected with MFA and strong password policies?</td>
+                                <td><strong>Identity</strong></td>
+                                <td>Microsoft Entra accounts and roles — are users protected with MFA, is legacy auth blocked, are admin roles least-privileged?</td>
                             </tr>
                             <tr>
-                                <td><strong>Data Protection</strong></td>
-                                <td>Is sensitive data encrypted and access-controlled?</td>
+                                <td><strong>Data</strong></td>
+                                <td>Microsoft Purview Information Protection — is sensitive data labelled, encrypted, and access-controlled?</td>
                             </tr>
                             <tr>
-                                <td><strong>Device Management</strong></td>
-                                <td>Are all endpoints compliant and monitored?</td>
+                                <td><strong>Device</strong></td>
+                                <td>Microsoft Defender for Endpoint, fed by Microsoft Secure Score for Devices — are endpoints compliant, patched, and free of known vulnerabilities?</td>
                             </tr>
                             <tr>
-                                <td><strong>Application Security</strong></td>
-                                <td>Are apps patched and regularly assessed for vulnerabilities?</td>
+                                <td><strong>Apps</strong></td>
+                                <td>Email and cloud apps: Office 365, Exchange Online, SharePoint Online, Teams, and Microsoft Defender for Cloud Apps. Patching and vulnerability assessment do <em>not</em> live here — they sit under Device.</td>
                             </tr>
                         </tbody>
                     </table>
@@ -134,22 +136,24 @@
 
                     <h3>Initial Setup:</h3>
                     <ul>
-                        <li>Log in to the Microsoft 365 Defender portal</li>
-                        <li>Navigate to 'Secure Score'</li>
+                        <li>Sign in to the <strong>Microsoft Defender portal</strong> at https://security.microsoft.com and go to https://security.microsoft.com/securescore</li>
+                        <li>Check you actually have access: read and write needs Security Administrator or higher (Exchange Administrator and SharePoint Administrator also qualify); Security Reader, Global Reader and Helpdesk Administrator get read-only. Under Microsoft Defender Unified RBAC the equivalent permissions are <em>Exposure Management (read)</em> and <em>Exposure Management (manage)</em> in the Security posture category.</li>
                         <li>Review your current score and recommended actions</li>
                     </ul>
 
                     <h3>Quick Wins:</h3>
                     <ul>
+                        <li>Turn on security defaults if you have no Conditional Access yet — it awards full points for three recommended actions at once: "Ensure all users can complete multifactor authentication" (9 points), "Require MFA for administrative roles" (10 points), and "Enable policy to block legacy authentication" (7 points). If you already run the equivalent Conditional Access policies, set the sign-in risk and user risk actions to <em>Resolved through alternative mitigation</em> instead of stacking both.</li>
                         <li>Enable multi-factor authentication (MFA) for all users</li>
                         <li>Restrict external calendar sharing</li>
                         <li>Review and limit third-party app integrations</li>
                     </ul>
 
-                    <h3>Benchmarks:</h3>
+                    <h3>What to Aim For:</h3>
                     <ul>
-                        <li><strong>Aim for at least 65%</strong> as a minimum benchmark; 80% is considered strong for most SMBs.</li>
-                        <li>Scores below 30% indicate critical gaps that require urgent action.</li>
+                        <li>Not a number. Microsoft is explicit about this: "Instead of focusing on a specific score, you should focus on the high importance recommendations that are relevant to your organization. It's more beneficial to have a high score on the high importance recommendations than a high score on low importance recommendations."</li>
+                        <li>Track two things instead: the trend line over months, and the list of high-importance actions you have actually closed. The built-in comparison with organizations like yours is more useful than any fixed percentage target.</li>
+                        <li>If a recommendation does not fit your environment, set it to <em>Risk accepted</em> or <em>Resolved through alternative mitigation</em> — that is a documented status, not a workaround.</li>
                     </ul>
 
                     <h3>Ongoing Management:</h3>
@@ -157,7 +161,7 @@
                         <li>Regularly review your Secure Score dashboard</li>
                         <li>Implement prioritized recommendations</li>
                         <li>Conduct periodic security assessments</li>
-                        <li>Ensure your Microsoft 365 license (e.g., Business Premium or E5) supports advanced security features</li>
+                        <li>Know what your licences cover. Secure Score shows you the full set of possible recommendations for a product regardless of your licence edition, so recommendations you are not licensed for still pull your percentage down. Your absolute posture does not change with licensing — decide per recommendation whether to buy the licence, mitigate it another way, or mark it as accepted risk.</li>
                     </ul>
 
                     <h2>Taking Action</h2>
@@ -167,13 +171,13 @@
                     <h2>Frequently Asked Questions</h2>
 
                     <h3>What is a good Secure Score for an SMB?</h3>
-                    <p>A score of 65 % or higher is a reasonable baseline for most small businesses running Microsoft 365 Business Premium. Organizations handling regulated data — healthcare, finance, government supply chain — should aim for 80 % or above. Scores below 30 % typically indicate that foundational controls like MFA and admin-role segmentation are missing entirely.</p>
+                    <p>Microsoft advises against picking a target number at all: "Instead of focusing on a specific score, you should focus on the high importance recommendations that are relevant to your organization. It's more beneficial to have a high score on the high importance recommendations than a high score on low importance recommendations." So measure the trend and the high-importance actions you have closed, and use the built-in comparison with organizations like yours rather than a fixed percentage. A tenant at 45 % with every high-importance identity action done is in better shape than one at 70 % that padded the number with low-impact items.</p>
 
                     <h3>Does improving Secure Score require premium licenses?</h3>
-                    <p>Many high-impact actions — enabling MFA, blocking legacy authentication, restricting external sharing — are available in every Microsoft 365 plan. However, advanced recommendations around device compliance, Defender for Endpoint, and risk-based Conditional Access require at least Microsoft 365 Business Premium or an E5 add-on.</p>
+                    <p>Many high-impact actions — enabling MFA, blocking legacy authentication, restricting external sharing — are available in every Microsoft 365 plan. Device compliance and endpoint protection are covered by Microsoft 365 Business Premium, which includes Intune Plan 1 and Defender for Business. <strong>Risk-based Conditional Access is not.</strong> It depends on Microsoft Entra ID Protection, which needs Microsoft Entra ID <strong>P2</strong> — available in Microsoft 365 E5, the Microsoft Entra Suite, or the Microsoft Defender Suite for Business Premium add-on. Business Premium includes only Entra ID P1. This is the single most common licensing mistake I see on this topic.</p>
 
                     <h3>How often does Secure Score update?</h3>
-                    <p>Secure Score recalculates roughly every 24 hours. After you implement a recommended action, allow at least a full day before checking whether the score has changed. Some actions — particularly those that depend on user behavior metrics — can take up to 48 hours to reflect.</p>
+                    <p>Your score updates in real time, and Secure Score syncs daily to pick up achieved points. Two categories lag far longer than a day: Microsoft Entra recommendation states refresh weekly, and Microsoft Teams recommendation states refresh monthly. So give those a week or a month before assuming something did not register.</p>
 
                     <hr>
 
@@ -214,7 +218,7 @@
       "@type": "Article",
       "headline": "Microsoft Secure Score for SMBs: Boost Cyber Defense",
       "datePublished": "2025-11-15",
-      "dateModified": "2026-06-20",
+      "dateModified": "2026-09-05",
       "author": {
         "@type": "Person",
         "name": "Philipp Schmidt",
@@ -246,7 +250,7 @@
           "name": "What is a good Secure Score for an SMB?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "A score of 65% or higher is a reasonable baseline for most small businesses running Microsoft 365 Business Premium. Organizations handling regulated data should aim for 80% or above. Scores below 30% typically indicate that foundational controls like MFA are missing."
+            "text": "Microsoft advises against picking a target number: instead of focusing on a specific score, focus on the high importance recommendations relevant to your organization. Track the trend and the high-importance actions you have closed, and use the built-in comparison with organizations like yours rather than a fixed percentage."
           }
         },
         {
@@ -254,7 +258,7 @@
           "name": "Does improving Secure Score require premium licenses?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Many high-impact actions — enabling MFA, blocking legacy authentication, restricting external sharing — are available in every Microsoft 365 plan. Advanced recommendations around device compliance and Defender for Endpoint require at least Microsoft 365 Business Premium or an E5 add-on."
+            "text": "Many high-impact actions — enabling MFA, blocking legacy authentication, restricting external sharing — are available in every Microsoft 365 plan. Device compliance and endpoint protection are covered by Microsoft 365 Business Premium (Intune Plan 1 and Defender for Business). Risk-based Conditional Access is not: it depends on Microsoft Entra ID Protection, which requires Microsoft Entra ID P2 (Microsoft 365 E5, the Microsoft Entra Suite, or the Microsoft Defender Suite for Business Premium add-on). Business Premium includes only Entra ID P1."
           }
         },
         {
@@ -262,7 +266,7 @@
           "name": "How often does Secure Score update?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Secure Score recalculates roughly every 24 hours. After implementing a recommended action, allow at least a full day before checking whether the score has changed. Some actions can take up to 48 hours to reflect."
+            "text": "Your score updates in real time, and Secure Score syncs daily for achieved points. Two categories lag much longer: Microsoft Entra recommendation states refresh weekly, and Microsoft Teams recommendation states refresh monthly. Give those a week or a month before assuming something did not register."
           }
         }
       ]

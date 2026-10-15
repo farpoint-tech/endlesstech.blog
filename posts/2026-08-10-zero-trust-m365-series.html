@@ -68,13 +68,13 @@
             <section class="post-full-content">
                 <div class="post-content">
 
-                    <p>Most Zero Trust diagrams that land in my inbox carry six pillars &mdash; Identity, Endpoints, Data, Apps, Infrastructure, Network. That is Microsoft's broad reference model, and it works fine on a slide. It is also not how the work gets prioritised once you are actually inside a tenant.</p>
+                    <p>Most Zero Trust diagrams that land in my inbox carry the full reference model. Microsoft now lists seven technology pillars &mdash; Identities, Endpoints, Data, Apps, Infrastructure, Network, and SecOps, the last one integrating signals from all the others. That works fine on a slide. It is also not how the work gets prioritised once you are actually inside a tenant.</p>
 
-                    <p>Microsoft Secure Score groups the improvement actions into four categories: <strong>Identity, Devices, Apps, and Data</strong>. Those four are what you measure, what you report to a board, and what you fix first. So I built a series around them &mdash; one deep-dive per pillar, each tied to the specific Microsoft 365 controls and the Secure Score actions behind it. No six-pillar abstraction, no vendor gloss: the version you can hand to an MSP technician on Monday.</p>
+                    <p>Microsoft Secure Score groups its recommended actions into four categories: <strong>Identity, Devices, Apps, and Data</strong>. Those four are what you measure, what you report to a board, and what you fix first. So I built a series around them &mdash; one deep-dive per pillar, each tied to the specific Microsoft 365 controls and the Secure Score actions behind it. No seven-pillar abstraction, no vendor gloss: the version you can hand to an MSP technician on Monday.</p>
 
-                    <h2 id="why-four">Why four pillars, not six</h2>
+                    <h2 id="why-four">Why four pillars, not seven</h2>
 
-                    <p>The six-pillar model is not wrong. Infrastructure and Network matter, especially in hybrid environments. But for an organisation living inside Microsoft 365, those two are cross-cutting extensions, not where the day-to-day posture is won or lost. Identity, Devices, Apps, and Data are the categories Secure Score scores you on, and each maps cleanly to a set of services you already own or license: Entra ID, Intune, Defender, and Purview. Planning against the four you can measure beats planning against the six you cannot.</p>
+                    <p>The reference model is not wrong. Infrastructure, Network, and SecOps matter, especially in hybrid environments. But for an organisation living inside Microsoft 365, those three are cross-cutting extensions, not where the day-to-day posture is won or lost. Identity, Devices, Apps, and Data are the categories Secure Score scores you on, and each maps cleanly to a set of services you already own or license: Entra ID, Intune, Defender, and Purview. Planning against the four you can measure beats planning against the seven you cannot.</p>
 
                     <nav class="series-nav" aria-label="Zero Trust for Microsoft 365 series">
                         <p class="series-label">The series &mdash; four pillars, four deep-dives</p>
@@ -95,7 +95,7 @@
 
                     <p><strong><a href="2026-08-13-zero-trust-m365-apps.html">Part 3 &mdash; Apps.</a></strong> The pillar nobody watches. Shadow IT and OAuth consent grants hold quiet access to your tenant with no password and no device check. Defender for Cloud Apps, consent governance, and Conditional Access App Control bring that sprawl under control.</p>
 
-                    <p><strong><a href="2026-08-14-zero-trust-m365-data.html">Part 4 &mdash; Data.</a></strong> The pillar everything else exists to protect. Protection has to travel with the file &mdash; into email, into downloads, into an AI prompt. Purview sensitivity labels, DLP, and DSPM for AI are how you make that happen, and why oversharing plus Copilot is a problem you fix before you enable it.</p>
+                    <p><strong><a href="2026-08-14-zero-trust-m365-data.html">Part 4 &mdash; Data.</a></strong> The pillar everything else exists to protect. Protection has to travel with the file &mdash; into email, into downloads, into an AI prompt. Purview sensitivity labels, DLP, and Data Security Posture Management (DSPM) &mdash; the successor to the classic DSPM for AI, now covering AI apps and agents alongside the rest of your data estate &mdash; are how you make that happen, and why oversharing plus Copilot is a problem you fix before you enable it.</p>
 
                     <h2 id="who-its-for">Who it is for</h2>
 
@@ -145,7 +145,7 @@
       "author": { "@type": "Person", "name": "Philipp Schmidt", "url": "https://easym365.de" },
       "publisher": { "@type": "Organization", "name": "EndlessTech Blog" },
       "datePublished": "2026-08-10",
-      "dateModified": "2026-08-10",
+      "dateModified": "2026-09-05",
       "isPartOf": { "@type": "CreativeWorkSeries", "name": "Zero Trust for Microsoft 365" },
       "mainEntityOfPage": "https://endlesstech.blog/posts/2026-08-10-zero-trust-m365-series.html"
     }

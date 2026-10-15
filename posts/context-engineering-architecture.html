@@ -102,7 +102,7 @@
                     <p><strong>Workflow 2: Intelligent Processing (AI-based)</strong></p>
                     <ul>
                         <li><strong>Task:</strong> Read transcripts, extract relevant information, create a structured context document</li>
-                        <li><strong>Technology:</strong> Workflow engine with AI agent integration (e.g., Langdock, n8n with OpenAI integration, or Microsoft Power Automate with Azure OpenAI)</li>
+                        <li><strong>Technology:</strong> Workflow engine with AI agent integration (e.g., Langdock, n8n with OpenAI integration, or Microsoft Power Automate with Azure OpenAI in Azure AI Foundry Models)</li>
                         <li><strong>Trigger:</strong> Time-based, after Workflow 1 (e.g., Saturday 6:00 AM)</li>
                         <li><strong>Process:</strong> Loop through all new documents → Agent-based processing → Create short-term memory → Update long-term memory</li>
                     </ul>
@@ -200,7 +200,7 @@
                     <p><strong>Month 1: Preparation</strong></p>
                     <ul>
                         <li>Identify meetings to be transcribed</li>
-                        <li>Introduce transcription tool (e.g., Google Meet, Microsoft Teams)</li>
+                        <li>Introduce transcription tool (e.g., Google Meet, Microsoft Teams). If you run this on Teams, note that Graph API access to meeting transcripts is off by default: an admin has to turn on <strong>Transcript API access → Microsoft Graph access</strong> in the Teams admin center, or set <code>Set-CsTeamsMeetingConfiguration -EnableGraphTranscriptAccess true -Identity Global</code>. Without it, no app or agent can read a transcript, regardless of its API permissions. <a href="https://learn.microsoft.com/en-us/microsoftteams/meeting-transcript-api-access" target="_blank" rel="noopener">[11]</a></li>
                         <li>Create awareness: What is documented, what isn't?</li>
                         <li>Parallel: Build company profile page, create initial context documents</li>
                     </ul>
@@ -280,6 +280,7 @@
                         <li><a href="https://learn.microsoft.com/en-us/power-automate/guidance/desktop-flow-coding-guidelines/secure-your-data" target="_blank" rel="noopener">Secure your data in Power Automate</a></li>
                         <li><a href="https://enterprise-knowledge.com/enterprise-ai-architecture-series-how-to-build-a-knowledge-intelligence-architecture-part-1/" target="_blank" rel="noopener">How to Build a Knowledge Intelligence Architecture</a></li>
                         <li><a href="https://www.infoq.com/news/2025/10/ai-agent-orchestration/" target="_blank" rel="noopener">AI Agent Orchestration Frameworks</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/microsoftteams/meeting-transcript-api-access" target="_blank" rel="noopener">Manage transcript API access for Teams meetings</a></li>
                     </ol>
                 </div>
             </section>

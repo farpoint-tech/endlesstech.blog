@@ -70,35 +70,42 @@
             <section class="post-full-content">
                 <div class="post-content">
                     <p>A SharePoint permission audit before Copilot goes live is not optional — it is the difference between a controlled rollout and a data leak waiting to happen. For years, administrators relied on fragile PowerShell scripts that broke after every module update. The new Data Access Governance report in the SharePoint admin center changes that equation entirely: it surfaces overshared sites, external sharing violations, and permission anomalies in a single dashboard, without writing a single line of code.</p>
+
+                    <p>PowerShell is not the legacy fallback here, though — it is a first-class path. <code>Start-SPODataAccessGovernanceInsight</code> generates the same DAG reports, handles up to 100 users per request for the user report, and is the only way to run the item-level "Everyone except external users" report (<code>-ReportEntity EveryoneExceptExternalUsersForItems</code>). That one needs <code>Microsoft.Online.SharePoint.PowerShell</code> 16.0.27215.12000 or later and the SharePoint Advanced Management Administrator role.</p>
                     
                     <p>Copilot is incredibly helpful, but it’s also brutally efficient at finding exactly what a user has access to—even if they shouldn't. If your permissions are a mess, Copilot will happily summarize the CEO's confidential restructuring plans for an intern. We need a solid Zero Trust foundation, not a "Zero Trust Bullshit Wall" built on hope and forgotten sharing links.</p>
 
                     <h2>Enter the "Site Permissions for Users" Report</h2>
                     <p>Thankfully, Microsoft has recognized this critical need. They have introduced a native, built-in solution within the SharePoint Admin Center under the <strong>Data Access Governance</strong> section. The new "Site permissions for users" report is a massive leap forward in securing our tenants.</p>
 
-                    <p>Instead of wrestling with code, administrators can now generate a clear, comprehensive snapshot of exactly what a specific user can access across the entire SharePoint and OneDrive environment.</p>
+                    <p>Instead of wrestling with code, administrators can now generate a clear snapshot of exactly what a specific user can access. One detail that catches people out on the first run: when you create the report you have to pick a <strong>Scope</strong> — either SharePoint or OneDrive, not both. Covering a whole tenant means two runs. The same split applies in PowerShell, where you set <code>-Workload SharePoint</code> or <code>-Workload OneDriveForBusiness</code>.</p>
 
                     <h3>What Makes This Report So Powerful?</h3>
                     <p>This isn't just a basic list of sites. The granularity is where the real value lies. The report breaks down access into crucial categories:</p>
                     <ul>
                         <li><strong>Direct Access vs. Indirect Access:</strong> It distinguishes between items shared directly with the user and those they can access because they belong to a specific security group.</li>
                         <li><strong>Site Level vs. Item Level:</strong> It clarifies if the user is a full member of a site or if they only have access to a few specific files buried within it.</li>
-                        <li><strong>Sensitivity Labels:</strong> Crucially, it displays any Microsoft Information Protection sensitivity labels (like "HR Highly Confidential") applied to the sites, giving you immediate context on the risk level.</li>
+                        <li><strong>Sensitivity Labels:</strong> It displays the Microsoft Purview Information Protection sensitivity label applied to each site, in the CSV column <em>Site Sensitivity</em>, giving you immediate context on the risk level. Note that this is the site label, not the label on individual files — for that there is a separate "Sensitivity label for files" report.</li>
                     </ul>
 
                     <blockquote>"The report captures the permission state of given user(s) at a specific point in time, giving you a complete overview of sites accessible to these users along with the extent of access." - Microsoft Learn</blockquote>
 
-                    <h2>The Licensing "Loophole" (or Brilliant Strategy?)</h2>
-                    <p>Here is the most interesting part. Officially, these Data Access Governance reports are part of the premium <strong>SharePoint Advanced Management (SAM)</strong> add-on. However, as noted in a recent community analysis and confirmed by Microsoft documentation, there is a significant exception.</p>
+                    <h2>The Licensing Rule Nobody Reads</h2>
+                    <p>Here is the part worth knowing before you budget for anything. These Data Access Governance reports are part of the premium <strong>SharePoint Advanced Management (SAM)</strong> add-on — and Microsoft documents three ways to get it, one of which most organizations already have without realizing it.</p>
 
-                    <p>If your organization has purchased and assigned <strong>at least one Microsoft 365 Copilot license</strong>, the SharePoint administrators automatically gain access to these specific governance features. Microsoft clearly understands that you cannot safely deploy Copilot without first cleaning up your permission structure. They are providing the tools necessary to do the job right.</p>
+                    <p>If your organization has assigned <strong>at least one Microsoft 365 Copilot license</strong> to any user — that user does not need to be a SharePoint administrator — your SharePoint administrators automatically receive SAM capabilities to support your Copilot deployment. The other two routes: a subscription that includes SharePoint K, P1, or P2 plus the <em>SharePoint Advanced Management Plan 1</em> add-on, or Microsoft 365 E7, which includes Copilot and therefore SAM. Microsoft clearly understands that you cannot safely deploy Copilot without first cleaning up your permission structure, so it hands you the tools with the license.</p>
+
+                    <p>What you do <em>not</em> get from E5 alone: Microsoft is explicit that E5 without SAM can reach Data access governance reporting, but not the other SAM features, and that "the reports don't provide snapshot reports or remedial actions. Activity reports are available but can return only up to 10,000 sites." Since "Site permissions for users" is a snapshot report, it is genuinely out of reach without SAM — but the sharing-links and EEEU activity reports are not. Without SAM you also have to enable data collection first, data is kept 28 days, reports appear 24 hours after you enable collection, and collection pauses if you go three months without generating a report.</p>
 
                     <h3>Limitations to Keep in Mind</h3>
-                    <p>While fantastic, the tool does have some guardrails to prevent system overload:</p>
+                    <p>The tool does have guardrails, and two prerequisites that decide whether it runs at all:</p>
                     <ul>
-                        <li>You can run a maximum of 5 concurrent reports.</li>
+                        <li>The organization-wide <em>Site permissions</em> report must have been generated at least once before you can run this one.</li>
+                        <li>Reports capture data from up to 48 hours before generation — the CSV's <em>Report Date</em> column carries the same caveat. Fix permissions, wait 48 hours, then re-run. Changes you made this morning will not show up.</li>
+                        <li>You can have up to five reports in total.</li>
                         <li>Reports can only be regenerated for a specific user every 30 days.</li>
                         <li>The downloadable CSV export has a limit of 1 million sites.</li>
+                        <li>You need a base subscription — Office 365 E3/E5/A5 or Microsoft 365 E1/E3/E5/A5 — plus the SharePoint Administrator role, and the SharePoint Advanced Management Administrator role for parts of it.</li>
                     </ul>
 
                     <h2>Actionable Next Steps</h2>
@@ -109,7 +116,7 @@
                     <h2>Frequently Asked Questions</h2>
 
                     <h3>Do I need SharePoint Advanced Management for the permission report?</h3>
-                    <p>Yes. The Data Access Governance reports — including the site permissions report — require a SharePoint Advanced Management license, which is included in Microsoft 365 E5 or available as a standalone add-on. Without it, you fall back to PowerShell-based auditing with the PnP module.</p>
+                    <p>For the "Site permissions for users" report, yes — it is a snapshot report, and snapshot reports need SAM. But SAM is <strong>not</strong> part of Microsoft 365 E5. Microsoft's own wording: "SharePoint Advanced Management is included with your Microsoft Copilot license. For E3 and E5, this requires the Copilot add-on. For E7, Copilot (and therefore SAM) is included." So you get SAM if at least one user holds a Microsoft Copilot license, or your subscription includes SharePoint K/P1/P2 and you buy the SharePoint Advanced Management Plan 1 add-on, or you have Microsoft 365 E7. E5 on its own does not qualify — though it does get you the activity reports (sharing links, EEEU) up to 10,000 sites. Beyond that, you fall back to PowerShell. Microsoft's own DAG cmdlets live in <code>Microsoft.Online.SharePoint.PowerShell</code>; PnP PowerShell is a community project and is not documented on Microsoft Learn, so treat it as unsupported tooling rather than the official fallback.</p>
 
                     <h3>Will Copilot surface data that users should not see?</h3>
                     <p>Copilot respects existing SharePoint permissions. It will not grant access to content a user cannot already reach. The problem is that many tenants have years of accumulated oversharing — sites shared with "Everyone except external users," broken inheritance, or guest links that were never revoked. Copilot simply makes those existing gaps visible faster, because it actively searches across all content the user has access to.</p>
@@ -168,7 +175,7 @@
       "@type": "Article",
       "headline": "SharePoint Permission Audit for Copilot Readiness",
       "datePublished": "2026-04-17",
-      "dateModified": "2026-06-20",
+      "dateModified": "2026-09-05",
       "author": {
         "@type": "Person",
         "name": "Philipp Schmidt",
@@ -200,7 +207,7 @@
           "name": "Do I need SharePoint Advanced Management for the permission report?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. The Data Access Governance reports require a SharePoint Advanced Management license, included in Microsoft 365 E5 or available as a standalone add-on. Without it, you fall back to PowerShell-based auditing."
+            "text": "For the Site permissions for users report, yes — snapshot reports need SharePoint Advanced Management. But SAM is not part of Microsoft 365 E5: Microsoft states that SAM is included with a Microsoft Copilot license, that E3 and E5 need the Copilot add-on, and that E7 includes Copilot and therefore SAM. You can also get SAM with SharePoint K/P1/P2 plus the SharePoint Advanced Management Plan 1 add-on. E5 alone still gets the sharing links and EEEU activity reports, up to 10,000 sites."
           }
         },
         {

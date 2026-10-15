@@ -5,24 +5,24 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
     <meta name="robots" content="index,follow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Orphaned Teams channel sites waste storage and break audits. PowerShell cleanup script using TEAMCHANNEL#1 filter and Graph API group validation.">
+    <meta name="description" content="Microsoft documents that Teams channel sites die with their team. When one survives, deleting it is the last step, not the first. How to find them safely.">
     <meta name="author" content="Philipp Schmidt">
-    <meta name="keywords" content="orphaned Teams channel sites cleanup, TEAMCHANNEL#1 SharePoint orphaned, Teams private channel site PowerShell, M365 tenant hygiene, SharePoint orphaned site removal, SharePoint sprawl cleanup SMB, orphaned SharePoint sites detection, SharePoint lifecycle management SMB, SharePoint Wildwuchs aufraeumen, verwaiste SharePoint Sites finden">
+    <meta name="keywords" content="orphaned Teams channel sites, TEAMCHANNEL#0 TEAMCHANNEL#1, IsTeamsChannelConnected, Teams private channel SharePoint site, Teams shared channel site, Get-SPOSite channel sites, Remove-SPOSite Restore-SPODeletedSite, M365 tenant hygiene, SharePoint site lifecycle management, verwaiste SharePoint Sites finden, SharePoint Wildwuchs aufraeumen">
 
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="article">
-    <meta property="og:title" content="Orphaned Teams Channel Sites: PowerShell Cleanup">
-    <meta property="og:description" content="Orphaned Teams channel sites waste storage and break audits. PowerShell cleanup using TEAMCHANNEL#1 filter and Graph API validation.">
-    <meta property="og:image" content="https://endlesstech.blog/assets/images/ghost-hunting-hero.webp">
+    <meta property="og:title" content="Orphaned Teams Channel Sites: Report Before You Delete">
+    <meta property="og:description" content="Channel sites are supposed to die with their team. When one survives, find out why before you delete it. A read-only detection built on documented properties.">
+    <meta property="og:image" content="https://endlesstech.blog/assets/images/orphaned-channel-sites/orphaned-channel-sites-hero.svg">
     <meta property="og:url" content="https://endlesstech.blog/posts/2026-05-21-ghost-hunting-m365-orphaned-teams-channel-sites.html">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Orphaned Teams Channel Sites: PowerShell Cleanup">
-    <meta name="twitter:description" content="Orphaned Teams channel sites waste storage and break audits. PowerShell cleanup using TEAMCHANNEL#1 filter and Graph API validation.">
-    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/ghost-hunting-hero.webp">
+    <meta name="twitter:title" content="Orphaned Teams Channel Sites: Report Before You Delete">
+    <meta name="twitter:description" content="Channel sites are supposed to die with their team. When one survives, find out why before you delete it. A read-only detection built on documented properties.">
+    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/orphaned-channel-sites/orphaned-channel-sites-hero.svg">
 
-    <title>Orphaned Teams Channel Sites: PowerShell Cleanup</title>
+    <title>Orphaned Teams Channel Sites: Report Before You Delete</title>
 
     <!-- Stylesheet -->
     <link rel="alternate" type="application/rss+xml" title="EndlessTech Blog RSS Feed" href="https://endlesstech.blog/feed.xml">
@@ -54,414 +54,347 @@
     <main class="container">
         <article class="post-full">
             <header class="post-full-header">
-                <h1 class="post-full-title">Ghost Hunting in the M365 Tenant: Cleaning Up Orphaned Teams Private Channel Sites with PowerShell</h1>
+                <h1 class="post-full-title">Orphaned Teams Channel Sites: Report Before You Delete Anything</h1>
                 <div class="post-full-meta">
-                    <time datetime="2026-05-21">May 2026</time> &bull; By Philipp Schmidt
+                    <time datetime="2026-05-21">May 2026</time> &bull; Updated September 2026 &bull; By Philipp Schmidt
+                </div>
+                <div class="post-tags">
+                    <span class="tag">Microsoft 365</span>
+                    <span class="tag">SharePoint</span>
+                    <span class="tag">Microsoft Teams</span>
+                    <span class="tag">PowerShell</span>
+                    <span class="tag">Governance</span>
                 </div>
             </header>
 
             <figure class="post-full-image">
-                <img src="../assets/images/ghost-hunting-hero.webp" alt="PowerShell terminal showing orphaned Teams Private Channel site cleanup with TEAMCHANNEL#1 template filter and ghost 404 sites being removed from an M365 tenant" srcset="../assets/images/responsive/ghost-hunting-hero-400w.webp 400w, ../assets/images/responsive/ghost-hunting-hero-800w.webp 800w, ../assets/images/ghost-hunting-hero.webp 1344w" sizes="(max-width: 800px) 100vw, 800px">
+                <img src="../assets/images/orphaned-channel-sites/orphaned-channel-sites-hero.svg" alt="Two lists compared side by side: the channel sites SharePoint reports and the private and shared channels Teams still has. Three sites match a live channel, one does not, and the one without a match goes into a review report instead of straight to deletion.">
             </figure>
 
             <section class="post-full-content">
                 <div class="post-content">
 
-                    <p><em>A field report from a real-world cleanup of orphaned Teams channel sites in a production M365 tenant (name pseudonymized).</em></p>
+                    <p>Ten SharePoint sites were still sitting in a tenant weeks after the team they belonged to had been deleted. Each one carried a <code>TEAMCHANNEL</code> template, each one held storage, and none of them showed up anywhere in the Teams admin center. The first version of this post treated that as a deletion problem and handed you a script for it. Wrong order of operations, and the script rested on a rule Microsoft does not document anywhere. This is the corrected version, and the correction changed the whole shape of the job.</p>
 
-                    <h2>How a SharePoint Archiving Project Created Ghost Sites</h2>
+                    <div class="post-tldr">
+                        <h2>In short</h2>
+                        <p>Microsoft documents that deleting a team also deletes its channels and their associated site collections. So a channel site that outlives its team is an exception, and Learn names the documented cause: sites under retention are not deleted until the retention period expires. That makes "why is this still here?" the first question, not "how do I delete it?". The documented way to find channel sites is <code>IsTeamsChannelConnected</code>, not an empty <code>GroupId</code>. Build a read-only report by comparing every channel site in SharePoint against every live private and shared channel in Teams, check each difference by hand, and only then reach for <code>Remove-SPOSite</code>.</p>
+                    </div>
 
-                    <p>Orphaned Teams channel sites are the debris left behind when a Microsoft Teams team gets deleted but its Private Channel SharePoint sites survive. This cleanup operation started as a routine engagement: archive a SharePoint site tied to a team with <strong>10 Private Channels</strong>, each with its own independent SharePoint site underneath. Simple enough on paper.</p>
+                    <nav class="post-toc" aria-label="Table of contents">
+                        <h2>On this page</h2>
+                        <ol>
+                            <li><a href="#what-a-channel-site-is">What a channel site actually is</a></li>
+                            <li><a href="#when-the-team-goes">What Microsoft says happens when the team goes</a></li>
+                            <li><a href="#the-rule-that-is-gone">The rule the old version used, and why it is gone</a></li>
+                            <li><a href="#detection">A detection that only reads</a></li>
+                            <li><a href="#before-you-delete">Four checks before you delete a candidate</a></li>
+                            <li><a href="#tools-that-do-not-help">Two tools that do not help here</a></li>
+                            <li><a href="#if-you-delete">If you do delete</a></li>
+                            <li><a href="#tooling-notes">Tooling notes with documented answers</a></li>
+                            <li><a href="#key-takeaways">Key takeaways</a></li>
+                            <li><a href="#glossary">Glossary</a></li>
+                            <li><a href="#faq">Frequently Asked Questions</a></li>
+                        </ol>
+                    </nav>
 
-                    <p>The team was deleted. The M365 Group was removed. The archive confirmation appeared in the SharePoint Admin Center. Job done &mdash; or so I thought.</p>
+                    <h2 id="what-a-channel-site-is">What a channel site actually is</h2>
 
-                    <p>Weeks later, during a tenant health audit, I noticed ten SharePoint sites still sitting there. Alive. Consuming storage. Owned by nobody. The parent Group? <code>404 Not Found</code> in Microsoft Graph. The Teams Admin Center? Blank. These Private Channel sites had become <strong>ghost towns</strong> &mdash; orphaned when the parent Group disappeared, but never cleaned up because Microsoft deliberately prevents GUI deletion of channel sites.</p>
+                    <p>Every private channel in a team gets its own SharePoint site, and so does every shared channel. Microsoft calls both of them <strong>channel sites</strong>. They carry a custom template ID, <code>TEAMCHANNEL#0</code> or <code>TEAMCHANNEL#1</code>, which Learn describes as being there for easier management through PowerShell and the Graph API.</p>
 
-                    <p>What followed was a journey through every tooling trap in the M365 PowerShell universe: macOS auth bugs, PnP assembly conflicts, deprecated cmdlets, and a Modern Auth popup that vanished into the Z-order. This post honestly documents every dead end, because the path to the solution is just as instructive as the solution itself.</p>
+                    <p>Two properties of a channel site matter for anything you plan to do to it:</p>
 
-                    <hr>
+                    <ul>
+                        <li><strong>Permissions come from the channel, not from SharePoint.</strong> Membership of the site owner and member groups is kept in sync with the channel membership, and site permissions for a channel site cannot be managed independently through SharePoint. The permissions panel shows them read-only.</li>
+                        <li><strong>Teams owns the lifecycle.</strong> Learn puts it plainly: "Teams manages the lifecycle of the private channel site. If the site is deleted outside of Teams, a background job restores the site within four hours as long as the private channel is still active." Delete a live channel's site from PowerShell and you get four hours of a broken channel, then the site comes back.</li>
+                    </ul>
 
-                    <h2>TL;DR</h2>
+                    <p>One more documented behaviour: if a private channel or a team containing a private channel is restored, the sites are restored with it. Restore a channel site after the channel's 30-day soft-delete window has passed and it operates as a standalone site from then on.</p>
 
-                    <p>A Microsoft 365 Group and its associated Team had vanished from the directory, but ten Private Channel SharePoint sites remained as ghost towns. Microsoft Graph: 404. Entra Portal: nothing. Teams Admin Center: blank. SharePoint Admin Center GUI: visible, but impossible to delete. The solution? Firing up the SharePoint Online Management Shell, filtering specifically via <code>Get-SPOSite -Template "TEAMCHANNEL#1"</code>, deleting them, and sweeping the Recycle Bin.</p>
+                    <h2 id="when-the-team-goes">What Microsoft says happens when the team goes</h2>
 
-                    <h2>1. The Starting Point</h2>
+                    <p>The original post skipped this paragraph of the documentation, which is where the trouble started. Microsoft's own guidance on deleting a team:</p>
 
-                    <p>During a tenant cleanup, I encountered an orphaned Microsoft 365 Group:</p>
+                    <blockquote>When you delete a team, team activity in standard and private channels (and associated site collections), files, and chats are also deleted. If the deleted team has sites under retention, then they won't be deleted until the retention period expires.</blockquote>
 
-<pre><code>GroupId: d9e8b533-ef91-44df-8d85-46ff1730404f</code></pre>
+                    <p>Channel sites are supposed to go with the team. Archiving works the same way: archiving a team also archives its private channels and their associated site collections. And restoring the Microsoft 365 group within the 30-day soft-delete window brings back the private channels and their site collections too.</p>
 
-                    <p>(The GUID was already gone from the tenant &mdash; I'm only listing it here because it references nothing and is useless to anyone.)</p>
+                    <p>So a channel site that is still there after its team is gone is not the normal outcome. It is an exception, and Learn hands you the documented explanation for it in the same sentence: <strong>retention</strong>. A Purview retention policy or retention label on the site keeps it alive past the team, by design. Purview documentation is consistent with that from the other side: users see an error message if they try to delete a library, list, or site that is subject to retention.</p>
 
-                    <p>Initial diagnosis via Microsoft Graph:</p>
+                    <p>That changes the job. If a surviving channel site is most likely surviving because something is deliberately holding it, then a script that deletes it on a pattern match is working against your own compliance configuration. The first question is why the site is still there.</p>
 
-<pre><code>GET https://graph.microsoft.com/v1.0/groups/d9e8b533-ef91-44df-8d85-46ff1730404f
-&rarr; 404 Not Found
+                    <h2 id="the-rule-that-is-gone">The rule the old version used, and why it is gone</h2>
 
-GET https://graph.microsoft.com/v1.0/teams/d9e8b533-ef91-44df-8d85-46ff1730404f
-&rarr; 404 Not Found</code></pre>
+                    <p>The original detection was <code>GroupId</code> equal to all zeroes on a <code>TEAMCHANNEL#1</code> site. In that one tenant, the ten sites I already knew to be orphaned were exactly the ten with an empty <code>GroupId</code>. That is a correlation on a single sample, and no Learn page states that a healthy channel site carries its parent group's GUID in that property. What Learn does document about <code>GroupId</code> is the server-side filter <code>-GroupIdDefined $true</code>, described as returning "all sites that have an associated Microsoft 365 Group". A channel site is its own site collection without its own group, so an empty value there tells you very little about whether anyone still needs the site.</p>
 
-                    <p>However, in the SharePoint Admin Center, there were ten sites with the URL pattern <code>/sites/LEE-&lt;Department&gt;</code> and the telltale template <code>TEAMCHANNEL#1</code>. These are Private Channel sites &mdash; independent SPO sites, but logically bound to the parent Group. When the Group disappears, they remain as ghost sites.</p>
+                    <p>My own FAQ in the old version suggested <code>RelatedGroupId</code> instead. That property is not documented on Learn either, so it is no better as the gate on a deletion. Both are out.</p>
 
-                    <p>GUI attempts in the SharePoint Admin Center? Sites cannot be selected, because Microsoft intentionally blocks the individual deletion of channel sites. Teams Admin Center? Doesn't show the team at all anymore. A classic dead end.</p>
+                    <p>What is documented is <code>IsTeamsChannelConnected</code>. Example 10 on the <code>Get-SPOSite</code> reference page uses it to return "a list of sites connected to a Microsoft Teams Private or Shared channel":</p>
 
-                    <h2>2. First Attempt: macOS + PnP.PowerShell</h2>
+<pre><code>Get-SPOSite -Limit ALL | Where-Object { $_.IsTeamsChannelConnected -eq $true }</code></pre>
 
-                    <p>My daily driver is a Mac, so the obvious attempt:</p>
+                    <p>Two things about that call. First, it covers both private and shared channel sites, which a filter on <code>-Template "TEAMCHANNEL#1"</code> does not: Learn names <code>TEAMCHANNEL#0</code> and <code>TEAMCHANNEL#1</code>, so the old filter silently skipped every <code>#0</code> site. Second, Learn warns that when <code>-Limit</code> or <code>-Filter</code> is used, a published list of site properties is not populated and may contain default values. Before you act on any single site, re-read it on its own with <code>Get-SPOSite -Identity &lt;url&gt;</code>.</p>
 
-<pre><code>Install-Module PnP.PowerShell -Scope CurrentUser
-Connect-PnPOnline -Url https://365solution-admin.sharepoint.com -Interactive</code></pre>
+                    <h2 id="detection">A detection that only reads</h2>
 
-                    <p>Result: <strong>Null Reference Exception</strong> in the auth layer. A known issue with PnP on macOS in combination with certain Conditional Access policies (a Zero Trust configuration with a device filter reliably triggers a bug in the auth handler).</p>
+                    <p>Build the list of channel sites SharePoint knows about, build the list of channels Teams still has, and look at the difference. Both halves are documented, and neither of them requires you to guess what a property on a single site means.</p>
 
-                    <p>Workaround attempt with <code>-DeviceLogin</code>: same NRE. Interim result: macOS path blocked.</p>
+                    <h3>Step 1: the SharePoint side</h3>
 
-                    <p>&rarr; Decision: switch over to a Windows VM.</p>
+                    <p>Connect as a SharePoint administrator, ideally through a PIM activation rather than a standing role assignment, and pull every channel site in the tenant.</p>
 
-                    <h2>3. Second Attempt: Windows + Classic SPO Module</h2>
+<pre><code>Connect-SPOService -Url https://contoso-admin.sharepoint.com
 
-                    <p>On Windows PowerShell 5.1:</p>
+$channelSites = Get-SPOSite -Limit All |
+    Where-Object { $_.IsTeamsChannelConnected -eq $true }
 
-<pre><code>Install-Module Microsoft.Online.SharePoint.PowerShell -Scope CurrentUser -Force -AllowClobber
-Import-Module Microsoft.Online.SharePoint.PowerShell
-Connect-SPOService -Url https://365solution-admin.sharepoint.com</code></pre>
+$channelSites | Select-Object Url, Template | Format-Table -AutoSize</code></pre>
 
-                    <p>Result:</p>
+                    <h3>Step 2: the Teams side</h3>
 
-<pre><code>Connect-SPOService: No valid OAuth 2.0 authentication session exists</code></pre>
+                    <p>Graph does not offer "give me the site of this channel" as a single property, but it does offer the channel's file location, and that folder lives inside the channel site. Learn documents <code>GET /teams/{id}/channels/{id}/filesFolder</code>, exposed in the Graph PowerShell SDK as <code>Get-MgTeamChannelFileFolder</code>, which returns a driveItem with a <code>webUrl</code>.</p>
 
-                    <p>No browser popup, no Modern Auth prompt. Classic case: the popup was swallowed somewhere in the Z-order, or the Modern Auth negotiation didn't trigger at all.</p>
+                    <p>To get the list of teams, Learn's own guidance for listing all teams in an organization is to filter groups on the provisioning option:</p>
 
-                    <p>Workaround attempt:</p>
+<pre><code>Connect-MgGraph -Scopes 'Group.Read.All','Channel.ReadBasic.All','Files.Read.All'
 
-<pre><code>Connect-SPOService -Url https://365solution-admin.sharepoint.com `
-                   -ModernAuth $true `
-                   -AuthenticationUrl https://login.microsoftonline.com/organizations</code></pre>
+$teams = Get-MgGroup -All -Filter "resourceProvisioningOptions/Any(x:x eq 'Team')"
 
-                    <p>Didn't help reliably. So: next try with PnP.PowerShell on Windows.</p>
+Get-MgTeamChannel -TeamId $teams[0].Id -Filter "membershipType eq 'private'"</code></pre>
 
-                    <h2>4. Third Attempt: Windows + PnP.PowerShell &mdash; The Assembly Inferno</h2>
+                    <p>One caveat straight from Learn: certain unused old teams do not have <code>resourceProvisioningOptions</code> set, so this filter can miss a team. That matters for the direction of the error, which I come back to in a moment.</p>
 
-<pre><code>Install-Module PnP.PowerShell -Scope CurrentUser -Force -AllowClobber</code></pre>
+                    <h3>Step 3: the comparison</h3>
 
-                    <p>Error:</p>
+                    <p>A channel site is in use when some live channel's file location sits inside it. So the test is a prefix match between the site URL and the folder URLs, after URL-decoding the folder URL. No parsing of library names, no locale assumptions.</p>
 
-<pre><code>Install-Package: A Microsoft-signed module named 'PnP.PowerShell' with version
-'3.1.0' that was previously installed conflicts with the new module
-'PnP.PowerShell' from publisher '...' with version '3.2.0'.</code></pre>
+                    <p>Get the direction of the error right, because it decides whether this script can hurt you. If the match fails for a site that is actually live, the site lands in the report and a human looks at it. If a team is missing from the Graph query, its channel sites also land in the report and a human looks at them. Every failure mode of this script produces one more line to read, never one more site deleted. That is the only reason it is safe to run against a production tenant.</p>
 
-                    <p>OK, set <code>-SkipPublisherCheck</code>, reinstall. Then:</p>
+                    <h3>The report script</h3>
 
-<pre><code>Import-Module PnP.PowerShell
-
-Import-Module: Could not load file or assembly
-'Microsoft.Online.SharePoint.Client.Tenant, Version=16.1.0.0, ...'.
-The located assembly's manifest definition does not match the assembly reference.
-(0x80131040)</code></pre>
-
-                    <p><strong>Cause:</strong> Two PnP versions sitting in the same user profile in parallel (3.1.0 and 3.2.0). The DLLs from one module folder reference CSOM assemblies in a version that the other module folder has already loaded in a different version. The .NET AppDomain pins the first loaded version &mdash; switching within the same session is not possible.</p>
-
-                    <p>Cleanup:</p>
-
-<pre><code>Get-Module PnP.PowerShell | Remove-Module -Force
-Get-InstalledModule PnP.PowerShell -AllVersions | Uninstall-Module -Force
-Remove-Item "$HOME\Documents\PowerShell\Modules\PnP.PowerShell" `
-    -Recurse -Force -ErrorAction SilentlyContinue
-Remove-Item "$HOME\Documents\WindowsPowerShell\Modules\PnP.PowerShell" `
-    -Recurse -Force -ErrorAction SilentlyContinue</code></pre>
-
-                    <p>Reinstallation in a <strong>new PS7 session</strong> (important &mdash; otherwise the old assembly still lives on in the AppDomain):</p>
-
-<pre><code>Install-Module PnP.PowerShell -Scope CurrentUser -Force -SkipPublisherCheck
-Import-Module PnP.PowerShell
-(Get-Module PnP.PowerShell).Version
-# 3.2.0</code></pre>
-
-                    <p>Login attempt:</p>
-
-<pre><code>Register-PnPManagementShellAccess
-
-The term 'Register-PnPManagementShellAccess' is not recognized as a name of a cmdlet...</code></pre>
-
-                    <p>Oh right &mdash; the cmdlet was removed in PnP.PowerShell 2.x. Microsoft withdrew the central "PnP Management Shell" multi-tenant app for security reasons (overly broad, pre-granted permissions for every tenant worldwide). Since then, every tenant needs its own app registration for PnP.</p>
-
-                    <p>The correct way in PnP 3.x:</p>
-
-<pre><code>Register-PnPEntraIDAppForInteractiveLogin `
-    -ApplicationName "PnP Mgmt 365Solution" `
-    -Tenant 365solution.onmicrosoft.com `
-    -Interactive</code></pre>
-
-                    <p>Works &mdash; but is overkill for a one-time cleanup job. So: back to basics.</p>
-
-                    <h2>5. Back to Basics: SPO Module, Done Right</h2>
-
-                    <p>New Windows PowerShell 5.1 window (<strong>not</strong> pwsh 7 &mdash; the old SPO module explicitly wants .NET Framework). Important: the module must be in the 5.1 module path (<code>Documents\WindowsPowerShell\Modules</code>), not in the 7 path (<code>Documents\PowerShell\Modules</code>):</p>
-
-<pre><code>Install-Module Microsoft.Online.SharePoint.PowerShell -Scope CurrentUser -Force -AllowClobber
-Import-Module Microsoft.Online.SharePoint.PowerShell
-Connect-SPOService -Url https://365solution-admin.sharepoint.com</code></pre>
-
-                    <p>This time the Modern Auth popup appeared (maybe it was stuck under another window before). Login with the Admin account (SharePoint Administrator role activated via PIM), MFA confirmation, done.</p>
-
-                    <h2>6. Discovery: Which Sites Are Really Orphaned?</h2>
-
-                    <p>The trick lies in the Template filter and the GroupId:</p>
-
-<pre><code>Get-SPOSite -Limit All -Template "TEAMCHANNEL#1" |
-    Where-Object { $_.Url -match '/sites/LEE' } |
-    Select-Object Url, Template, GroupId |
-    Format-Table -AutoSize</code></pre>
-
-                    <p>Output:</p>
-
-                    <table class="post-table">
-                        <thead>
-                            <tr>
-                                <th>Url</th>
-                                <th>Template</th>
-                                <th>GroupId</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr><td>https://365solution.sharepoint.com/sites/LEE-Hauswirtschaft</td><td>TEAMCHANNEL#1</td><td>00000000-0000-...</td></tr>
-                            <tr><td>https://365solution.sharepoint.com/sites/LEE-Praxisanleitung</td><td>TEAMCHANNEL#1</td><td>00000000-0000-...</td></tr>
-                            <tr><td>https://365solution.sharepoint.com/sites/LEE-Pflege</td><td>TEAMCHANNEL#1</td><td>00000000-0000-...</td></tr>
-                            <tr><td>https://365solution.sharepoint.com/sites/LEE-Pflegedienstleitung</td><td>TEAMCHANNEL#1</td><td>00000000-0000-...</td></tr>
-                            <tr><td>https://365solution.sharepoint.com/sites/LEE-Kueche</td><td>TEAMCHANNEL#1</td><td>00000000-0000-...</td></tr>
-                            <tr><td>https://365solution.sharepoint.com/sites/LEE-Haustechnik</td><td>TEAMCHANNEL#1</td><td>00000000-0000-...</td></tr>
-                            <tr><td>https://365solution.sharepoint.com/sites/LEE-SozialerDienst</td><td>TEAMCHANNEL#1</td><td>00000000-0000-...</td></tr>
-                            <tr><td>https://365solution.sharepoint.com/sites/LEE-Einrichtungsleitung</td><td>TEAMCHANNEL#1</td><td>00000000-0000-...</td></tr>
-                            <tr><td>https://365solution.sharepoint.com/sites/LEE-Verwaltung</td><td>TEAMCHANNEL#1</td><td>00000000-0000-...</td></tr>
-                            <tr><td>https://365solution.sharepoint.com/sites/LEE-Personal</td><td>TEAMCHANNEL#1</td><td>00000000-0000-...</td></tr>
-                        </tbody>
-                    </table>
-
-                    <p>The <strong>empty GroupId</strong> (<code>00000000-...</code>) is the smoking gun: a Channel site with a living parent Group would show the parent's GUID here. Null = orphaned. Exactly the ten expected sites.</p>
-
-                    <h2>7. The Actual Cleanup</h2>
-
-<pre><code># 1. Collect
-$lee = Get-SPOSite -Limit All -Template "TEAMCHANNEL#1" |
-       Where-Object { $_.Url -match '/sites/LEE' }
-
-# 2. Sanity check
-$lee | Select-Object Url | Format-Table -AutoSize
-Read-Host "ENTER to delete, Ctrl+C to abort"
-
-# 3. Delete (moves to the Tenant Recycle Bin)
-foreach ($s in $lee) {
-    try {
-        Remove-SPOSite -Identity $s.Url -Confirm:$false -NoWait
-        Write-Host "DEL queued: $($s.Url)" -ForegroundColor Green
-    } catch {
-        Write-Host "FAIL: $($s.Url) -&gt; $($_.Exception.Message)" -ForegroundColor Red
-    }
-}</code></pre>
-
-                    <p><code>-NoWait</code> is important &mdash; without it, each site waits up to several minutes while SPO flips the flag in the backend. With <code>-NoWait</code>, the call queues the operation and returns immediately.</p>
-
-                    <h2>8. Recycle Bin: The Second, Often Forgotten Step</h2>
-
-                    <p>If the Group is really supposed to disappear from the tenant permanently, the Tenant Recycle Bin must also be emptied:</p>
-
-<pre><code># Which sites are in the Tenant Recycle Bin?
-Get-SPODeletedSite -Limit All |
-    Where-Object { $_.Url -match '/sites/LEE' } |
-    Select-Object Url |
-    Format-Table -AutoSize
-
-# Remove permanently
-Get-SPODeletedSite -Limit All |
-    Where-Object { $_.Url -match '/sites/LEE' } |
-    ForEach-Object { Remove-SPODeletedSite -Identity $_.Url -Confirm:$false }</code></pre>
-
-                    <p>Default retention in the Tenant Recycle Bin: <strong>93 days</strong>. If you don't actively empty it, the "corpses" are no longer active but remain part of the storage quota and potentially block URL reuse.</p>
-
-                    <h2>9. Verify</h2>
-
-<pre><code># Active sites - must be empty
-Get-SPOSite -Limit All -Template "TEAMCHANNEL#1" |
-    Where-Object { $_.Url -match '/sites/LEE' }
-
-# Recycle Bin - must be empty
-Get-SPODeletedSite -Limit All |
-    Where-Object { $_.Url -match '/sites/LEE' }</code></pre>
-
-                    <p>Both calls came back empty. Final Graph check on the original Group ID:</p>
-
-<pre><code>GET https://graph.microsoft.com/v1.0/directory/deletedItems/microsoft.graph.group/d9e8b533-...
-&rarr; 404 Not Found</code></pre>
-
-                    <p>No soft-delete entry, no remnants. <strong>Tenant clean.</strong></p>
-
-                    <h2>10. Lessons Learned</h2>
-
-                    <h3>Tooling Reality in M365 PowerShell</h3>
-
-                    <table class="post-table">
-                        <thead>
-                            <tr><th>#</th><th>Lesson</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr><td>1</td><td>Three competing modules for SPO Admin (<code>Microsoft.Online.SharePoint.PowerShell</code>, <code>PnP.PowerShell</code>, <code>Microsoft.Graph</code>), each with its own quirks, auth patterns, and platform restrictions.</td></tr>
-                            <tr><td>2</td><td>Module version drift is the most common source of errors. Mixing versions in the same session = guaranteed Assembly Load Failure. Golden rule: <strong>one version, one session</strong>. If unsure &rarr; new session.</td></tr>
-                            <tr><td>3</td><td>PowerShell 5.1 vs. 7 is a real trap. Different module paths: <code>Documents\WindowsPowerShell\Modules</code> for 5.1, <code>Documents\PowerShell\Modules</code> for 7. Install in one, import from the other &rarr; <code>CommandNotFoundException</code>.</td></tr>
-                            <tr><td>4</td><td>macOS support for M365 Admin PowerShell is still second league. For productive tenant operations, Windows remains the more reliable platform &mdash; even in 2026.</td></tr>
-                        </tbody>
-                    </table>
-
-                    <h3>M365 Groups &amp; Teams Lifecycle</h3>
-
-                    <table class="post-table">
-                        <thead>
-                            <tr><th>#</th><th>Lesson</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr><td>5</td><td>Private Channels are independent SharePoint sites. Hard-delete a Group without dissolving channels first = guaranteed ghost sites.</td></tr>
-                            <tr><td>6</td><td>GUI paths protect against inconsistency &mdash; at the price of freedom of movement. Microsoft deliberately blocks individual deletion of channel sites in the Admin Center. In a cleanup scenario, PowerShell is the only way out.</td></tr>
-                            <tr><td>7</td><td>Graph 404 does not mean "gone" &mdash; it means "no longer referenced in the directory." The associated SPO sites can happily live on regardless.</td></tr>
-                        </tbody>
-                    </table>
-
-                    <h3>Detection: Finding Orphaned Channel Sites</h3>
-
-                    <p>A simple, repeatable detection check for any tenant:</p>
-
-<pre><code># All Channel sites with empty GroupId = orphaned
-Get-SPOSite -Limit All -Template "TEAMCHANNEL#1" |
-    Where-Object { $_.GroupId -eq [Guid]::Empty } |
-    Select-Object Url, StorageUsageCurrent, LastContentModifiedDate |
-    Sort-Object LastContentModifiedDate |
-    Format-Table -AutoSize</code></pre>
-
-                    <p>Run this once a month as a Scheduled Task or Azure Automation Runbook &rarr; you catch orphaned sites before they pile up.</p>
-
-                    <h2>11. Complete Script to Take Away</h2>
+                    <p>This script reads. It writes a CSV and prints a table. It does not delete, archive, lock, or modify anything, and there is no switch in it that makes it do so.</p>
 
 <pre><code>&lt;#
 .SYNOPSIS
-    Cleanup orphaned Teams Private-Channel SharePoint sites.
+    Reports Teams channel sites that no live private or shared channel points at.
+    Read-only: this script changes nothing.
 .DESCRIPTION
-    Identifies Channel sites whose parent M365 Group no longer exists,
-    deletes them, and clears them from the SPO Tenant Recycle Bin.
+    Builds two lists and compares them.
+      1. SharePoint side: every site where IsTeamsChannelConnected is true.
+      2. Teams side: the file location of every private and shared channel
+         of every team, via Microsoft Graph.
+    A channel site that no live channel points at is a candidate for review,
+    not a confirmed orphan. Check every candidate by hand before acting.
 .NOTES
-    Requires: Windows PowerShell 5.1
-              Microsoft.Online.SharePoint.PowerShell module
-              SharePoint Administrator role (recommended via PIM)
+    Modules : Microsoft.Online.SharePoint.PowerShell, Microsoft.Graph.Groups,
+              Microsoft.Graph.Teams
+    Role    : SharePoint Administrator (activate through PIM)
+    Scopes  : Group.Read.All, Channel.ReadBasic.All, Files.Read.All
 #&gt;
+[CmdletBinding()]
 param(
-    [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory = $true)]
     [string]$AdminUrl,
-    [Parameter(Mandatory=$true)]
-    [string]$UrlFilterRegex,
-    [switch]$WhatIfMode
+    [string]$ReportPath = ".\channel-site-report.csv"
 )
 
-Import-Module Microsoft.Online.SharePoint.PowerShell -ErrorAction Stop
 Connect-SPOService -Url $AdminUrl
+Connect-MgGraph -Scopes 'Group.Read.All','Channel.ReadBasic.All','Files.Read.All'
 
-# Discovery
-$orphans = Get-SPOSite -Limit All -Template "TEAMCHANNEL#1" |
-           Where-Object {
-               $_.Url -match $UrlFilterRegex -and
-               $_.GroupId -eq [Guid]::Empty
-           }
+# 1. SharePoint side
+$channelSites = Get-SPOSite -Limit All |
+    Where-Object { $_.IsTeamsChannelConnected -eq $true }
+Write-Host "Channel sites in SharePoint: $($channelSites.Count)"
 
-if (-not $orphans) {
-    Write-Host "No orphaned channel sites matched filter '$UrlFilterRegex'." `
-        -ForegroundColor Yellow
-    return
-}
+# 2. Teams side
+$liveFolders = [System.Collections.Generic.List[string]]::new()
+$teams = Get-MgGroup -All -Filter "resourceProvisioningOptions/Any(x:x eq 'Team')"
 
-Write-Host "`nFound $($orphans.Count) orphaned channel site(s):" -ForegroundColor Cyan
-$orphans | Select-Object Url, StorageUsageCurrent, LastContentModifiedDate |
-    Format-Table -AutoSize
-
-if ($WhatIfMode) {
-    Write-Host "`n[WhatIf] No changes performed." -ForegroundColor Yellow
-    return
-}
-
-$answer = Read-Host "`nProceed with deletion + recycle-bin purge? (yes/NO)"
-if ($answer -ne 'yes') { Write-Host "Aborted."; return }
-
-# Delete (moves to recycle bin)
-foreach ($s in $orphans) {
+foreach ($team in $teams) {
     try {
-        Remove-SPOSite -Identity $s.Url -Confirm:$false -NoWait
-        Write-Host "DEL queued: $($s.Url)" -ForegroundColor Green
+        $channels = Get-MgTeamChannel -TeamId $team.Id |
+            Where-Object { $_.MembershipType -in 'private','shared' }
     } catch {
-        Write-Host "FAIL: $($s.Url) -&gt; $($_.Exception.Message)" -ForegroundColor Red
+        Write-Warning "Channels unreadable for '$($team.DisplayName)': $($_.Exception.Message)"
+        continue
     }
-}
 
-Start-Sleep -Seconds 30
-
-# Purge from recycle bin
-Get-SPODeletedSite -Limit All |
-    Where-Object { $_.Url -match $UrlFilterRegex } |
-    ForEach-Object {
+    foreach ($channel in $channels) {
         try {
-            Remove-SPODeletedSite -Identity $_.Url -Confirm:$false
-            Write-Host "PURGED: $($_.Url)" -ForegroundColor Green
+            $folder = Get-MgTeamChannelFileFolder -TeamId $team.Id -ChannelId $channel.Id
+            $liveFolders.Add([uri]::UnescapeDataString($folder.WebUrl))
         } catch {
-            Write-Host "PURGE FAIL: $($_.Url) -&gt; $($_.Exception.Message)" `
-                -ForegroundColor Red
+            Write-Warning "File location unreadable for '$($team.DisplayName)/$($channel.DisplayName)': $($_.Exception.Message)"
         }
     }
+}
+Write-Host "Live private and shared channels resolved: $($liveFolders.Count)"
 
-# Verify
-Write-Host "`n--- Verify ---" -ForegroundColor Cyan
-Get-SPOSite -Limit All -Template "TEAMCHANNEL#1" |
-    Where-Object { $_.Url -match $UrlFilterRegex } |
-    Select-Object Url
-Get-SPODeletedSite -Limit All |
-    Where-Object { $_.Url -match $UrlFilterRegex } |
-    Select-Object Url</code></pre>
+# 3. Compare
+$report = foreach ($site in $channelSites) {
+    $prefix = $site.Url.TrimEnd('/') + '/'
+    $match  = $liveFolders | Where-Object { $_.StartsWith($prefix, 'OrdinalIgnoreCase') }
 
-                    <p><strong>Usage:</strong></p>
+    [pscustomobject]@{
+        Url              = $site.Url
+        Template         = $site.Template
+        LiveChannelFound = [bool]$match
+        StorageUsedMB    = $site.StorageUsageCurrent
+        Owner            = $site.Owner
+    }
+}
 
-<pre><code># Dry run first
-.\Cleanup-OrphanedChannelSites.ps1 `
-    -AdminUrl https://365solution-admin.sharepoint.com `
-    -UrlFilterRegex '/sites/LEE' `
-    -WhatIfMode
+$report | Sort-Object LiveChannelFound, Url |
+    Export-Csv -Path $ReportPath -NoTypeInformation -Encoding UTF8
+Write-Host "Report written to $ReportPath"
 
-# If the list looks correct, run for real
-.\Cleanup-OrphanedChannelSites.ps1 `
-    -AdminUrl https://365solution-admin.sharepoint.com `
-    -UrlFilterRegex '/sites/LEE'</code></pre>
+Write-Host "`nCandidates for review (no live channel found):"
+$report | Where-Object { -not $_.LiveChannelFound } | Format-Table -AutoSize</code></pre>
 
-                    <h2>12. Conclusion</h2>
+                    <p><code>StorageUsageCurrent</code> comes from a call that used <code>-Limit</code>, so treat the number as indicative and re-read the individual site before you rely on it. On a large tenant this takes a while, because it walks every team. Run it as a scheduled read and mail yourself the CSV if you want it monthly.</p>
 
-                    <p>What should have been a trivial cleanup turned into a scavenger hunt thanks to three tooling friction points: a macOS auth bug, a PnP version conflict, and a deprecated cmdlet. The actual solution in the end? Five cmdlets. Five minutes.</p>
+                    <h2 id="before-you-delete">Four checks before you delete a candidate</h2>
 
-                    <p>Anyone who regularly deals with lifecycle inconsistencies in an M365 tenant should set up exactly this detection filter (<code>Template=TEAMCHANNEL#1</code> + <code>GroupId=Empty</code>) as a recurring monitor &mdash; orphaned channel sites are far more common than you'd expect.</p>
+                    <p>Every line in that CSV with <code>LiveChannelFound = False</code> is a question, not a verdict. Four checks answer it, and all four are cheap.</p>
 
-                    <p>Orphaned channel sites are one symptom of a larger governance gap. For a systematic approach to tenant hygiene, start with a <a href="2026-04-17-sharepoint-permission-auditing-copilot.html">SharePoint permission audit</a> to surface overshared and orphaned content in one pass. And if you are setting up new teams, pair them with proper <a href="2025-10-24-getting-started-with-zero-trust.html">Zero Trust controls</a> from day one so the lifecycle is managed from creation through decommissioning.</p>
+                    <table class="post-table">
+                        <thead>
+                            <tr><th>Check</th><th>How</th><th>What it means</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Is the parent group only soft-deleted?</td>
+                                <td><code>Get-MgDirectoryDeletedItemAsGroup</code>, or <code>GET /directory/deletedItems/microsoft.graph.group</code></td>
+                                <td>A deleted Microsoft 365 group is retained for 30 days. Restoring it brings back the team, its private channels and their site collections. Delete the site inside that window and you have quietly broken the restore.</td>
+                            </tr>
+                            <tr>
+                                <td>Is the site under retention?</td>
+                                <td>Purview retention policies and labels covering SharePoint sites</td>
+                                <td>This is the documented reason a channel site outlives its team. If a retention setting is holding it, deleting it is the wrong action, and Purview will resist you anyway.</td>
+                            </tr>
+                            <tr>
+                                <td>Is anyone still going to want the content?</td>
+                                <td>Re-read with <code>Get-SPOSite -Identity &lt;url&gt;</code>, open the site, export what matters</td>
+                                <td>Channel site permissions came from a channel that no longer exists, so the people who used it cannot get in to check for you. That makes it your job.</td>
+                            </tr>
+                            <tr>
+                                <td>Is the channel genuinely gone?</td>
+                                <td>Teams admin center, plus the fact that the site did not match any live channel</td>
+                                <td>If the channel is still active, a background job restores the site within four hours and all you achieved was an outage on that channel.</td>
+                            </tr>
+                        </tbody>
+                    </table>
 
-                    <p><strong>Happy hunting.</strong></p>
+                    <h2 id="tools-that-do-not-help">Two tools that do not help here</h2>
 
-                    <h2>Frequently Asked Questions</h2>
+                    <p>Before you build anything, know what Microsoft's own governance features will not do for channel sites. Both exclusions are documented, and both surprised me.</p>
 
-                    <h3>Why can't I delete Teams Private Channel sites from the SharePoint admin center?</h3>
-                    <p>Microsoft blocks GUI deletion of TEAMCHANNEL#1 sites by design. The SharePoint admin center shows a "This site can't be deleted" message because channel sites are lifecycle-linked to their parent Teams channel. When the parent group no longer exists, the GUI has no deletion path. The only way to remove them is through PowerShell using <code>Remove-SPOSite</code> with the <code>-NoWait</code> flag.</p>
+                    <p><strong>Microsoft 365 Archive cannot archive a channel site.</strong> Learn lists channel sites among the site types that are not available to archive, because the feature supports a fixed set of site templates and <code>TEAMCHANNEL</code> is not among them. In the SharePoint admin center, archiving a group-connected site that has channel sites is blocked outright, and through PowerShell or Graph only the parent team site is archived while the channel sites stay active. That also settles what the archive confirmation screenshot in the original version of this post was showing, which was never a channel site. It has been removed. What archiving does cover is a <a href="2026-02-25-cloudknox-sharepoint-file-level-archiving.html">separate topic</a>.</p>
 
-                    <h3>How do I find all orphaned channel sites in my tenant?</h3>
-                    <p>Run <code>Get-SPOSite -Template TEAMCHANNEL#1 -Limit All</code> to list every Private Channel site. Then check each site's <code>RelatedGroupId</code> against Microsoft Graph: if <code>GET /groups/{id}</code> returns 404, the site is orphaned. The article above includes the full detection and cleanup script.</p>
+                    <p><strong>Inactive site policies do not see channel sites either.</strong> SharePoint site lifecycle management would otherwise be the right tool: its policy execution report even has a column for whether a retention policy applies to a site. But its documented out-of-scope list includes "sites associated with Shared and Private Teams channels".</p>
 
-                    <h3>Is it safe to delete orphaned channel sites?</h3>
-                    <p>Yes, if the parent M365 Group no longer exists (confirmed via Graph API 404). Before deletion, verify that no business-critical data remains on the site. Deleted sites go to the SharePoint recycle bin for 93 days, giving you a recovery window if something was missed.</p>
+                    <p>Channel sites fall through the gap between both features, which is why a hand-built report is still the answer in 2026. A documented middle step does exist between leaving a site alone and deleting it: <code>Set-SPOSite -Identity &lt;url&gt; -LockState NoAccess</code> blocks access without removing the site, and <code>ReadOnly</code> keeps it visible but frozen. Unlocking is one command. Locking an uncertain candidate for a quarter and seeing whether anyone complains costs nothing.</p>
+
+                    <h2 id="if-you-delete">If you do delete</h2>
+
+                    <p>Do it one site at a time, from the reviewed CSV, with <code>-WhatIf</code> first. Both deletion cmdlets support it natively, so there is no need for a homemade dry-run switch.</p>
+
+<pre><code># Confirm what the call would touch, without touching it
+Remove-SPOSite -Identity https://contoso.sharepoint.com/sites/Contoso-Rollout -WhatIf
+
+# Then, once, deliberately, for one reviewed site
+Remove-SPOSite -Identity https://contoso.sharepoint.com/sites/Contoso-Rollout -NoWait
+
+# Changed your mind, or picked the wrong line in the CSV
+Restore-SPODeletedSite -Identity https://contoso.sharepoint.com/sites/Contoso-Rollout</code></pre>
+
+                    <p><code>Remove-SPOSite</code> does not delete permanently. Learn is explicit that the site moves to the Recycle Bin and that <code>Restore-SPODeletedSite</code> brings it back; <code>-NoWait</code> lets the call return instead of polling the operation. Deleted sites are retained for <strong>93 days</strong>, and SharePoint keeps backups for a further 14 days beyond the actual deletion, during which Microsoft Support can still initiate a full site collection restore.</p>
+
+                    <p>One correction to a belief I held and repeated in the original: deleted sites in the Recycle Bin do <strong>not</strong> count toward your organization's total storage usage. Learn states it directly and adds that the storage figure can take up to 48 hours to update. If your motivation is <a href="2026-07-17-optimize-sharepoint-online-storage.html">reclaiming storage</a>, emptying the Recycle Bin buys you nothing. The one real reason to purge is URL reuse: recreating a site at the same address requires a permanent deletion first, and even then the URL can take up to 24 hours to free up.</p>
+
+<pre><code>Get-SPODeletedSite -Limit All |
+    Where-Object { $_.Url -like '*/sites/Contoso-Rollout' }
+
+Remove-SPODeletedSite -Identity https://contoso.sharepoint.com/sites/Contoso-Rollout -WhatIf</code></pre>
+
+                    <p><code>Remove-SPODeletedSite</code> is the point of no return, so keep the <code>-WhatIf</code> until you mean it. Note also that the modern admin center will not permanently delete a group-connected site at all; the cmdlet will, and when it does it deletes the site only, not the associated group. And keep the two lists separate in your head: <code>Get-SPOSite</code> does not return site collections that are in the Recycle Bin, so verifying a deletion means checking both cmdlets.</p>
+
+                    <h2 id="tooling-notes">Tooling notes with documented answers</h2>
+
+                    <p>Three problems the original post described as mysteries have documented answers. They cost me an afternoon each.</p>
+
+                    <ul>
+                        <li><strong>The module fails to import.</strong> Learn names a known issue between the SharePoint Online Management Shell module and the SharePoint Client Components SDK: if both are installed on the same computer, the module fails to load. Uninstall the SDK. That is the boring explanation for most assembly load failures on a fresh admin workstation.</li>
+                        <li><strong>PowerShell 7 does not find the cmdlets.</strong> There is a documented import for that, and it is not "go back to 5.1": <code>Import-Module Microsoft.Online.SharePoint.PowerShell -UseWindowsPowerShell</code>.</li>
+                        <li><strong>No sign-in window appears, or the connection fails.</strong> <code>Connect-SPOService -Url &lt;admin url&gt; -UseSystemBrowser $true</code> authenticates through the system browser using MSAL, and a registry key saves you typing it every time. For the older "Could not connect to SharePoint Online" error, Learn gives the modern-authentication form: <code>Connect-SPOService -Credential $creds -Url &lt;admin url&gt; -ModernAuth $true -AuthenticationUrl https://login.microsoftonline.com/organizations</code>.</li>
+                    </ul>
+
+                    <p>The original post also spent several sections on PnP.PowerShell version conflicts and a withdrawn cmdlet. PnP is a community project and is not documented on Microsoft Learn, so those claims are gone. The script above needs the SharePoint Online Management Shell and the Graph SDK, nothing else.</p>
+
+                    <h2 id="key-takeaways">Key takeaways</h2>
+
+                    <ul>
+                        <li>Deleting a team deletes its channels and their site collections. A surviving channel site is the exception, and retention is the documented cause.</li>
+                        <li>Use <code>IsTeamsChannelConnected</code>. An empty <code>GroupId</code> is not a documented signal, and neither is <code>RelatedGroupId</code>.</li>
+                        <li>A template filter on <code>TEAMCHANNEL#1</code> alone misses every <code>TEAMCHANNEL#0</code> site.</li>
+                        <li>Detect by comparing SharePoint's channel sites against Teams' live channels, and make sure every failure mode of your script adds a line to a report rather than a site to a delete queue.</li>
+                        <li>Microsoft 365 Archive and inactive site policies both exclude channel sites, so this stays a manual job.</li>
+                        <li>Delete one site at a time with <code>-WhatIf</code> first. You have 93 days and <code>Restore-SPODeletedSite</code> to change your mind, and purging the Recycle Bin frees no storage.</li>
+                    </ul>
+
+                    <p>Orphaned channel sites are one symptom of a lifecycle that was never designed end to end. If you are auditing a tenant anyway, a <a href="2026-04-17-sharepoint-permission-auditing-copilot.html">SharePoint permission audit</a> surfaces overshared and unowned content in the same pass. If you want someone to run the report and read it with you, <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">get in touch</a>.</p>
+
+                    <section class="post-glossary">
+                    <h2 id="glossary">Glossary</h2>
+                    <dl>
+                        <dt>Channel site</dt><dd>The SharePoint site created when you add a private or shared channel to a team. Only channel owners and members can access it, and its permissions are managed in Teams, not SharePoint.</dd>
+                        <dt>TEAMCHANNEL#0 / TEAMCHANNEL#1</dt><dd>The two custom site template IDs Microsoft assigns to channel sites, so they can be recognized through PowerShell and the Graph API.</dd>
+                        <dt>IsTeamsChannelConnected</dt><dd>The <code>Get-SPOSite</code> property Microsoft documents for identifying sites connected to a Teams private or shared channel. The documented alternative to guessing from templates or GUIDs.</dd>
+                        <dt>Soft delete</dt><dd>Two different windows that are easy to confuse: a deleted Microsoft 365 group is retained for 30 days, while a deleted SharePoint site sits in the Recycle Bin for 93 days.</dd>
+                        <dt>Preservation Hold library</dt><dd>The hidden library Purview creates on a site to keep copies of content that is subject to retention. Its existence is why a site under retention resists deletion.</dd>
+                        <dt>Site lifecycle management</dt><dd>SharePoint Advanced Management policies that find inactive sites and act on them. Channel sites are explicitly out of scope.</dd>
+                    </dl>
+                    </section>
+
+                    <section class="faq">
+                    <h2 id="faq">Frequently Asked Questions</h2>
+
+                    <h3>How do I find orphaned Teams channel sites in my tenant?</h3>
+                    <p>Take every site where <code>IsTeamsChannelConnected</code> is true, which is the property Microsoft documents for private and shared channel sites, and compare that list against the file location of every private and shared channel in every team via <code>Get-MgTeamChannelFileFolder</code>. A channel site that no live channel points at is a candidate for review. Do not filter on <code>-Template "TEAMCHANNEL#1"</code> alone, because Learn names both <code>TEAMCHANNEL#0</code> and <code>TEAMCHANNEL#1</code>.</p>
+
+                    <h3>Why is a channel site still there after the team was deleted?</h3>
+                    <p>Microsoft documents that deleting a team also deletes its channels and their associated site collections, with one stated exception: if the deleted team has sites under retention, they are not deleted until the retention period expires. A Purview retention policy or label is therefore the first thing to check. The parent group may also be only soft-deleted, in which case it is still restorable for 30 days and the channel sites come back with it.</p>
+
+                    <h3>Is it safe to delete an orphaned channel site?</h3>
+                    <p>Only after you have confirmed that the channel and the team are genuinely gone, that the group is not sitting restorable in the directory Recycle Bin, and that no retention setting is holding the site. If the channel is still active, Microsoft documents that a background job restores a site deleted outside of Teams within four hours. When you do delete, <code>Remove-SPOSite</code> moves the site to the Recycle Bin for 93 days and <code>Restore-SPODeletedSite</code> brings it back.</p>
+
+                    <h3>Can I just archive channel sites instead of deleting them?</h3>
+                    <p>No. Microsoft 365 Archive does not support the channel site template. The SharePoint admin center blocks archiving a group-connected site that has channel sites, and via PowerShell or Graph only the parent team site is archived while the channel sites stay active. A reversible middle step that does work is <code>Set-SPOSite -LockState NoAccess</code>, which blocks access without deleting anything.</p>
+
+                    <h3>Does emptying the SharePoint Recycle Bin free up storage?</h3>
+                    <p>No. Learn states that deleted sites in the Recycle Bin do not count toward the organization's total storage usage, and that the storage figure can take up to 48 hours to update after a deletion. The real reason to permanently delete a site is URL reuse: to recreate a site at the same address you have to purge it first, and even then it can take up to 24 hours for the URL to become available.</p>
+                    </section>
 
                     <hr>
+                    <h3>Sources</h3>
+                    <ol class="post-references">
+                        <li><a href="https://learn.microsoft.com/en-us/microsoftteams/private-channels" target="_blank" rel="noopener noreferrer">Microsoft Learn: Private channels in Microsoft Teams</a> &mdash; channel site templates, lifecycle, four-hour restore, 30-day window</li>
+                        <li><a href="https://learn.microsoft.com/en-us/sharepoint/teams-connected-sites" target="_blank" rel="noopener noreferrer">Microsoft Learn: Overview of Teams and SharePoint integration</a> &mdash; channel sites for private and shared channels</li>
+                        <li><a href="https://learn.microsoft.com/en-us/microsoftteams/archive-or-delete-a-team" target="_blank" rel="noopener noreferrer">Microsoft Learn: Archive or delete a team in Microsoft Teams</a> &mdash; what deleting and archiving a team does to channel site collections</li>
+                        <li><a href="https://learn.microsoft.com/en-us/powershell/module/microsoft.online.sharepoint.powershell/get-sposite" target="_blank" rel="noopener noreferrer">Microsoft Learn: Get-SPOSite</a> &mdash; <code>IsTeamsChannelConnected</code>, unpopulated properties with <code>-Limit</code></li>
+                        <li><a href="https://learn.microsoft.com/en-us/graph/teams-list-all-teams" target="_blank" rel="noopener noreferrer">Microsoft Learn: List all teams in Microsoft Teams for an organization</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/graph/api/channel-get-filesfolder" target="_blank" rel="noopener noreferrer">Microsoft Learn: Get filesFolder (channel)</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/graph/api/directory-deleteditems-list" target="_blank" rel="noopener noreferrer">Microsoft Learn: List deletedItems (directory objects)</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/sharepoint/delete-site-collection" target="_blank" rel="noopener noreferrer">Microsoft Learn: Delete a site</a> &mdash; 93 days, storage, URL reuse</li>
+                        <li><a href="https://learn.microsoft.com/en-us/sharepoint/sharepoint-data-deletion" target="_blank" rel="noopener noreferrer">Microsoft Learn: SharePoint data deletion in Microsoft 365</a> &mdash; 14 days of backups beyond deletion</li>
+                        <li><a href="https://learn.microsoft.com/en-us/purview/retention-policies-sharepoint" target="_blank" rel="noopener noreferrer">Microsoft Learn: Learn about retention for SharePoint and OneDrive</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/microsoft-365/archive/archive-overview" target="_blank" rel="noopener noreferrer">Microsoft Learn: Overview of Microsoft 365 Archive</a> &mdash; channel sites cannot be archived</li>
+                        <li><a href="https://learn.microsoft.com/en-us/sharepoint/inactive-site-policy" target="_blank" rel="noopener noreferrer">Microsoft Learn: Manage inactive sites by using inactive site policies</a> &mdash; channel sites are out of scope</li>
+                        <li><a href="https://learn.microsoft.com/en-us/sharepoint/manage-lock-status" target="_blank" rel="noopener noreferrer">Microsoft Learn: Lock and unlock sites</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/powershell/sharepoint/sharepoint-online/connect-sharepoint-online" target="_blank" rel="noopener noreferrer">Microsoft Learn: Get started with SharePoint Online Management Shell</a> &mdash; PowerShell 7 import, SDK conflict, modern auth</li>
+                    </ol>
 
-                    <p><em>Pseudonymization: Tenant name, domain, and all GUIDs are anonymized or belong to no longer existing objects. The procedure and cmdlet sequence correspond 1:1 to the real deployment.</em></p>
-
-                    <figure class="post-full-image">
-                        <img src="../assets/images/ghost-hunting-site-archived.webp" alt="SharePoint Admin Center showing Site archived confirmation message after successfully archiving the orphaned Teams Private Channel site" loading="lazy">
-                        <figcaption>The satisfying end result: Site archived. Ten ghost sites, gone.</figcaption>
-                    </figure>
+                    <p><em>Pseudonymization: the tenant, its domain, and every URL in this post are placeholders. The department names used in the original version have been removed.</em></p>
 
                 </div>
             </section>
@@ -506,9 +439,9 @@ Get-SPODeletedSite -Limit All |
     {
       "@context": "https://schema.org",
       "@type": "Article",
-      "headline": "Orphaned Teams Channel Sites: PowerShell Cleanup",
+      "headline": "Orphaned Teams Channel Sites: Report Before You Delete",
       "datePublished": "2026-05-21",
-      "dateModified": "2026-06-20",
+      "dateModified": "2026-09-06",
       "author": {
         "@type": "Person",
         "name": "Philipp Schmidt",
@@ -519,10 +452,10 @@ Get-SPODeletedSite -Limit All |
         "name": "Philipp Schmidt",
         "url": "https://easym365.de"
       },
-      "image": "https://endlesstech.blog/assets/images/ghost-hunting-hero.webp",
+      "image": "https://endlesstech.blog/assets/images/orphaned-channel-sites/orphaned-channel-sites-hero.svg",
       "url": "https://endlesstech.blog/posts/2026-05-21-ghost-hunting-m365-orphaned-teams-channel-sites.html",
-      "description": "Orphaned Teams channel sites waste storage and break audits. PowerShell cleanup script using TEAMCHANNEL#1 filter and Graph API group validation.",
-      "keywords": "orphaned Teams channel sites cleanup, TEAMCHANNEL#1, Teams private channel PowerShell, M365 tenant hygiene",
+      "description": "Microsoft documents that Teams channel sites die with their team. When one survives, deleting it is the last step, not the first. How to find them safely.",
+      "keywords": "orphaned Teams channel sites, TEAMCHANNEL#0, TEAMCHANNEL#1, IsTeamsChannelConnected, Get-SPOSite, Remove-SPOSite, M365 tenant hygiene",
       "inLanguage": "en",
       "mainEntityOfPage": {
         "@type": "WebPage",
@@ -537,26 +470,42 @@ Get-SPODeletedSite -Limit All |
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "Why can't I delete Teams Private Channel sites from the SharePoint admin center?",
+          "name": "How do I find orphaned Teams channel sites in my tenant?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Microsoft blocks GUI deletion of TEAMCHANNEL#1 sites by design. When the parent group no longer exists, the GUI has no deletion path. The only way to remove them is through PowerShell using Remove-SPOSite with the -NoWait flag."
+            "text": "Take every site where IsTeamsChannelConnected is true, which is the property Microsoft documents for private and shared channel sites, and compare that list against the file location of every private and shared channel in every team via Get-MgTeamChannelFileFolder. A channel site that no live channel points at is a candidate for review. Do not filter on -Template TEAMCHANNEL#1 alone, because Learn names both TEAMCHANNEL#0 and TEAMCHANNEL#1."
           }
         },
         {
           "@type": "Question",
-          "name": "How do I find all orphaned channel sites in my tenant?",
+          "name": "Why is a channel site still there after the team was deleted?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Run Get-SPOSite -Template TEAMCHANNEL#1 -Limit All to list every Private Channel site. Then check each site's RelatedGroupId against Microsoft Graph: if GET /groups/{id} returns 404, the site is orphaned."
+            "text": "Microsoft documents that deleting a team also deletes its channels and their associated site collections, with one stated exception: if the deleted team has sites under retention, they are not deleted until the retention period expires. A Purview retention policy or label is therefore the first thing to check. The parent group may also be only soft-deleted, in which case it is still restorable for 30 days and the channel sites come back with it."
           }
         },
         {
           "@type": "Question",
-          "name": "Is it safe to delete orphaned channel sites?",
+          "name": "Is it safe to delete an orphaned channel site?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes, if the parent M365 Group no longer exists (confirmed via Graph API 404). Deleted sites go to the SharePoint recycle bin for 93 days, giving you a recovery window."
+            "text": "Only after you have confirmed that the channel and the team are genuinely gone, that the group is not sitting restorable in the directory Recycle Bin, and that no retention setting is holding the site. If the channel is still active, Microsoft documents that a background job restores a site deleted outside of Teams within four hours. When you do delete, Remove-SPOSite moves the site to the Recycle Bin for 93 days and Restore-SPODeletedSite brings it back."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I just archive channel sites instead of deleting them?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Microsoft 365 Archive does not support the channel site template. The SharePoint admin center blocks archiving a group-connected site that has channel sites, and via PowerShell or Graph only the parent team site is archived while the channel sites stay active. A reversible middle step that does work is Set-SPOSite -LockState NoAccess, which blocks access without deleting anything."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does emptying the SharePoint Recycle Bin free up storage?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Learn states that deleted sites in the Recycle Bin do not count toward the organization's total storage usage, and that the storage figure can take up to 48 hours to update after a deletion. The real reason to permanently delete a site is URL reuse: to recreate a site at the same address you have to purge it first, and even then it can take up to 24 hours for the URL to become available."
           }
         }
       ]

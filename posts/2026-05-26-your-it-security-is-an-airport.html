@@ -141,9 +141,11 @@
 
                     <h3>The Metal Detector = MFA</h3>
 
-                    <p>Multi-Factor Authentication is the metal detector. It's not perfect. It won't catch everything. But it catches <em>a lot</em>. Microsoft's own data shows that MFA blocks <strong>99.9% of account compromise attacks</strong>.</p>
+                    <p>Multi-Factor Authentication is the metal detector. It's not perfect. It won't catch everything. But it catches <em>a lot</em>. Microsoft's own research shows that MFA can block more than <strong>99.2% of account compromise attacks</strong>. (You will often see 99.9% quoted. That is a different statistic and the two get mixed up constantly: Microsoft reports that more than 99.9% of <em>compromised accounts</em> did not have MFA enabled.)</p>
 
-                    <p>And yet, in 2026, I still walk into SMBs where MFA is "optional" or "only for admins." That's like having a metal detector but only turning it on for pilots. The person most likely to cause a problem? They walked right through.</p>
+                    <p>And make it the right kind of metal detector. Microsoft's own position is that traditional MFA is no longer enough and phishing-resistant MFA is the new baseline — SMS codes, email one-time passcodes and push notifications all get around by adversary-in-the-middle phishing and MFA fatigue. Passkeys, FIDO2 keys and Windows Hello for Business are the ones that hold.</p>
+
+                    <p>And yet, in 2026, I still walk into SMBs where MFA is "optional" or "only for admins." That's like having a metal detector but only turning it on for pilots. The person most likely to cause a problem? They walked right through. For admins, incidentally, this is no longer a choice you get to make: since 2024 Microsoft has been enforcing mandatory MFA for Azure and admin portal sign-ins, tenant by tenant, with the second phase extending enforcement from October 2025. If your admins still sign in without it, that is not a gap you can postpone — enforcement arrives on your tenant whether you planned for it or not.</p>
 
                     <h3>The Body Scanner = Device Compliance</h3>
 
@@ -190,7 +192,7 @@
                     <p>Every time someone opens that emergency exit, the alarm should sound. In Microsoft 365, that alarm is:</p>
 
                     <ul>
-                        <li><strong>Entra ID sign-in logs</strong> catching impossible travel</li>
+                        <li><strong>Microsoft Entra ID Protection</strong> flagging atypical or impossible travel. The plain sign-in logs record where a sign-in came from; the risk detection that correlates two sign-ins into an impossible-travel verdict is an ID Protection feature and needs the corresponding license</li>
                         <li><strong>Defender for Cloud Apps</strong> flagging shadow IT usage</li>
                         <li><strong>Compliance alerts</strong> when sensitive data moves outside the perimeter</li>
                         <li><strong>Risky user detection</strong> when credentials appear in a breach database</li>
@@ -232,7 +234,7 @@
 
                     <p>Your backups are your black box. And your incident response plan is the crash investigation team.</p>
 
-                    <p>Too many SMBs I work with have neither. No third-party M365 backup (because "Microsoft handles that, right?" &mdash; <strong>wrong</strong>). No documented incident response plan. No tested restore procedure. They're flying without a black box, hoping they'll never need one.</p>
+                    <p>Too many SMBs I work with have neither. No M365 backup at all (because "Microsoft handles that, right?" &mdash; <strong>wrong</strong>). No documented incident response plan. No tested restore procedure. They're flying without a black box, hoping they'll never need one.</p>
 
                     <p>Spoiler: you'll need one. It's not a question of <em>if</em>. It's a question of <em>when</em>.</p>
 
@@ -254,7 +256,7 @@
 
                     <p>Most SMB tenants I audit sit at 30-40% Secure Score. That's an airport where half the flights are delayed and the security checkpoint is staffed by one person who's also running the Burger King.</p>
 
-                    <p>A well-configured M365 tenant should be north of 80%. Not because the number itself matters, but because each percentage point represents a real security control that's actually protecting you.</p>
+                    <p>Resist the urge to set a target percentage, though — including the "north of 80%" I used to quote. Microsoft shows you the full set of possible recommendations for a product regardless of your license edition, subscription, or plan. So a Business Premium tenant is being scored against controls it cannot license, and 80% is not reachable for it by design. Microsoft is equally explicit that security has to be balanced with usability and that not every recommendation works in every environment — that is what the "Risk accepted" status is for. Track your own trend, work the ranked recommended actions, and ignore anyone else's percentage. Comparing scores across tenants tells you almost nothing.</p>
 
                     <h2>The No-Fly List: Blocking Known Threats</h2>
 
@@ -269,23 +271,37 @@
                         <li><strong>Legacy authentication protocols</strong> that should have been blocked years ago (IMAP, POP3, SMTP AUTH &mdash; the IT equivalent of letting people board with a handwritten ticket from 1987)</li>
                     </ul>
 
+                    <p>Two footnotes on that list. In Exchange Online the legacy-auth fight is largely over, because Microsoft finished it for you: Basic authentication was permanently disabled for Exchange ActiveSync, POP, IMAP, Remote PowerShell, EWS, OAB, Autodiscover and Outlook for Windows and Mac starting October 1, 2022, and SMTP AUTH was switched off in every tenant that was not using it. What is still on you in 2026 is a Conditional Access policy blocking legacy authentication clients tenant-wide, checking the sign-in logs for what is still trying, and finishing the migration of any remaining SMTP AUTH devices and line-of-business apps to OAuth 2.0 or Microsoft Graph.</p>
+
+                    <p>And Attack simulation training is part of Defender for Office 365 Plan 2. Business Premium includes Plan 1, so that one is a license step up, not a checkbox.</p>
+
                     <h2>So What's the Takeaway?</h2>
 
                     <p>Your IT security <em>is</em> an airport. The question is: what kind?</p>
 
                     <p>Are you Singapore Changi &mdash; world-class, multi-layered, where every gate is monitored and every passenger verified? Or are you that regional airport where the security guard is asleep, the metal detector is unplugged, and someone just drove a luggage cart onto the runway?</p>
 
-                    <p>Here's the minimum viable airport &mdash; the security controls you need <em>today</em>:</p>
+                    <p>Here's the minimum viable airport &mdash; the security controls you need <em>today</em>. This is the one place the analogy can send you into a wall, so I have split the list by what your licence actually gets you. <strong>Microsoft 365 Business Premium includes Microsoft Entra ID P1</strong>, which covers Conditional Access and device compliance. It does <strong>not</strong> include PIM, risk-based Conditional Access, or Identity Protection's risky sign-in and risky user policies. Those need <strong>Microsoft Entra ID P2</strong> or <strong>Microsoft Entra ID Governance</strong>, and PIM is licensed per eligible admin, per approver and per access reviewer.</p>
+
+                    <p>Everything in this first list works on Business Premium:</p>
 
                     <ol>
-                        <li><strong>MFA everywhere.</strong> No exceptions. Not even for the CEO. <em>Especially</em> not for the CEO.</li>
-                        <li><strong>Conditional Access.</strong> Every access request gets evaluated. Device, location, risk, app &mdash; all of it.</li>
-                        <li><strong>No permanent admins.</strong> PIM with just-in-time access. The cockpit door stays locked.</li>
+                        <li><strong>MFA everywhere.</strong> No exceptions. Not even for the CEO. <em>Especially</em> not for the CEO. Phishing-resistant where you can.</li>
+                        <li><strong>Conditional Access.</strong> Every access request gets evaluated. Device, location, app &mdash; all of it. (Risk as a condition is the P2 version; see below.)</li>
                         <li><strong>Device compliance.</strong> Unmanaged devices don't get full access. Period.</li>
-                        <li><strong>Kill legacy auth.</strong> Block IMAP, POP3, SMTP AUTH. Today. Right now. Stop reading and go do it.</li>
+                        <li><strong>Kill legacy auth.</strong> A Conditional Access policy blocking legacy authentication clients, tenant-wide. Today. Right now. Stop reading and go do it.</li>
                         <li><strong>DLP policies.</strong> Sensitive data doesn't leave the airport without going through the scanner.</li>
-                        <li><strong>Third-party backup.</strong> Microsoft's retention is not a backup strategy. Get a black box.</li>
+                        <li><strong>Separate, dedicated, MFA-hardened admin accounts.</strong> If you cannot license PIM, this is the substitute for a locked cockpit door: no daily-driver account holds admin rights, and you recertify who has them on a calendar.</li>
+                        <li><strong>A real backup.</strong> Microsoft's retention is not a backup strategy. You now have a first-party option too &mdash; Microsoft 365 Backup, which Microsoft positions alongside the Recycle Bin and the 14-day support-initiated restore as offering longer protection and fast recovery from ransomware or malicious deletion. Choose between that and a third-party product on cost, retention and scope. Just get a black box.</li>
                         <li><strong>Monitor the alarms.</strong> Sign-in logs, Defender alerts, Secure Score. Check them. Weekly. Minimum.</li>
+                    </ol>
+
+                    <p>And these are the upgrade, not the baseline &mdash; worth having, worth budgeting for, but do not go looking for them in a Business Premium tenant:</p>
+
+                    <ol>
+                        <li><strong>No permanent admins.</strong> PIM with just-in-time access, the properly locked cockpit door. Entra ID P2 or Entra ID Governance.</li>
+                        <li><strong>Risk-based Conditional Access, risky sign-in and risky user policies.</strong> Microsoft Entra ID Protection. Same licence step.</li>
+                        <li><strong>Attack simulation training.</strong> Defender for Office 365 Plan 2.</li>
                     </ol>
 
                     <p>You don't need a $500K SOC to do this. You need an afternoon, the right licenses, and someone who knows which buttons to push.</p>
@@ -301,7 +317,7 @@
                         <h3>Is Zero Trust the same as ZTNA?</h3>
                         <p>Not quite. Zero Trust is the overall security model ("never trust, always verify"). ZTNA (Zero Trust Network Access) is one component — it replaces broad VPN access with per-application access based on identity and device posture. ZTNA is how you apply Zero Trust principles to network access specifically.</p>
                         <h3>What's the minimum Zero Trust setup for an SMB?</h3>
-                        <p>Start with MFA everywhere, Conditional Access on every request, no permanent admins (PIM with just-in-time access), device compliance via Intune, and block legacy authentication. Add DLP, third-party backup, and monitor sign-in and Secure Score alerts weekly. You don't need a large SOC to cover the basics.</p>
+                        <p>On Microsoft 365 Business Premium, which includes Entra ID P1: MFA everywhere (phishing-resistant where you can), Conditional Access on every request, device compliance via Intune, a Conditional Access policy blocking legacy authentication, DLP, separate MFA-hardened admin accounts, a real backup, and a weekly look at sign-in logs, Defender alerts and Secure Score. PIM with just-in-time access, risk-based Conditional Access and Identity Protection need Entra ID P2 or Entra ID Governance — worth budgeting for, but not part of the Business Premium baseline. You don't need a large SOC to cover the basics.</p>
                     </section>
 
                 </div>
@@ -353,7 +369,7 @@
       "author": { "@type": "Person", "name": "Philipp Schmidt", "url": "https://easym365.de" },
       "publisher": { "@type": "Organization", "name": "EndlessTech Blog" },
       "datePublished": "2026-05-26",
-      "dateModified": "2026-06-20",
+      "dateModified": "2026-09-05",
       "mainEntityOfPage": "https://endlesstech.blog/posts/2026-05-26-your-it-security-is-an-airport.html"
     }
     </script>
@@ -364,7 +380,7 @@
       "mainEntity": [
         { "@type": "Question", "name": "What's the difference between Zero Trust and perimeter security?", "acceptedAnswer": { "@type": "Answer", "text": "Perimeter security trusts anything inside the network (the castle-and-moat model), so one breached credential enables lateral movement. Zero Trust assumes breach and verifies every request — identity, device, location, risk — every time. There is no trusted inside." } },
         { "@type": "Question", "name": "Is Zero Trust the same as ZTNA?", "acceptedAnswer": { "@type": "Answer", "text": "No. Zero Trust is the overall model (never trust, always verify). ZTNA (Zero Trust Network Access) is one component that replaces broad VPN access with per-application access based on identity and device posture." } },
-        { "@type": "Question", "name": "What's the minimum Zero Trust setup for an SMB?", "acceptedAnswer": { "@type": "Answer", "text": "MFA everywhere, Conditional Access on every request, no permanent admins (PIM/just-in-time), device compliance via Intune, and block legacy authentication. Add DLP, third-party backup, and monitor sign-in and Secure Score alerts weekly." } }
+        { "@type": "Question", "name": "What's the minimum Zero Trust setup for an SMB?", "acceptedAnswer": { "@type": "Answer", "text": "On Microsoft 365 Business Premium (Entra ID P1): MFA everywhere, Conditional Access on every request, device compliance via Intune, a Conditional Access policy blocking legacy authentication, DLP, separate MFA-hardened admin accounts, a real backup, and a weekly look at sign-in logs, Defender alerts and Secure Score. PIM with just-in-time access, risk-based Conditional Access and Identity Protection require Entra ID P2 or Entra ID Governance and are an upgrade, not the baseline." } }
       ]
     }
     </script>

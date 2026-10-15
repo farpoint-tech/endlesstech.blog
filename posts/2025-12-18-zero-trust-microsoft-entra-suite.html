@@ -116,30 +116,66 @@
 
                 <section>
                     <h2>What Is Microsoft Entra Suite? Key Features and Benefits</h2>
-                    <p>Microsoft Entra Suite is an <strong>all-in-one solution</strong> tailored for Zero Trust security, encompassing multiple tools and capabilities including Conditional Access, Privileged Identity Management (PIM), and Entra Private Access. Together, these features provide organizations with a <strong>comprehensive Zero Trust platform</strong> that simplifies security management, reduces risk, and enhances compliance. Licensing sits on top of Entra ID P1; for how the underlying tiers compare, see the <a href="2026-06-09-is-microsoft-entra-id-free-pricing-guide.html">Entra ID pricing guide (P1/P2)</a>.</p>
+                    <p>Microsoft Entra Suite is a bundle of <strong>five services</strong>: Microsoft Entra ID Protection, Microsoft Entra ID Governance, Microsoft Entra Verified ID, Microsoft Entra Internet Access and Microsoft Entra Private Access. Be precise about two things people routinely put in that list: <strong>Conditional Access is an Entra ID P1 feature</strong> that the Suite builds on (the Suite does include all Conditional Access features), and <strong>Privileged Identity Management comes in through the ID Governance component</strong> — neither is a standalone Suite product. Licensing sits on top of Entra ID P1, which the Suite requires; for how the underlying tiers compare, see the <a href="2026-06-09-is-microsoft-entra-id-free-pricing-guide.html">Entra ID pricing guide (P1/P2)</a>.</p>
                 </section>
 
                 <section>
                     <h2>Zero Trust Network Access (ZTNA) with Global Secure Access</h2>
-                    <p>Entra Suite delivers Zero Trust Network Access through <strong>Global Secure Access</strong>, which splits into two services: <strong>Entra Private Access</strong> secures connections to internal, on-premises applications, while <strong>Entra Internet Access</strong> protects access to SaaS and the open web. Instead of dropping a remote user onto the whole network the way a broad VPN does, Global Secure Access grants access to one specific application at a time and runs every connection through Conditional Access. This is the difference between <a href="2026-05-26-your-it-security-is-an-airport.html">Zero Trust vs perimeter security</a>: trust is evaluated per request, not assumed once you are "inside."</p>
-                    <!-- TODO Philipp: echtes Praxis-Detail/Projektbezug einsetzen (kein erfundener Kundenname/Zahl) -->
-                    <p>In the Private Access rollouts I have worked on, the hardest part is rarely the technology — it is mapping which applications each role actually needs, so access stays least-privilege instead of quietly drifting back toward "everyone can reach everything." That discovery work is where a ZTNA project succeeds or stalls.</p>
+                    <p>Entra Suite delivers Zero Trust Network Access through <strong>Global Secure Access</strong>, and it works through <strong>three</strong> traffic forwarding profiles, not two. Traffic is evaluated against them in this order:</p>
+
+                    <ul>
+                        <li><strong>Microsoft traffic</strong> — Exchange Online, SharePoint and OneDrive, Teams and other Microsoft apps. This one needs only Entra ID P1 or P2, no Suite, which is why it is usually the first profile a tenant turns on.</li>
+                        <li><strong>Private access</strong> — your internal applications. Requires Entra ID P1/P2 <em>plus</em> Microsoft Entra Private Access or the Entra Suite, and configured Quick Access with the FQDNs and IP addresses of the private apps. Runs over the Global Secure Access desktop client.</li>
+                        <li><strong>Internet access</strong> — SaaS and the open web. Requires Entra ID P1/P2 <em>plus</em> Microsoft Entra Internet Access or the Entra Suite.</li>
+                    </ul>
+
+                    <p>Traffic that matches none of the three is not forwarded at all. And note what the Internet access profile does <em>not</em> cover: it explicitly excludes the destinations handled by the Microsoft traffic profile. Microsoft's own guidance is to enable the Microsoft traffic profile together with the Internet access profile for complete coverage — turn on Internet Access alone and your Microsoft 365 traffic stays unmanaged.</p>
+
+                    <p>The other thing worth knowing before you buy: Private Access and Internet Access are available standalone. The full Suite is not the only route in.</p>
+
+                    <p>Instead of dropping a remote user onto the whole network the way a broad VPN does, Global Secure Access grants access to one specific application at a time and runs every connection through Conditional Access. This is the difference between <a href="2026-05-26-your-it-security-is-an-airport.html">Zero Trust vs perimeter security</a>: trust is evaluated per request, not assumed once you are "inside."</p>
+
+                    <h3>The Lockout Trap Nobody Warns You About</h3>
+
+                    <p>This is the documented failure mode that can end a rollout, so plan for it before you enable anything. Both the Microsoft traffic and Internet access profiles authorize their tunnels through Conditional Access. That means a Conditional Access policy can block a profile — and if the recovery path runs through a destination on that same blocked profile, the user is locked out of everything on the machine.</p>
+
+                    <p>The textbook example: you block the Internet access target resource on non-compliant devices. Now a user whose device drifts out of compliance cannot reach the endpoints needed to bring it <em>back</em> into compliance. Dead end.</p>
+
+                    <p>The mitigation is to add a custom bypass in the Internet access forwarding profile for the Microsoft Intune network endpoints, plus any destinations your custom compliance discovery scripts reach. Microsoft publishes a PowerShell sample that adds the Intune endpoints to that bypass policy — use it rather than typing the list by hand.</p>
+                    <p>In the Private Access rollouts I have worked on, the hardest part is rarely the technology — it is mapping which applications each role actually needs, so access stays least-privilege instead of quietly drifting back toward "everyone can reach everything." That discovery work is where a ZTNA project succeeds or stalls, and it is not optional: Quick Access wants the FQDNs and IP addresses of every private app you intend to publish. You cannot skip the inventory; the product asks for it.</p>
                 </section>
 
                 <section>
-                    <h2>The Zero Trust Deployment Workshop</h2>
+                    <h2>The Microsoft Zero Trust Workshop</h2>
                     <img src="../assets/images/zero-trust-entra/deployment-workflow.webp" alt="Step-by-step deployment workflow for implementing Microsoft Entra Suite Zero Trust policies across an organization" class="section-image" loading="lazy" srcset="../assets/images/zero-trust-entra/responsive/deployment-workflow-400w.webp 400w, ../assets/images/zero-trust-entra/responsive/deployment-workflow-800w.webp 800w, ../assets/images/zero-trust-entra/deployment-workflow.webp 1344w" sizes="(max-width: 800px) 100vw, 800px">
-                    <p>The workshop series offers a <strong>structured, repeatable playbook</strong>—centered on a detailed, editable spreadsheet guiding stakeholders step-by-step through deployment phases. The video walkthrough highlights deployment in six core phases, from establishing baseline security to securing internet access.</p>
+                    <p>First, the name: it is the <strong>Microsoft Zero Trust Workshop</strong>, not an Entra Suite workshop. It is not Entra-specific at all — it covers seven pillars: Identity, Devices, Data, Networking, Infrastructure, SecOps and AI.</p>
+
+                    <p>Second, it is no longer a spreadsheet. If you remember it that way, that version is gone. It now has three components:</p>
+
+                    <ul>
+                        <li>An <strong>assessment tool</strong> — a PowerShell module you run in your own tenant. It collects configuration data, checks it against a broad set of Zero Trust best practices, and produces scores, gaps and recommendations per Zero Trust pillar and per Microsoft Secure Future Initiative pillar. This is the part that makes the output real rather than aspirational.</li>
+                        <li>A <strong>Workshop tool</strong> — a single-page app for documenting progress and building the roadmap.</li>
+                        <li><strong>Workshop guidance</strong> — written articles per pillar, for facilitators and participants.</li>
+                    </ul>
+
+                    <p>The structure is <strong>four phases</strong>, repeated per pillar: Phase 1 Kickoff/Orientation, Phase 2 Assessment (optional), Phase 3 Roadmap, Phase 4 Closeout. You can run it as a Microsoft- or partner-led engagement, or self-service with the guidance and the assessment tool.</p>
+
+                    <p>One caveat to mention if you are recommending it to a customer: Microsoft maintains the Workshop on GitHub as a community-style resource, provided "as-is" with best effort, and it is <strong>not</strong> covered by Microsoft support. That does not make it less useful — it makes it something you own once you start it.</p>
                 </section>
 
                 <section>
                     <h2>Key Takeaways & Best Practices</h2>
-                    <p>The workshop isn't just a theoretical overview—it shares rich practical wisdom gleaned from real deployments, such as starting strong with a baseline, engaging all stakeholders early, and using process and tracking tools.</p>
+                    <p>Three things decide whether this lands:</p>
+                    <ul>
+                        <li><strong>Run the assessment before the roadmap.</strong> Phase 2 is technically optional. Skip it and Phase 3 becomes a wish list instead of a plan, because you are prioritising gaps you have not measured.</li>
+                        <li><strong>Get the right people in the room, by name.</strong> Microsoft is specific about who: the security strategy owner (CISO, security architects), a pillar owner per pillar, decision makers and budget stakeholders (CTO, CIO, business app owners), risk program owners, and the cross-functional staff who actually operate the systems. A workshop without a budget holder produces a roadmap nobody funds.</li>
+                        <li><strong>Start with the Microsoft traffic profile.</strong> It needs only P1, it covers the traffic your users generate all day, and it lets you learn the operational model before you put your internal apps behind it.</li>
+                    </ul>
                 </section>
 
                 <section>
                     <h2>Final Thoughts: Take the Next Step Toward Zero Trust Mastery</h2>
-                    <p>The Microsoft Entra Suite Zero Trust Deployment Workshop is more than a deep dive — it is a blueprint for success. By following this carefully crafted playbook, organizations can systematically transform fragmented security strategies into a cohesive, resilient Zero Trust program.</p>
+                    <p>The Microsoft Zero Trust Workshop gives you two things a strategy document cannot: measured baseline data from your own tenant, and a roadmap built on that data rather than on assumptions. That is what turns a fragmented set of security projects into a sequence you can actually work through.</p>
                     <p>Before starting the deployment, establish a baseline with <a href="2025-11-15-boost-your-cyber-defense-microsoft-secure-score-for-smbs.html">Microsoft Secure Score</a>. For the device compliance policies that Conditional Access evaluates, see the <a href="2025-10-24-getting-started-with-zero-trust.html">Zero Trust getting started guide</a> and the <a href="2025-11-10-mobile-application-management-your-quarterback-for-mobile-security.html">Intune MAM walkthrough</a>.</p>
                     <p>For expert guidance on implementing identity and network security solutions tailored to your organization, visit <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">easym365.de</a> to learn more about our consulting and implementation services.</p>
                 </section>
@@ -148,7 +184,7 @@
                     <h2>Frequently Asked Questions</h2>
 
                     <h3>What is ZTNA in Microsoft Entra?</h3>
-                    <p>Zero Trust Network Access (ZTNA) in Microsoft Entra is delivered through Global Secure Access — Entra Private Access for internal apps and Entra Internet Access for SaaS and web. Instead of granting broad network access like a VPN, it verifies identity, device, and context on every connection and grants access only to the specific app.</p>
+                    <p>Zero Trust Network Access (ZTNA) in Microsoft Entra is delivered through Global Secure Access, which uses three traffic forwarding profiles: Microsoft traffic (Exchange Online, SharePoint, OneDrive, Teams — needs only Entra ID P1), Private access (internal apps — needs Entra Private Access or the Entra Suite), and Internet access (SaaS and the open web — needs Entra Internet Access or the Entra Suite). Instead of granting broad network access like a VPN, it verifies identity, device, and context on every connection and grants access only to the specific app.</p>
 
                     <h3>Does Microsoft Entra replace VPN?</h3>
                     <p>For many scenarios, yes. Entra Private Access (part of Global Secure Access) provides per-application access to internal resources without exposing the whole network, replacing traditional VPN for most remote-access needs. It applies Conditional Access and continuous verification a classic VPN can't. Some legacy or non-web protocols still need careful planning.</p>
@@ -185,7 +221,7 @@
       "author": { "@type": "Person", "name": "Philipp Schmidt", "url": "https://easym365.de" },
       "publisher": { "@type": "Organization", "name": "EndlessTech Blog" },
       "datePublished": "2025-12-18",
-      "dateModified": "2026-06-20",
+      "dateModified": "2026-09-05",
       "mainEntityOfPage": "https://endlesstech.blog/posts/2025-12-18-zero-trust-microsoft-entra-suite.html"
     }
     </script>
@@ -194,7 +230,7 @@
       "@context": "https://schema.org",
       "@type": "FAQPage",
       "mainEntity": [
-        { "@type": "Question", "name": "What is ZTNA in Microsoft Entra?", "acceptedAnswer": { "@type": "Answer", "text": "ZTNA in Microsoft Entra is delivered through Global Secure Access — Entra Private Access for internal apps and Entra Internet Access for SaaS/web. It verifies identity, device, and context on every connection and grants access only to the specific app, unlike a VPN." } },
+        { "@type": "Question", "name": "What is ZTNA in Microsoft Entra?", "acceptedAnswer": { "@type": "Answer", "text": "ZTNA in Microsoft Entra is delivered through Global Secure Access, which uses three traffic forwarding profiles: Microsoft traffic (Exchange Online, SharePoint, OneDrive, Teams — needs only Entra ID P1), Private access (internal apps — needs Entra Private Access or the Entra Suite), and Internet access (SaaS and the open web — needs Entra Internet Access or the Entra Suite). It verifies identity, device, and context on every connection and grants access only to the specific app, unlike a VPN." } },
         { "@type": "Question", "name": "Does Microsoft Entra replace VPN?", "acceptedAnswer": { "@type": "Answer", "text": "For many scenarios, yes. Entra Private Access provides per-application access to internal resources without exposing the whole network, replacing traditional VPN for most remote access, with Conditional Access and continuous verification." } },
         { "@type": "Question", "name": "What's included in the Microsoft Entra Suite?", "acceptedAnswer": { "@type": "Answer", "text": "The Entra Suite bundles Entra ID Governance, Entra Private Access, Entra Internet Access (Global Secure Access), Entra ID Protection, and Entra Verified ID, unifying identity and network security." } }
       ]

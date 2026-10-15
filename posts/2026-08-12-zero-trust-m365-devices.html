@@ -111,9 +111,9 @@
 
 <h2 id="the-controls">The Controls That Matter</h2>
 <p><strong>Intune enrolment and compliance policies.</strong> The foundation. A compliance policy sets the bar &mdash; minimum OS version, encryption on, Defender active, no jailbreak &mdash; and Intune continuously evaluates it. Then you tie compliance to access. Start here; the whole pillar depends on it. If you are just standing this up, the <a href="2026-01-06-intune-enrollment-restrictions.html">Intune enrollment restrictions guide</a> is the right first control.</p>
-<p><strong>Windows Autopilot.</strong> Zero-touch provisioning. Ship a device straight to a user; they sign in and it self-configures with policies, apps, and baselines. No golden image, no manual build. See <a href="2026-03-27-windows-autopilot-end-the-setup-chaos.html">how Autopilot ends the setup chaos</a>.</p>
-<p><strong>Security baselines.</strong> Deploying Intune without applying a baseline is like fitting a door and leaving it open. Baselines are Microsoft's hardened, pre-built policy sets; apply them and tune from there rather than starting from defaults. This is also why the <a href="2026-02-25-the-golden-tenant-is-dead.html">golden tenant approach is dead</a> &mdash; configuration lives in policy, not in a hand-built image.</p>
-<p><strong>Defender for Endpoint.</strong> Endpoint detection and response &mdash; behavioural sensors, automated investigation, and a device risk score that can itself become a Conditional Access signal, so a high-risk device triggers step-up or block.</p>
+<p><strong>Windows Autopilot.</strong> Zero-touch provisioning. Ship a device straight to a user; they sign in and it self-configures with policies, apps, and baselines. No golden image, no manual build. Check which of the two variants you are actually running: classic Windows Autopilot covers Entra join and Entra hybrid join with pre-provisioned and self-deploying modes, while Windows Autopilot device preparation &mdash; a re-architecture of it &mdash; requires Windows 11, supports Microsoft Entra join only, delivers device-based configuration during OOBE with a limit of 25 apps and 10 PowerShell scripts, and reports deployments in near real time. Both can live in the same tenant, but a given device runs one or the other. See <a href="2026-03-27-windows-autopilot-end-the-setup-chaos.html">how Autopilot ends the setup chaos</a>.</p>
+<p><strong>Security baselines.</strong> Deploying Intune without applying a baseline is like fitting a door and leaving it open. Baselines are Microsoft's hardened, pre-built policy sets for Windows devices; apply them and tune from there rather than starting from defaults. macOS, iOS/iPadOS, and Android get hardened through configuration and compliance profiles instead. This is also why the <a href="2026-02-25-the-golden-tenant-is-dead.html">golden tenant approach is dead</a> &mdash; configuration lives in policy, not in a hand-built image.</p>
+<p><strong>Defender for Endpoint.</strong> Endpoint detection and response &mdash; behavioural sensors, automated investigation, and a device risk score that can itself become a Conditional Access signal, so a high-risk device triggers step-up or block. The compliance rule that consumes that risk score currently covers Windows, Android, and iOS/iPadOS; macOS and Linux are onboarded to Defender but are not covered by that particular setting.</p>
 <p><strong>App protection policies (MAM) for BYOD.</strong> You do not need to own a personal phone to protect corporate data on it. App protection policies enforce encryption, PIN, and copy-paste limits at the app level, leaving the rest of the device alone. See <a href="2025-11-10-mobile-application-management-your-quarterback-for-mobile-security.html">mobile application management for BYOD</a>.</p>
 
 <h2 id="implementation">How to Roll It Out</h2>
@@ -129,7 +129,7 @@
                     <section class="post-glossary">
                     <h2 id="glossary">Glossary</h2>
                     <dl>
-                        <dt>Intune</dt><dd>Microsoft's cloud endpoint management service for device compliance, configuration, and app protection across Windows, macOS, iOS, and Android.</dd>
+                        <dt>Intune</dt><dd>Microsoft's cloud endpoint management service for device compliance, configuration, and app protection across Windows, macOS, Linux, iOS/iPadOS, and Android.</dd>
                         <dt>Compliance policy</dt><dd>An Intune rule set (encryption, OS version, Defender state, jailbreak check) that a device must meet; its result feeds Conditional Access.</dd>
                         <dt>Windows Autopilot</dt><dd>Zero-touch provisioning that self-configures a new device with policies, apps, and baselines when the user first signs in.</dd>
                         <dt>Security baseline</dt><dd>A pre-built, hardened Intune policy set based on Microsoft best practice, applied instead of default configuration.</dd>
@@ -199,7 +199,7 @@
     "name": "EndlessTech Blog"
   },
   "datePublished": "2026-08-12",
-  "dateModified": "2026-08-12",
+  "dateModified": "2026-09-05",
   "isPartOf": {
     "@type": "CreativeWorkSeries",
     "name": "Zero Trust for Microsoft 365"

@@ -85,21 +85,27 @@
 
                     <p>Since its introduction, Autopilot has evolved. Today we stand at an important fork in the road: two variants exist side by side — the classic version (v1) and the new "Device Preparation" (v2). The choice between them is a strategic decision, not just a technical one.</p>
 
+                    <p>One naming note before we go on: Microsoft does not version these as v1 and v2. The official names are <strong>Windows Autopilot</strong> for the original, registration-based solution and <strong>Windows Autopilot device preparation</strong> for the re-architected one. I use v1 and v2 here as shorthand — search Learn for the official names.</p>
+
                     <h3>The Proven Classic (Autopilot v1): Maximum Control and Compatibility</h3>
 
-                    <p><strong>How it works:</strong> Each device must be pre-registered in your system by uploading its unique "digital fingerprint" — the hardware hash. When the device starts, it checks in with Microsoft, gets recognized, and receives its assigned configuration profile.</p>
+                    <p><strong>How it works:</strong> Each device must be pre-registered in your tenant. In the normal case you never touch a hash: the OEM, reseller, distributor, or CSP partner registers the device on your behalf, once a Global Administrator has authorized them to do so. Uploading the unique "digital fingerprint" — the hardware hash — yourself is the fallback, and Microsoft positions it that way: for devices from vendors that do not participate, for virtual machines, and for testing. When the device starts, it checks in with Microsoft, gets recognized, and receives its assigned configuration profile.</p>
 
-                    <p><strong>When this is your path:</strong> Whenever you have a mixed environment of Windows 10 and Windows 11, or need to join devices to an on-premises Active Directory (Hybrid Join). v1 is the Swiss Army knife for complex scenarios and offers the greatest flexibility — including repurposing existing devices. It also supports up to 100 applications during provisioning and advanced customization of the out-of-box experience.</p>
+                    <p><strong>When this is your path:</strong> Whenever you have a mixed environment of Windows 10 and Windows 11, or need Microsoft Entra hybrid join for legacy workloads that still depend on on-premises Active Directory. v1 is the Swiss Army knife for complex scenarios and offers the greatest flexibility — including repurposing existing devices. It also supports up to 100 applications during provisioning and advanced customization of the out-of-box experience.</p>
+
+                    <p><strong>One caveat on hybrid join:</strong> Microsoft recommends deploying new devices cloud-native via Microsoft Entra join and advises against provisioning new devices as Microsoft Entra hybrid join, including through Autopilot. Treat hybrid join as a migration bridge for what you already have, not as the target state for what you buy next.</p>
 
                     <p><strong>The trade-off:</strong> The process requires more administrative overhead since every device must be individually registered. Not exactly thrilling work, but it gets the job done.</p>
 
                     <h3>The Modern Sprinter (Autopilot v2 — Device Preparation): Radically Simple and Fast</h3>
 
-                    <p><strong>How it works:</strong> Pre-registration is completely eliminated. You define a policy for a user group. As soon as a new Windows 11 device belonging to a member of that group is started, the process kicks in automatically. No lists, no hardware hashes, no pre-staging.</p>
+                    <p><strong>How it works:</strong> Pre-registration is completely eliminated. You define a policy for a user group. As soon as a new Windows 11 device belonging to a member of that group is started, the process kicks in automatically. No hardware hashes and no mandatory pre-staging. Microsoft has since added an optional <em>device association</em> step that binds physical devices to your tenant before enrollment — it needs Windows 11 24H2 or 25H2 with KB5120998 and TPM 2.0 attestation, and it stays optional.</p>
 
-                    <p><strong>When this is your path:</strong> When you are running a pure cloud strategy, exclusively on Windows 11 (version 22H2 or later), and want the simplest, fastest, and most scalable solution for large device rollouts. For standard new-hire laptop deployments, this is the gold standard. Near real-time monitoring is also included — a feature v1 still lacks.</p>
+                    <p><strong>When this is your path:</strong> When you are running a pure cloud strategy on a current Windows 11 build and want the simplest, fastest, and most scalable solution for large device rollouts. For standard new-hire laptop deployments, this is the gold standard. Near real-time monitoring is also included — a feature v1 still lacks.</p>
 
-                    <p><strong>The limitation:</strong> This path works only with Windows 11 and pure cloud connectivity (Microsoft Entra ID). Hybrid scenarios are excluded, and the maximum number of apps during provisioning is currently 25.</p>
+                    <p><strong>Check the build before you plan the rollout:</strong> Device preparation needs Windows 11 version 24H2 or later, or version 23H2 or 22H2 with KB5035942 (March 26, 2024) installed. Installation media dated April 2024 or later already contains that update. Verify with your OEM that the devices you ordered ship at that patch level — below it, device preparation simply does not run, and the failure is silent.</p>
+
+                    <p><strong>The limitation:</strong> This path works only with Windows 11 and pure cloud connectivity (Microsoft Entra ID). Hybrid scenarios are excluded, the maximum number of apps during provisioning is currently 25, and you get at most 10 PowerShell scripts during the out-of-box experience. Beyond user-driven deployments, device preparation adds one more flow — an automatic mode that provisions Windows 365 Cloud PCs at creation. Self-deploying and pre-provisioning for physical devices remain v1 territory.</p>
 
                     <h2>Who Is the Device For? The Two Core Deployment Scenarios</h2>
 
@@ -112,11 +118,15 @@
 
                     <h3>User-Driven Mode (For the Personal Desk)</h3>
 
-                    <p>This is the standard case. An employee receives their personal device, signs in with their account, and Autopilot ensures that both device-level and user-specific settings and apps are installed. During provisioning, the Enrollment Status Page (ESP) shows progress and can block device use until required apps and policies are installed. Perfect for the 1-to-1 device in the office or home office. Supported by both v1 and v2.</p>
+                    <p>This is the standard case. An employee receives their personal device, signs in with their account, and Autopilot ensures that both device-level and user-specific settings and apps are installed. Perfect for the 1-to-1 device in the office or home office. Supported by both v1 and v2.</p>
+
+                    <p><strong>The Enrollment Status Page belongs to v1 only.</strong> In Windows Autopilot, the ESP shows provisioning progress and can block device use until required apps and policies are installed. Device preparation does not use the ESP at all — it shows a "Setting up for work or school" progress window instead. If you do see the ESP during what you believe is a device preparation deployment, that device is still Autopilot-registered or has an Autopilot profile assigned, and that profile takes precedence over your device preparation policy.</p>
 
                     <h3>Self-Deploying Mode (For Shared Use)</h3>
 
                     <p>Imagine a kiosk terminal, a device in a conference room, or a shared workstation. There is no fixed user. In this mode, the device configures itself completely without any user sign-in. It starts, sets itself up, and lands directly on the login screen — ready for anyone with the right permissions. Important: this mode is currently only supported by Autopilot v1.</p>
+
+                    <p>Two hardware facts decide whether this works at all. Self-deploying mode authenticates the device through TPM 2.0 and TPM device attestation, so devices without TPM 2.0 — virtual machines and Hyper-V vTPMs included — fail with error 0x800705B4. And a device deployed this way cannot re-enroll automatically: delete its record in Intune first, or the next run fails.</p>
 
                     <h2>Your Checklist for the Right Autopilot Strategy</h2>
 
@@ -124,6 +134,8 @@
                         <img src="../assets/images/autopilot-decision-matrix.webp" alt="IT manager reviewing a device deployment decision flowchart on a large digital display" loading="lazy" srcset="../assets/images/responsive/autopilot-decision-matrix-400w.webp 400w, ../assets/images/responsive/autopilot-decision-matrix-800w.webp 800w, ../assets/images/autopilot-decision-matrix.webp 1344w" sizes="(max-width: 800px) 100vw, 800px">
                         <figcaption>The right Autopilot strategy depends on your infrastructure — not on which version sounds more impressive.</figcaption>
                     </figure>
+
+                    <p>Before any of this: check that you are licensed for it. Autopilot needs Microsoft Entra ID and an MDM service, which in practice means Microsoft 365 Business Premium, Microsoft 365 E3 or E5, Microsoft 365 F1 or F3, Enterprise Mobility + Security E3 or E5, or Microsoft Entra ID P1/P2 plus an Intune subscription — and the licenses have to be assigned to the users who enroll the devices, not just bought.</p>
 
                     <p>The decision for the right approach depends on your infrastructure and goals. Here is a simple decision guide:</p>
 
@@ -186,9 +198,9 @@
                     <h3>What's the difference between Autopilot user-driven and self-deploying mode?</h3>
                     <p>User-driven mode is for personal devices: the employee signs in and receives both device and user settings. Self-deploying mode is for shared devices like kiosks or conference rooms — the device configures itself with no user sign-in. User-driven works in v1 and v2; self-deploying is currently v1 only.</p>
                     <h3>What is the Enrollment Status Page in Autopilot?</h3>
-                    <p>The Enrollment Status Page (ESP) shows provisioning progress during Autopilot setup and can block device use until required apps and policies are installed. It ensures a device reaches a known, compliant state before the user starts working.</p>
+                    <p>The Enrollment Status Page (ESP) shows provisioning progress during Windows Autopilot setup and can block device use until required apps and policies are installed. It ensures a device reaches a known, compliant state before the user starts working. It belongs to Windows Autopilot only — Windows Autopilot device preparation does not use the ESP and shows a "Setting up for work or school" window instead.</p>
                     <h3>Autopilot v1 or v2 — which should I use?</h3>
-                    <p>Use v1 for Windows 10, hybrid Azure AD join, self-deploying/kiosk scenarios, or more than 25 apps during provisioning. Use v2 (Device Preparation) for a pure Windows 11 cloud environment and the fastest new-hire rollouts with near real-time monitoring.</p>
+                    <p>Use v1 for Windows 10, Microsoft Entra hybrid join, self-deploying/kiosk scenarios, or more than 25 apps during provisioning. Use v2 (Device Preparation) for a pure Windows 11 cloud environment on version 24H2 or later — or 23H2/22H2 with KB5035942 — and the fastest new-hire rollouts with near real-time monitoring.</p>
                     </section>
 
                     <hr>
@@ -248,7 +260,7 @@
       "author": { "@type": "Person", "name": "Philipp Schmidt", "url": "https://easym365.de" },
       "publisher": { "@type": "Organization", "name": "EndlessTech Blog" },
       "datePublished": "2026-03-27",
-      "dateModified": "2026-06-20",
+      "dateModified": "2026-09-05",
       "mainEntityOfPage": "https://endlesstech.blog/posts/2026-03-27-windows-autopilot-end-the-setup-chaos.html"
     }
     </script>
@@ -259,8 +271,8 @@
       "mainEntity": [
         { "@type": "Question", "name": "What is Windows Autopilot?", "acceptedAnswer": { "@type": "Answer", "text": "Windows Autopilot is a cloud-based deployment method that configures new Windows devices automatically. Devices ship from the manufacturer to the employee, who signs in while the device sets itself up with apps, settings, and security policies — no IT imaging required." } },
         { "@type": "Question", "name": "What's the difference between Autopilot user-driven and self-deploying mode?", "acceptedAnswer": { "@type": "Answer", "text": "User-driven mode is for personal devices: the employee signs in and gets device and user settings. Self-deploying mode is for shared devices like kiosks, configuring with no user sign-in. User-driven works in v1 and v2; self-deploying is v1 only." } },
-        { "@type": "Question", "name": "What is the Enrollment Status Page in Autopilot?", "acceptedAnswer": { "@type": "Answer", "text": "The Enrollment Status Page (ESP) shows provisioning progress during Autopilot setup and can block device use until required apps and policies are installed, ensuring a known compliant state before the user starts." } },
-        { "@type": "Question", "name": "Autopilot v1 or v2 — which should I use?", "acceptedAnswer": { "@type": "Answer", "text": "Use v1 for Windows 10, hybrid join, self-deploying/kiosk scenarios, or more than 25 apps. Use v2 (Device Preparation) for a pure Windows 11 cloud environment and the fastest new-hire rollouts with near real-time monitoring." } }
+        { "@type": "Question", "name": "What is the Enrollment Status Page in Autopilot?", "acceptedAnswer": { "@type": "Answer", "text": "The Enrollment Status Page (ESP) shows provisioning progress during Windows Autopilot setup and can block device use until required apps and policies are installed, ensuring a known compliant state before the user starts. It belongs to Windows Autopilot only — Windows Autopilot device preparation does not use the ESP." } },
+        { "@type": "Question", "name": "Autopilot v1 or v2 — which should I use?", "acceptedAnswer": { "@type": "Answer", "text": "Use v1 for Windows 10, Microsoft Entra hybrid join, self-deploying/kiosk scenarios, or more than 25 apps. Use v2 (Device Preparation) for a pure Windows 11 cloud environment on version 24H2 or later, or 23H2/22H2 with KB5035942, and the fastest new-hire rollouts with near real-time monitoring." } }
       ]
     }
     </script>

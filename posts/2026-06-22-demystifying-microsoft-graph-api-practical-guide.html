@@ -75,19 +75,19 @@
 
                     <p>Trying to learn the Graph API with nothing but a browser and PowerShell is slow and painful. Three tools remove most of that friction.</p>
 
-                    <p><strong>Graph X-Ray (GraphXR)</strong> is the one to install first. It's a browser extension that hooks into your F12 developer tools. Click around in the M365 portal and GraphXR surfaces the exact API calls happening in the background&mdash;including ready-to-copy code snippets in PowerShell, Python, or C#. It turns the portal itself into a learning environment.</p>
+                    <p><strong>Graph X-Ray</strong> is the one to install first. It's a browser extension that hooks into your F12 developer tools. Click around in the M365 portal and Graph X-Ray surfaces the exact API calls happening in the background&mdash;including ready-to-copy code snippets in PowerShell, Python, or C#. It turns the portal itself into a learning environment.</p>
 
-                    <p><strong>Graph Explorer</strong> (<a href="https://developer.microsoft.com/en-us/graph/graph-explorer" target="_blank" rel="noopener noreferrer">aka.ms/ge</a>) is Microsoft's native sandbox. Use it to discover endpoints, check what permissions a specific query requires, and run one-off lookups without setting up any auth. Start here when exploring an unfamiliar part of the API.</p>
+                    <p><strong>Graph Explorer</strong> (<a href="https://developer.microsoft.com/en-us/graph/graph-explorer" target="_blank" rel="noopener noreferrer">developer.microsoft.com/graph/graph-explorer</a>) is Microsoft's native sandbox. Use it to discover endpoints, check what permissions a specific query requires, and run one-off lookups without setting up any auth. Start here when exploring an unfamiliar part of the API.</p>
 
                     <p><strong>Postman</strong> becomes relevant once you're building more complex workflows&mdash;organizing requests across multiple tenants, using environment variables, or sharing a collection with your team.</p>
 
-                    <p>For scripting, the <strong>PowerShell SDK</strong> is the natural runtime. One concrete recommendation: prefer <code>Invoke-MgGraphRequest</code> over the higher-level cmdlets like <code>Get-MgUser</code>. Direct endpoint access tends to return more complete data and keeps scripts portable as the SDK evolves.</p>
+                    <p>For scripting, the <strong>PowerShell SDK</strong> is the natural runtime. One concrete recommendation: know why <code>Get-MgUser</code> often looks like it is hiding data. Directory objects such as <code>user</code> and <code>group</code> return only a limited default property set when you read them&mdash;so either pass <code>-Property</code> on the SDK cmdlet (the equivalent of <code>$select</code>) or go direct with <code>Invoke-MgGraphRequest</code>, which also keeps scripts portable as the SDK evolves.</p>
 
                     <h2>Authentication: Where Most Time Gets Lost</h2>
 
                     <p>Graph API auth is where people get stuck, and it's worth understanding properly&mdash;it directly determines what your script or app is allowed to do.</p>
 
-                    <p><strong>Delegated access</strong> means the API acts on behalf of a signed-in user, bounded by that user's permissions. For interactive admin sessions in PowerShell, the <strong>Device Code Flow</strong> works well. It's practical when you're managing separate standard and privileged admin accounts and want an explicit authentication prompt.</p>
+                    <p><strong>Delegated access</strong> means the API acts on behalf of a signed-in user, bounded by that user's permissions. For interactive admin sessions in PowerShell, use the default interactive browser sign-in of <code>Connect-MgGraph</code>. Do <strong>not</strong> reach for device code flow, however convenient it looks when you juggle separate standard and privileged admin accounts: Microsoft classes it as a high-risk, phishing-prone flow and recommends blocking it wherever possible. Since 1 July 2026 security defaults block it in new tenants, and in existing tenants that have security defaults on&mdash;so a script built on it will simply stop working.</p>
 
                     <p><strong>Application access</strong> means your script authenticates as an app registration&mdash;a service principal in <a href="2026-06-09-is-microsoft-entra-id-free-pricing-guide.html">Entra ID</a>&mdash;independent of any user. This is the right model for automation. Credential handling matters here: client secrets are common but need secure storage (plain text in a script file is not acceptable), certificates are a step up, and <strong>Managed Identities</strong> are the preferred choice when running from Azure resources because there's no credential to manage at all.</p>
 
@@ -97,23 +97,27 @@
 
                     <p>The Graph API uses standard HTTP verbs: <code>GET</code> to read, <code>POST</code> to create, <code>PATCH</code> to update, <code>DELETE</code> to remove. The response codes are precise&mdash;pay attention to them.</p>
 
-                    <p><strong>200 OK</strong> means it worked. <strong>403 Forbidden</strong> means you authenticated successfully but your app registration lacks the required API permission&mdash;this is the most common early blocker, and it confuses people because auth succeeded but access was denied. Permissions in Graph are explicit: declared on the app registration and, for delegated flows, requiring admin consent. <strong>429 Too Many Requests</strong> means you're being throttled; implement exponential backoff.</p>
+                    <p><strong>200 OK</strong> means it worked. <strong>403 Forbidden</strong> means you authenticated successfully but access was denied anyway&mdash;this is the most common early blocker, and it has two causes people confuse. Either your app registration lacks the required API permission, or&mdash;in delegated flows&mdash;the signed-in user lacks the directory role for that resource even though the permission was granted. Check both before you go adding scopes.</p>
+
+                    <p>Permissions in Graph are explicit: declared on the app registration and then consented to. <strong>Application permissions always require admin consent.</strong> Delegated permissions may be consentable by the user for their own data&mdash;unless the permission itself is flagged as requiring admin consent (<code>User.Read.All</code>, for example), or your tenant's consent policy restricts user consent.</p>
+
+                    <p><strong>429 Too Many Requests</strong> means you're being throttled. Honour the <code>Retry-After</code> response header&mdash;wait exactly that many seconds and retry, which is the fastest way back. Fall back to exponential backoff only when no such header is present.</p>
 
                     <h2>Query Patterns for Large Datasets</h2>
 
                     <p>For anything beyond a handful of records, these four patterns matter and skipping them will cause silent data loss or unnecessary API load.</p>
 
-                    <p><strong>Pagination</strong> &mdash; Graph returns a maximum of 1,000 records per response. When more exist, the response includes <code>@odata.nextLink</code> with the URL for the next page. Your script must loop on that link until it's absent. Missing this means missing data, with no error to tell you.</p>
+                    <p><strong>Pagination</strong> &mdash; there is no global page size. Different APIs have different defaults and maximums: <code>GET /users</code>, for example, returns 100 by default and at most 999 with <code>$top</code> (500 when <code>signInActivity</code> is involved). So never hard-code a number. When more records exist, the response includes <code>@odata.nextLink</code> with the URL for the next page&mdash;use that URL unchanged rather than picking the <code>$skiptoken</code> out of it, and loop until it's absent. Missing this means missing data, with no error to tell you. Watch one trap: your own headers, <code>ConsistencyLevel</code> among them, are not carried over to follow-up pages automatically.</p>
 
-                    <p><strong>Filtering (<code>$filter</code>)</strong> &mdash; Move filter logic to the API, not your script. If you need users in a specific department or devices with a particular compliance state, specify it in the query. Less data transferred, faster results.</p>
+                    <p><strong>Filtering (<code>$filter</code>)</strong> &mdash; Move filter logic to the API, not your script. If you need users in a specific department or devices with a particular compliance state, specify it in the query. Less data transferred, faster results. Some directory queries only work with the header <code>ConsistencyLevel: eventual</code> plus <code>$count=true</code>&mdash;that's the advanced query capability on directory objects.</p>
 
-                    <p><strong>Field selection (<code>$select</code>)</strong> &mdash; Request only the properties you need. <code>$select=id,displayName,jobTitle</code> returns three fields instead of fifty. At scale, this adds up.</p>
+                    <p><strong>Field selection (<code>$select</code>)</strong> &mdash; Request exactly the properties you need. <code>$select=id,displayName,jobTitle</code> returns those three fields and nothing else. The flip side matters just as much: directory objects like <code>user</code> and <code>group</code> return only a limited default property set, so <code>$select</code> is also how you get anything <em>beyond</em> that default.</p>
 
-                    <p><strong>Batching (<code>$batch</code>)</strong> &mdash; Up to 20 individual requests can be combined into a single <code>POST</code> to the <code>/$batch</code> endpoint. Useful for bulk reads or fetching related data in parallel instead of 20 sequential calls.</p>
+                    <p><strong>Batching (<code>$batch</code>)</strong> &mdash; Up to 20 individual requests can be combined into a single <code>POST</code> to the <code>/$batch</code> endpoint. Useful for bulk reads instead of 20 sequential calls. Don't count on parallelism, though: without <code>dependsOn</code> the service is free to choose the order, for Outlook it forwards at most four requests of a batch at a time, and each request still counts individually against the throttling limits. A batch can come back <code>200 OK</code> and still contain individual 429s, which nothing retries for you.</p>
 
                     <h2>Where This Becomes Concrete</h2>
 
-                    <p>Tenant-to-tenant migration of <a href="2026-02-25-the-golden-tenant-is-dead.html">Intune configuration profiles</a> is one of the clearest examples. Export a profile as JSON, strip the tenant-specific identifiers, <code>POST</code> it into the target tenant. That's a script, not a manual portal cycle. It integrates into a CI/CD pipeline once the service principal is configured.</p>
+                    <p>Tenant-to-tenant migration of <a href="2026-02-25-the-golden-tenant-is-dead.html">Intune configuration profiles</a> is one of the clearest examples&mdash;not a documented Microsoft procedure, but one I use in practice. Export a profile as JSON, strip the tenant-specific identifiers, <code>POST</code> it into the target tenant. That's a script, not a manual portal cycle. It integrates into a CI/CD pipeline once the service principal is configured.</p>
 
                     <p>Bulk account provisioning is another. Onboarding contractors, creating temporary project accounts, or running deprovision workflows triggered by HR data&mdash;all of these are Graph API calls wrapped in a script. The portal cannot do this at scale without significant manual effort and human error risk.</p>
 
@@ -187,7 +191,7 @@
       "author": { "@type": "Person", "name": "Philipp Schmidt", "url": "https://easym365.de" },
       "publisher": { "@type": "Organization", "name": "EndlessTech Blog" },
       "datePublished": "2026-06-22",
-      "dateModified": "2026-06-22",
+      "dateModified": "2026-09-05",
       "mainEntityOfPage": "https://endlesstech.blog/posts/2026-06-22-demystifying-microsoft-graph-api-practical-guide.html"
     }
     </script>
