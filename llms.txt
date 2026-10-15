@@ -30,6 +30,7 @@ Teams · Compliance (GDPR, NIS2)
 
 ## All articles
 
+- [Copilot Oversharing: What Your SharePoint Permissions Look Like Before You Deploy AI](https://endlesstech.blog/posts/2026-09-17-copilot-oversharing-sharepoint-permissions.html) — Copilot surfaces years of SharePoint oversharing in seconds.
 - [Entra Identity Protection: Triage Risky Users Without Training Yourself to Ignore the Queue](https://endlesstech.blog/posts/2026-09-15-entra-identity-protection-false-positives.html) — How to triage Entra Identity Protection detections, act on verified Leaked Credentials alerts, and tune risk policies so the noise stops burying real…
 - [B2B Guest User Governance: Finding the Accounts Nobody Remembers Inviting](https://endlesstech.blog/posts/2026-09-12-b2b-guest-user-governance-cleanup.html) — Most tenants do not know their real guest count.
 - [M365 Offboarding Automation: Why Mostly Reliable Is Not Good Enough](https://endlesstech.blog/posts/2026-09-10-m365-offboarding-automation-lifecycle.html) — A complete M365 offboarding sequence, a method to audit what a departed employee can still access, and automation options without Entra ID Governance.
