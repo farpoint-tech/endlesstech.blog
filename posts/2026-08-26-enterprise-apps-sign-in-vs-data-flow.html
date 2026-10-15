@@ -156,9 +156,9 @@
 
                     <h2 id="building">What I am building around this</h2>
 
-                    <p>I have been putting this together as a browser-based tool rather than another service to host. It signs in with your own account, reads what it needs through Graph, and never sends tenant data anywhere else — nothing to deploy, nothing to trust with your data beyond the browser tab it runs in.</p>
+                    <p>I have been putting this together as a browser-based tool rather than another service to host. It signs in with your own account, reads what it needs through Graph, and keeps tenant data in the browser tab it runs in, apart from the AI step described below — nothing to deploy and no server of mine in between.</p>
 
-                    <p>Two design decisions matter more than the feature list. Human knowledge — owner, business purpose, decision, review date — is carried in an exportable file that you re-import next time, so a review compares against the previous one instead of starting over. And where AI helps translate a wall of permission scopes into a sentence a department head can act on, it runs on your own API key, not mine, so the tenant data path stays yours.</p>
+                    <p>Two design decisions matter more than the feature list. Human knowledge — owner, business purpose, decision, review date — is carried in an exportable file that you re-import next time, so a review compares against the previous one instead of starting over. And where AI helps translate a wall of permission scopes into a sentence a department head can act on, it runs on an API key you enter yourself, not mine. That step does send permission scopes and app names to the AI provider behind that key; everything else stays in the browser.</p>
 
                     <p>It is not finished and I am not taking sign-ups yet. If you want to try the query above against your own tenant in the meantime, I would genuinely like to hear how many apps in the idle-but-privileged box you end up with. My number was eleven, in a tenant that had been "cleaned up" the year before.</p>
 
