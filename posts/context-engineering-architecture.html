@@ -2,23 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+    <meta name="robots" content="index,follow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="From theory to implementation: Discover the technical reality behind a productive Context Engineering system. Learn how functional separation, prompt architecture, and clear ownership drive AI success.">
     <meta name="author" content="Philipp Schmidt">
-    <meta name="keywords" content="Context Engineering, AI Architecture, Automation, Microsoft 365, Zero Trust, Workflow Logistics, AI Agents">
+    <meta name="keywords" content="Context Engineering, AI Architecture, Automation, Microsoft 365, Zero Trust, Workflow Logistics, AI Agents, Kontext Engineering, KI-Architektur, KI-Governance, Wissensmanagement, Microsoft 365 Mittelstand">
     
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="article">
     <meta property="og:title" content="From Theory to Implementation: How Context Engineering Technically Works">
     <meta property="og:description" content="From theory to implementation: Discover the technical reality behind a productive Context Engineering system. Learn how functional separation, prompt architecture, and clear ownership drive AI success.">
-    <meta property="og:image" content="https://endlesstech.blog/assets/images/context-engineering-architecture-hero.png">
+    <meta property="og:image" content="https://endlesstech.blog/assets/images/context-engineering-architecture-hero.webp">
     <meta property="og:url" content="https://endlesstech.blog/posts/context-engineering-architecture.html">
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="From Theory to Implementation: How Context Engineering Technically Works">
     <meta name="twitter:description" content="From theory to implementation: Discover the technical reality behind a productive Context Engineering system. Learn how functional separation, prompt architecture, and clear ownership drive AI success.">
-    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/context-engineering-architecture-hero.png">
+    <meta name="twitter:image" content="https://endlesstech.blog/assets/images/context-engineering-architecture-hero.webp">
     
     <title>From Theory to Implementation: How Context Engineering Technically Works | EndlessTech Blog</title>
     
@@ -26,23 +28,22 @@
     <link rel="alternate" type="application/rss+xml" title="EndlessTech Blog RSS Feed" href="https://endlesstech.blog/feed.xml">
     <link rel="stylesheet" href="../assets/css/style.css">
     
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Fonts are self-hosted through style.css. -->
+    <link rel="stylesheet" href="../assets/css/blog-post.css">
+    <link rel="canonical" href="https://endlesstech.blog/posts/context-engineering-architecture.html">
 </head>
 <body>
     <!-- Header -->
     <header class="header">
         <div class="header-container">
             <a href="../index.html" class="logo">
-                <img src="../assets/images/logo.png" alt="Philipp Schmidt - Secure. Scalable. Simple M365.">
+                <img src="../assets/images/logo.webp" alt="Philipp Schmidt - Secure. Scalable. Simple M365.">
             </a>
             <nav class="nav" id="nav">
                 <a href="../index.html">Home</a>
                 <a href="../index.html#blog" class="active">Blog</a>
                 <a href="../about.html">About</a>
-                <a href="https://easym365.de" target="_blank" rel="noopener">Website</a>
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
             </nav>
             <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
                 ☰
@@ -58,8 +59,9 @@
                     <h1 class="post-full-title">From Theory to Implementation: How Context Engineering Technically Works</h1>
                 </div>
                 <div class="post-full-meta">
-                    By Philipp Schmidt
+                    <time datetime="2026-05-03">May 2026</time> &bull; By Philipp Schmidt
                 </div>
+                <div class="post-tags"><span class="tag">Context Engineering</span><span class="tag">AI Architecture</span><span class="tag">Governance</span><span class="tag">Microsoft 365</span><span class="tag">Zero Trust</span></div>
             </header>
 
             <figure class="post-full-image">
@@ -68,6 +70,25 @@
 
             <section class="post-full-content">
                 <div class="post-content">
+                    <div class="post-tldr">
+                        <h2>TL;DR</h2>
+                        <p>Separate document logistics from AI processing. Build prompts around business context, clear output formats, and governance rules. Assign a Meeting Owner, Workflow Owner, and Knowledge Owner, then validate one team’s workflow before expanding.</p>
+                    </div>
+                    <nav class="post-toc" aria-label="Table of contents">
+                        <h2>On this page</h2>
+                        <ol>
+                            <li><a href="#workflows">Why Two Workflows Are Better Than One</a></li>
+                            <li><a href="#prompt-architecture">How a Base Prompt is Actually Structured</a></li>
+                            <li><a href="#ownership">Ownership is Not an Org Chart Problem</a></li>
+                            <li><a href="#rollout">4 Months to a Productive System</a></li>
+                            <li><a href="#pitfalls">The Four Most Common Pitfalls</a></li>
+                            <li><a href="#next-steps">The Path to the AI Operating System</a></li>
+                            <li><a href="#glossary">Glossary</a></li>
+                            <li><a href="#faq">Frequently Asked Questions</a></li>
+                            <li><a href="#related-reading">Related reading</a></li>
+                        </ol>
+                    </nav>
+
                     <p><strong>Reading time:</strong> 5 minutes</p>
 
                     <p>Strategic concepts are one thing. Functioning systems are another. Once you understand Context Engineering as a methodology, you are faced with a practical question: <strong>How do I implement this – and what architecture do I actually need?</strong></p>
@@ -76,7 +97,7 @@
 
                     <hr>
 
-                    <h2>Why Two Workflows Are Better Than One</h2>
+                    <h2 id="workflows">Why Two Workflows Are Better Than One</h2>
 
                     <figure class="post-content-image">
                         <img src="../assets/images/context-engineering-two-workflows.webp" alt="Two parallel server racks representing file logistics and AI processing connected by glowing network cables" loading="lazy" srcset="../assets/images/responsive/context-engineering-two-workflows-400w.webp 400w, ../assets/images/responsive/context-engineering-two-workflows-800w.webp 800w, ../assets/images/context-engineering-two-workflows.webp 1200w" sizes="(max-width: 800px) 100vw, 800px">
@@ -92,7 +113,7 @@
                     <p><strong>Workflow 1: Document Logistics (No AI)</strong></p>
                     <ul>
                         <li><strong>Task:</strong> Copy meeting transcripts from individual folders to a central team folder</li>
-                        <li><strong>Technology:</strong> Google Apps Script (alternatives: Power Automate, n8n, Make) <a href="https://ohlinger.co/posts/google-apps-script-automation/" target="_blank" rel="noopener">[1]</a></li>
+                        <li><strong>Technology:</strong> Google Apps Script (alternatives: Power Automate, n8n, Make) <a href="https://ohlinger.co/posts/google-apps-script-automation/" target="_blank" rel="noopener noreferrer">[1]</a></li>
                         <li><strong>Trigger:</strong> Time-based, once a week (e.g., Friday 6:00 PM)</li>
                         <li><strong>Filter:</strong> Only files with a defined marker emoji, only files from the last 7 days</li>
                     </ul>
@@ -119,7 +140,7 @@
 
                     <hr>
 
-                    <h2>How a Base Prompt is Actually Structured</h2>
+                    <h2 id="prompt-architecture">How a Base Prompt is Actually Structured</h2>
 
                     <figure class="post-content-image">
                         <img src="../assets/images/context-engineering-prompt-architecture.webp" alt="Layered technical blueprint showing Identity, Context, Frameworks, Output Format, and Security layers" loading="lazy" srcset="../assets/images/responsive/context-engineering-prompt-architecture-400w.webp 400w, ../assets/images/responsive/context-engineering-prompt-architecture-800w.webp 800w, ../assets/images/context-engineering-prompt-architecture.webp 1200w" sizes="(max-width: 800px) 100vw, 800px">
@@ -138,7 +159,7 @@
 
                     <p><strong>3. Methodological Frameworks</strong></p>
                     <blockquote>"Reference: AI Reflex Principle (is a problem being solved manually that should be automated?), Type-1/Type-2 Decision Framework (is a decision reversible?), Pilot Hell Detection (is a project stuck in endless pilot status?)."</blockquote>
-                    <p>These frameworks are <strong>evaluation grids</strong>. They refer to separate context documents containing the complete methodology. The agent uses them to categorize information – not just collect it <a href="https://arxiv.org/html/2601.12560v1" target="_blank" rel="noopener">[2]</a>.</p>
+                    <p>These frameworks are <strong>evaluation grids</strong>. They refer to separate context documents containing the complete methodology. The agent uses them to categorize information – not just collect it <a href="https://arxiv.org/html/2601.12560v1" target="_blank" rel="noopener noreferrer">[2]</a>.</p>
 
                     <p><strong>4. Output Format</strong></p>
                     <blockquote>"Structure: Current / Ongoing / Learned. Formatting: H2 for main categories, bullet points for details, max. 3 sentences per point."</blockquote>
@@ -146,11 +167,11 @@
 
                     <p><strong>5. Security Protocol</strong></p>
                     <blockquote>"Reference: Internal AI Usage Policy. Real names → Initials. Client names → anonymized. Revenues → orders of magnitude. No output of sensitive data."</blockquote>
-                    <p>This is the <strong>Governance Layer</strong>. Many implementations forget it – and pay for it at the latest during the first data privacy incident <a href="https://iapp.org/news/a/engineering-gdpr-compliance-in-the-age-of-agentic-ai" target="_blank" rel="noopener">[3]</a> <a href="https://www.cnil.fr/en/ai-system-development-cnils-recommendations-to-comply-gdpr" target="_blank" rel="noopener">[4]</a>.</p>
+                    <p>This is the <strong>Governance Layer</strong>. Many implementations forget it – and pay for it at the latest during the first data privacy incident <a href="https://iapp.org/news/a/engineering-gdpr-compliance-in-the-age-of-agentic-ai" target="_blank" rel="noopener noreferrer">[3]</a> <a href="https://www.cnil.fr/en/ai-system-development-cnils-recommendations-to-comply-gdpr" target="_blank" rel="noopener noreferrer">[4]</a>.</p>
 
                     <hr>
 
-                    <h2>Ownership is Not an Org Chart Problem</h2>
+                    <h2 id="ownership">Ownership is Not an Org Chart Problem</h2>
 
                     <figure class="post-content-image">
                         <img src="../assets/images/context-engineering-ownership.webp" alt="Three personas: business executive, developer, and knowledge worker connected to different workflow components" loading="lazy" srcset="../assets/images/responsive/context-engineering-ownership-400w.webp 400w, ../assets/images/responsive/context-engineering-ownership-800w.webp 800w, ../assets/images/context-engineering-ownership.webp 1200w" sizes="(max-width: 800px) 100vw, 800px">
@@ -173,7 +194,7 @@
                         <li><strong>Example:</strong> IT Admin maintaining Google Apps Script</li>
                         <li><strong>Tasks:</strong> Renew API access, debug scripts, isolate error sources</li>
                     </ul>
-                    <p>This person ensures the system <strong>runs</strong>. Doesn't have to be the same person as the Meeting Owner <a href="https://zenphi.com/google-apps-script-triggers-a-beginners-overview-and-alternative-solutions/" target="_blank" rel="noopener">[5]</a>.</p>
+                    <p>This person ensures the system <strong>runs</strong>. Doesn't have to be the same person as the Meeting Owner <a href="https://zenphi.com/google-apps-script-triggers-a-beginners-overview-and-alternative-solutions/" target="_blank" rel="noopener noreferrer">[5]</a>.</p>
 
                     <p><strong>Knowledge Owner</strong></p>
                     <ul>
@@ -188,7 +209,7 @@
 
                     <hr>
 
-                    <h2>4 Months to a Productive System</h2>
+                    <h2 id="rollout">4 Months to a Productive System</h2>
 
                     <figure class="post-content-image">
                         <img src="../assets/images/context-engineering-timeline.webp" alt="Horizontal timeline roadmap showing four milestones with checkboxes and a progress bar" loading="lazy" srcset="../assets/images/responsive/context-engineering-timeline-400w.webp 400w, ../assets/images/responsive/context-engineering-timeline-800w.webp 800w, ../assets/images/context-engineering-timeline.webp 1200w" sizes="(max-width: 800px) 100vw, 800px">
@@ -200,7 +221,7 @@
                     <p><strong>Month 1: Preparation</strong></p>
                     <ul>
                         <li>Identify meetings to be transcribed</li>
-                        <li>Introduce transcription tool (e.g., Google Meet, Microsoft Teams). If you run this on Teams, note that Graph API access to meeting transcripts is off by default: an admin has to turn on <strong>Transcript API access → Microsoft Graph access</strong> in the Teams admin center, or set <code>Set-CsTeamsMeetingConfiguration -EnableGraphTranscriptAccess true -Identity Global</code>. Without it, no app or agent can read a transcript, regardless of its API permissions. <a href="https://learn.microsoft.com/en-us/microsoftteams/meeting-transcript-api-access" target="_blank" rel="noopener">[11]</a></li>
+                        <li>Introduce transcription tool (e.g., Google Meet, Microsoft Teams). If you run this on Teams, note that Graph API access to meeting transcripts is off by default: an admin has to turn on <strong>Transcript API access → Microsoft Graph access</strong> in the Teams admin center, or set <code>Set-CsTeamsMeetingConfiguration -EnableGraphTranscriptAccess true -Identity Global</code>. Without it, no app or agent can read a transcript, regardless of its API permissions. <a href="https://learn.microsoft.com/en-us/microsoftteams/meeting-transcript-api-access" target="_blank" rel="noopener noreferrer">[11]</a></li>
                         <li>Create awareness: What is documented, what isn't?</li>
                         <li>Parallel: Build company profile page, create initial context documents</li>
                     </ul>
@@ -219,7 +240,7 @@
                         <li>Evaluate output quality</li>
                         <li>Iterate base prompt</li>
                         <li>Adjust output format</li>
-                        <li>Clarify governance questions: What can be included, what cannot? <a href="https://learn.microsoft.com/en-us/power-platform/admin/governance-considerations" target="_blank" rel="noopener">[6]</a></li>
+                        <li>Clarify governance questions: What can be included, what cannot? <a href="https://learn.microsoft.com/en-us/power-platform/admin/governance-considerations" target="_blank" rel="noopener noreferrer">[6]</a></li>
                     </ul>
 
                     <p><strong>Month 4+: Step-by-Step Rollout</strong></p>
@@ -234,7 +255,7 @@
 
                     <hr>
 
-                    <h2>The Four Most Common Pitfalls</h2>
+                    <h2 id="pitfalls">The Four Most Common Pitfalls</h2>
 
                     <figure class="post-content-image">
                         <img src="../assets/images/context-engineering-pitfalls.webp" alt="Four warning signs representing scaling too fast, forgetting governance, underestimating costs, and unused output" loading="lazy" srcset="../assets/images/responsive/context-engineering-pitfalls-400w.webp 400w, ../assets/images/responsive/context-engineering-pitfalls-800w.webp 800w, ../assets/images/context-engineering-pitfalls.webp 1200w" sizes="(max-width: 800px) 100vw, 800px">
@@ -245,42 +266,74 @@
                     The impulse to immediately integrate the entire company is understandable – but fatal. Too many cooks spoil the broth. <strong>Start small.</strong> One team. One workflow. One context document. Only expand when that works.</p>
 
                     <p><strong>2. Forgetting Governance</strong><br>
-                    Without clear rules on what information can be processed and how, it's only a matter of time before sensitive data ends up where it doesn't belong. <strong>GDPR is not a downstream problem</strong> – it's a design parameter <a href="https://www.srd-rechtsanwaelte.de/en/blog/privacy-ai-gdpr" target="_blank" rel="noopener">[7]</a> <a href="https://learn.microsoft.com/en-us/power-automate/guidance/desktop-flow-coding-guidelines/secure-your-data" target="_blank" rel="noopener">[8]</a>.</p>
+                    Without clear rules on what information can be processed and how, it's only a matter of time before sensitive data ends up where it doesn't belong. <strong>GDPR is not a downstream problem</strong> – it's a design parameter <a href="https://www.srd-rechtsanwaelte.de/en/blog/privacy-ai-gdpr" target="_blank" rel="noopener noreferrer">[7]</a> <a href="https://learn.microsoft.com/en-us/power-automate/guidance/desktop-flow-coding-guidelines/secure-your-data" target="_blank" rel="noopener noreferrer">[8]</a>.</p>
 
                     <p><strong>3. Underestimating Costs</strong><br>
                     The cost per run sounds harmless. But as the system grows – more teams, more meetings, more processing steps – costs add up. <strong>Processing frequency is a conscious design factor</strong>, not a technical afterthought.</p>
 
                     <p><strong>4. Not Using the Output</strong><br>
-                    The best context document is worthless if no one reads it and no agent accesses it. The final step – <strong>actually integrating the result into the AI infrastructure and human communication</strong> – is the most important <a href="https://enterprise-knowledge.com/enterprise-ai-architecture-series-how-to-build-a-knowledge-intelligence-architecture-part-1/" target="_blank" rel="noopener">[9]</a>.</p>
+                    The best context document is worthless if no one reads it and no agent accesses it. The final step – <strong>actually integrating the result into the AI infrastructure and human communication</strong> – is the most important <a href="https://enterprise-knowledge.com/enterprise-ai-architecture-series-how-to-build-a-knowledge-intelligence-architecture-part-1/" target="_blank" rel="noopener noreferrer">[9]</a>.</p>
 
                     <hr>
 
-                    <h2>The Path to the AI Operating System</h2>
+                    <h2 id="next-steps">The Path to the AI Operating System</h2>
 
                     <p>Context Engineering in Phase Zero is the beginning. The next step: Building a complete <strong>AI Operating System</strong> from these foundations.</p>
 
                     <ul>
                         <li>Audience-based context documents</li>
                         <li>Bidirectional communication flows (for humans and machines)</li>
-                        <li>Governance framework that enables scaling instead of preventing it <a href="https://www.infoq.com/news/2025/10/ai-agent-orchestration/" target="_blank" rel="noopener">[10]</a></li>
+                        <li>Governance framework that enables scaling instead of preventing it <a href="https://www.infoq.com/news/2025/10/ai-agent-orchestration/" target="_blank" rel="noopener noreferrer">[10]</a></li>
                     </ul>
 
                     <p>But every step on this path begins with the same foundation: <strong>Structured, curated, up-to-date company knowledge.</strong> Without that, everything else is just decoration.</p>
 
                     <hr>
-                    <h3>References</h3>
+                    <h2 id="glossary">Glossary</h2>
+                    <dl>
+                        <dt>Context Engineering</dt><dd>Preparing and maintaining the information an AI workflow needs to produce useful output.</dd>
+                        <dt>Document logistics</dt><dd>The collection and movement of source documents before AI processing.</dd>
+                        <dt>Base prompt</dt><dd>The reusable instructions that define the agent’s role, context, methods, output, and security rules.</dd>
+                        <dt>Knowledge Owner</dt><dd>The person who reviews whether the generated context is relevant, complete, and useful.</dd>
+                        <dt>Governance layer</dt><dd>The rules that define which information may be processed and how it may appear in the output.</dd>
+                    </dl>
+
+                    <section aria-labelledby="faq">
+                    <h2 id="faq">Frequently Asked Questions</h2>
+                    <h3>What is Context Engineering?</h3>
+                    <p>Context Engineering prepares structured, curated company knowledge for AI workflows. It combines source documents, business context, methodological frameworks, output formats, and governance rules.</p>
+                    <h3>Why separate document logistics from AI processing?</h3>
+                    <p>The logistics workflow collects and moves source documents. The AI workflow reads those documents and produces structured context. Keeping the workflows separate makes their responsibilities and failure points easier to inspect.</p>
+                    <h3>What belongs in a production-ready base prompt?</h3>
+                    <p>The article describes five layers: identity and mission, company-specific context, methodological frameworks, output format, and a security protocol.</p>
+                    <h3>Who owns a Context Engineering workflow?</h3>
+                    <p>The Meeting Owner maintains source quality, the Workflow Owner maintains the automation, and the Knowledge Owner reviews the relevance and quality of the output.</p>
+                    <h3>How should a team begin?</h3>
+                    <p>Start with one team, one workflow, and one context document. Assign the ownership roles, review the output, and establish governance before expanding the rollout.</p>
+                    </section>
+
+                    <h2 id="related-reading">Related reading</h2>
+                    <ul>
+                        <li><a href="cloudknox-the-copilot-mandate.html">The Copilot Mandate: digital sovereignty and cloud governance</a></li>
+                        <li><a href="2026-04-08-copilot-roi-knowledge-management-guide.html">Copilot ROI and knowledge management</a></li>
+                        <li><a href="2025-12-17-cloudknox-mcp-servers-understanding-the-double-edged-sword-of-ai-tooling.html">MCP servers and the security of AI tooling</a></li>
+                        <li><a href="2026-08-10-zero-trust-m365-series.html">Zero Trust for Microsoft 365: the series</a></li>
+                        <li><a href="2026-08-14-zero-trust-m365-data.html">Zero Trust for Microsoft 365: protecting data</a></li>
+                    </ul>
+
+                    <h2 id="references">References</h2>
                     <ol class="post-references">
-                        <li><a href="https://ohlinger.co/posts/google-apps-script-automation/" target="_blank" rel="noopener">Google Apps Script Automation</a></li>
-                        <li><a href="https://arxiv.org/html/2601.12560v1" target="_blank" rel="noopener">AI Methodological Frameworks</a></li>
-                        <li><a href="https://iapp.org/news/a/engineering-gdpr-compliance-in-the-age-of-agentic-ai" target="_blank" rel="noopener">Engineering GDPR compliance in the age of agentic AI</a></li>
-                        <li><a href="https://www.cnil.fr/en/ai-system-development-cnils-recommendations-to-comply-gdpr" target="_blank" rel="noopener">AI system development: CNIL's recommendations</a></li>
-                        <li><a href="https://zenphi.com/google-apps-script-triggers-a-beginners-overview-and-alternative-solutions/" target="_blank" rel="noopener">Google Apps Script Triggers Overview</a></li>
-                        <li><a href="https://learn.microsoft.com/en-us/power-platform/admin/governance-considerations" target="_blank" rel="noopener">Power Platform Governance Considerations</a></li>
-                        <li><a href="https://www.srd-rechtsanwaelte.de/en/blog/privacy-ai-gdpr" target="_blank" rel="noopener">Privacy, AI, and GDPR</a></li>
-                        <li><a href="https://learn.microsoft.com/en-us/power-automate/guidance/desktop-flow-coding-guidelines/secure-your-data" target="_blank" rel="noopener">Secure your data in Power Automate</a></li>
-                        <li><a href="https://enterprise-knowledge.com/enterprise-ai-architecture-series-how-to-build-a-knowledge-intelligence-architecture-part-1/" target="_blank" rel="noopener">How to Build a Knowledge Intelligence Architecture</a></li>
-                        <li><a href="https://www.infoq.com/news/2025/10/ai-agent-orchestration/" target="_blank" rel="noopener">AI Agent Orchestration Frameworks</a></li>
-                        <li><a href="https://learn.microsoft.com/en-us/microsoftteams/meeting-transcript-api-access" target="_blank" rel="noopener">Manage transcript API access for Teams meetings</a></li>
+                        <li><a href="https://ohlinger.co/posts/google-apps-script-automation/" target="_blank" rel="noopener noreferrer">Google Apps Script Automation</a></li>
+                        <li><a href="https://arxiv.org/html/2601.12560v1" target="_blank" rel="noopener noreferrer">AI Methodological Frameworks</a></li>
+                        <li><a href="https://iapp.org/news/a/engineering-gdpr-compliance-in-the-age-of-agentic-ai" target="_blank" rel="noopener noreferrer">Engineering GDPR compliance in the age of agentic AI</a></li>
+                        <li><a href="https://www.cnil.fr/en/ai-system-development-cnils-recommendations-to-comply-gdpr" target="_blank" rel="noopener noreferrer">AI system development: CNIL's recommendations</a></li>
+                        <li><a href="https://zenphi.com/google-apps-script-triggers-a-beginners-overview-and-alternative-solutions/" target="_blank" rel="noopener noreferrer">Google Apps Script Triggers Overview</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/power-platform/admin/governance-considerations" target="_blank" rel="noopener noreferrer">Power Platform Governance Considerations</a></li>
+                        <li><a href="https://www.srd-rechtsanwaelte.de/en/blog/privacy-ai-gdpr" target="_blank" rel="noopener noreferrer">Privacy, AI, and GDPR</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/power-automate/guidance/desktop-flow-coding-guidelines/secure-your-data" target="_blank" rel="noopener noreferrer">Secure your data in Power Automate</a></li>
+                        <li><a href="https://enterprise-knowledge.com/enterprise-ai-architecture-series-how-to-build-a-knowledge-intelligence-architecture-part-1/" target="_blank" rel="noopener noreferrer">How to Build a Knowledge Intelligence Architecture</a></li>
+                        <li><a href="https://www.infoq.com/news/2025/10/ai-agent-orchestration/" target="_blank" rel="noopener noreferrer">AI Agent Orchestration Frameworks</a></li>
+                        <li><a href="https://learn.microsoft.com/en-us/microsoftteams/meeting-transcript-api-access" target="_blank" rel="noopener noreferrer">Manage transcript API access for Teams meetings</a></li>
                     </ol>
                 </div>
             </section>
@@ -291,10 +344,11 @@
                     <h3>Philipp Schmidt</h3>
                     <p>M365 Solution Architect specializing in Microsoft 365, Security, and Zero Trust architecture.</p>
                     <p><strong>Zero Trust. Zero Drama. Zero Bullshit.</strong></p>
-                    <p><a href="https://easym365.de" target="_blank" rel="noopener">Learn more: https://easym365.de</a></p>
+                    <p><a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Learn more: https://easym365.de</a></p>
                 </div>
             </section>
         </article>
+        <div id="post-navigation"></div>
     </main>
 
     <!-- Footer -->
@@ -303,9 +357,9 @@
             <p>&copy; 2026 Philipp Schmidt. All rights reserved.</p>
             <p>Secure. Scalable. Simple M365.</p>
             <div class="footer-links">
-                <a href="https://easym365.de" target="_blank" rel="noopener">Website</a>
-                <a href="https://www.linkedin.com/in/pschmidt3010" target="_blank" rel="noopener">LinkedIn</a>
-                <a href="https://github.com/farpoint-tech" target="_blank" rel="noopener">GitHub</a>
+                <a href="https://easym365.de" target="_blank" rel="noopener noreferrer">Website</a>
+                <a href="https://www.linkedin.com/in/pschmidt3010" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://github.com/farpoint-tech" target="_blank" rel="noopener noreferrer">GitHub</a>
             </div>
         </div>
     </footer>
@@ -318,6 +372,82 @@
         menuToggle.addEventListener("click", () => {
             nav.classList.toggle("active");
         });
+    </script>
+    <script src="../assets/js/post-navigation.js"></script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "From Theory to Implementation: How Context Engineering Technically Works",
+  "datePublished": "2026-05-03",
+  "dateModified": "2026-10-19",
+  "author": {
+    "@type": "Person",
+    "name": "Philipp Schmidt",
+    "url": "https://easym365.de"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Philipp Schmidt",
+    "url": "https://easym365.de"
+  },
+  "image": "https://endlesstech.blog/assets/images/context-engineering-architecture-hero.webp",
+  "url": "https://endlesstech.blog/posts/context-engineering-architecture.html",
+  "description": "From theory to implementation: Discover the technical reality behind a productive Context Engineering system. Learn how functional separation, prompt architecture, and clear ownership drive AI success.",
+  "inLanguage": "en",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://endlesstech.blog/posts/context-engineering-architecture.html"
+  }
+}
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is Context Engineering?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Context Engineering prepares structured, curated company knowledge for AI workflows. It combines source documents, business context, methodological frameworks, output formats, and governance rules."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why separate document logistics from AI processing?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The logistics workflow collects and moves source documents. The AI workflow reads those documents and produces structured context. Keeping the workflows separate makes their responsibilities and failure points easier to inspect."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What belongs in a production-ready base prompt?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The article describes five layers: identity and mission, company-specific context, methodological frameworks, output format, and a security protocol."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Who owns a Context Engineering workflow?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Meeting Owner maintains source quality, the Workflow Owner maintains the automation, and the Knowledge Owner reviews the relevance and quality of the output."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How should a team begin?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Start with one team, one workflow, and one context document. Assign the ownership roles, review the output, and establish governance before expanding the rollout."
+      }
+    }
+  ]
+}
     </script>
 </body>
 </html>

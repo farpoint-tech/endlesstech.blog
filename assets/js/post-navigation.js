@@ -166,6 +166,16 @@
 
   var path = window.location.pathname;
   var currentSlug = path.replace(/.*\/posts\//, "").replace(/\.html$/, "");
+  // Register this patch target without changing navigation on existing articles.
+  if (currentSlug === "context-engineering-architecture") {
+    posts.push({
+      slug: "context-engineering-architecture",
+      title: "From Theory to Implementation: How Context Engineering Technically Works",
+      themes: ["ai", "governance", "m365"],
+      related: [8, 19, 4]
+    });
+  }
+
   var currentIndex = -1;
 
   for (var i = 0; i < posts.length; i++) {
