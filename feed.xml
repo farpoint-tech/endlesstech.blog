@@ -6,13 +6,21 @@
     <description>Practical Microsoft 365 security guides, Zero Trust strategies, and Intune tips for SMBs. By Philipp Schmidt.</description>
     <language>en</language>
     <managingEditor>philippschmidt3010@gmail.com (Philipp Schmidt)</managingEditor>
-    <lastBuildDate>Thu, 15 Oct 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 20 Oct 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://endlesstech.blog/feed.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://endlesstech.blog/assets/images/logo.webp</url>
       <title>EndlessTech Blog</title>
       <link>https://endlesstech.blog/</link>
     </image>
+
+    <item>
+      <title>GDAP for MSPs: Recovery Planning for an Expired Relationship</title>
+      <link>https://endlesstech.blog/posts/2026-09-19-gdap-msp-circular-dependency.html</link>
+      <guid>https://endlesstech.blog/posts/2026-09-19-gdap-msp-circular-dependency.html</guid>
+      <pubDate>Tue, 20 Oct 2026 00:00:00 +0000</pubDate>
+      <description>How MSPs monitor GDAP expiry, recover access through customer approval, and structure least-privilege admin roles with security groups and PIM before it lapses.</description>
+    </item>
 
     <item>
       <title>Copilot Oversharing: What Your SharePoint Permissions Look Like Before You Deploy AI</title>

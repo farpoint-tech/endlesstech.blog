@@ -30,6 +30,7 @@ Teams · Compliance (GDPR, NIS2)
 
 ## All articles
 
+- [GDAP for MSPs: Recovery Planning for an Expired Relationship](https://endlesstech.blog/posts/2026-09-19-gdap-msp-circular-dependency.html) — How MSPs monitor GDAP expiry, recover access through customer approval, and structure least-privilege admin roles with security groups and PIM before it…
 - [Copilot Oversharing: What Your SharePoint Permissions Look Like Before You Deploy AI](https://endlesstech.blog/posts/2026-09-17-copilot-oversharing-sharepoint-permissions.html) — Copilot surfaces years of SharePoint oversharing in seconds.
 - [Entra Identity Protection: Triage Risky Users Without Training Yourself to Ignore the Queue](https://endlesstech.blog/posts/2026-09-15-entra-identity-protection-false-positives.html) — How to triage Entra Identity Protection detections, act on verified Leaked Credentials alerts, and tune risk policies so the noise stops burying real…
 - [B2B Guest User Governance: Finding the Accounts Nobody Remembers Inviting](https://endlesstech.blog/posts/2026-09-12-b2b-guest-user-governance-cleanup.html) — Most tenants do not know their real guest count.
