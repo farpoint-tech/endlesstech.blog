@@ -6,13 +6,21 @@
     <description>Practical Microsoft 365 security guides, Zero Trust strategies, and Intune tips for SMBs. By Philipp Schmidt.</description>
     <language>en</language>
     <managingEditor>philippschmidt3010@gmail.com (Philipp Schmidt)</managingEditor>
-    <lastBuildDate>Tue, 20 Oct 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 22 Oct 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://endlesstech.blog/feed.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://endlesstech.blog/assets/images/logo.webp</url>
       <title>EndlessTech Blog</title>
       <link>https://endlesstech.blog/</link>
     </image>
+
+    <item>
+      <title>Data Loss Prevention in Microsoft 365: Policies That Work for Small IT Teams</title>
+      <link>https://endlesstech.blog/posts/2026-08-27-dlp-microsoft-365-small-it-teams.html</link>
+      <guid>https://endlesstech.blog/posts/2026-08-27-dlp-microsoft-365-small-it-teams.html</guid>
+      <pubDate>Thu, 22 Oct 2026 00:00:00 +0000</pubDate>
+      <description>How to implement DLP in Microsoft 365 without E5 — what E3-class licensing covers, where Teams message protection needs E5, and how to roll out safely.</description>
+    </item>
 
     <item>
       <title>GDAP for MSPs: Recovery Planning for an Expired Relationship</title>
@@ -108,6 +116,14 @@
       <guid>https://endlesstech.blog/posts/2026-08-25-defender-for-office-365-smb-setup.html</guid>
       <pubDate>Tue, 25 Aug 2026 00:00:00 +0000</pubDate>
       <description>EOP vs Defender Plan 1 vs Plan 2 explained without the licensing fog, plus the preset policy setup that stops most phishing in a Microsoft 365 tenant you already pay for.</description>
+    </item>
+
+    <item>
+      <title>Does PIM's 10-Minute Window Break Your Tier 0 Hardware Key?</title>
+      <link>https://endlesstech.blog/posts/2026-08-24-pim-10-minute-window-tier-0-hardware-key.html</link>
+      <guid>https://endlesstech.blog/posts/2026-08-24-pim-10-minute-window-tier-0-hardware-key.html</guid>
+      <pubDate>Mon, 24 Aug 2026 00:00:00 +0000</pubDate>
+      <description>Your tiered admin design promises a hardware key at every Tier 0 elevation. PIM's 10-minute reauthentication window says otherwise. What holds instead.</description>
     </item>
 
     <item>
