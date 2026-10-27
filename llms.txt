@@ -30,6 +30,7 @@ Teams · Compliance (GDPR, NIS2)
 
 ## All articles
 
+- [Microsoft 365 Compliance for SMBs: GDPR, Audit Logs, and a Strategy That Scales](https://endlesstech.blog/posts/2026-09-01-microsoft-365-compliance-smb-gdpr-audit-logs.html) — What SMBs need to configure in Microsoft 365 for GDPR: audit log retention, retention policies, data subject requests and how to use Compliance Manager.
 - [Data Loss Prevention in Microsoft 365: Policies That Work for Small IT Teams](https://endlesstech.blog/posts/2026-08-27-dlp-microsoft-365-small-it-teams.html) — How to implement DLP in Microsoft 365 without E5 — what E3-class licensing covers, where Teams message protection needs E5, and how to roll out safely.
 - [GDAP for MSPs: Recovery Planning for an Expired Relationship](https://endlesstech.blog/posts/2026-09-19-gdap-msp-circular-dependency.html) — How MSPs monitor GDAP expiry, recover access through customer approval, and structure least-privilege admin roles with security groups and PIM before it…
 - [Copilot Oversharing: What Your SharePoint Permissions Look Like Before You Deploy AI](https://endlesstech.blog/posts/2026-09-17-copilot-oversharing-sharepoint-permissions.html) — Copilot surfaces years of SharePoint oversharing in seconds.
