@@ -458,3 +458,28 @@
 .series-nav li.current { font-weight: 700; }
 .series-nav li.current .series-part { background: var(--color-accent, #ECC23B); color: var(--color-navy, #002863); }
 .series-nav li.current span.current-text { color: var(--color-accent, #ECC23B); }
+
+/* Scroll containers used by the Entra ID Free pricing guide. */
+.entra-free-table-scroll {
+    max-width: 100%;
+    overflow-x: auto;
+    margin: var(--spacing-lg) 0;
+}
+
+.entra-free-table-scroll > .post-table {
+    margin: 0;
+}
+
+.entra-free-table-scroll:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* Keep emphasised words in normal text flow in this guide's feature list. */
+.entra-free-guide .key-point {
+    display: block;
+}
+
+.entra-free-guide .key-point::before {
+    margin-right: var(--spacing-sm);
+}
