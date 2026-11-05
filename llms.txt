@@ -30,6 +30,7 @@ Teams · Compliance (GDPR, NIS2)
 
 ## All articles
 
+- [Why Backups Fail During a Ransomware Attack: The 47 Minutes That Ended Three Years of Warnings](https://endlesstech.blog/posts/2026-11-05-why-backups-fail-during-ransomware-attack.html) — Why backups fail during a ransomware attack: a domain-joined backup server, an untested USB drive, and the 47 minutes that encrypted a 120-person company.
 - [IT Security Budget Buy-In: What Three Years of "We'll Revisit Next Quarter" Actually Costs](https://endlesstech.blog/posts/2026-11-03-it-security-budget-buy-in-case-study.html) — An IT security budget buy-in case study: three years of declined recommendations at one manufacturing client, and what 'nothing bad has happened yet' cost.
 - [Microsoft 365 Compliance for SMBs: GDPR, Audit Logs, and a Strategy That Scales](https://endlesstech.blog/posts/2026-09-01-microsoft-365-compliance-smb-gdpr-audit-logs.html) — What SMBs need to configure in Microsoft 365 for GDPR: audit log retention, retention policies, data subject requests and how to use Compliance Manager.
 - [Data Loss Prevention in Microsoft 365: Policies That Work for Small IT Teams](https://endlesstech.blog/posts/2026-08-27-dlp-microsoft-365-small-it-teams.html) — How to implement DLP in Microsoft 365 without E5 — what E3-class licensing covers, where Teams message protection needs E5, and how to roll out safely.
