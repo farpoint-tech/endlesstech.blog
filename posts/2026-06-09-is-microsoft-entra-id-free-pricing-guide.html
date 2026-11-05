@@ -145,7 +145,7 @@
 
     <!-- Blog Post -->
     <main class="blog-post">
-        <article>
+        <article class="entra-free-guide">
             <!-- Hero Section -->
             <div class="post-hero-container">
                 <img src="../assets/images/zero-trust-entra/hero-zero-trust.webp" alt="Microsoft Entra ID identity management dashboard showing free and paid tier options" class="post-hero-image" srcset="../assets/images/zero-trust-entra/responsive/hero-zero-trust-400w.webp 400w, ../assets/images/zero-trust-entra/responsive/hero-zero-trust-800w.webp 800w, ../assets/images/zero-trust-entra/hero-zero-trust.webp 1344w" sizes="(max-width: 800px) 100vw, 800px">
@@ -205,6 +205,7 @@
                     <p>Yes — every Microsoft 365 subscription automatically includes Entra ID. When you sign up for Microsoft 365, Microsoft creates an Entra ID tenant for your organization behind the scenes. You are already using it for user logins, whether you know it or not.</p>
                     <p>The version you get depends on your M365 plan:</p>
 
+                    <div class="entra-free-table-scroll" role="region" aria-label="Microsoft 365 plans and included Entra ID tiers" tabindex="0">
                     <table class="post-table">
                         <thead>
                             <tr>
@@ -235,6 +236,7 @@
                             </tr>
                         </tbody>
                     </table>
+                    </div>
 
                     <p>This is the detail most guides miss: if you are running Microsoft 365 Business Premium — which many SMBs do for the enhanced security features — you already have Entra ID Premium P1 included at no additional charge. You do not need to buy a standalone Entra ID license.</p>
                     <p>To access your Entra ID admin portal from Microsoft 365, go to the Microsoft 365 Admin Center, then navigate to <strong>Identity</strong> in the left sidebar. Alternatively, go directly to <a href="https://entra.microsoft.com" target="_blank" rel="noopener noreferrer">entra.microsoft.com</a>.</p>
@@ -262,8 +264,8 @@
                             Navigate to <strong>Users &gt; All users &gt; New user</strong>. Assign them a role (at minimum, the default User role is fine for most employees).
                         </li>
                         <li>
-                            <strong>Create groups and assign apps</strong><br>
-                            Under <strong>Groups</strong>, create security groups for your teams. Use groups to assign access to applications rather than assigning permissions to individual users.
+                            <strong>Create groups and check app-assignment licensing</strong><br>
+                            Entra ID Free supports creating security groups. For enterprise applications, assign users directly where the application supports it. Assigning a group to an enterprise application requires Microsoft Entra ID P1 or P2; creating the group does not enable that paid feature. The application's own licensing and access requirements still apply. See Microsoft's <a href="https://learn.microsoft.com/en-us/entra/identity/enterprise-apps/assign-user-or-group-access-portal" target="_blank" rel="noopener noreferrer">user and group assignment guidance</a>.
                         </li>
                         <li>
                             <strong>Enable MFA</strong><br>
@@ -284,6 +286,7 @@
                     <h2>How Much Does Microsoft Entra ID Cost? Paid Plans Breakdown</h2>
                     <p>Microsoft offers two paid tiers above the free plan. Prices are per user per month, billed annually &mdash; list prices as of September 2026; check the <a href="https://www.microsoft.com/security/business/microsoft-entra-pricing" target="_blank" rel="noopener noreferrer">Microsoft Entra pricing page</a> for current figures.</p>
 
+                    <div class="entra-free-table-scroll" role="region" aria-label="Entra ID Free, Premium P1 and P2 feature comparison" tabindex="0">
                     <table class="post-table">
                         <thead>
                             <tr>
@@ -356,6 +359,7 @@
                             </tr>
                         </tbody>
                     </table>
+                    </div>
 
                     <p><strong>Conditional Access</strong> is the headline feature of Premium P1. It lets you build rules like: require MFA when users sign in from outside the corporate network, block legacy authentication protocols, or restrict access to compliant Intune-managed devices only. Conditional Access is also the cornerstone of a <a href="2025-10-24-getting-started-with-zero-trust.html">Zero Trust in Microsoft 365</a> strategy. For any business with remote workers or compliance requirements, this is the single most valuable feature you are missing in the free tier.</p>
                     <p><strong>Privileged Identity Management (PIM)</strong> in Premium P2 enables just-in-time admin access — admins request elevated privileges when needed rather than having them permanently assigned. The Entra PIM licensing requirements count people, not roles: you need Entra ID P2 (or a Microsoft Entra ID Governance licence) for every user with an eligible or time-bound assignment, for every user who can approve or reject an activation request, and for every user who is assigned to or performs an access review. This dramatically reduces your attack surface. If you have multiple Global Admins or Azure RBAC roles, PIM is worth every cent.</p>
@@ -416,6 +420,7 @@
                         <li>You are subject to NIS2, GDPR, or financial sector regulations that mandate identity governance controls</li>
                     </ul>
 
+                    <div class="entra-free-table-scroll" role="region" aria-label="Company scenarios and Entra ID plan recommendations" tabindex="0">
                     <table class="post-table">
                         <thead>
                             <tr>
@@ -447,6 +452,7 @@
                             </tr>
                         </tbody>
                     </table>
+                    </div>
 
                     <blockquote>The smartest move for most growing SMBs: start with M365 Business Premium. You get Exchange, Teams, SharePoint, Intune, Defender for Business, and Entra ID Premium P1 bundled for roughly $22/user/month. Buying those services separately costs significantly more. See also: <a href="2025-12-18-beyond-the-basics-why-smart-m365-add-ons-are-your-best-investment.html">smart M365 add-ons</a> that stretch your licensing investment further.</blockquote>
                 </section>
@@ -485,7 +491,7 @@
 
                     <div class="faq-item">
                         <h3>What are the limitations of Microsoft Entra ID free tier?</h3>
-                        <p>The free tier lacks Conditional Access policies, group-based app assignment, advanced security reports, Identity Protection, Privileged Identity Management, and Access Reviews. It also gives you self-service password <em>change</em> only: self-service password <em>reset</em> requires Microsoft 365 Business Standard or higher, or Entra ID P1/P2, and on-premises writeback requires Business Premium or P1/P2.</p>
+                        <p>Entra ID Free supports creating security groups, but assigning those groups to enterprise applications requires Entra ID P1 or P2. The free tier also lacks Conditional Access policies, advanced security reports, Identity Protection, Privileged Identity Management, and Access Reviews. It gives you self-service password <em>change</em> only: self-service password <em>reset</em> requires Microsoft 365 Business Standard or higher, or Entra ID P1/P2, and on-premises writeback requires Business Premium or P1/P2.</p>
                     </div>
 
                     <div class="faq-item">
@@ -543,7 +549,7 @@
       "author": { "@type": "Person", "name": "Philipp Schmidt", "url": "https://easym365.de" },
       "publisher": { "@type": "Organization", "name": "EndlessTech Blog" },
       "datePublished": "2026-06-09",
-      "dateModified": "2026-09-05",
+      "dateModified": "2026-10-26",
       "mainEntityOfPage": "https://endlesstech.blog/posts/2026-06-09-is-microsoft-entra-id-free-pricing-guide.html"
     }
     </script>
@@ -555,7 +561,7 @@
         { "@type": "Question", "name": "How to create Microsoft Entra ID for free?", "acceptedAnswer": { "@type": "Answer", "text": "Create a free Azure account at azure.microsoft.com/free. An Entra ID Free tenant is provisioned automatically at no cost. The identity features are free, but Azure sign-up requires identity verification by phone and by credit card, with a small temporary hold placed on the card." } },
         { "@type": "Question", "name": "How much does Microsoft Entra ID cost?", "acceptedAnswer": { "@type": "Answer", "text": "The free tier costs nothing. Premium P1 is approximately $6 per user per month. Premium P2 is approximately $9 per user per month. Both are also bundled in Microsoft 365 Business Premium (P1), E3 (P1), and E5 (P2)." } },
         { "@type": "Question", "name": "Does Microsoft 365 include Entra ID?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. All Microsoft 365 plans include Entra ID. Business Basic and Standard include Free. Business Premium and E3 include Premium P1. E5 includes Premium P2." } },
-        { "@type": "Question", "name": "What are the limitations of the Entra ID free tier?", "acceptedAnswer": { "@type": "Answer", "text": "The free tier lacks Conditional Access, group-based app assignment, advanced security reports, Identity Protection, PIM, and Access Reviews. It offers self-service password change only: self-service password reset requires Microsoft 365 Business Standard or higher, or Entra ID P1/P2, and on-premises writeback requires Business Premium or P1/P2." } },
+        {"@type": "Question", "name": "What are the limitations of Microsoft Entra ID free tier?", "acceptedAnswer": {"@type": "Answer", "text": "Entra ID Free supports creating security groups, but assigning those groups to enterprise applications requires Entra ID P1 or P2. The free tier also lacks Conditional Access policies, advanced security reports, Identity Protection, Privileged Identity Management, and Access Reviews. It gives you self-service password change only: self-service password reset requires Microsoft 365 Business Standard or higher, or Entra ID P1/P2, and on-premises writeback requires Business Premium or P1/P2."}},
         { "@type": "Question", "name": "Does Entra ID free include multi-factor authentication?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. The free tier includes MFA via Security Defaults and the Microsoft Authenticator app. Granular per-user or per-app MFA control via Conditional Access requires Premium P1." } },
         { "@type": "Question", "name": "Do I need Entra ID P1 or P2?", "acceptedAnswer": { "@type": "Answer", "text": "Choose P1 for Conditional Access, group-based app assignment, or on-prem password writeback. Choose P2 for risk-based Identity Protection, PIM, or access reviews — typically once you have privileged admins or regulated data." } },
         { "@type": "Question", "name": "Is PIM included in Entra ID free?", "acceptedAnswer": { "@type": "Answer", "text": "No. Privileged Identity Management requires Entra ID Premium P2 (or Microsoft 365 E5). The free and P1 tiers don't include PIM." } }
