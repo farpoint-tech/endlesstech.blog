@@ -6,13 +6,21 @@
     <description>Practical Microsoft 365 security guides, Zero Trust strategies, and Intune tips for SMBs. By Philipp Schmidt.</description>
     <language>en</language>
     <managingEditor>philippschmidt3010@gmail.com (Philipp Schmidt)</managingEditor>
-    <lastBuildDate>Thu, 05 Nov 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 10 Nov 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://endlesstech.blog/feed.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://endlesstech.blog/assets/images/logo.webp</url>
       <title>EndlessTech Blog</title>
       <link>https://endlesstech.blog/</link>
     </image>
+
+    <item>
+      <title>Cost of a Ransomware Attack for a Small Business: A Line-by-Line Breakdown</title>
+      <link>https://endlesstech.blog/posts/2026-11-10-cost-of-ransomware-attack-smb-breakdown.html</link>
+      <guid>https://endlesstech.blog/posts/2026-11-10-cost-of-ransomware-attack-smb-breakdown.html</guid>
+      <pubDate>Tue, 10 Nov 2026 00:00:00 +0000</pubDate>
+      <description>The cost of a ransomware attack for a small business, line by line: how one 120-person manufacturer's incident reached €1.4 million, and what changed after.</description>
+    </item>
 
     <item>
       <title>Why Backups Fail During a Ransomware Attack: The 47 Minutes That Ended Three Years of Warnings</title>
