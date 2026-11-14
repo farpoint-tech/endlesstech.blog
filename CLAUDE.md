@@ -67,6 +67,16 @@ feed and llms.txt.
 
 `scheduled-posts` remains the place where articles are drafted.
 
+**Corrections always go to `master`.** Every fix to an article that is
+already on `master` — live, or waiting for its release date — is made on
+`master` (via a pull request against `master`). The release keeps the copy
+that is already on `master` and never re-fetches it from `scheduled-posts`,
+so a fix that lands only on `scheduled-posts` never reaches the site. This
+happened on 13.10. and 15.10.2026: two corrections sat on `scheduled-posts`
+while the release published the uncorrected `master` copies. If you also
+want the fix on `scheduled-posts`, port it there afterwards; `master` is the
+source of truth.
+
 Preparing a post:
 
 1. Commit the article to **`master`** (`posts/YYYY-MM-DD-slug.html`) together with its
